@@ -64,6 +64,14 @@ Route::middleware(['auth', 'role:owner,admin'])->prefix('dashboard')->name('owne
     Route::get('/inquiries', [\App\Http\Controllers\Owner\InquiryController::class, 'index'])->name('inquiries.index');
     Route::get('/inquiries/{inquiry}', [\App\Http\Controllers\Owner\InquiryController::class, 'show'])->name('inquiries.show');
     Route::post('/inquiries/{inquiry}/reply', [\App\Http\Controllers\Owner\InquiryController::class, 'reply'])->name('inquiries.reply');
+
+    // Owner Profile
+    Route::get('/profile', [\App\Http\Controllers\Owner\ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [\App\Http\Controllers\Owner\ProfileController::class, 'update'])->name('profile.update');
+
+    // Availability Calendar
+    Route::get('/listings/{listing}/availability', [\App\Http\Controllers\Owner\AvailabilityController::class, 'index'])->name('availability.index');
+    Route::put('/listings/{listing}/availability', [\App\Http\Controllers\Owner\AvailabilityController::class, 'update'])->name('availability.update');
 });
 
 // Admin Panel Routes
@@ -91,6 +99,32 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/support/{ticket}', [\App\Http\Controllers\Admin\SupportController::class, 'show'])->name('support.show');
     Route::post('/support/{ticket}/reply', [\App\Http\Controllers\Admin\SupportController::class, 'reply'])->name('support.reply');
     Route::patch('/support/{ticket}/status', [\App\Http\Controllers\Admin\SupportController::class, 'updateStatus'])->name('support.status');
+
+    // Inquiries
+    Route::get('/inquiries', [\App\Http\Controllers\Admin\InquiryController::class, 'index'])->name('inquiries.index');
+    Route::get('/inquiries/{inquiry}', [\App\Http\Controllers\Admin\InquiryController::class, 'show'])->name('inquiries.show');
+    Route::delete('/inquiries/{inquiry}', [\App\Http\Controllers\Admin\InquiryController::class, 'destroy'])->name('inquiries.destroy');
+
+    // SEO
+    Route::get('/seo', [\App\Http\Controllers\Admin\SeoController::class, 'index'])->name('seo.index');
+    Route::get('/seo/{listing}/edit', [\App\Http\Controllers\Admin\SeoController::class, 'edit'])->name('seo.edit');
+    Route::put('/seo/{listing}', [\App\Http\Controllers\Admin\SeoController::class, 'update'])->name('seo.update');
+
+    // Categories CRUD
+    Route::get('/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');
+    Route::get('/categories/create', [\App\Http\Controllers\Admin\CategoryController::class, 'create'])->name('categories.create');
+    Route::post('/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'store'])->name('categories.store');
+    Route::get('/categories/{category}/edit', [\App\Http\Controllers\Admin\CategoryController::class, 'edit'])->name('categories.edit');
+    Route::put('/categories/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('categories.update');
+    Route::delete('/categories/{category}', [\App\Http\Controllers\Admin\CategoryController::class, 'destroy'])->name('categories.destroy');
+
+    // Areas CRUD
+    Route::get('/areas', [\App\Http\Controllers\Admin\AreaController::class, 'index'])->name('areas.index');
+    Route::get('/areas/create', [\App\Http\Controllers\Admin\AreaController::class, 'create'])->name('areas.create');
+    Route::post('/areas', [\App\Http\Controllers\Admin\AreaController::class, 'store'])->name('areas.store');
+    Route::get('/areas/{area}/edit', [\App\Http\Controllers\Admin\AreaController::class, 'edit'])->name('areas.edit');
+    Route::put('/areas/{area}', [\App\Http\Controllers\Admin\AreaController::class, 'update'])->name('areas.update');
+    Route::delete('/areas/{area}', [\App\Http\Controllers\Admin\AreaController::class, 'destroy'])->name('areas.destroy');
 });
 
 // Auth Routes (Breeze) — must be before catch-all slug routes

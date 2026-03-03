@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Mail\InquiryReplyMail;
 use App\Models\Inquiry;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class InquiryController extends Controller
 {
@@ -35,7 +37,6 @@ class InquiryController extends Controller
 
     public function show(Inquiry $inquiry)
     {
-        // Ensure the owner can only see inquiries for their own listings
         $listingIds = auth()->user()->listings()->pluck('id');
         if (!$listingIds->contains($inquiry->listing_id)) {
             abort(403);
@@ -43,7 +44,6 @@ class InquiryController extends Controller
 
         $inquiry->load(['listing', 'user']);
 
-        // Mark as read if new
         if ($inquiry->status === 'new') {
             $inquiry->update(['status' => 'read']);
         }
@@ -68,7 +68,10 @@ class InquiryController extends Controller
             'replied_at' => now(),
         ]);
 
+        // Send reply email to the inquirer
+        Mail::to($inquiry->email)->send(new InquiryReplyMail($inquiry));
+
         return redirect()->route('owner.inquiries.show', $inquiry)
-            ->with('success', 'Reply sent successfully.');
+            ->with('success', 'Reply sent successfully. An email has been sent to ' . $inquiry->name . '.');
     }
 }

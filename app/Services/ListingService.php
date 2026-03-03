@@ -137,6 +137,14 @@ class ListingService
         
         Mail::to($listing->creator->email)->send(new ListingApproved($listing));
         
+        \App\Models\UserNotification::create([
+            'user_id' => $listing->created_by,
+            'type' => 'listing_approved',
+            'title' => 'Listing Approved!',
+            'message' => '"' . $listing->title . '" has been approved and is now live.',
+            'data' => ['listing_id' => $listing->id],
+        ]);
+        
         return $listing;
     }
 
@@ -148,6 +156,14 @@ class ListingService
         ]);
         
         Mail::to($listing->creator->email)->send(new ListingRejected($listing));
+        
+        \App\Models\UserNotification::create([
+            'user_id' => $listing->created_by,
+            'type' => 'listing_rejected',
+            'title' => 'Listing Needs Changes',
+            'message' => '"' . $listing->title . '" was not approved. Reason: ' . $reason,
+            'data' => ['listing_id' => $listing->id],
+        ]);
         
         return $listing;
     }

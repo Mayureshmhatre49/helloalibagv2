@@ -42,6 +42,14 @@
                                     <span class="ml-auto bg-amber-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">{{ $pc }}</span>
                                 @endif
                             </a>
+                            <a href="{{ route('admin.categories.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('admin.categories.*') ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                                <span class="material-symbols-outlined text-[20px]">category</span>
+                                Categories
+                            </a>
+                            <a href="{{ route('admin.areas.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('admin.areas.*') ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                                <span class="material-symbols-outlined text-[20px]">location_on</span>
+                                Areas
+                            </a>
                         </div>
                     </div>
 
@@ -68,6 +76,18 @@
                                 @if($st > 0)
                                     <span class="ml-auto bg-amber-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">{{ $st }}</span>
                                 @endif
+                            </a>
+                            <a href="{{ route('admin.inquiries.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('admin.inquiries.*') ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                                <span class="material-symbols-outlined text-[20px]">mail</span>
+                                Inquiries
+                                @php $ni = \App\Models\Inquiry::where('status', 'new')->count(); @endphp
+                                @if($ni > 0)
+                                    <span class="ml-auto bg-blue-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">{{ $ni }}</span>
+                                @endif
+                            </a>
+                            <a href="{{ route('admin.seo.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('admin.seo.*') ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                                <span class="material-symbols-outlined text-[20px]">search</span>
+                                SEO Manager
                             </a>
                         </div>
                     </div>

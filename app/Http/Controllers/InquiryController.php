@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewInquiryMail;
 use App\Models\Inquiry;
 use App\Models\Listing;
+use App\Models\UserNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class InquiryController extends Controller
 {
@@ -20,7 +23,7 @@ class InquiryController extends Controller
             'guests' => 'nullable|integer|min:1|max:50',
         ]);
 
-        Inquiry::create([
+        $inquiry = Inquiry::create([
             'listing_id' => $listing->id,
             'user_id' => auth()->id(),
             'name' => $request->name,
@@ -30,6 +33,20 @@ class InquiryController extends Controller
             'check_in' => $request->check_in,
             'check_out' => $request->check_out,
             'guests' => $request->guests,
+        ]);
+
+        // Email the listing owner
+        if ($listing->creator && $listing->creator->email) {
+            Mail::to($listing->creator->email)->send(new NewInquiryMail($inquiry));
+        }
+
+        // In-app notification for the owner
+        UserNotification::create([
+            'user_id' => $listing->created_by,
+            'type' => 'new_inquiry',
+            'title' => 'New Inquiry',
+            'message' => $request->name . ' sent an inquiry for ' . $listing->title,
+            'data' => ['inquiry_id' => $inquiry->id, 'listing_id' => $listing->id],
         ]);
 
         return redirect()->back()->with('success', 'Your inquiry has been sent successfully! The owner will get back to you soon.');
