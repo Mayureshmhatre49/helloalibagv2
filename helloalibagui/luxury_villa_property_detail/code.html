@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Luxury Villa Property Detail</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1183d4",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                    },
+                    fontFamily: {
+                        display: ["Manrope", "sans-serif"],
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px",
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-10 py-4 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 text-primary">
+<svg class="w-full h-full" fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M24 18.4228L42 11.475V34.3663C42 34.7796 41.7457 35.1504 41.3601 35.2992L24 42V18.4228Z" fill="currentColor" fill-rule="evenodd"></path>
+<path clip-rule="evenodd" d="M24 8.18819L33.4123 11.574L24 15.2071L14.5877 11.574L24 8.18819ZM9 15.8487L21 20.4805V37.6263L9 32.9945V15.8487ZM27 37.6263V20.4805L39 15.8487V32.9945L27 37.6263ZM25.354 2.29885C24.4788 1.98402 23.5212 1.98402 22.646 2.29885L4.98454 8.65208C3.7939 9.08038 3 10.2097 3 11.475V34.3663C3 36.0196 4.01719 37.5026 5.55962 38.098L22.9197 44.7987C23.6149 45.0671 24.3851 45.0671 25.0803 44.7987L42.4404 38.098C43.9828 37.5026 45 36.0196 45 34.3663V11.475C45 10.2097 44.2061 9.08038 43.0155 8.65208L25.354 2.29885Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight">Alibaug Luxe</h2>
+</div>
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Villas</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Experiences</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">Concierge</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary transition-colors text-sm font-medium leading-normal" href="#">About Us</a>
+</nav>
+</div>
+<div class="flex flex-1 justify-end gap-6 items-center">
+<label class="hidden lg:flex flex-col min-w-40 h-10 max-w-64">
+<div class="flex w-full flex-1 items-center rounded-lg h-full bg-slate-100 dark:bg-slate-800 border border-transparent focus-within:border-primary/50 transition-colors">
+<div class="text-slate-400 pl-3">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</div>
+<input class="w-full bg-transparent border-none focus:ring-0 text-slate-900 dark:text-white placeholder:text-slate-400 text-sm font-normal px-2" placeholder="Search villas..."/>
+</div>
+</label>
+<button class="flex items-center justify-center overflow-hidden rounded-lg h-10 px-5 bg-primary hover:bg-primary/90 transition-colors text-white text-sm font-bold shadow-sm shadow-primary/20">
+<span class="truncate">List Property</span>
+</button>
+<div class="bg-center bg-no-repeat bg-cover rounded-full size-10 border-2 border-white dark:border-slate-700 shadow-sm cursor-pointer" data-alt="User profile picture" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB6w_fqFxKcjp5C5lBcNPrU-PIlTmgrW01Qi54t3HAashgHvBBvOSaf-JqJ_I2EMgZ7cOHRLj18un1n1JUfiV6hbLEH_4X0-13cAN6uhrtx0rCVPLM2Qlngn8B2iNGpYWVm7gwYgurDUcXwXq-KYKdT17yRKIk6pzixe7a7Hu7r2sDpXjQTQhua7J6nLeb__j204TXGB7sMuGZ9ZyfN6zkvSzEN1zNmCjAhDlt9zv7X0BfEeVjM4p8a1ZvuarM265T1HPcJNMyZy4E");'></div>
+</div>
+</header>
+<main class="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<!-- Breadcrumbs -->
+<nav class="flex items-center gap-2 mb-6 text-sm">
+<a class="text-slate-500 hover:text-primary transition-colors" href="#">Home</a>
+<span class="text-slate-400">/</span>
+<a class="text-slate-500 hover:text-primary transition-colors" href="#">Villas</a>
+<span class="text-slate-400">/</span>
+<span class="text-slate-900 dark:text-white font-medium">Sasawane Beach</span>
+</nav>
+<!-- Gallery Grid -->
+<section class="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-3 h-[480px] mb-10 rounded-xl overflow-hidden">
+<div class="md:col-span-2 md:row-span-2 relative group cursor-pointer">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Large modern villa exterior with pool" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC9LwFlJaH96KN8gy0meWyP4ooW-nvbN8PSxHOFhv-tl2QINj9r_ulnBySp3uAPExwF3WTNoP7chuZR5fq_4D2t2vtJpxXKfJTBFHurklzZXiyjcFU73cG5lrpqilJDOoeKzuq6_9ejpkHZ9xHjWPDcwuL9vpxc3U8i3xNzYyZ6fuTFNfMVoPf1YMGEkO6PatQTk6b0p8YPHil8oHMJTrxLAZwZvA0nqcXV0Onv50tcXyRMHwponHd1anE64vCswGm-UDb8biR05ic");'></div>
+<div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+</div>
+<div class="relative group cursor-pointer">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Luxury bedroom interior" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBYH9v0DSGgdYAT6yH7NOqgh5k0AmRetOTFqOwvDRfSETu8ZbwWPCKhho4mr03-zlMqlzj5LsEHT-gAFdTI98tFPkWy2Y4Gx287UMJK8muZpQM-HDFG7L6a70qVs9EobuaWuBzsznkrTyB13jur484X6ZMPmYiyRu6fmSyT76e2nzedySYixkkCGGuKBgvS7GE2p3r8BOax-7uztxeFxan-2HSW7HI7jCHt_ahszUl2oJO69W2ZWoun04OcE-TKkkqgHwtdSKGK0uI");'></div>
+</div>
+<div class="relative group cursor-pointer">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Modern living room with view" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDecUC3EFBAKATDRqkWpBaxBnSo7YmG4g5ILViO2mqD-FVmXgyWro1_aFlTifMPoEnNHCRk5m5c5W7EQ7HwdySM5IJT54XWOPdtwBiuU2ay0WKfKD6zyKVFWDKPol22EEkg8poWUjReqC5TVukG1Jp_3LiBWeErYJoO0zg6UCRlK7-8JfN1qq0Lt7SiPwOik-3AxhfVYcYKOE0rCZLZcmH5X6MSv3kFgB1sD3LWm4f4i9Orl5Csxu8eAqCNp9zCODLbrPwmGJL5IJ8");'></div>
+</div>
+<div class="relative group cursor-pointer">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Private infinity pool at sunset" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDs08xzZN1w4nxAhvkWesfL1vJLf-p0ja_k6JVZuJJWZj8WLV9CDqQv7DGgjnOwv5GjGjCQTSgr5oni6ocLpjfgMjJiqJ6g-z6GjlWZMPOu5CfC9eDJnF0zWAiAyfpd1iuwprcY0hyBu54YQRDeh00GWuT9OXAjRqr4bCDi7mPMKHgZLptF2iH40psfPaDA9yJGMUkBiOwC44KBguVl20WUETXcEoMF0F9Tmw9d2wUVkDbElplCc0i4LuaMyK-OZMiUr3Sog6U8Jfg");'></div>
+</div>
+<div class="relative group cursor-pointer">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-alt="Spacious bathroom with soaking tub" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDjwc4i_Y3JbdcqIbkA9RRFJKnGkKWmljSro77cUniBc15-r3ALomZ7SD7knmRdbv-xdLr3CVPm7CQoLhPTXi_ZBQNdGMp90fMyhdjr1LthtkvVmOQzx4_E1aXH_rVRTtKrIqS8gN08fgK7sdfn906otQYPNATnd63MXIumoLtES9OkOArnO4kGw7PY_pR3NHAg1CaiVMJ3mc2WmR2Z-mK39N9OX_PCNv57iNOV2NZF7RxueegPWnC2JdDHm3FWHIPDogIRsec9O8k");'></div>
+<div class="absolute inset-0 bg-black/30 flex items-center justify-center group-hover:bg-black/40 transition-colors">
+<span class="text-white font-medium text-lg flex items-center gap-2">
+<span class="material-symbols-outlined">grid_view</span>
+                        Show all photos
+                    </span>
+</div>
+</div>
+</section>
+<div class="flex flex-col lg:flex-row gap-12">
+<!-- Left Column: Content -->
+<div class="w-full lg:w-2/3 flex flex-col gap-10">
+<!-- Title & Header -->
+<div class="flex flex-col gap-4 border-b border-slate-200 dark:border-slate-800 pb-8">
+<div>
+<h1 class="text-slate-900 dark:text-white text-3xl md:text-4xl font-extrabold leading-tight tracking-tight mb-2">Villa Azure: 5-BHK Beachfront Estate</h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[20px]">location_on</span>
+                            Sasawane, Alibaug • 5 mins from Mandwa Jetty
+                        </p>
+</div>
+<div class="flex flex-wrap gap-6 text-sm font-medium text-slate-700 dark:text-slate-300">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-slate-400">bed</span>
+                            5 Bedrooms
+                        </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-slate-400">shower</span>
+                            6 Bathrooms
+                        </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-slate-400">group</span>
+                            Up to 12 Guests
+                        </div>
+<div class="flex items-center gap-1 text-yellow-500">
+<span class="material-symbols-outlined fill-current" style="font-variation-settings: 'FILL' 1">star</span>
+<span class="text-slate-900 dark:text-white ml-1">4.8</span>
+<span class="text-slate-400 font-normal ml-1">(32 reviews)</span>
+</div>
+</div>
+</div>
+<!-- Description -->
+<div class="flex flex-col gap-4">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">About this space</h3>
+<div class="text-slate-600 dark:text-slate-400 leading-relaxed space-y-4">
+<p>Escape to Villa Azure, a stunning 5-bedroom beachfront sanctuary designed for those who appreciate modern luxury blended with tropical serenity. Nestled directly on the sands of Sasawane Beach, this property offers unobstructed views of the Arabian Sea and the Mumbai skyline.</p>
+<p>The villa features expansive living areas that open completely to the outdoors, a private infinity pool, a curated garden, and dedicated staff quarters. Whether you're hosting a sunset soiree or seeking a quiet retreat for your family, Villa Azure provides the perfect backdrop.</p>
+</div>
+</div>
+<!-- Amenities -->
+<div class="flex flex-col gap-6 border-t border-slate-200 dark:border-slate-800 pt-8">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">What this place offers</h3>
+<div class="grid grid-cols-2 md:grid-cols-3 gap-y-4 gap-x-8">
+<div class="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-slate-400">pool</span>
+<span>Private pool</span>
+</div>
+<div class="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-slate-400">wifi</span>
+<span>Fast Wifi</span>
+</div>
+<div class="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-slate-400">ac_unit</span>
+<span>Air conditioning</span>
+</div>
+<div class="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-slate-400">directions_car</span>
+<span>Free parking</span>
+</div>
+<div class="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-slate-400">soup_kitchen</span>
+<span>Full Kitchen</span>
+</div>
+<div class="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-slate-400">pets</span>
+<span>Pet friendly</span>
+</div>
+<div class="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-slate-400">local_laundry_service</span>
+<span>Washer &amp; Dryer</span>
+</div>
+<div class="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-slate-400">tv</span>
+<span>Smart TV</span>
+</div>
+<div class="flex items-center gap-3 text-slate-700 dark:text-slate-300">
+<span class="material-symbols-outlined text-slate-400">outdoor_grill</span>
+<span>BBQ grill</span>
+</div>
+</div>
+<button class="mt-2 w-fit px-6 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 font-bold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        Show all 35 amenities
+                    </button>
+</div>
+<!-- Location Map -->
+<div class="flex flex-col gap-6 border-t border-slate-200 dark:border-slate-800 pt-8">
+<h3 class="text-xl font-bold text-slate-900 dark:text-white">Where you'll be</h3>
+<div class="w-full h-80 rounded-xl overflow-hidden relative bg-slate-100">
+<img class="w-full h-full object-cover opacity-80" data-alt="Map view showing location in Alibaug" data-location="Alibaug Map View" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLDTjUSfIYIZygTOl4PIFXPylZq0OVeLz227eSMBORBRdgy45CfVgXI8xZPdmF3ZgJcPLpZFhYp3__W7oV6niqTCbbkRG-73jBT2SE3KvHUWfCxsxFLcu4UkmjUZfvnQQib7OGcbk2v7xW09qoV8E6vaWu59cWaztouV4iUuuN7Rn0G1Sh1Fz9nwhdbkyXlLdT4kfZmTuiocOQ45N4pwoGd_XQYZ1cIHsb-0a0YKLXGREuKLA5TEkIlS7C8h1zEp3LhXBatKR8OsI"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="bg-white dark:bg-slate-800 p-3 rounded-full shadow-lg animate-bounce">
+<span class="material-symbols-outlined text-primary text-3xl">location_on</span>
+</div>
+</div>
+</div>
+<p class="text-slate-600 dark:text-slate-400">Sasawane is a quiet, leafy village known for its clean beach and proximity to the Mandwa Jetty. The neighborhood is dotted with other luxury estates.</p>
+</div>
+<!-- Reviews Section -->
+<div class="flex flex-col gap-8 border-t border-slate-200 dark:border-slate-800 pt-8 mb-8">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-yellow-500 fill-current" style="font-variation-settings: 'FILL' 1">star</span>
+<h3 class="text-2xl font-bold text-slate-900 dark:text-white">4.8 · 32 reviews</h3>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Review 1 -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover" data-alt="Reviewer profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC5wYCGJXOvwRNmymsfZrASC4pIizQ4eEGY7nUAWG92n-RfF8z7kiIsDYj1ObS5BibqiNpeLR97rn4o-sDA-juGCPvNKxagLvNg_Z4jq0l_yonlBvA69HMPTGUCm6c8qzOWmext9SjP--UNehkVTycfKhIp3DiGXppL30NJg08zSumx0g02NffyFHx_6zcA7svfm7JUjQOL058jHAv64UeB294rjkQQkkKtv6Iv2pmMpQOD_5IWr8QpzhI6FpVvC0ABzNVZhqrBgGs')"></div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">Rahul Mehta</h4>
+<p class="text-slate-500 text-sm">October 2023</p>
+</div>
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                                Absolutely stunning property. The photos don't do it justice. The staff was incredibly helpful and the food was delicious. Highly recommend for a family getaway.
+                            </p>
+</div>
+<!-- Review 2 -->
+<div class="flex flex-col gap-3">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-700 bg-cover" data-alt="Reviewer profile picture" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuD_iX_g6WOVojGGdkh5A03HqAYMR5-2KDvZ3PNW6CWBVF1A2PLXJmIsBPV9UtvpuhWiMz5R67biZm3nqrjnuIEfNvX1_MPLoV-uI38adA4LRYLvy5zYUAHr_2peLduHBf6yZAp_BmkQU1HHz6AnkQjhs-_naMAnqq9NWpryci_cKDhBrbub9jlmj2HPRD7m7DhywstbnNYrqkO1oSz-fYE46VpROlZnJEGbPjIVESfYN-SjVgdxrRze8HYcspbZsaZNPyr3QalQA0s')"></div>
+<div>
+<h4 class="font-bold text-slate-900 dark:text-white">Priya Singh</h4>
+<p class="text-slate-500 text-sm">September 2023</p>
+</div>
+</div>
+<p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                                A perfect slice of paradise near Mumbai. The pool area is magnificent. Everything was spotless and well-maintained. We will definitely be back!
+                            </p>
+</div>
+</div>
+<button class="w-fit px-6 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 font-bold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
+                        Show all 32 reviews
+                    </button>
+</div>
+</div>
+<!-- Right Column: Sticky Sidebar -->
+<div class="hidden lg:block w-1/3 relative">
+<div class="sticky top-28 border border-slate-200 dark:border-slate-800 rounded-xl shadow-xl shadow-slate-200/50 dark:shadow-none bg-white dark:bg-slate-800 p-6 flex flex-col gap-6">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-slate-500 text-sm line-through">₹65,000</p>
+<div class="flex items-baseline gap-1">
+<span class="text-2xl font-bold text-slate-900 dark:text-white">₹55,000</span>
+<span class="text-slate-500 font-medium text-sm">/ night</span>
+</div>
+</div>
+<button class="text-slate-400 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+</div>
+<!-- Inquiry Form -->
+<form class="flex flex-col gap-4">
+<div class="grid grid-cols-2 rounded-lg border border-slate-300 dark:border-slate-600 overflow-hidden">
+<div class="border-r border-slate-300 dark:border-slate-600 p-3 bg-white dark:bg-slate-700">
+<label class="block text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Check-in</label>
+<input class="w-full text-sm p-0 border-none focus:ring-0 bg-transparent text-slate-900 dark:text-white placeholder:text-slate-400" placeholder="Add date" type="text"/>
+</div>
+<div class="p-3 bg-white dark:bg-slate-700">
+<label class="block text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Check-out</label>
+<input class="w-full text-sm p-0 border-none focus:ring-0 bg-transparent text-slate-900 dark:text-white placeholder:text-slate-400" placeholder="Add date" type="text"/>
+</div>
+</div>
+<div class="rounded-lg border border-slate-300 dark:border-slate-600 p-3 bg-white dark:bg-slate-700 relative">
+<label class="block text-[10px] uppercase font-bold text-slate-500 tracking-wider mb-1">Guests</label>
+<select class="w-full text-sm p-0 border-none focus:ring-0 bg-transparent text-slate-900 dark:text-white cursor-pointer">
+<option>1 guest</option>
+<option>2 guests</option>
+<option selected="">4 guests</option>
+<option>6 guests</option>
+</select>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white font-bold py-3.5 rounded-lg transition-colors shadow-lg shadow-primary/30 mt-2" type="button">
+                            Check Availability
+                        </button>
+</form>
+<div class="text-center">
+<p class="text-slate-500 text-xs mb-4">You won't be charged yet</p>
+<div class="flex gap-3 justify-center">
+<button class="flex-1 py-2.5 px-4 rounded-lg border border-slate-200 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors flex items-center justify-center gap-2 text-slate-700 dark:text-white font-bold text-sm">
+<span class="material-symbols-outlined text-[18px]">call</span>
+                                Call Host
+                            </button>
+<button class="flex-1 py-2.5 px-4 rounded-lg border border-green-200 bg-green-50 dark:bg-green-900/20 dark:border-green-800 hover:bg-green-100 dark:hover:bg-green-900/40 transition-colors flex items-center justify-center gap-2 text-green-700 dark:text-green-400 font-bold text-sm">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+                                WhatsApp
+                            </button>
+</div>
+</div>
+<div class="pt-4 border-t border-slate-100 dark:border-slate-700">
+<div class="flex justify-between items-center text-slate-600 dark:text-slate-400 text-sm mb-2">
+<span class="underline decoration-slate-300 underline-offset-4">₹55,000 x 5 nights</span>
+<span>₹275,000</span>
+</div>
+<div class="flex justify-between items-center text-slate-600 dark:text-slate-400 text-sm mb-2">
+<span class="underline decoration-slate-300 underline-offset-4">Cleaning fee</span>
+<span>₹3,500</span>
+</div>
+<div class="flex justify-between items-center text-slate-600 dark:text-slate-400 text-sm mb-4">
+<span class="underline decoration-slate-300 underline-offset-4">Service fee</span>
+<span>₹14,200</span>
+</div>
+<div class="flex justify-between items-center text-slate-900 dark:text-white font-bold pt-4 border-t border-slate-200 dark:border-slate-700 text-base">
+<span>Total before taxes</span>
+<span>₹292,700</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Mobile Sticky Footer (Visible only on mobile) -->
+<div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 p-4 z-40 flex items-center justify-between">
+<div>
+<div class="flex items-baseline gap-1">
+<span class="text-lg font-bold text-slate-900 dark:text-white">₹55,000</span>
+<span class="text-slate-500 font-medium text-xs">/ night</span>
+</div>
+<p class="text-xs text-slate-500 underline">Oct 14 - 19</p>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white font-bold py-2.5 px-6 rounded-lg transition-colors shadow-lg shadow-primary/30">
+            Reserve
+        </button>
+</div>
+</body></html>

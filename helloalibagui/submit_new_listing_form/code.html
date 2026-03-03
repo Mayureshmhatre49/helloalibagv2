@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Submit New Listing - Alibaug Living</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1183d4", // Ocean Blue from original request/theme
+                        sage: "#8da399",    // Soft Sage Green for accent
+                        "sage-dark": "#738a80",
+                        "background-light": "#fcfbf9", // Warm off-white
+                        "background-dark": "#101a22",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a2630",
+                        "border-light": "#e7eef3",
+                        "border-dark": "#2d3b45",
+                    },
+                    fontFamily: {
+                        display: ["Manrope", "sans-serif"],
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .material-symbols-outlined.filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen flex flex-col">
+<!-- Header -->
+<header class="sticky top-0 z-50 flex items-center justify-between whitespace-nowrap border-b border-solid border-border-light dark:border-border-dark bg-surface-light/90 dark:bg-surface-dark/90 backdrop-blur-md px-10 py-3 transition-colors duration-200">
+<div class="flex items-center gap-4 text-slate-900 dark:text-white">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 45.8096C19.6865 45.8096 15.4698 44.5305 11.8832 42.134C8.29667 39.7376 5.50128 36.3314 3.85056 32.3462C2.19985 28.361 1.76794 23.9758 2.60947 19.7452C3.451 15.5145 5.52816 11.6284 8.57829 8.5783C11.6284 5.52817 15.5145 3.45101 19.7452 2.60948C23.9758 1.76795 28.361 2.19986 32.3462 3.85057C36.3314 5.50129 39.7376 8.29668 42.134 11.8833C44.5305 15.4698 45.8096 19.6865 45.8096 24L24 24L24 45.8096Z"></path>
+</svg>
+</div>
+<h2 class="text-lg font-bold leading-tight tracking-[-0.015em]">Alibaug Living</h2>
+</div>
+<div class="flex flex-1 justify-end gap-8 items-center hidden md:flex">
+<nav class="flex items-center gap-9">
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Explore</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Concierge</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">About</a>
+<a class="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium leading-normal transition-colors" href="#">Login</a>
+</nav>
+<button class="flex min-w-[84px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary hover:bg-blue-600 text-white text-sm font-bold leading-normal tracking-[0.015em] transition-colors shadow-sm">
+<span class="truncate">List Your Property</span>
+</button>
+</div>
+<button class="md:hidden text-slate-900 dark:text-white">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</header>
+<main class="flex-1 flex flex-col md:flex-row max-w-[1440px] mx-auto w-full">
+<!-- Sidebar Navigation -->
+<aside class="w-full md:w-72 lg:w-80 border-b md:border-b-0 md:border-r border-border-light dark:border-border-dark bg-surface-light dark:bg-surface-dark p-6 flex flex-col gap-6 sticky top-[65px] h-fit md:h-[calc(100vh-65px)] overflow-y-auto">
+<div class="flex items-center gap-4 pb-4 border-b border-border-light dark:border-border-dark">
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-12 shadow-sm" data-alt="Modern tropical villa exterior" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBsAD1h4Y8bQdvkPgefQq0Qj5r-SZIr0g_rWKXFyrprL5PMH3mUTlZXH-GbROe3XzUG5RaUSi9pKcLmp5hx7MHemDEjt0X3-9RrhO52AC1vZEYaJE6_OU9wF86_lYhOlZCZE9AylhlxF_qfVkot1towNEn0-Tziho9Cn9eJs8SQ7zPHa_ePtR6w_wuSDz0FDlqs7pc4IlWaqH-GGlUIwd5rzMHc8RzrexiO9cVGNvkO80YPIxMKSCXvrIejDH6hMIDMozik-vToOG4");'></div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 dark:text-white text-base font-bold leading-tight">The Palm Villa</h1>
+<p class="text-slate-500 dark:text-slate-400 text-xs font-medium mt-1">Draft • Saved 2m ago</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<!-- Step 1: Active -->
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg bg-primary/10 text-primary dark:text-primary-400 border border-primary/20" href="#">
+<span class="material-symbols-outlined filled">info</span>
+<p class="text-sm font-bold">Basic Info</p>
+</a>
+<!-- Step 2 -->
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" href="#">
+<span class="material-symbols-outlined">list_alt</span>
+<p class="text-sm font-medium">Details</p>
+</a>
+<!-- Step 3 -->
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" href="#">
+<span class="material-symbols-outlined">pool</span>
+<p class="text-sm font-medium">Amenities</p>
+</a>
+<!-- Step 4 -->
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" href="#">
+<span class="material-symbols-outlined">image</span>
+<p class="text-sm font-medium">Images</p>
+</a>
+<!-- Step 5 -->
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" href="#">
+<span class="material-symbols-outlined">travel_explore</span>
+<p class="text-sm font-medium">SEO Meta</p>
+</a>
+<!-- Step 6 -->
+<a class="flex items-center gap-3 px-3 py-3 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 transition-colors" href="#">
+<span class="material-symbols-outlined">contact_page</span>
+<p class="text-sm font-medium">Contact</p>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-border-light dark:border-border-dark hidden md:block">
+<div class="flex items-start gap-3 p-3 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+<span class="material-symbols-outlined text-primary mt-0.5" style="font-size: 20px;">help</span>
+<div>
+<p class="text-xs font-bold text-slate-900 dark:text-white mb-1">Need help listing?</p>
+<p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">Contact our concierge team for assistance with photography or description writing.</p>
+<a class="text-xs text-primary font-bold mt-2 inline-block hover:underline" href="#">Get Support</a>
+</div>
+</div>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 p-6 md:p-12 lg:p-16 max-w-4xl mx-auto w-full">
+<!-- Header Section -->
+<div class="mb-8">
+<div class="flex flex-col gap-2 mb-6">
+<h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">Basic Information</h1>
+<p class="text-slate-500 dark:text-slate-400 text-lg">Let's start with the essentials about your property.</p>
+</div>
+<!-- Progress Bar Mobile -->
+<div class="md:hidden mb-6">
+<div class="flex justify-between text-xs font-medium text-slate-500 mb-2">
+<span>Step 1 of 6</span>
+<span>16% Completed</span>
+</div>
+<div class="h-2 w-full bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[16%] rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Form Content -->
+<form class="space-y-8">
+<!-- Section 1: Name & Type -->
+<div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl p-6 md:p-8 shadow-sm">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="col-span-1 md:col-span-2">
+<label class="block text-sm font-bold text-slate-900 dark:text-white mb-2" for="listing-title">
+                                Listing Title <span class="text-red-500">*</span>
+</label>
+<input class="w-full h-14 px-4 bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-primary transition-shadow text-base placeholder:text-slate-400 dark:placeholder:text-slate-600 dark:text-white" id="listing-title" name="listing-title" placeholder="e.g. The Palm Villa, Mandwa" type="text" value="The Palm Villa"/>
+<p class="mt-2 text-xs text-slate-500 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">info</span>
+                                This is the first thing guests will see. Make it catchy but descriptive.
+                            </p>
+</div>
+<div class="col-span-1">
+<label class="block text-sm font-bold text-slate-900 dark:text-white mb-2" for="property-type">
+                                Property Type
+                            </label>
+<div class="relative">
+<select class="w-full h-14 px-4 bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-primary appearance-none cursor-pointer text-base dark:text-white" id="property-type" name="property-type">
+<option>Villa / Bungalow</option>
+<option>Apartment</option>
+<option>Farmhouse</option>
+<option>Boutique Hotel</option>
+<option>Cottage</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">expand_more</span>
+</div>
+</div>
+<div class="col-span-1">
+<label class="block text-sm font-bold text-slate-900 dark:text-white mb-2" for="listing-category">
+                                Category
+                            </label>
+<div class="relative">
+<select class="w-full h-14 px-4 bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-primary appearance-none cursor-pointer text-base dark:text-white" id="listing-category" name="listing-category">
+<option>Vacation Rental</option>
+<option>Long-term Lease</option>
+<option>Event Venue</option>
+<option>Sale</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 2: Location -->
+<div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl p-6 md:p-8 shadow-sm">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">location_on</span>
+                        Location Details
+                    </h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="col-span-1 md:col-span-2">
+<label class="block text-sm font-bold text-slate-900 dark:text-white mb-2" for="street-address">
+                                Street Address
+                            </label>
+<input class="w-full h-14 px-4 bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-base dark:text-white" id="street-address" name="street-address" placeholder="House No., Street Name" type="text"/>
+</div>
+<div class="col-span-1">
+<label class="block text-sm font-bold text-slate-900 dark:text-white mb-2" for="area">
+                                Area / Village
+                            </label>
+<input class="w-full h-14 px-4 bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-base dark:text-white" id="area" name="area" placeholder="e.g. Mandwa, Awas, Kihim" type="text"/>
+</div>
+<div class="col-span-1">
+<label class="block text-sm font-bold text-slate-900 dark:text-white mb-2" for="pincode">
+                                Pincode
+                            </label>
+<input class="w-full h-14 px-4 bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-primary text-base dark:text-white" id="pincode" name="pincode" placeholder="402201" type="text"/>
+</div>
+<!-- Mini Map Preview Placeholder -->
+<div class="col-span-1 md:col-span-2 mt-2">
+<div class="w-full h-48 bg-slate-100 dark:bg-slate-800 rounded-lg overflow-hidden relative flex items-center justify-center border border-dashed border-slate-300 dark:border-slate-600 group cursor-pointer hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<div class="absolute inset-0 bg-cover bg-center opacity-40 group-hover:opacity-30 transition-opacity" data-alt="Map view placeholder of Alibaug" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBBlycOfyL1NHdaGYOdfFG0p88TvRi6qSPOxA9u1Fivx4FmcvcrAVdoLVL8RVjPrlKGI6IRhBlgjQFFeDA1fls_MV6i5iC9lyuOE0YWsiV8C1k2p8lbKH9ToNBmg5mFd4ybiVstv2lB3_0pkyC09ngNEwSbkqIOmFuQ1xBEY-BdAQQqHy2eaYqQ02L4sGUjXoujl9SrrHmB0rKGoHzYX0gep9whjzJpSQEUwCvmoSDqPFqkpmU35oIjz0ZB7mNZ8kVMABfQc1taAqs");'></div>
+<div class="relative z-10 flex flex-col items-center gap-2">
+<span class="material-symbols-outlined text-slate-600 dark:text-slate-300 text-4xl">add_location_alt</span>
+<span class="text-sm font-bold text-slate-700 dark:text-slate-200">Pin Location on Map</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 3: Description -->
+<div class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-xl p-6 md:p-8 shadow-sm">
+<label class="block text-sm font-bold text-slate-900 dark:text-white mb-2" for="short-desc">
+                        Short Description (Summary)
+                    </label>
+<textarea class="w-full p-4 bg-background-light dark:bg-background-dark border-border-light dark:border-border-dark rounded-lg focus:ring-2 focus:ring-primary focus:border-primary resize-none text-base dark:text-white" id="short-desc" name="short-desc" placeholder="A brief overview of your property (max 300 characters). This will be shown on the search results page." rows="4"></textarea>
+<div class="flex justify-end mt-2">
+<span class="text-xs text-slate-400">0/300</span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col-reverse md:flex-row items-center justify-between gap-4 pt-4 pb-20 md:pb-0">
+<button class="w-full md:w-auto px-8 py-3 rounded-lg text-slate-600 dark:text-slate-300 font-bold text-sm hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" type="button">
+                        Save as Draft
+                    </button>
+<button class="w-full md:w-auto flex items-center justify-center gap-2 px-10 py-4 bg-sage hover:bg-sage-dark dark:bg-sage dark:hover:bg-sage-dark text-white rounded-lg font-bold text-base shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5" type="button">
+                        Next: Details
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</main>
+</body></html>
