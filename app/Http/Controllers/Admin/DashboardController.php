@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Listing;
 use App\Models\Review;
 use App\Models\User;
+use App\Models\Inquiry;
+use App\Models\SupportTicket;
 
 class DashboardController extends Controller
 {
@@ -20,10 +22,13 @@ class DashboardController extends Controller
         $totalOwners = User::whereHas('role', function($q) { $q->where('slug', 'owner'); })->count();
         
         $pendingReviews = Review::pending()->count();
+        $totalInquiries = Inquiry::count();
+        $openTickets = SupportTicket::active()->count();
+        $totalViews = Listing::sum('views_count');
         
         $recentListings = Listing::with(['category', 'creator'])->latest()->take(5)->get();
         
-        // Activity Feed: Combined recent signups and listings
+        // Activity Feed: Combined recent signups, listings, and inquiries
         $recentUsers = User::with('role')->latest()->take(5)->get()->map(function($user) {
             return [
                 'type' => 'user',
@@ -46,11 +51,23 @@ class DashboardController extends Controller
             ];
         });
 
-        $activityFeed = $recentUsers->concat($listingActivity)->sortByDesc('time')->take(8);
+        $inquiryActivity = Inquiry::with('listing')->latest()->take(3)->get()->map(function($inquiry) {
+            return [
+                'type' => 'inquiry',
+                'title' => "New Inquiry Received",
+                'description' => $inquiry->name . " → " . ($inquiry->listing->title ?? 'Listing'),
+                'time' => $inquiry->created_at,
+                'icon' => 'mail',
+                'color' => 'text-purple-500'
+            ];
+        });
+
+        $activityFeed = $recentUsers->concat($listingActivity)->concat($inquiryActivity)->sortByDesc('time')->take(10);
 
         return view('admin.dashboard', compact(
             'totalListings', 'pendingListings', 'approvedListings', 'premiumListings',
-            'totalUsers', 'totalOwners', 'pendingReviews', 'recentListings', 'activityFeed'
+            'totalUsers', 'totalOwners', 'pendingReviews', 'recentListings', 'activityFeed',
+            'totalInquiries', 'openTickets', 'totalViews'
         ));
     }
 }

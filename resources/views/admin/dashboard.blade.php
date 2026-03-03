@@ -2,54 +2,88 @@
 @section('page-title', 'Overview')
 
 @section('content')
-{{-- Metrics --}}
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+{{-- Metrics Row 1 --}}
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
         <div class="flex items-center justify-between mb-2">
-            <span class="material-symbols-outlined text-primary text-3xl">list_alt</span>
-            <span class="text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-lg">Total</span>
+            <span class="material-symbols-outlined text-primary text-2xl">list_alt</span>
+            <span class="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-lg">Total</span>
         </div>
         <p class="text-2xl font-bold text-slate-900">{{ $totalListings }}</p>
         <p class="text-xs text-slate-500 font-medium">Business Listings</p>
     </div>
-    
-    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
         <div class="flex items-center justify-between mb-2">
-            <span class="material-symbols-outlined text-amber-500 text-3xl">pending_actions</span>
-            <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded-lg">Action Required</span>
+            <span class="material-symbols-outlined text-amber-500 text-2xl">pending_actions</span>
+            <span class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-lg">Action</span>
         </div>
         <p class="text-2xl font-bold text-slate-900">{{ $pendingListings }}</p>
         <p class="text-xs text-slate-500 font-medium">Pending Approvals</p>
     </div>
-
-    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
         <div class="flex items-center justify-between mb-2">
-            <span class="material-symbols-outlined text-rose-500 text-3xl">stars</span>
-            <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2 py-1 rounded-lg">Premium</span>
-        </div>
-        <p class="text-2xl font-bold text-slate-900">{{ $premiumListings }}</p>
-        <p class="text-xs text-slate-500 font-medium">Featured & Sponsored</p>
-    </div>
-
-    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
-        <div class="flex items-center justify-between mb-2">
-            <span class="material-symbols-outlined text-blue-500 text-3xl">group</span>
-            <span class="text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">Growth</span>
+            <span class="material-symbols-outlined text-blue-500 text-2xl">group</span>
+            <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-lg">Growth</span>
         </div>
         <p class="text-2xl font-bold text-slate-900">{{ $totalOwners }}</p>
         <p class="text-xs text-slate-500 font-medium">Business Owners</p>
     </div>
+    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+            <span class="material-symbols-outlined text-rose-500 text-2xl">visibility</span>
+            <span class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-lg">Traffic</span>
+        </div>
+        <p class="text-2xl font-bold text-slate-900">{{ number_format($totalViews) }}</p>
+        <p class="text-xs text-slate-500 font-medium">Total Views</p>
+    </div>
+</div>
+
+{{-- Metrics Row 2 --}}
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+            <span class="material-symbols-outlined text-purple-500 text-2xl">mail</span>
+        </div>
+        <p class="text-2xl font-bold text-slate-900">{{ $totalInquiries }}</p>
+        <p class="text-xs text-slate-500 font-medium">Total Inquiries</p>
+    </div>
+    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+            <span class="material-symbols-outlined text-orange-500 text-2xl">support_agent</span>
+            @if($openTickets > 0)
+                <span class="text-[10px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-lg">{{ $openTickets }} open</span>
+            @endif
+        </div>
+        <p class="text-2xl font-bold text-slate-900">{{ $openTickets }}</p>
+        <p class="text-xs text-slate-500 font-medium">Open Tickets</p>
+    </div>
+    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+            <span class="material-symbols-outlined text-amber-500 text-2xl">reviews</span>
+            @if($pendingReviews > 0)
+                <span class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-lg">{{ $pendingReviews }} pending</span>
+            @endif
+        </div>
+        <p class="text-2xl font-bold text-slate-900">{{ $pendingReviews }}</p>
+        <p class="text-xs text-slate-500 font-medium">Pending Reviews</p>
+    </div>
+    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+            <span class="material-symbols-outlined text-emerald-500 text-2xl">stars</span>
+        </div>
+        <p class="text-2xl font-bold text-slate-900">{{ $premiumListings }}</p>
+        <p class="text-xs text-slate-500 font-medium">Premium Listings</p>
+    </div>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-    {{-- Recent Activity Feed (Notifications) --}}
+    {{-- Activity Feed --}}
     <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
         <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
             <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
                 <span class="material-symbols-outlined text-slate-400">notifications</span>
                 Recent Activity
             </h2>
-            <span class="text-xs text-slate-400">Past 48 hours</span>
         </div>
         <div class="divide-y divide-slate-50">
             @forelse($activityFeed as $item)
@@ -73,7 +107,7 @@
         </div>
     </div>
 
-    {{-- Pending Approvals Quick List --}}
+    {{-- Recent Submissions --}}
     <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
         <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
             <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
@@ -90,9 +124,7 @@
                             @if($listing->getPrimaryImageUrl())
                                 <img src="{{ $listing->getPrimaryImageUrl() }}" class="w-full h-full object-cover">
                             @else
-                                <div class="w-full h-full flex items-center justify-center text-slate-300">
-                                    <span class="material-symbols-outlined">image</span>
-                                </div>
+                                <div class="w-full h-full flex items-center justify-center text-slate-300"><span class="material-symbols-outlined">image</span></div>
                             @endif
                         </div>
                         <div>
@@ -107,13 +139,10 @@
                             'rejected' => 'bg-red-100 text-red-700',
                         ];
                     @endphp
-                    <span class="text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider {{ $statusColors[$listing->status] ?? 'bg-slate-100 text-slate-600' }}">
-                        {{ $listing->status }}
-                    </span>
+                    <span class="text-[10px] font-bold px-2 py-1 rounded-full uppercase tracking-wider {{ $statusColors[$listing->status] ?? 'bg-slate-100 text-slate-600' }}">{{ $listing->status }}</span>
                 </div>
             @endforeach
         </div>
     </div>
 </div>
 @endsection
-

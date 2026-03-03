@@ -26,7 +26,19 @@
     <div class="p-4">
         <div class="flex justify-between items-start mb-1">
             <h3 class="font-bold text-lg text-slate-900 truncate">{{ $listing->title }}</h3>
-            <span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-red-500 transition-colors flex-shrink-0 ml-2">favorite</span>
+            @auth
+                @php $isWishlisted = \App\Models\Wishlist::where('user_id', auth()->id())->where('listing_id', $listing->id)->exists(); @endphp
+                <form method="POST" action="{{ route('wishlist.toggle', $listing) }}" onclick="event.stopPropagation(); event.preventDefault(); this.submit();">
+                    @csrf
+                    <button type="submit" class="flex-shrink-0 ml-2" title="{{ $isWishlisted ? 'Remove from wishlist' : 'Add to wishlist' }}">
+                        <span class="material-symbols-outlined {{ $isWishlisted ? 'filled text-red-500' : 'text-slate-400 hover:text-red-500' }} transition-colors">favorite</span>
+                    </button>
+                </form>
+            @else
+                <a href="{{ route('login') }}" class="flex-shrink-0 ml-2" onclick="event.stopPropagation();" title="Login to save">
+                    <span class="material-symbols-outlined text-slate-400 hover:text-red-500 transition-colors">favorite</span>
+                </a>
+            @endauth
         </div>
         <p class="text-sm text-slate-500 mb-3">{{ $listing->area?->name ? $listing->area->name . ', Alibaug' : $listing->category->name }}</p>
         <div class="flex items-baseline gap-1">

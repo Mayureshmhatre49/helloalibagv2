@@ -16,13 +16,18 @@
         {{-- Main Content --}}
         <div class="flex-1">
             {{-- Image Gallery --}}
-            <div class="rounded-2xl overflow-hidden mb-8 bg-gray-100" x-data="{ activeImg: 0 }">
-                <div class="aspect-[16/9] relative">
+            <div class="rounded-2xl overflow-hidden mb-8 bg-gray-100" x-data="{ activeImg: 0, lightbox: false }">
+                <div class="aspect-[16/9] relative cursor-pointer" @click="lightbox = true">
                     @foreach($listing->images as $idx => $image)
                         <img x-show="activeImg === {{ $idx }}" src="{{ $image->path }}" alt="{{ $image->alt_text ?? $listing->title }}" class="absolute inset-0 w-full h-full object-cover" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100">
                     @endforeach
                     @if($listing->images->isEmpty())
                         <div class="w-full h-full flex items-center justify-center"><span class="material-symbols-outlined text-6xl text-gray-300">image</span></div>
+                    @else
+                        <div class="absolute bottom-3 right-3 bg-black/60 text-white px-3 py-1 rounded-lg text-xs font-medium backdrop-blur-sm flex items-center gap-1">
+                            <span class="material-symbols-outlined text-[14px]">photo_library</span>
+                            {{ $listing->images->count() }} photos
+                        </div>
                     @endif
                 </div>
                 @if($listing->images->count() > 1)
@@ -34,6 +39,29 @@
                         @endforeach
                     </div>
                 @endif
+
+                {{-- Fullscreen Lightbox --}}
+                <div x-show="lightbox" x-cloak
+                     x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+                     @keydown.escape.window="lightbox = false"
+                     @keydown.left.window="activeImg = activeImg > 0 ? activeImg - 1 : {{ $listing->images->count() - 1 }}"
+                     @keydown.right.window="activeImg = activeImg < {{ $listing->images->count() - 1 }} ? activeImg + 1 : 0"
+                     class="fixed inset-0 z-50 bg-black/95 flex items-center justify-center">
+                    <button @click="lightbox = false" class="absolute top-4 right-4 text-white/80 hover:text-white z-10">
+                        <span class="material-symbols-outlined text-3xl">close</span>
+                    </button>
+                    <button @click="activeImg = activeImg > 0 ? activeImg - 1 : {{ $listing->images->count() - 1 }}" class="absolute left-4 text-white/80 hover:text-white z-10">
+                        <span class="material-symbols-outlined text-4xl">chevron_left</span>
+                    </button>
+                    <button @click="activeImg = activeImg < {{ $listing->images->count() - 1 }} ? activeImg + 1 : 0" class="absolute right-4 text-white/80 hover:text-white z-10">
+                        <span class="material-symbols-outlined text-4xl">chevron_right</span>
+                    </button>
+                    @foreach($listing->images as $idx => $image)
+                        <img x-show="activeImg === {{ $idx }}" src="{{ $image->path }}" alt="{{ $image->alt_text ?? $listing->title }}" class="max-w-[90vw] max-h-[90vh] object-contain rounded-lg" x-transition>
+                    @endforeach
+                    <div class="absolute bottom-4 text-white/70 text-sm font-medium"><span x-text="activeImg + 1"></span> / {{ $listing->images->count() }}</div>
+                </div>
             </div>
 
             {{-- Title & Meta --}}
@@ -54,6 +82,20 @@
                         <span class="font-bold text-text-main">{{ $listing->getAverageRating() ?: '—' }}</span>
                         <span class="text-xs text-text-secondary">({{ $listing->getReviewsCount() }})</span>
                     </div>
+                </div>
+                {{-- Share Buttons --}}
+                <div class="flex items-center gap-2 mt-3" x-data="{ copied: false }">
+                    <span class="text-xs text-text-secondary font-medium">Share:</span>
+                    <a href="https://wa.me/?text={{ urlencode($listing->title . ' — ' . url()->current()) }}" target="_blank" class="w-8 h-8 rounded-lg bg-[#25D366]/10 text-[#25D366] flex items-center justify-center hover:bg-[#25D366]/20 transition-colors" title="WhatsApp">
+                        <span class="material-symbols-outlined text-[16px]">chat</span>
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank" class="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-600 flex items-center justify-center hover:bg-blue-500/20 transition-colors" title="Facebook">
+                        <span class="material-symbols-outlined text-[16px]">share</span>
+                    </a>
+                    <button @click="navigator.clipboard.writeText(window.location.href); copied = true; setTimeout(()=> copied = false, 2000)" class="w-8 h-8 rounded-lg bg-gray-100 text-text-secondary flex items-center justify-center hover:bg-gray-200 transition-colors" title="Copy Link">
+                        <span class="material-symbols-outlined text-[16px]" x-text="copied ? 'check' : 'link'">link</span>
+                    </button>
+                    <span x-show="copied" x-cloak class="text-xs text-green-600 font-medium">Copied!</span>
                 </div>
             </div>
 
@@ -201,6 +243,48 @@
                             <p class="text-sm font-semibold text-text-main">{{ $listing->creator->name }}</p>
                             <p class="text-xs text-text-secondary">Member since {{ $listing->creator->created_at->format('M Y') }}</p>
                         </div>
+                    </div>
+                </div>
+
+                {{-- Inquiry Form --}}
+                <div class="bg-white rounded-2xl border border-border-light p-5" x-data="{ showForm: false }">
+                    <button @click="showForm = !showForm" class="w-full flex items-center justify-center gap-2 bg-charcoal text-white py-3 rounded-xl font-medium text-sm hover:bg-charcoal/90 transition-colors">
+                        <span class="material-symbols-outlined text-[20px]">send</span>
+                        Send Inquiry
+                    </button>
+                    <div x-show="showForm" x-collapse x-cloak class="mt-4">
+                        <form method="POST" action="{{ route('listing.inquiry.store', $listing) }}" class="space-y-3">
+                            @csrf
+                            <div>
+                                <input type="text" name="name" value="{{ auth()->user()->name ?? old('name') }}" required placeholder="Your Name *"
+                                       class="w-full border border-border-light rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                            </div>
+                            <div>
+                                <input type="email" name="email" value="{{ auth()->user()->email ?? old('email') }}" required placeholder="Your Email *"
+                                       class="w-full border border-border-light rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                            </div>
+                            <div>
+                                <input type="text" name="phone" value="{{ old('phone') }}" placeholder="Phone Number"
+                                       class="w-full border border-border-light rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="date" name="check_in" value="{{ old('check_in') }}" placeholder="Check-in"
+                                       class="w-full border border-border-light rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                                <input type="date" name="check_out" value="{{ old('check_out') }}" placeholder="Check-out"
+                                       class="w-full border border-border-light rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                            </div>
+                            <div>
+                                <input type="number" name="guests" min="1" max="50" value="{{ old('guests') }}" placeholder="Number of guests"
+                                       class="w-full border border-border-light rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
+                            </div>
+                            <div>
+                                <textarea name="message" rows="3" required placeholder="Hi, I'm interested in this listing... *"
+                                          class="w-full border border-border-light rounded-xl px-3 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none">{{ old('message') }}</textarea>
+                            </div>
+                            <button type="submit" class="w-full bg-primary text-white py-2.5 rounded-xl text-sm font-bold hover:bg-primary-dark transition-colors">
+                                Send Inquiry
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

@@ -54,6 +54,43 @@
                         @if(auth()->user()->isAdmin())
                             <a href="{{ route('admin.dashboard') }}" class="hidden sm:flex text-sm font-medium text-slate-600 hover:text-primary">Admin</a>
                         @endif
+                        <a href="{{ route('wishlist.index') }}" class="hidden sm:flex text-slate-500 hover:text-red-500 transition-colors" title="Wishlist">
+                            <span class="material-symbols-outlined text-[22px]">favorite</span>
+                        </a>
+                        {{-- Notifications Bell --}}
+                        <div x-data="{ notifOpen: false }" class="relative">
+                            <button @click="notifOpen = !notifOpen" class="relative text-slate-500 hover:text-primary transition-colors">
+                                <span class="material-symbols-outlined text-[22px]">notifications</span>
+                                @php $unreadCount = \App\Models\UserNotification::where('user_id', auth()->id())->unread()->count(); @endphp
+                                @if($unreadCount > 0)
+                                    <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
+                                @endif
+                            </button>
+                            <div x-show="notifOpen" @click.outside="notifOpen = false" x-transition class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-slate-100 z-50 overflow-hidden">
+                                <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+                                    <span class="text-sm font-bold text-slate-900">Notifications</span>
+                                    <a href="{{ route('notifications.index') }}" class="text-xs text-primary font-medium hover:underline">View All</a>
+                                </div>
+                                <div class="max-h-64 overflow-y-auto divide-y divide-slate-50">
+                                    @php $latestNotifs = \App\Models\UserNotification::where('user_id', auth()->id())->latest()->take(5)->get(); @endphp
+                                    @forelse($latestNotifs as $notif)
+                                        <form method="POST" action="{{ route('notifications.read', $notif) }}">
+                                            @csrf
+                                            <button type="submit" class="w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors flex items-start gap-3 {{ $notif->read_at ? '' : 'bg-primary/5' }}">
+                                                <span class="material-symbols-outlined {{ $notif->getIconClass() }} text-[18px] mt-0.5">{{ $notif->getIcon() }}</span>
+                                                <div>
+                                                    <p class="text-xs font-semibold text-slate-900 line-clamp-1">{{ $notif->title }}</p>
+                                                    <p class="text-[11px] text-slate-500 line-clamp-1">{{ $notif->message }}</p>
+                                                    <p class="text-[10px] text-slate-400 mt-0.5">{{ $notif->created_at->diffForHumans() }}</p>
+                                                </div>
+                                            </button>
+                                        </form>
+                                    @empty
+                                        <div class="px-4 py-8 text-center text-xs text-slate-400">No notifications yet</div>
+                                    @endforelse
+                                </div>
+                            </div>
+                        </div>
                         <div x-data="{ open: false }" class="relative">
                             <button @click="open = !open" class="flex items-center gap-2 text-sm font-medium text-slate-600 hover:text-primary">
                                 <img src="{{ auth()->user()->getAvatarUrl() }}" alt="{{ auth()->user()->name }}" class="w-9 h-9 rounded-full object-cover border-2 border-slate-200">
@@ -126,22 +163,58 @@
     </main>
 
     {{-- Footer --}}
-    <footer class="bg-slate-50 py-12 border-t border-slate-200">
+    <footer class="bg-charcoal text-white pt-16 pb-8">
         <div class="max-w-[1280px] mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="flex items-center gap-2">
-                    <div class="size-6 bg-primary rounded flex items-center justify-center text-white">
-                        <span class="material-symbols-outlined text-sm">waves</span>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
+                {{-- Brand --}}
+                <div class="md:col-span-1">
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="size-8 bg-primary rounded-lg flex items-center justify-center">
+                            <span class="material-symbols-outlined text-white text-xl">waves</span>
+                        </div>
+                        <span class="text-xl font-serif font-bold">Hello Alibaug</span>
                     </div>
-                    <span class="text-lg font-serif font-bold text-slate-900">Hello Alibaug</span>
+                    <p class="text-slate-400 text-sm leading-relaxed">Connecting you with the finest stays, dining, events, and real estate in Alibaug.</p>
                 </div>
-                <div class="text-sm text-slate-500">
-                    © {{ date('Y') }} Hello Alibaug. All rights reserved.
+
+                {{-- Quick Links --}}
+                <div>
+                    <h4 class="font-bold text-sm mb-4 uppercase tracking-wider text-slate-300">Quick Links</h4>
+                    <ul class="space-y-2.5 text-sm text-slate-400">
+                        <li><a href="{{ route('page.about') }}" class="hover:text-primary transition-colors">About Us</a></li>
+                        <li><a href="{{ route('page.contact') }}" class="hover:text-primary transition-colors">Contact</a></li>
+                        <li><a href="{{ route('search') }}" class="hover:text-primary transition-colors">Browse Listings</a></li>
+                        <li><a href="{{ route('register') }}" class="hover:text-primary transition-colors">List Your Business</a></li>
+                    </ul>
                 </div>
-                <div class="flex gap-6">
-                    <a href="#" class="text-slate-400 hover:text-primary transition-colors"><span class="material-symbols-outlined">photo_camera</span></a>
-                    <a href="#" class="text-slate-400 hover:text-primary transition-colors"><span class="material-symbols-outlined">alternate_email</span></a>
-                    <a href="#" class="text-slate-400 hover:text-primary transition-colors"><span class="material-symbols-outlined">public</span></a>
+
+                {{-- Categories --}}
+                <div>
+                    <h4 class="font-bold text-sm mb-4 uppercase tracking-wider text-slate-300">Explore</h4>
+                    <ul class="space-y-2.5 text-sm text-slate-400">
+                        @php $footerCats = \App\Models\Category::where('is_active', true)->orderBy('sort_order')->get(); @endphp
+                        @foreach($footerCats as $cat)
+                            <li><a href="{{ route('category.show', $cat) }}" class="hover:text-primary transition-colors">{{ $cat->name }}</a></li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                {{-- Legal --}}
+                <div>
+                    <h4 class="font-bold text-sm mb-4 uppercase tracking-wider text-slate-300">Legal</h4>
+                    <ul class="space-y-2.5 text-sm text-slate-400">
+                        <li><a href="{{ route('page.privacy') }}" class="hover:text-primary transition-colors">Privacy Policy</a></li>
+                        <li><a href="{{ route('page.terms') }}" class="hover:text-primary transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-slate-500">© {{ date('Y') }} Hello Alibaug. All rights reserved.</p>
+                <div class="flex gap-4">
+                    <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all"><span class="material-symbols-outlined text-[18px]">photo_camera</span></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all"><span class="material-symbols-outlined text-[18px]">alternate_email</span></a>
+                    <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all"><span class="material-symbols-outlined text-[18px]">public</span></a>
                 </div>
             </div>
         </div>

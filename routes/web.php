@@ -21,6 +21,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Wishlist
+    Route::get('/wishlist', [\App\Http\Controllers\WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/{listing}/toggle', [\App\Http\Controllers\WishlistController::class, 'toggle'])->name('wishlist.toggle');
+
+    // Notifications
+    Route::get('/notifications', [\App\Http\Controllers\NotificationController::class, 'index'])->name('notifications.index');
+    Route::post('/notifications/{notification}/read', [\App\Http\Controllers\NotificationController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('/notifications/mark-all-read', [\App\Http\Controllers\NotificationController::class, 'markAllRead'])->name('notifications.markAllRead');
 });
 
 // Marketplace Onboarding Routes
@@ -50,6 +59,11 @@ Route::middleware(['auth', 'role:owner,admin'])->prefix('dashboard')->name('owne
     Route::post('/support', [\App\Http\Controllers\Owner\SupportController::class, 'store'])->name('support.store');
     Route::get('/support/{ticket}', [\App\Http\Controllers\Owner\SupportController::class, 'show'])->name('support.show');
     Route::post('/support/{ticket}/reply', [\App\Http\Controllers\Owner\SupportController::class, 'reply'])->name('support.reply');
+
+    // Inquiries
+    Route::get('/inquiries', [\App\Http\Controllers\Owner\InquiryController::class, 'index'])->name('inquiries.index');
+    Route::get('/inquiries/{inquiry}', [\App\Http\Controllers\Owner\InquiryController::class, 'show'])->name('inquiries.show');
+    Route::post('/inquiries/{inquiry}/reply', [\App\Http\Controllers\Owner\InquiryController::class, 'reply'])->name('inquiries.reply');
 });
 
 // Admin Panel Routes
@@ -84,6 +98,14 @@ require __DIR__.'/auth.php';
 
 // Interactive/Public POST routes
 Route::post('/listings/{listing}/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('listing.review.store');
+Route::post('/listings/{listing}/inquiry', [\App\Http\Controllers\InquiryController::class, 'store'])->name('listing.inquiry.store');
+
+// Static Pages
+Route::get('/about', [\App\Http\Controllers\PageController::class, 'about'])->name('page.about');
+Route::get('/contact', [\App\Http\Controllers\PageController::class, 'contact'])->name('page.contact');
+Route::post('/contact', [\App\Http\Controllers\PageController::class, 'contactSubmit'])->name('page.contact.submit');
+Route::get('/privacy-policy', [\App\Http\Controllers\PageController::class, 'privacy'])->name('page.privacy');
+Route::get('/terms-of-service', [\App\Http\Controllers\PageController::class, 'terms'])->name('page.terms');
 
 // Category & Listing Routes (must be last - these use slug routing)
 Route::get('/{category:slug}', [CategoryController::class, 'show'])->name('category.show');

@@ -50,6 +50,14 @@
                         <span class="material-symbols-outlined text-[20px]">reviews</span>
                         Reviews
                     </a>
+                    <a href="{{ route('owner.inquiries.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('owner.inquiries.*') ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-background-light' }}">
+                        <span class="material-symbols-outlined text-[20px]">mail</span>
+                        Inquiries
+                        @php $newInq = \App\Models\Inquiry::whereIn('listing_id', auth()->user()->listings()->pluck('id'))->where('status', 'new')->count(); @endphp
+                        @if($newInq > 0)
+                            <span class="ml-auto bg-red-500 text-white text-[10px] px-2 py-0.5 rounded-full font-bold">{{ $newInq }}</span>
+                        @endif
+                    </a>
                     <a href="{{ route('owner.onboarding.start') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('owner.onboarding.*') ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-background-light' }}">
                         <span class="material-symbols-outlined text-[20px]">add_circle</span>
                         Add Listing
