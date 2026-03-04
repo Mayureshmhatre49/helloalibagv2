@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Alibaug Living - Stays</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#1183d4",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                        "slate": {
+                             50: '#f8fafc',
+                             100: '#f1f5f9',
+                             200: '#e2e8f0',
+                             300: '#cbd5e1',
+                             400: '#94a3b8',
+                             500: '#64748b',
+                             600: '#475569',
+                             700: '#334155',
+                             800: '#1e293b',
+                             900: '#0f172a',
+                        }
+                    },
+                    fontFamily: {
+                        "display": ["Manrope", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        /* Custom scrollbar for sidebar */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .material-symbols-outlined {
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased min-h-screen flex flex-col">
+<!-- Top Navigation -->
+<header class="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+<div class="px-4 md:px-10 py-3 flex items-center justify-between gap-4">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-slate-900 dark:text-white">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path d="M24 45.8096C19.6865 45.8096 15.4698 44.5305 11.8832 42.134C8.29667 39.7376 5.50128 36.3314 3.85056 32.3462C2.19985 28.361 1.76794 23.9758 2.60947 19.7452C3.451 15.5145 5.52816 11.6284 8.57829 8.5783C11.6284 5.52817 15.5145 3.45101 19.7452 2.60948C23.9758 1.76795 28.361 2.19986 32.3462 3.85057C36.3314 5.50129 39.7376 8.29668 42.134 11.8833C44.5305 15.4698 45.8096 19.6865 45.8096 24L24 24L24 45.8096Z"></path>
+</svg>
+</div>
+<h2 class="text-xl font-bold tracking-tight">Alibaug Living</h2>
+</div>
+<nav class="hidden lg:flex items-center gap-6">
+<a class="text-slate-900 dark:text-slate-100 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors border-b-2 border-primary pb-0.5" href="#">Stays</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-sm font-medium transition-colors" href="#">Real Estate</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-sm font-medium transition-colors" href="#">Experiences</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 text-sm font-medium transition-colors" href="#">Dining</a>
+</nav>
+</div>
+<!-- Search Bar -->
+<div class="flex-1 max-w-2xl mx-4 hidden md:block">
+<div class="relative group">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400">search</span>
+</div>
+<input aria-label="Search" class="block w-full pl-10 pr-3 py-2.5 border border-slate-200 dark:border-slate-700 rounded-full leading-5 bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:bg-white dark:focus:bg-slate-900 focus:ring-2 focus:ring-primary focus:border-primary sm:text-sm transition-all shadow-sm" placeholder="Search by location, villa name, or amenity..." type="text"/>
+<div class="absolute inset-y-0 right-0 pr-2 flex items-center">
+<button class="p-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-400 dark:text-slate-500 transition-colors">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<button class="hidden sm:flex items-center justify-center h-10 px-4 rounded-lg bg-primary hover:bg-primary/90 text-white text-sm font-bold transition-colors shadow-sm">
+                    List property
+                </button>
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
+<span class="material-symbols-outlined">favorite</span>
+</button>
+<button class="flex items-center justify-center size-10 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-colors">
+<span class="material-symbols-outlined">account_circle</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Area -->
+<main class="flex-grow container mx-auto px-4 md:px-8 py-6 flex gap-8">
+<!-- Sidebar Filters (Desktop) -->
+<aside class="w-72 hidden lg:flex flex-col gap-8 shrink-0 h-[calc(100vh-100px)] sticky top-24 overflow-y-auto scrollbar-hide pb-10">
+<!-- Filter Header -->
+<div class="flex items-center justify-between pb-4 border-b border-slate-200 dark:border-slate-800">
+<h3 class="text-lg font-bold text-slate-900 dark:text-white">Filters</h3>
+<button class="text-sm font-semibold text-primary hover:text-primary/80">Reset all</button>
+</div>
+<!-- Price Range -->
+<div class="space-y-4">
+<h4 class="font-semibold text-slate-900 dark:text-slate-100">Price Range (per night)</h4>
+<div class="flex items-center gap-4">
+<div class="relative w-full">
+<span class="absolute left-3 top-2.5 text-slate-400 text-sm">₹</span>
+<input class="w-full pl-6 pr-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary" placeholder="Min" type="number"/>
+</div>
+<span class="text-slate-400">-</span>
+<div class="relative w-full">
+<span class="absolute left-3 top-2.5 text-slate-400 text-sm">₹</span>
+<input class="w-full pl-6 pr-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-sm focus:ring-primary focus:border-primary" placeholder="Max" type="number"/>
+</div>
+</div>
+</div>
+<!-- Property Type -->
+<div class="space-y-3">
+<h4 class="font-semibold text-slate-900 dark:text-slate-100">Property Type</h4>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="size-4 rounded border-slate-300 text-primary focus:ring-primary bg-white dark:bg-slate-800 dark:border-slate-600" type="checkbox"/>
+<span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white">Private Villa</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="size-4 rounded border-slate-300 text-primary focus:ring-primary bg-white dark:bg-slate-800 dark:border-slate-600" type="checkbox"/>
+<span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white">Bungalow</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="size-4 rounded border-slate-300 text-primary focus:ring-primary bg-white dark:bg-slate-800 dark:border-slate-600" type="checkbox"/>
+<span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white">Apartment</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="size-4 rounded border-slate-300 text-primary focus:ring-primary bg-white dark:bg-slate-800 dark:border-slate-600" type="checkbox"/>
+<span class="text-sm text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:group-hover:text-white">Farmhouse</span>
+</label>
+</div>
+<!-- Amenities -->
+<div class="space-y-3">
+<h4 class="font-semibold text-slate-900 dark:text-slate-100">Amenities</h4>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-primary hover:text-primary transition-colors">Pool</button>
+<button class="px-3 py-1.5 rounded-full text-xs font-medium border border-primary bg-primary/10 text-primary dark:bg-primary/20 transition-colors">WiFi</button>
+<button class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-primary hover:text-primary transition-colors">Pet Friendly</button>
+<button class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-primary hover:text-primary transition-colors">AC</button>
+<button class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-primary hover:text-primary transition-colors">Kitchen</button>
+<button class="px-3 py-1.5 rounded-full text-xs font-medium border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:border-primary hover:text-primary transition-colors">Beach View</button>
+</div>
+</div>
+<!-- Rating -->
+<div class="space-y-3">
+<h4 class="font-semibold text-slate-900 dark:text-slate-100">Guest Rating</h4>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="size-4 border-slate-300 text-primary focus:ring-primary bg-white dark:bg-slate-800 dark:border-slate-600" name="rating" type="radio"/>
+<span class="text-sm text-slate-600 dark:text-slate-300 flex items-center gap-1">Any</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="size-4 border-slate-300 text-primary focus:ring-primary bg-white dark:bg-slate-800 dark:border-slate-600" name="rating" type="radio"/>
+<span class="text-sm text-slate-600 dark:text-slate-300 flex items-center gap-1">4.5+ <span class="material-symbols-outlined text-yellow-500 !text-[16px]">star</span></span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="size-4 border-slate-300 text-primary focus:ring-primary bg-white dark:bg-slate-800 dark:border-slate-600" name="rating" type="radio"/>
+<span class="text-sm text-slate-600 dark:text-slate-300 flex items-center gap-1">4.0+ <span class="material-symbols-outlined text-yellow-500 !text-[16px]">star</span></span>
+</label>
+</div>
+<!-- Location (Map Preview) -->
+<div class="space-y-3">
+<h4 class="font-semibold text-slate-900 dark:text-slate-100">Location</h4>
+<div class="h-32 w-full rounded-lg overflow-hidden relative group cursor-pointer">
+<div class="absolute inset-0 bg-slate-900/10 group-hover:bg-slate-900/20 transition-colors z-10 flex items-center justify-center">
+<span class="bg-white dark:bg-slate-900 px-3 py-1.5 rounded-full shadow-lg text-xs font-bold text-slate-900 dark:text-white flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">map</span> View on Map
+                        </span>
+</div>
+<img alt="Map of Alibaug area showing coastline" class="w-full h-full object-cover" data-alt="Map of Alibaug area showing coastline" data-location="Alibaug" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBh9lFqfs5ektmbs6-rLGIbgPi9CkjpMi13q9SaaLTsdqItjoNRXKQCRdDrsjYjwJqdF1hhQ3rYWeaBCgUGvOcq-ZQw-ODKFhDfBO_udBHNn2Rg3hXLpHt-YXwo4mCqieYogu0Sw_GsK1DslakBBZwZP67g_gMAwpiArEnSm57-M12TeC8ZHMddYwdvmcaFxAZises7SiWe4-om4a1zkI7F-y3bqVQ4btaWk-VL13wYpyvCWfVVk1TzMZsAqrLXjK5GqgGq5FavUXc"/>
+</div>
+</div>
+</aside>
+<!-- Listing Grid -->
+<div class="flex-1 flex flex-col min-w-0">
+<!-- Breadcrumbs & Sort -->
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+<div>
+<div class="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400 mb-1">
+<a class="hover:text-primary" href="#">Home</a>
+<span class="material-symbols-outlined !text-[14px]">chevron_right</span>
+<span class="text-slate-900 dark:text-slate-200 font-medium">Stays</span>
+</div>
+<h1 class="text-3xl font-bold text-slate-900 dark:text-white">Luxury Stays in Alibaug</h1>
+<p class="text-slate-500 dark:text-slate-400 mt-1 text-sm">142 properties found</p>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-sm font-medium text-slate-600 dark:text-slate-300 whitespace-nowrap">Sort by:</span>
+<div class="relative">
+<select class="appearance-none bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 pr-8 cursor-pointer">
+<option>Recommended</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+<option>Highest Rated</option>
+</select>
+<div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+<span class="material-symbols-outlined !text-[20px]">expand_more</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+<!-- Card 1 -->
+<article class="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Modern white villa with blue pool and palm trees" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern white villa with blue pool and palm trees" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0EQUWqvJmHMBnBOgAvmTA_tfUnsfNxfsMCP0D8Q7XYHwmTbYtmsHu1S8J1Cys0pseCWXnQU8LMEuinzIppXF5DoTuX4q4cb5DMab6l5DHhD__Vbb8QRN14lHrEvLl17i9vd9_aPxlhEtJcttMOn8ZWwsiZBxnbzKZaWaUukS4OJMMpMqYbCjQL-zSjmmMdUcVY0y2NrRGixobYW4g7eL-4L_cvTZHmNt_ScccV5Zc10OoRofTvNhK_6EOu2NZyo70d14xlJmnuC4"/>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-600 dark:text-slate-300 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined !text-[20px]">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 bg-white/90 dark:bg-slate-900/90 px-2 py-1 rounded text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                            Superhost
+                        </div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">The Palm Retreat</h3>
+<div class="flex items-center gap-1 text-slate-900 dark:text-white font-semibold text-sm">
+<span class="material-symbols-outlined text-yellow-500 !text-[18px] fill-current">star</span>
+                                4.92
+                            </div>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-4 line-clamp-1">Kihim Beach, Alibaug • 2 km from beach</p>
+<div class="flex items-center gap-3 mb-4 text-xs text-slate-600 dark:text-slate-300">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">bed</span> 4 Beds
+                             </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">person</span> 8 Guests
+                             </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">pool</span> Pool
+                             </div>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-700 flex items-end justify-between">
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400">Total ₹24,000</p>
+<p class="text-slate-900 dark:text-white font-bold text-lg">₹12,000 <span class="text-sm font-normal text-slate-500 dark:text-slate-400">/ night</span></p>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">Details</button>
+</div>
+</div>
+</article>
+<!-- Card 2 -->
+<article class="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Luxury minimalist house exterior with garden" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Luxury minimalist house exterior with garden" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4AkJCticU612x868Ro4AOHCTTivWfSOHCTwa68o_kPb2-3en4qyKilZmxLOPRz9rtGR21jv2Lj_YtfIwDhC_-QScOC16_dpiyyGCIjKw9vOL7nCBGsOM21teuaMzCnWu0AEQ92TQkgRYfjMgk9IDMAJKFEqs1zZKPPtktz8F1CwjkIQKzdhizi5YcU5sevsXzwi8mrO2iNjoSgYuxC6hRU5EVA3BfyY3wG0nerGJtIRPKaC3upxqRz0VEP75kTrt9R_jCks69_N0"/>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-600 dark:text-slate-300 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined !text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">Azure Villa by the Sea</h3>
+<div class="flex items-center gap-1 text-slate-900 dark:text-white font-semibold text-sm">
+<span class="material-symbols-outlined text-yellow-500 !text-[18px] fill-current">star</span>
+                                4.85
+                            </div>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-4 line-clamp-1">Mandwa, Alibaug • Sea View</p>
+<div class="flex items-center gap-3 mb-4 text-xs text-slate-600 dark:text-slate-300">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">bed</span> 5 Beds
+                             </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">person</span> 10 Guests
+                             </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">wifi</span> WiFi
+                             </div>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-700 flex items-end justify-between">
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400">Total ₹36,000</p>
+<p class="text-slate-900 dark:text-white font-bold text-lg">₹18,000 <span class="text-sm font-normal text-slate-500 dark:text-slate-400">/ night</span></p>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">Details</button>
+</div>
+</div>
+</article>
+<!-- Card 3 -->
+<article class="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Cozy modern cottage interior with large windows" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Cozy modern cottage interior with large windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD15rfBPNYRdMT5tdBH7Kf1bnjGEERcTAnJ1FeV80Tj5C49szeOu9_KYNtdEkUZS4NAm6SNPLkNdK9cLVObamf-R2doyiDnMzXzZ25gPVvezlsfCX5aDBGlDskRvGmfF4DrbFvDWtqPDug0i8AbpLYrm3laPogcEWLXfVD5TBnUeEngc8uz2kCBlI2odJhmr3h6AKFJuAiteeT9fxyDtjLYtXAyVrDuxp7BKM0pJ63Gi9ubY7-w119nxed0IbhDtCbAudSDAjpLI4s"/>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-600 dark:text-slate-300 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined !text-[20px]">favorite</span>
+</button>
+<div class="absolute bottom-3 left-3 bg-primary/90 px-2 py-1 rounded text-xs font-bold text-white uppercase tracking-wider">
+                            New Listing
+                        </div>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">Mango Grove Cottage</h3>
+<div class="flex items-center gap-1 text-slate-900 dark:text-white font-semibold text-sm">
+<span class="material-symbols-outlined text-slate-300 !text-[18px]">star</span>
+                                New
+                            </div>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-4 line-clamp-1">Nagaon, Alibaug • Farm Stay</p>
+<div class="flex items-center gap-3 mb-4 text-xs text-slate-600 dark:text-slate-300">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">bed</span> 2 Beds
+                             </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">person</span> 4 Guests
+                             </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">outdoor_grill</span> BBQ
+                             </div>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-700 flex items-end justify-between">
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400">Total ₹16,000</p>
+<p class="text-slate-900 dark:text-white font-bold text-lg">₹8,000 <span class="text-sm font-normal text-slate-500 dark:text-slate-400">/ night</span></p>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">Details</button>
+</div>
+</div>
+</article>
+<!-- Card 4 -->
+<article class="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Large luxurious mansion with expansive lawn" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Large luxurious mansion with expansive lawn" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATKuuxqL57XJfSagLksKvrZh4uLdaTM3FN0iXbHklo0Z8o09spYveBaxpxG4E8QAKbXCukOfhJEze3VkKvR-ZQPXruZmH0CRJRNuRwPEZdcNknnp5qPLmTYRdykxNxrZZlbeZceD5mQZxRslB6xsONEIyMciVlTDA1Z-S0bWnx4ACejWCnZA1TeCTDhu54KgsqWLarMKiwhp-nAnV0zFAcryJzNueIBW_kwt9suTVxmGvORZ5OKvIUmBmHUR4QHYdVAiiFu-JQ9dM"/>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-600 dark:text-slate-300 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined !text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">Royal Palms Estate</h3>
+<div class="flex items-center gap-1 text-slate-900 dark:text-white font-semibold text-sm">
+<span class="material-symbols-outlined text-yellow-500 !text-[18px] fill-current">star</span>
+                                4.98
+                            </div>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-4 line-clamp-1">Zirad, Alibaug • Luxury Estate</p>
+<div class="flex items-center gap-3 mb-4 text-xs text-slate-600 dark:text-slate-300">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">bed</span> 8 Beds
+                             </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">person</span> 16 Guests
+                             </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">hot_tub</span> Jacuzzi
+                             </div>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-700 flex items-end justify-between">
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400">Total ₹90,000</p>
+<p class="text-slate-900 dark:text-white font-bold text-lg">₹45,000 <span class="text-sm font-normal text-slate-500 dark:text-slate-400">/ night</span></p>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">Details</button>
+</div>
+</div>
+</article>
+<!-- Card 5 -->
+<article class="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Rustic stone villa surrounded by green foliage" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Rustic stone villa surrounded by green foliage" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-x3HNLczTDfUk_rbXPFQTWPd3Wu3bi-cUQuaGbfVwpIslhHJuA1wi6p6CKBkmBsQZ5eI-4TWEBrC9d0ZsKK9HWCKqTGqsPotFlCCf4ueZ5-YsoLXNU_11x06NTatTbMs3bcEYOCEU80x9d3KFfWNj51HcGw6HwPjdOoc6whIa78y_1K2aPTVUGz_Oon9oaeEodegQNkAISmldx48CkqopghE6TSFRf1DeGiU_hwyHbL3A84iOrsOrhKcXH0hbJDS0_mY6ipbHwL8"/>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-600 dark:text-slate-300 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined !text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">Stone Creek Hideaway</h3>
+<div class="flex items-center gap-1 text-slate-900 dark:text-white font-semibold text-sm">
+<span class="material-symbols-outlined text-yellow-500 !text-[18px] fill-current">star</span>
+                                4.75
+                            </div>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-4 line-clamp-1">Varsoli, Alibaug • Nature Retreat</p>
+<div class="flex items-center gap-3 mb-4 text-xs text-slate-600 dark:text-slate-300">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">bed</span> 3 Beds
+                             </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">person</span> 6 Guests
+                             </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">forest</span> Garden
+                             </div>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-700 flex items-end justify-between">
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400">Total ₹28,000</p>
+<p class="text-slate-900 dark:text-white font-bold text-lg">₹14,000 <span class="text-sm font-normal text-slate-500 dark:text-slate-400">/ night</span></p>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">Details</button>
+</div>
+</div>
+</article>
+<!-- Card 6 -->
+<article class="group bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden hover:shadow-lg transition-all duration-300 flex flex-col">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Modern apartment balcony with sunset view" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern apartment balcony with sunset view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbFe-DU3D-7bGdDE90lZZu1noYdNAaQVS8NOlLcPC5LfVCeA9riX9AeyyT6uQ7V79YFj2u4ijdvvXVBh-6rIX1mYvBP7_Kq25yauiLgteOl_Py5ok_LWxSsaRVwWr3VaPBFXgGH_gsGvDfc2msdDuCrERwz2m85m7tbUZKugfkmDFB2UngkpMFAQAsS8RjAe1dwwSXAsT4KLXRWKKIcvnVN2bJ2vx-f415U4JTcCgmib4KvqvxOrLeRs4Qos-9IWG4WIaVZuGkoWM"/>
+<button class="absolute top-3 right-3 p-2 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-600 dark:text-slate-300 hover:text-red-500 dark:hover:text-red-400 transition-colors">
+<span class="material-symbols-outlined !text-[20px]">favorite</span>
+</button>
+</div>
+<div class="p-4 flex flex-col flex-1">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-bold text-lg text-slate-900 dark:text-white line-clamp-1 group-hover:text-primary transition-colors">Sunset Horizon Apt</h3>
+<div class="flex items-center gap-1 text-slate-900 dark:text-white font-semibold text-sm">
+<span class="material-symbols-outlined text-yellow-500 !text-[18px] fill-current">star</span>
+                                4.60
+                            </div>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm mb-4 line-clamp-1">Alibaug Town • City Center</p>
+<div class="flex items-center gap-3 mb-4 text-xs text-slate-600 dark:text-slate-300">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">bed</span> 2 Beds
+                             </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">person</span> 4 Guests
+                             </div>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined !text-[16px]">balcony</span> View
+                             </div>
+</div>
+<div class="mt-auto pt-4 border-t border-slate-100 dark:border-slate-700 flex items-end justify-between">
+<div>
+<p class="text-xs text-slate-500 dark:text-slate-400">Total ₹12,000</p>
+<p class="text-slate-900 dark:text-white font-bold text-lg">₹6,000 <span class="text-sm font-normal text-slate-500 dark:text-slate-400">/ night</span></p>
+</div>
+<button class="px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-white text-sm font-semibold hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">Details</button>
+</div>
+</div>
+</article>
+</div>
+<!-- Pagination -->
+<div class="mt-auto flex justify-center pb-8">
+<nav aria-label="Pagination" class="isolate inline-flex -space-x-px rounded-md shadow-sm">
+<a class="relative inline-flex items-center rounded-l-md px-2 py-2 text-slate-400 ring-1 ring-inset ring-slate-300 hover:bg-slate-50 dark:ring-slate-700 dark:hover:bg-slate-800 focus:z-20 focus:outline-offset-0" href="#">
+<span class="sr-only">Previous</span>
+<span class="material-symbols-outlined !text-[20px]">chevron_left</span>
+</a>
+<a aria-current="page" class="relative z-10 inline-flex items-center bg-primary px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" href="#">1</a>
+<a class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-slate-900 dark:text-slate-300 ring-1 ring-inset ring-slate-300 dark:ring-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 focus:z-20 focus:outline-offset-0" href="#">2</a>
+<a class="relative hidden items-center px-4 py-2 text-sm font-semibold text-slate-900 dark:text-slate-300 ring-1 ring-inset ring-slate-300 dark:ring-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 focus:z-20 focus:outline-offset-0 md:inline-flex" href="#">3</a>
+<span class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-slate-700 dark:text-slate-400 ring-1 ring-inset ring-slate-300 dark:ring-slate-700 focus:outline-offset-0">...</span>
+<a class="relative hidden items-center px-4 py-2 text-sm font-semibold text-slate-900 dark:text-slate-300 ring-1 ring-inset ring-slate-300 dark:ring-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 focus:z-20 focus:outline-offset-0 md:inline-flex" href="#">8</a>
+<a class="relative inline-flex items-center rounded-r-md px-2 py-2 text-slate-400 ring-1 ring-inset ring-slate-300 dark:ring-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 focus:z-20 focus:outline-offset-0" href="#">
+<span class="sr-only">Next</span>
+<span class="material-symbols-outlined !text-[20px]">chevron_right</span>
+</a>
+</nav>
+</div>
+</div>
+</main>
+<!-- Simple Footer for context -->
+<footer class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-8">
+<div class="container mx-auto px-4 md:px-8 text-center text-slate-500 text-sm">
+<p>© 2023 Alibaug Living. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

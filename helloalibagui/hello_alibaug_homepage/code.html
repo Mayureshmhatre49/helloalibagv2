@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Hello Alibaug - Premium Local Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;family=Noto+Serif+Display:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#1183d4",
+                        "background-light": "#f6f7f8",
+                        "background-dark": "#101a22",
+                        "sand": "#e8e1d9",
+                        "sand-dark": "#d1c7bc",
+                        "charcoal": "#1c2630",
+                    },
+                    fontFamily: {
+                        display: ["Manrope", "sans-serif"],
+                        serif: ["Noto Serif Display", "serif"],
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "2xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+<style>
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display antialiased overflow-x-hidden">
+<!-- Navbar -->
+<header class="sticky top-0 z-50 w-full bg-white/90 dark:bg-charcoal/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800">
+<div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-20">
+<!-- Logo -->
+<div class="flex items-center gap-2">
+<div class="size-8 bg-primary rounded-lg flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-xl">waves</span>
+</div>
+<span class="text-xl font-serif font-bold tracking-tight text-slate-900 dark:text-white">Hello Alibaug</span>
+</div>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">Stays</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">Eat</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">Real Estate</a>
+<a class="text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" href="#">Stories</a>
+</nav>
+<!-- Actions -->
+<div class="flex items-center gap-4">
+<button class="hidden sm:flex text-sm font-medium text-slate-600 dark:text-slate-300 hover:text-primary">Log In</button>
+<button class="bg-primary hover:bg-primary/90 text-white px-5 py-2.5 rounded-full text-sm font-bold transition-all shadow-lg shadow-primary/20">
+                        List Your Business
+                    </button>
+</div>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<div class="relative w-full h-[600px] sm:h-[700px]">
+<!-- Background Image -->
+<div class="absolute inset-0 w-full h-full">
+<img alt="Luxury coastal villa with pool overlooking ocean" class="w-full h-full object-cover" data-alt="Luxury coastal villa with pool overlooking ocean" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDCjXJ9SdsU7gHAoMBh-JX1MWxPHHkE3WrHJRSbazkXoRB7JU6ktFz0SEFYSQDEpdPwmP4wuTxuHmxRIPLXekcAGVML9IH3fFdaq8Ap2Q0nh9G_PmOSstoRAAo4N6LClAMQVX-X4n6r19vZWKy4nsuSH3wcAVJ5QZ8bLHvq50lCfZcYnkytR9wkq-3JN8ld2hJAaA1jAwNOoFMx0ttBb83vl4Tsm8GDKyswgf1iI55Uvou1CSNfTxLvm3PrLufWPXg1I1-KutRovQ"/>
+<div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60"></div>
+</div>
+<!-- Hero Content & Search -->
+<div class="relative z-10 h-full max-w-[1280px] mx-auto px-4 flex flex-col items-center justify-center text-center">
+<h1 class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-md">
+                Experience Coastal Luxury
+            </h1>
+<p class="text-lg text-slate-100 max-w-2xl mb-10 drop-shadow-sm font-light">
+                Discover curated stays, premium real estate, and authentic local experiences in Alibaug.
+            </p>
+<!-- Floating Search Card -->
+<div class="w-full max-w-4xl bg-white dark:bg-charcoal rounded-2xl shadow-2xl overflow-hidden animate-fade-in-up">
+<!-- Search Tabs -->
+<div class="flex overflow-x-auto hide-scrollbar border-b border-slate-100 dark:border-slate-800">
+<button class="flex-1 py-4 px-6 text-sm font-bold text-primary border-b-2 border-primary bg-primary/5 dark:bg-primary/10 whitespace-nowrap">
+<span class="material-symbols-outlined align-middle mr-1 text-[20px]">villa</span> Stays
+                    </button>
+<button class="flex-1 py-4 px-6 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 whitespace-nowrap">
+<span class="material-symbols-outlined align-middle mr-1 text-[20px]">restaurant</span> Eat
+                    </button>
+<button class="flex-1 py-4 px-6 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 whitespace-nowrap">
+<span class="material-symbols-outlined align-middle mr-1 text-[20px]">real_estate_agent</span> Real Estate
+                    </button>
+<button class="flex-1 py-4 px-6 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 whitespace-nowrap">
+<span class="material-symbols-outlined align-middle mr-1 text-[20px]">explore</span> Explore
+                    </button>
+<button class="flex-1 py-4 px-6 text-sm font-medium text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-50 dark:hover:bg-white/5 whitespace-nowrap">
+<span class="material-symbols-outlined align-middle mr-1 text-[20px]">concierge</span> Services
+                    </button>
+</div>
+<!-- Search Inputs -->
+<div class="p-4 sm:p-6 flex flex-col sm:flex-row gap-4">
+<div class="flex-1 relative">
+<label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 pl-1">Location</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">location_on</span>
+<input class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary/50 text-base font-medium" placeholder="Where in Alibaug?" type="text"/>
+</div>
+</div>
+<div class="flex-1 relative border-l-0 sm:border-l border-slate-200 dark:border-slate-700 sm:pl-4">
+<label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 pl-1">Dates</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">calendar_today</span>
+<input class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary/50 text-base font-medium" placeholder="Add dates" type="text"/>
+</div>
+</div>
+<div class="flex-1 relative border-l-0 sm:border-l border-slate-200 dark:border-slate-700 sm:pl-4">
+<label class="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1 pl-1">Guests</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">group</span>
+<input class="w-full pl-10 pr-4 py-3 bg-slate-50 dark:bg-slate-800 border-none rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:ring-2 focus:ring-primary/50 text-base font-medium" placeholder="Add guests" type="text"/>
+</div>
+</div>
+<button class="bg-primary hover:bg-primary/90 text-white rounded-xl px-8 py-3 font-bold text-lg shadow-lg shadow-primary/30 flex items-center justify-center gap-2 transition-all mt-4 sm:mt-0">
+<span class="material-symbols-outlined">search</span>
+                        Search
+                    </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Trust Indicators -->
+<section class="bg-white dark:bg-charcoal border-b border-slate-100 dark:border-slate-800 py-6">
+<div class="max-w-[1280px] mx-auto px-4 flex flex-wrap justify-center gap-8 sm:gap-16 text-slate-600 dark:text-slate-400">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">verified</span>
+<span class="font-medium text-sm">Verified Premium Listings</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">diversity_3</span>
+<span class="font-medium text-sm">Local Expert Guidance</span>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">support_agent</span>
+<span class="font-medium text-sm">24/7 Concierge Support</span>
+</div>
+</div>
+</section>
+<!-- Quick Categories -->
+<section class="py-16 max-w-[1280px] mx-auto px-4">
+<div class="flex items-center justify-between mb-8">
+<h2 class="text-2xl font-serif font-bold text-slate-900 dark:text-white">Explore Alibaug</h2>
+<a class="text-primary font-bold text-sm hover:underline flex items-center" href="#">View All <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+<!-- Category Item -->
+<a class="group flex flex-col items-center gap-3 p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-primary/30 hover:shadow-lg transition-all" href="#">
+<div class="p-3 rounded-full bg-blue-50 dark:bg-blue-900/30 text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">villa</span>
+</div>
+<span class="font-bold text-sm text-slate-700 dark:text-slate-200">Villas</span>
+</a>
+<a class="group flex flex-col items-center gap-3 p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-primary/30 hover:shadow-lg transition-all" href="#">
+<div class="p-3 rounded-full bg-orange-50 dark:bg-orange-900/30 text-orange-500 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">hotel</span>
+</div>
+<span class="font-bold text-sm text-slate-700 dark:text-slate-200">Hotels</span>
+</a>
+<a class="group flex flex-col items-center gap-3 p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-primary/30 hover:shadow-lg transition-all" href="#">
+<div class="p-3 rounded-full bg-green-50 dark:bg-green-900/30 text-green-600 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">terrain</span>
+</div>
+<span class="font-bold text-sm text-slate-700 dark:text-slate-200">Land</span>
+</a>
+<a class="group flex flex-col items-center gap-3 p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-primary/30 hover:shadow-lg transition-all" href="#">
+<div class="p-3 rounded-full bg-rose-50 dark:bg-rose-900/30 text-rose-500 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">restaurant_menu</span>
+</div>
+<span class="font-bold text-sm text-slate-700 dark:text-slate-200">Dining</span>
+</a>
+<a class="group flex flex-col items-center gap-3 p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-primary/30 hover:shadow-lg transition-all" href="#">
+<div class="p-3 rounded-full bg-purple-50 dark:bg-purple-900/30 text-purple-500 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">celebration</span>
+</div>
+<span class="font-bold text-sm text-slate-700 dark:text-slate-200">Events</span>
+</a>
+<a class="group flex flex-col items-center gap-3 p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-primary/30 hover:shadow-lg transition-all" href="#">
+<div class="p-3 rounded-full bg-teal-50 dark:bg-teal-900/30 text-teal-500 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-3xl">directions_boat</span>
+</div>
+<span class="font-bold text-sm text-slate-700 dark:text-slate-200">Transport</span>
+</a>
+</div>
+</section>
+<!-- Trending Collections -->
+<section class="py-12 bg-sand/30 dark:bg-slate-900/50">
+<div class="max-w-[1280px] mx-auto px-4">
+<div class="mb-10">
+<h2 class="text-3xl font-serif font-bold text-slate-900 dark:text-white mb-2">Trending in Alibaug</h2>
+<p class="text-slate-500 dark:text-slate-400">Curated collections for your next getaway.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Collection Card 1 -->
+<div class="group relative h-80 rounded-2xl overflow-hidden cursor-pointer">
+<img alt="Beachfront sunset view" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Beachfront sunset view with calm waves" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOZ2brO-jZtWb3iRdGBM5rCiF6jK1la5ymlWDbUsrTWPSvHJVnq7Y4LfvPb3iHNR5yeOxhwB6-uVaTeu-QvX8I9kuA2KGhTTzvEbfD7JT_RW8fDdSMiQDKtJ2fdBUStaKxnKNCh6dDm5ZJeTwNsl44ODWBSsJf1bmfc2td836F9EALToeMmwzCF7M0VUKfF7wr3xiVfnlwRsHeZ-U7QAhflbd96DiL9WTs_jt8wewZIaRn-JK7t4GpwCWmC86KAoNoiZ_bGdqbsAk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6">
+<h3 class="text-white text-xl font-bold font-serif mb-1">Beachfront Paradises</h3>
+<p class="text-white/80 text-sm mb-3">24 Properties</p>
+<span class="inline-flex items-center text-white text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">Explore</span>
+</div>
+</div>
+<!-- Collection Card 2 -->
+<div class="group relative h-80 rounded-2xl overflow-hidden cursor-pointer">
+<img alt="Modern luxury villa interior" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Modern luxury villa interior with large windows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDx08kepwYrJt4uVJ_Q8iEvNnIHB3C860Xs2vP8G8WVTVtG1Rp0Y8FaN8ragk0xzpSRGH0NHW8U7U0Pjiy-77tarRD9LHzrGTmaytx9rK9dyUNJp6VI0dwlKpVqnXv0dvkY1Kl9TJTDIPq0WHMVFfxMJ0lq3CGL92JtUx3udO1d5LST62iSLNVwXP8nX5LrIuIE6JYWC4yVUsfsbVIVGOEI67oSJxnfEIFDKuSW6R5SrtErF7nuTaMitbswqWuBdxPowwlatP228R8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6">
+<h3 class="text-white text-xl font-bold font-serif mb-1">Architectural Marvels</h3>
+<p class="text-white/80 text-sm mb-3">12 Properties</p>
+<span class="inline-flex items-center text-white text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">Explore</span>
+</div>
+</div>
+<!-- Collection Card 3 -->
+<div class="group relative h-80 rounded-2xl overflow-hidden cursor-pointer md:col-span-2 lg:col-span-1">
+<img alt="Resort pool with lounge chairs" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Relaxing resort pool area with lounge chairs" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAK5GNqgEIYjzy5vRPboUQdLDNdlXyr6eVIUe-PVuHr4CP1GBpvxZyo7tC1UbiRQm4JVwr-W7xu2urrmdjTBl4wV-eRlD_LVvN8JlDNAlLMcF17ICIinG93kThNN4YVqYa4MSOikHMZWKTos6dI_CLiSNncuRpYDM3oQ8mONKLhli-TjCP25x_NcaDldbpSnQ79HR0dLbmzOU464DywNdIZC0E_jiMsPZaET42WyPi8rb330VfAELP70L13OD4ZOkB_Hieq_sqfafc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-6">
+<h3 class="text-white text-xl font-bold font-serif mb-1">Luxury Resorts</h3>
+<p class="text-white/80 text-sm mb-3">8 Properties</p>
+<span class="inline-flex items-center text-white text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full">Explore</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Listings -->
+<section class="py-16 max-w-[1280px] mx-auto px-4">
+<div class="flex items-end justify-between mb-8">
+<div>
+<h2 class="text-3xl font-serif font-bold text-slate-900 dark:text-white mb-2">Featured Stays</h2>
+<p class="text-slate-500 dark:text-slate-400">Highly rated homes for your perfect vacation.</p>
+</div>
+<a class="hidden sm:flex text-primary font-bold text-sm hover:underline items-center" href="#">View all stays <span class="material-symbols-outlined text-sm ml-1">arrow_forward</span></a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Listing Card 1 -->
+<div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 hover:shadow-xl transition-all duration-300">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Modern white villa exterior" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Modern white villa exterior with green lawn" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHuPW2nZ9CBpHnmANOp3SIsfglCpDQtDCmFYFnp1ceTHd2LRTRS1pI-yd_l475PBGmdJkkmKGmUi9QyQwUwo9Ysa7qC2Z04BwqDEub9kDNOjt7OMBpxwgMBXrHGgAOgO8LrVfVkd37NQlBkgvcurMYfZqOJAr5p1eELeZceudlPcU6Gc7EpN5vNp0nfro8OoQs_SNLqIOm_bHmclKb9ZH7sCMcvrMtYtD9GGVJvnSq-Hgn6VeQA5c-jadtjNWXIxOUzztFHpTg_28"/>
+<div class="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur px-2 py-1 rounded-md text-xs font-bold shadow-sm">
+                        ★ 4.9
+                    </div>
+<div class="absolute top-3 left-3 bg-primary text-white px-2 py-1 rounded-md text-xs font-bold shadow-sm">
+                        Superhost
+                    </div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-lg text-slate-900 dark:text-white truncate">Villa Azure</h3>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-red-500 transition-colors">favorite</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-3">Mandwa, Alibaug</p>
+<div class="flex items-baseline gap-1">
+<span class="font-bold text-slate-900 dark:text-white text-lg">₹25,000</span>
+<span class="text-slate-500 text-sm font-medium">/ night</span>
+</div>
+</div>
+</div>
+<!-- Listing Card 2 -->
+<div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 hover:shadow-xl transition-all duration-300">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Cozy cottage with garden" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Cozy cottage with lush green garden" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCIo0ULYWj_eek0qA_uDZdHCOxQNJrg_dlJX0YIZyw7HMvrLwoG7PedXbuoGGdY9CIua4HE22aLOUP6b5SXPWLmRbMhPYey7k_LG6aOtvJS8_ITKgP_IxC-F_6qZKT6GEH6d7ZuLzc_FkXgoPF86wftOYJjcvP4a9YTfmPMlI-s0ebfTLf34v6Ye5XInJ8KGk8trOx2hCib8P_fG19WufWfCO576tHAnYKsS3ESMHXVw6crxFQhb8ihmC3rBTLo46035CMVZ28CetI"/>
+<div class="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur px-2 py-1 rounded-md text-xs font-bold shadow-sm">
+                        ★ 4.8
+                    </div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-lg text-slate-900 dark:text-white truncate">The Mango Grove</h3>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-red-500 transition-colors">favorite</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-3">Kihim, Alibaug</p>
+<div class="flex items-baseline gap-1">
+<span class="font-bold text-slate-900 dark:text-white text-lg">₹12,500</span>
+<span class="text-slate-500 text-sm font-medium">/ night</span>
+</div>
+</div>
+</div>
+<!-- Listing Card 3 -->
+<div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 hover:shadow-xl transition-all duration-300">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Luxury apartment interior" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Luxury apartment interior with ocean view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzRFo4Flj9MkSFgxeImqBdv5cMB0M__mXX4TKhvC0g4oTw5Mefpg2wVdHGvV2A6u7rr0MRPjYvjrh8_IqS5gAQxNdRpfvUtkMj_vlpBR0VdDZXKsau_MVnkMafQychYvqNiniQgwy6rAKbQb1Ov1YKNUF10_hKL2xh-FPi2Ps90WEzO4eFXWtpg8RYmeDrCEoEURREGmBOFx_VNNbNfbGzp0djSpQyFToRJ7227KrO68sF0aNpzdKx6P6XmoxrQ40dMxInSZJrSYs"/>
+<div class="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur px-2 py-1 rounded-md text-xs font-bold shadow-sm">
+                        ★ 5.0
+                    </div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-lg text-slate-900 dark:text-white truncate">Seaview Penthouse</h3>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-red-500 transition-colors">favorite</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-3">Versoli, Alibaug</p>
+<div class="flex items-baseline gap-1">
+<span class="font-bold text-slate-900 dark:text-white text-lg">₹32,000</span>
+<span class="text-slate-500 text-sm font-medium">/ night</span>
+</div>
+</div>
+</div>
+<!-- Listing Card 4 -->
+<div class="group bg-white dark:bg-slate-800 rounded-xl overflow-hidden border border-slate-100 dark:border-slate-700 hover:shadow-xl transition-all duration-300">
+<div class="relative aspect-[4/3] overflow-hidden">
+<img alt="Traditional villa exterior" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Traditional villa exterior with palm trees" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbcHrCzL9lZfveWPRONE2buEfJQCofxnJ9M9tV6VXXLIVLE8PhTkurcTR8zL2_o6I8Pg9FWw6gPeCNh8N8m_qD8kTdSANU8UKpFxjzUZjcq6HQnXhmooj5R7E2xooWdOw5QB9ZdoLMFnMYaAGn1GwE1bQaJPWOjUKrnznCFLt8J5DWH-gO71PtqzbodmyDp7CGy0Yjoi497gbk8jUam7hqN5bGZzmPxzT3-Crr5ICyEVLCgzgOIOW70ZlacmPM9EV_G6OgvB11xdo"/>
+<div class="absolute top-3 right-3 bg-white/90 dark:bg-black/80 backdrop-blur px-2 py-1 rounded-md text-xs font-bold shadow-sm">
+                        ★ 4.7
+                    </div>
+</div>
+<div class="p-4">
+<div class="flex justify-between items-start mb-1">
+<h3 class="font-bold text-lg text-slate-900 dark:text-white truncate">Palm Retreat</h3>
+<span class="material-symbols-outlined text-slate-400 cursor-pointer hover:text-red-500 transition-colors">favorite</span>
+</div>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-3">Awas, Alibaug</p>
+<div class="flex items-baseline gap-1">
+<span class="font-bold text-slate-900 dark:text-white text-lg">₹18,000</span>
+<span class="text-slate-500 text-sm font-medium">/ night</span>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-8 text-center sm:hidden">
+<a class="btn-secondary w-full justify-center" href="#">View all stays</a>
+</div>
+</section>
+<!-- Real Estate Spotlight (Dark Section) -->
+<section class="py-20 bg-charcoal text-white relative overflow-hidden">
+<!-- Abstract Pattern -->
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-10 pointer-events-none">
+<svg viewbox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+<path d="M44.7,-76.4C58.9,-69.2,71.8,-59.1,81.6,-46.6C91.4,-34.1,98.1,-19.2,95.8,-5.1C93.5,9,82.2,22.4,70.9,33.6C59.6,44.8,48.3,53.8,36.4,62.8C24.5,71.8,12,80.8,-0.2,81.1C-12.3,81.4,-24.9,73,-36.4,63.7C-47.9,54.4,-58.3,44.2,-67.6,31.7C-76.9,19.2,-85.1,4.4,-82.9,-9.1C-80.7,-22.6,-68.1,-34.8,-55.8,-43.8C-43.5,-52.8,-31.5,-58.6,-19.4,-67.2C-7.3,-75.8,4.9,-87.2,16.5,-86.6C28.1,-86,30.5,-69.6,44.7,-76.4Z" fill="#FFFFFF" transform="translate(100 100)"></path>
+</svg>
+</div>
+<div class="max-w-[1280px] mx-auto px-4 relative z-10">
+<div class="flex flex-col lg:flex-row items-center gap-12">
+<div class="lg:w-1/2">
+<span class="text-primary font-bold uppercase tracking-widest text-sm mb-2 block">Real Estate Spotlight</span>
+<h2 class="text-4xl md:text-5xl font-serif font-bold mb-6 leading-tight">Find Your Coastal Dream Home</h2>
+<p class="text-slate-300 text-lg mb-8 leading-relaxed">
+                        Exclusive access to Alibaug’s most coveted land parcels and luxury villas. Whether you're looking for a vacation home or an investment, our experts guide you every step of the way.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-lg shadow-primary/20">
+                            Browse Properties
+                        </button>
+<button class="bg-transparent border border-slate-500 hover:border-white text-white px-8 py-3 rounded-xl font-bold transition-all">
+                            Talk to an Agent
+                        </button>
+</div>
+<div class="mt-10 flex gap-8">
+<div>
+<p class="text-3xl font-serif font-bold">150+</p>
+<p class="text-slate-400 text-sm">Sold Properties</p>
+</div>
+<div>
+<p class="text-3xl font-serif font-bold">₹50Cr+</p>
+<p class="text-slate-400 text-sm">Value Transacted</p>
+</div>
+</div>
+</div>
+<div class="lg:w-1/2 w-full">
+<div class="grid grid-cols-2 gap-4">
+<img alt="Modern dark exterior architecture" class="rounded-2xl w-full h-64 object-cover translate-y-8 shadow-2xl" data-alt="Sleek modern architecture with dark wood accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAoq5HSGj_rGnnQYNWExlk-xpJUoKlh3Tmelol2EetYt_1sDRKSajXt5Lz_jBTL1CPg3HIvDLucc8NZLRyuDMBydhyQjpndFIulabcVxhT_1BckU8fisVquejmuRN1SmFmRZhyM-HJxCwT-L3VbJ3BJbpnyu_n7HCLTghJ1hzzsAO7ZU7MUum58W524kxv1S3pkTTNzdmZuY33E2GNII8hE5UIi8vx9g0ehCrnyhTIS6XNzVcJqquC59PmqvxaYSCo8Uh64xMJlgY4"/>
+<img alt="Bright interior living room" class="rounded-2xl w-full h-64 object-cover shadow-2xl" data-alt="Bright airy living room with sea view" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6oKhFyhtGU4Waqi_5VtRv7UZtByJtlXVJhbHxYsGsVc_xSfWX9sbW6Sr9sFFAcL7bSyIdyCZyjsFd2kn25TV18YqHoSgeWPzUj_hP24A_-Ao13P1oA5CBEaGSNOMGuL8mZoA9u3IH-uyn98v74sezhlcxVLfrH29A1c89rAbW6Ou-hZVCjRtb5H3azylEBHc5XFOBZK4uC9Ng166Dml2mCzCK5_UGh6AyeKZAh3DF16ev1lb7HgGmkQVt2T7qu6iO0y2y70p8QFE"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Explore by Area -->
+<section class="py-16 bg-white dark:bg-background-dark">
+<div class="max-w-[1280px] mx-auto px-4">
+<h2 class="text-3xl font-serif font-bold text-slate-900 dark:text-white mb-8 text-center">Explore by Area</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+<!-- Area 1 (Large) -->
+<div class="relative rounded-2xl overflow-hidden group md:col-span-2 cursor-pointer">
+<img alt="Mandwa jetty area" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Scenic view of Mandwa jetty area" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtFrGA3AMPX_q3uBWS3cm0dEp7TTuYZMTNuafXfMD3xLNduOpWcVrG7BAFy8U7UwN_MGpW7w3G5ODQvRCyc2uDeL4hpf9RpF_B9rpFydVJ8JcbzKpMEZ0v5np-m8UEzDxDC5Dg6YQyo52fRQ1b6q4ZJs2jdoTPSLGKDQoIU4FyKH5yjHZQJ_G-4dt4H6ytyAkDo-AHg-HRbUXp-9Xh9k86W1hKuO2Hvq8Hcgsh-YPNkdOhfGNb-k6cr8rYY72kXVSr5aBCdOqlHEQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+<div class="absolute bottom-6 left-6 text-white">
+<h3 class="text-2xl font-bold font-serif">Mandwa</h3>
+<p class="text-sm opacity-90">The gateway to luxury living</p>
+</div>
+</div>
+<!-- Area 2 -->
+<div class="relative rounded-2xl overflow-hidden group cursor-pointer">
+<img alt="Kihim beach" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Serene Kihim beach coastline" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrCZIrLjQtu5WdFVmW1A2ytLY6A2LR4w-3-AkmyldTJsY2al5EH_Cav3RyErMn2UAOE-Ze1XkBbGIacVVnkUxFqzP9busQyxizdJ-t-f1NkSpou-DeYrE-hufJndOLjRDD0eC0_B9g_JXNJwx5udie8yuMObZVObmqY5WXKMJfamAnjzKzrgnnkCzpa0GWNGIv6VPy5lTWk1JmsVSJkuJCnhsD-zSt8p6SzRayiZoCFzBZJULGbr4kmxkpiOLsjQu56KqIvAcQF5E"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+<div class="absolute bottom-6 left-6 text-white">
+<h3 class="text-2xl font-bold font-serif">Kihim</h3>
+<p class="text-sm opacity-90">Quiet beaches &amp; green lanes</p>
+</div>
+</div>
+<!-- Area 3 -->
+<div class="relative rounded-2xl overflow-hidden group cursor-pointer">
+<img alt="Alibaug fort view" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Historical Alibaug fort ruins" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFFUH3MhvpvLjdlKLNa76LP2LMh4V7m_SO8Q3yq87diYvox8WMHtiaI_eso5sLcI5tBvAj1kk7rchdjL3cgHkWO0utuV7IyslUPTkZsl1AQbMwxgnD4t8fPgJx4R5Zh40L06hoHcmaHsrHe5FBdLWZ9eNUBGxj4n9up49McBRuJLMyxRqvl5NtjrtjaI5x5l0O169t9CyNC5arxha5lAILV7YHz-ggD4lmRmaF4AIAm-bliv4HeLwh2qOom9rcFUN0K9HTusO9ye4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+<div class="absolute bottom-6 left-6 text-white">
+<h3 class="text-2xl font-bold font-serif">Alibaug Town</h3>
+<p class="text-sm opacity-90">Culture, history &amp; markets</p>
+</div>
+</div>
+<!-- Area 4 (Large) -->
+<div class="relative rounded-2xl overflow-hidden group md:col-span-2 cursor-pointer">
+<img alt="Awas village greenery" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="Lush greenery of Awas village" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMy3sxQaalSCNUhp8Q1TJbWHPQwm7uy6os27oPE1vO7L7G3XiE7VXXmGyqXBz0yuYm4V9co2b2cVXPpKm14yw2FvQC2tKCqhEPwl0KGeuk9M5wUmthOfoILoY9QZsGGN6eyoy50XLSo7ZS65kdH25WatGKsw2LXszJhUU3YKia4No7W5gHM8XdJMXFp2lk7407fPAu6pWbDedGAckMmw4BrZnNTcwFdmpivuGXb5-ucoqRuPaSWDKgThYCrDkNpedyrqyf04cctfI"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+<div class="absolute bottom-6 left-6 text-white">
+<h3 class="text-2xl font-bold font-serif">Awas</h3>
+<p class="text-sm opacity-90">Exclusive estates &amp; privacy</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Stories / Blog -->
+<section class="py-16 bg-sand/20 dark:bg-slate-900/30">
+<div class="max-w-[1280px] mx-auto px-4">
+<h2 class="text-3xl font-serif font-bold text-slate-900 dark:text-white mb-8">Stories from the Coast</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Story 1 -->
+<article class="flex flex-col gap-3 group cursor-pointer">
+<div class="overflow-hidden rounded-xl h-56">
+<img alt="Plating food at a cafe" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Gourmet food plating at a local cafe" src="https://lh3.googleusercontent.com/aida-public/AB6AXuATb9RqGRLNFwUnQkWGl-9So1gvmChn9lIU5-O8ax4n6CwjvO5_9BVjLpG7-OWLHtD3WzXUsUMn6WrUw8jgAKWUhGwW63c_ctTOT-HiYF5llGQd7rhuC0VPDEO59P22jRNnr96kagM51UHylZHGsWreEzgPzIudqafKUyGFAPmk1tfzLRtxdBYXHSv5MERRU2kkgbbffH7CYp0EOiDP_9x_LKgbKY48QuSWD2PNxaYksGkz9N92V3K3Cz7PhEIAqibMH57qGdTKPEc"/>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-primary text-xs font-bold uppercase tracking-wider">Eat &amp; Drink</span>
+<h3 class="text-xl font-bold font-serif text-slate-900 dark:text-white group-hover:text-primary transition-colors">5 Hidden Cafes in Alibaug You Must Visit</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm line-clamp-2">Discover the culinary secrets tucked away in the lanes of Alibaug, from artisanal bakeries to seaside shacks.</p>
+<span class="text-xs text-slate-400 mt-1">Oct 12, 2023 • 5 min read</span>
+</div>
+</article>
+<!-- Story 2 -->
+<article class="flex flex-col gap-3 group cursor-pointer">
+<div class="overflow-hidden rounded-xl h-56">
+<img alt="Construction site planning" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Architects discussing plans at a construction site" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrHIBIjXX_Bd5taVuGlHHl5OWj7SUpm5UA0_SpLyUZFBT7cKS2X0jA795eoEDA03YttzVCUKMWGwxZm8G2e3PcThLHKVz_nbBRVR3kvpWPrjkuEFoQbifA-1onB1yLKTG7i_I01NPF22ex_NBg4gya7KYbJ5b5VF1Hvd-t1MMUKwpUxrBOKFslCJUjbinbCcxqlMrD1Hq1AvdBvuuRQy0fi7dabCTjh2T6c-4arVyPshG4AD1reNzWAFbxV3bnji10MzAMu-w0nu8"/>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-primary text-xs font-bold uppercase tracking-wider">Real Estate</span>
+<h3 class="text-xl font-bold font-serif text-slate-900 dark:text-white group-hover:text-primary transition-colors">Investing in Alibaug: 2024 Market Outlook</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm line-clamp-2">Why Alibaug continues to be the top choice for second home buyers and investors from Mumbai and Pune.</p>
+<span class="text-xs text-slate-400 mt-1">Nov 03, 2023 • 8 min read</span>
+</div>
+</article>
+<!-- Story 3 -->
+<article class="flex flex-col gap-3 group cursor-pointer">
+<div class="overflow-hidden rounded-xl h-56">
+<img alt="Person walking on beach" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Person walking peacefully on a sandy beach" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSKS4HcvLlxOIaLk0ablOzy76JE9Mu3upGe1NogtzvkpA8Ww81gcVCDd1AFnjPZxN86gVsqQegf-dxLSkDgpHlI_QNdC09Y3g9SQtx0oL6jkgPcGVVACwipyFgEw3JiXRrJSxGuGWB_Qq4xI_7w_XJwKUL5pVjwlzl2GI3DQApnAiX3bOYy5SaF9Ev0-DO42vZ5TdhPnql-jFR5fhXHe705iTmBWm58GUel3ZCXBFK0djNqo8mgKdNG9KV54LH3LMa_2bghbfjs0Y"/>
+</div>
+<div class="flex flex-col gap-2">
+<span class="text-primary text-xs font-bold uppercase tracking-wider">Lifestyle</span>
+<h3 class="text-xl font-bold font-serif text-slate-900 dark:text-white group-hover:text-primary transition-colors">A Weekend Itinerary for Wellness Lovers</h3>
+<p class="text-slate-500 dark:text-slate-400 text-sm line-clamp-2">Yoga by the beach, organic farm visits, and spa retreats. Plan your rejuvenating weekend escape.</p>
+<span class="text-xs text-slate-400 mt-1">Nov 15, 2023 • 4 min read</span>
+</div>
+</article>
+</div>
+</div>
+</section>
+<!-- Footer CTA -->
+<section class="py-20 bg-white dark:bg-charcoal border-t border-slate-100 dark:border-slate-800">
+<div class="max-w-4xl mx-auto px-4 text-center">
+<h2 class="text-4xl font-serif font-bold text-slate-900 dark:text-white mb-6">Own a piece of paradise?</h2>
+<p class="text-lg text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
+                Join our exclusive network of premium stays and real estate. List your property with Hello Alibaug and reach discerning travelers and buyers.
+            </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<button class="bg-primary hover:bg-primary/90 text-white px-8 py-3.5 rounded-full text-base font-bold transition-all shadow-xl shadow-primary/25 w-full sm:w-auto">
+                    List Your Business
+                </button>
+<button class="bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-900 dark:text-white px-8 py-3.5 rounded-full text-base font-bold transition-all w-full sm:w-auto">
+                    Learn More
+                </button>
+</div>
+</div>
+</section>
+<!-- Simple Footer -->
+<footer class="bg-slate-50 dark:bg-background-dark py-12 border-t border-slate-200 dark:border-slate-800">
+<div class="max-w-[1280px] mx-auto px-4">
+<div class="flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="flex items-center gap-2">
+<div class="size-6 bg-primary rounded flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-sm">waves</span>
+</div>
+<span class="text-lg font-serif font-bold text-slate-900 dark:text-white">Hello Alibaug</span>
+</div>
+<div class="text-sm text-slate-500 dark:text-slate-400">
+                    © 2024 Hello Alibaug. All rights reserved.
+                </div>
+<div class="flex gap-6">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">photo_camera</span></a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">public</span></a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>

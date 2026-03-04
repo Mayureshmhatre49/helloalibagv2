@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Listing Approval Panel</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#1183d4",
+                "background-light": "#f6f7f8",
+                "background-dark": "#101a22",
+              },
+              fontFamily: {
+                "display": ["Manrope", "sans-serif"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background-light text-slate-900 font-display">
+<div class="relative flex min-h-screen w-full flex-row overflow-x-hidden">
+<!-- Sidebar -->
+<div class="hidden lg:flex w-72 flex-col border-r border-slate-200 bg-white min-h-screen shrink-0">
+<div class="flex flex-col h-full justify-between p-4">
+<div class="flex flex-col gap-6">
+<div class="flex gap-3 items-center px-2">
+<div class="bg-center bg-no-repeat bg-cover rounded-full h-10 w-10 shrink-0 shadow-sm" data-alt="Alibaug Marketplace Logo" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBWPYASpCXcAVdnQD2ocba1HDKUitHTOV7HT-n1nAsAwF7v29TzcHuWio4Dd-KzMrtmSyd1UYj4hh4efafKyZg_BX0y-71GON9xh7YxPsTngjVIdkzrnzUpHMsJ5YIA5PwNl62azxKmiXiocclyRWiO5Zs3LSLm9y95wVbKWaVTFWplAWkE_hLhqkl6wvCLqN5iAq3k0KLZQUda9_CSL9PmIYl-UYJP6wdGt4S1qaoRwIzGY3KlWRuGXD0hdT90bP9weD-faIdJkKM");'></div>
+<div class="flex flex-col">
+<h1 class="text-slate-900 text-base font-bold leading-normal">Admin Panel</h1>
+<p class="text-slate-500 text-sm font-normal leading-normal">Alibaug Marketplace</p>
+</div>
+</div>
+<div class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary" style="font-size: 24px;">grid_view</span>
+<p class="text-sm font-medium leading-normal group-hover:text-primary">Dashboard</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary" href="#">
+<span class="material-symbols-outlined text-primary font-variation-settings-fill" style="font-variation-settings: 'FILL' 1; font-size: 24px;">checklist</span>
+<p class="text-sm font-medium leading-normal">Approval Queue</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary" style="font-size: 24px;">group</span>
+<p class="text-sm font-medium leading-normal group-hover:text-primary">Users</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary" style="font-size: 24px;">storefront</span>
+<p class="text-sm font-medium leading-normal group-hover:text-primary">Vendors</p>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-slate-50 transition-colors group" href="#">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary" style="font-size: 24px;">settings</span>
+<p class="text-sm font-medium leading-normal group-hover:text-primary">Settings</p>
+</a>
+</div>
+</div>
+<div class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-50 cursor-pointer group mt-auto mb-4">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-red-500" style="font-size: 24px;">logout</span>
+<p class="text-slate-600 text-sm font-medium leading-normal group-hover:text-red-500">Logout</p>
+</div>
+</div>
+</div>
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 bg-background-light">
+<!-- Header -->
+<header class="h-16 border-b border-slate-200 bg-white px-6 flex items-center justify-between sticky top-0 z-20">
+<div class="flex items-center gap-4 lg:hidden">
+<button class="text-slate-500 hover:text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<span class="font-bold text-lg">Alibaug Admin</span>
+</div>
+<div class="hidden lg:flex items-center gap-2 text-slate-500 text-sm">
+<span class="text-slate-400">Admin</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="font-medium text-slate-800">Approvals</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="relative p-2 text-slate-400 hover:text-primary transition-colors rounded-full hover:bg-slate-50">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-2 right-2 h-2 w-2 rounded-full bg-red-500 border border-white"></span>
+</button>
+<div class="h-8 w-8 rounded-full bg-slate-200 bg-cover bg-center border border-slate-300" data-alt="Admin User Avatar" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAb4ntRO-SpaICISn_aR1CdFxAancXpxU0LKZpj5l0fyrvTOkA-MapwTRyDk6BreTeeEBrkyEH_bvhIWWwVya3ccXgrM7l-ptzCHQ86K0y4f1vAfH2jomcQ9yoIsLX9M_m3gtwazLoGdazJEhwJZA_ZZs6K65veu6teXlZQPxgGUuB5uNGSnAtV0A34u9TADpbDr1Lfx04ABQt6OlCH_Z1TOvBU7kPYpBs5ZdRmEziTlATpEhhkgCMXW61KCCTMnWVW91JCSnb3rO4");'></div>
+</div>
+</header>
+<div class="flex-1 overflow-y-auto p-4 lg:p-8 pb-20">
+<div class="mx-auto max-w-7xl flex flex-col gap-6">
+<!-- Page Title & Stats -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+<div>
+<h1 class="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">Listing Approval Queue</h1>
+<p class="text-slate-500 mt-1">Review and manage 24 pending business listings.</p>
+</div>
+<div class="flex gap-2">
+<button class="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2 shadow-sm">
+<span class="material-symbols-outlined text-[18px]">download</span>
+                                Export
+                            </button>
+<button class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-sky-600 flex items-center gap-2 shadow-sm shadow-primary/30">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                                Add Listing manually
+                            </button>
+</div>
+</div>
+<!-- Filters Bar -->
+<div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col md:flex-row gap-4 items-center justify-between">
+<div class="relative w-full md:w-96">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<span class="material-symbols-outlined text-slate-400">search</span>
+</div>
+<input class="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-lg leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-1 focus:ring-primary focus:border-primary sm:text-sm transition-all" placeholder="Search business, owner or category..." type="text"/>
+</div>
+<div class="flex items-center gap-2 w-full md:w-auto overflow-x-auto pb-2 md:pb-0">
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20 text-primary text-sm font-medium whitespace-nowrap cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">pending_actions</span>
+                                Pending
+                            </div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100 text-sm font-medium whitespace-nowrap cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-[18px] text-green-600">check_circle</span>
+                                Approved
+                            </div>
+<div class="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-600 hover:bg-slate-100 text-sm font-medium whitespace-nowrap cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-[18px] text-red-500">cancel</span>
+                                Rejected
+                            </div>
+<div class="w-px h-6 bg-slate-200 mx-1"></div>
+<button class="p-2 text-slate-400 hover:text-primary rounded-lg hover:bg-slate-50">
+<span class="material-symbols-outlined">filter_list</span>
+</button>
+</div>
+</div>
+<!-- Data Table -->
+<div class="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-slate-50/50 border-b border-slate-200 text-xs uppercase text-slate-500 font-semibold tracking-wider">
+<th class="px-6 py-4 w-12">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+</th>
+<th class="px-6 py-4 min-w-[240px]">Listing Name</th>
+<th class="px-6 py-4">Category</th>
+<th class="px-6 py-4">Owner</th>
+<th class="px-6 py-4">Date</th>
+<th class="px-6 py-4 text-center">Status</th>
+<th class="px-6 py-4 text-center">Flags</th>
+<th class="px-6 py-4 text-right">Actions</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100">
+<!-- Row 1 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-slate-100 bg-cover bg-center shrink-0" data-alt="Coastal Villa Stay Thumbnail" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAHNoJtbR43-OjAQHxDNx-rx5stpvhAxPd6hgSlBw8DoS478RTL-MfaOb3yFnZaC5ODvqdMTMZcuwMxdR-JyqPbnL3vAKQVfBT11WS3yQ4N5drcZgzi5bD77WBw726zHqDB_SfsleiLa3pHEvdRIpE8S_dMHnh5sMh8jHZHoNwbrCyALL-ZHQbLILnakcQ7aGdjQbrkVPA-RW2VVHeltzOXpDWRVxRpfuJKGSSngfAjuO2FWkGFdwDYsBMnrCLdpkEaLtysUd9hGsg");'></div>
+<div>
+<p class="font-semibold text-slate-900 text-sm">Coastal Villa Stay</p>
+<p class="text-xs text-slate-500">Alibaug Beach Road</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 border border-indigo-100">
+                                                Hospitality
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded-full bg-slate-200 bg-cover bg-center" data-alt="User Avatar Ravi" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBHGkT3Uoz4lxFCGEj1mxRcr6zHTkMKgnZ99TlmnHXA2SJkaZ1dtTLpmIQrXQQejq-Ik5BdA5KrzDXUrIivRyaTWZtfBWNew6LKsSFAJkJ8eg5uLMWkQ5M2AvFYDLpb4BBHcVWlL4TOL0DZFWyBfpRWyHh1YCYJn7BwVo3swGjLQYa-a_2brCphFLiytcVMbiAi4xwtXOunsaTXht8UAcesWd8_Jh-TZBZNdAAJJp1ekpAkoX34V9j1wEHjk5ig71Mj8l-GvKc-yaQ");'></div>
+<span class="text-sm text-slate-600">Ravi Patil</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">
+                                            Oct 24, 2023
+                                        </td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Pending
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-2">
+<button class="text-slate-300 hover:text-amber-500 transition-colors" title="Toggle Premium">
+<span class="material-symbols-outlined text-[20px]">star</span>
+</button>
+<button class="text-slate-300 hover:text-primary transition-colors" title="Toggle Featured">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+</button>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700 transition-colors border border-green-200" title="Approve">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-700 transition-colors border border-red-200" title="Reject">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors border border-slate-200" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-slate-100 bg-cover bg-center shrink-0" data-alt="Alibaug Spices Store Thumbnail" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDV9x2fp63AIqThQuKhHfNd7oHh2hlvuYBO1fpbJEjRaARq9VlzSgOTy6aX4OS5sN7FXHBBBZ82T5K86INs1CwmLSLtnIR_VTlYJD2osaIyqgS9Lo-t7k0roq9yqovjXxzOuzJKfZsN7XqPk6-N-nlzGHoU4SAuIfksZYcUKS9I0ILuJl3HI9Dtvj9IP0BzDYcR-MvySdoXNgGVEG5KYrahSCQsGAsZs1Dz3ukbrC1m-VH4PWPGcrXDiC7K4IRrJo6Rc1jh0AheV2c");'></div>
+<div>
+<p class="font-semibold text-slate-900 text-sm">Alibaug Spices</p>
+<p class="text-xs text-slate-500">Market Square</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-100">
+                                                Retail
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded-full bg-slate-200 bg-cover bg-center" data-alt="User Avatar Meera" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAR700az2dAsiNaVSgE3WaOVMEljkcX7iJ7Wy6ceFWAT3-L4KKOTepo2BdX09_CO0srwfm-MGR4tePQjhuPjbwgKwUmYDQR3SFb5KxATWm7rJyhSm_-YKv5d5FbI3MsYgF8i3tLmPn3dptyOmw-ti3AEDgS5JlOudxjCg5T1919iYmagdCnkqzy3XEnPiHWNbpbdN-5HfouM16TbFSev7NWhDLGNHVakEcbSqIzY1xp9oaYbKKlRy8hPoYqjtOSnuDl3otsa6342Go");'></div>
+<span class="text-sm text-slate-600">Meera K.</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">
+                                            Oct 23, 2023
+                                        </td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Pending
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-2">
+<button class="text-amber-500 hover:text-amber-600 transition-colors" title="Premium Active">
+<span class="material-symbols-outlined text-[20px] font-variation-settings-fill" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button class="text-slate-300 hover:text-primary transition-colors" title="Toggle Featured">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+</button>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700 transition-colors border border-green-200" title="Approve">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-700 transition-colors border border-red-200" title="Reject">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors border border-slate-200" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-slate-100 bg-cover bg-center shrink-0" data-alt="Sandy Beach Watersports Thumbnail" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC7qC6A9UCYOqy4nfq69ogLk04ymAVzCGCEWRZF54MbdRUqNNMp89aPw4LVXDAWbUTbP3HPMas37vjF7dCgS6Nv6PVjBUygXKGX0irKE2W-AXWBlZDBmUoynqrqSpqPzS8zFziZG2yPRycTTlhJUYXK6c2AUKY1aRLAOUjVdnft0dyzSEFDATJf7BsRzh0KJg7j6AcJvJ-UZKiZQpokf79PGYEjJ2zEg2xp39_kF0kz0IdBfWLUV-BcVN74fH7G_Wbsi26izW1_dOg");'></div>
+<div>
+<p class="font-semibold text-slate-900 text-sm">Sandy Beach Watersports</p>
+<p class="text-xs text-slate-500">Nagaon Beach</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-sky-50 text-sky-700 border border-sky-100">
+                                                Activities
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded-full bg-slate-200 bg-cover bg-center" data-alt="User Avatar Amit" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAUdlWYU4v5JclVlNToS0p-b6y7o-9Hg837Szh-usXLX7Dad5zGr7je26rdHmKQ0ArVilbqmAaV5f5OwCY7NBdtFYEh-FL82jS5G3ibf-zoP8l41CzxBRMYPeZvC6PbnbmfuC5kQ3wBLigEX1R4p14mfA_GW-I0OXMRy4BCCYtMN8EXAjGBp1sdEVY3QoZ78qSixqE481CwucOcm1c6RD9U9hR8yWsQYAvdgMXBZvKjD7coc_GTcx1vwp3QTRPYeM_KfqxnquWRckM");'></div>
+<span class="text-sm text-slate-600">Amit S.</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">
+                                            Oct 22, 2023
+                                        </td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Pending
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-2">
+<button class="text-slate-300 hover:text-amber-500 transition-colors" title="Toggle Premium">
+<span class="material-symbols-outlined text-[20px]">star</span>
+</button>
+<button class="text-primary hover:text-primary transition-colors" title="Featured Active">
+<span class="material-symbols-outlined text-[20px] font-variation-settings-fill" style="font-variation-settings: 'FILL' 1;">verified</span>
+</button>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700 transition-colors border border-green-200" title="Approve">
+<span class="material-symbols-outlined text-[18px]">check</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-red-50 text-red-500 hover:bg-red-100 hover:text-red-700 transition-colors border border-red-200" title="Reject">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors border border-slate-200" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-slate-100 bg-cover bg-center shrink-0" data-alt="Mango Grove Farm Thumbnail" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDXMu7rMAcJA7WBvH7c1XpzX9U3_1rM7YAJ70_kMMgiA6Hn1ZQ8HRR9X_u0qCWpLX4JPUhXTELOthe66aW-vNKrwP0CvjQKMYkxNZhZKGSPHHGr_r8L-JJjJKaPiBwKWpsKYgWpT-xSwUgf9wKztefLHIvgiry_IpN7iV1ehez_YZunRqG7LtTw_QiopRslunf0N6R-2D0Bfy2hIpbusXIXEquC3FCGdotKstnK5fKA3yriOyvyJjP_Es1x9FG16uR40UPDnClP9zY");'></div>
+<div>
+<p class="font-semibold text-slate-900 text-sm">Mango Grove Farm</p>
+<p class="text-xs text-slate-500">Kihim Village</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-lime-50 text-lime-700 border border-lime-100">
+                                                Agriculture
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded-full bg-slate-200 bg-cover bg-center" data-alt="User Avatar Suresh" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDVKZOS1k0JrofVnzDC3wKSl_2Ss2Bya35YgdKH2Rr4rsTDCg9_NfOTrxZR6P2jn_WessFf6ar6r6QqiYJlUaNRDDQpWPgPJFZDYwBuJhAF13DwSQOActUnwB3b0Eu2OFXq3IAerht7-X0bMql8LHQBZmshcvDfDD44S0Gi42kWhPhoz8lnnrNvzNL3R3Fu6li7VqWmDKPg_TaAT3bNX-0kGjrAO_ewX2m-HgpajASODxBOBullcU7xTSZBvJ2CmeknyA5-8z3ax68");'></div>
+<span class="text-sm text-slate-600">Suresh D.</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">
+                                            Oct 21, 2023
+                                        </td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-red-50 text-red-700 border border-red-200">
+<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span> Rejected
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-2">
+<button class="text-slate-300 hover:text-amber-500 transition-colors" title="Toggle Premium">
+<span class="material-symbols-outlined text-[20px]">star</span>
+</button>
+<button class="text-slate-300 hover:text-primary transition-colors" title="Toggle Featured">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+</button>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-green-50 text-green-600 hover:bg-green-100 hover:text-green-700 transition-colors border border-green-200" title="Re-Approve">
+<span class="material-symbols-outlined text-[18px]">restore</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors border border-slate-200" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-slate-50 transition-colors group">
+<td class="px-6 py-4">
+<input class="rounded border-slate-300 text-primary focus:ring-primary h-4 w-4" type="checkbox"/>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="h-10 w-10 rounded-lg bg-slate-100 bg-cover bg-center shrink-0" data-alt="Seaside Cafe Thumbnail" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDew8Qd7JigSjWc5oUws9zw_DR4nI0k-C-ARjpp4vsyKhqKDX9xat2_ERXeHWprhdvbpQGLEGmhwg9p6xJLodRukJ13nJFDHWRO5vGEqco0yBgp2k-vrY8WLC_XfQv52o33bKtcAdJvhq1DeJ7Fjd5SQ4J-EH991dQa_lzldA5rj5yG8I6njtwmLPwJJx-LASG6rKF6FkbDtbXMZjli69rjoD2E7YpH98KpU8xdQLieCVqkPCzh_Qvo8geEVgpMszMpnHPYE5KmA8o");'></div>
+<div>
+<p class="font-semibold text-slate-900 text-sm">Seaside Cafe</p>
+<p class="text-xs text-slate-500">Mandwa Jetty</p>
+</div>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-50 text-orange-700 border border-orange-100">
+                                                Dining
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="h-6 w-6 rounded-full bg-slate-200 bg-cover bg-center" data-alt="User Avatar Anjali" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuANoZFvV9Eowr0gCUgkbJGxvjGWyzT3S830CMaGtHQOFFDHO4bDjGcHnOl36_eEbTgaRmaVdD_uees-WJumZHViFcuR0IuiYXpyyyxZK4dfI4TO2bc2_pJmeIIxfezaUMDDt5Y3BHTGDC0hyExcOJOmbGUn0eXBfkZ6e8h7pAFTOslWzTafJ_DoHtYAOxCXcgqG39Ac8hIiJBHh9LPvMVxuDNkT2VX5C1fRB5Alj7qk4JM6GCf1tLUh7D6dB1oaUmxOMOyHRs0JOTo");'></div>
+<span class="text-sm text-slate-600">Anjali M.</span>
+</div>
+</td>
+<td class="px-6 py-4 text-sm text-slate-500">
+                                            Oct 20, 2023
+                                        </td>
+<td class="px-6 py-4 text-center">
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium bg-green-50 text-green-700 border border-green-200">
+<span class="w-1.5 h-1.5 rounded-full bg-green-500"></span> Approved
+                                            </span>
+</td>
+<td class="px-6 py-4">
+<div class="flex justify-center gap-2">
+<button class="text-amber-500 hover:text-amber-600 transition-colors" title="Premium Active">
+<span class="material-symbols-outlined text-[20px] font-variation-settings-fill" style="font-variation-settings: 'FILL' 1;">star</span>
+</button>
+<button class="text-primary hover:text-primary transition-colors" title="Featured Active">
+<span class="material-symbols-outlined text-[20px] font-variation-settings-fill" style="font-variation-settings: 'FILL' 1;">verified</span>
+</button>
+</div>
+</td>
+<td class="px-6 py-4 text-right">
+<div class="flex items-center justify-end gap-2 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-orange-50 text-orange-600 hover:bg-orange-100 hover:text-orange-700 transition-colors border border-orange-200" title="Suspend">
+<span class="material-symbols-outlined text-[18px]">block</span>
+</button>
+<button class="h-8 w-8 flex items-center justify-center rounded-lg bg-slate-50 text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors border border-slate-200" title="View Details">
+<span class="material-symbols-outlined text-[18px]">visibility</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Pagination -->
+<div class="bg-white px-6 py-4 border-t border-slate-200 flex items-center justify-between">
+<span class="text-sm text-slate-500">Showing <span class="font-medium text-slate-900">1</span> to <span class="font-medium text-slate-900">5</span> of <span class="font-medium text-slate-900">24</span> results</span>
+<div class="flex gap-2">
+<button class="px-3 py-1 border border-slate-200 rounded-lg text-sm text-slate-400 cursor-not-allowed bg-slate-50">Previous</button>
+<button class="px-3 py-1 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 hover:text-primary">Next</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>
