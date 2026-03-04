@@ -18,7 +18,8 @@
         {{-- Left: Image Panel --}}
         <div class="hidden lg:flex lg:w-1/2 relative">
             <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDCjXJ9SdsU7gHAoMBh-JX1MWxPHHkE3WrHJRSbazkXoRB7JU6ktFz0SEFYSQDEpdPwmP4wuTxuHmxRIPLXekcAGVML9IH3fFdaq8Ap2Q0nh9G_PmOSstoRAAo4N6LClAMQVX-X4n6r19vZWKy4nsuSH3wcAVJ5QZ8bLHvq50lCfZcYnkytR9wkq-3JN8ld2hJAaA1jAwNOoFMx0ttBb83vl4Tsm8GDKyswgf1iI55Uvou1CSNfTxLvm3PrLufWPXg1I1-KutRovQ" alt="Alibaug coastline" class="w-full h-full object-cover">
-            <div class="absolute inset-0 bg-gradient-to-br from-primary/80 via-primary/40 to-charcoal/60"></div>
+            <div class="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-slate-900/40 mix-blend-multiply"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent"></div>
             <div class="absolute inset-0 flex flex-col justify-end p-12">
                 <a href="{{ route('home') }}" class="flex items-center gap-3 mb-8">
                     <div class="w-11 h-11 rounded-2xl flex items-center justify-center shadow-lg"
