@@ -19,7 +19,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Noto+Serif+Display:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -27,69 +27,86 @@
 </head>
 <body class="bg-background-light text-slate-900 font-display antialiased overflow-x-hidden">
     {{-- Navbar --}}
-    <header class="sticky top-0 z-50 w-full" x-data="{ mobileOpen: false, mobileSearch: false }">
+    <header class="sticky top-0 z-50 w-full transition-all duration-300" 
+            x-data="{ 
+                mobileOpen: false, 
+                mobileSearch: false,
+                isHome: {{ request()->routeIs('home') ? 'true' : 'false' }},
+                scrolled: false 
+            }" 
+            @scroll.window="scrolled = (window.pageYOffset > 300)"
+            :class="scrolled ? 'shadow-xl' : 'shadow-lg'">
 
-        {{-- ── Tier 1: Brand + Search + Auth ────────────────────────────────── --}}
-        <div class="bg-[#0b3d91] shadow-lg relative">
-            <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
+        {{-- ── Primary Blue Header ─────────────────────────────────────────── --}}
+        <div class="bg-[#0b3d91] relative z-50 transition-all duration-300">
+            <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 relative">
                 <div class="flex items-center h-16 gap-4">
 
                     {{-- Logo --}}
-                    <a href="{{ route('home') }}" class="flex items-center gap-3 flex-shrink-0 mr-2 group">
+                    <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-3 flex-shrink-0 mr-2 group">
                         {{-- Icon badge --}}
-                        <div class="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg"
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg"
                              style="background: linear-gradient(135deg, #e8a020 0%, #f5c842 100%); box-shadow: 0 4px 14px rgba(232,160,32,0.4);">
-                            <span class="material-symbols-outlined text-white text-[22px]" style="font-variation-settings:'FILL' 1">sailing</span>
+                            <span class="material-symbols-outlined text-white text-[20px] sm:text-[22px]" style="font-variation-settings:'FILL' 1">sailing</span>
                         </div>
-                        {{-- Brand text --}}
-                        <div class="hidden sm:flex flex-col leading-none">
-                            <span class="text-white font-extrabold text-[17px] tracking-tight leading-none">Hello <span style="color: #f5c842;">Alibaug</span></span>
-                            <span class="text-white/50 text-[10px] tracking-widest uppercase mt-2 font-medium">Discover · Stay · Eat</span>
+                        {{-- Brand text - visible on all screens --}}
+                        <div class="flex flex-col leading-none">
+                            <span class="text-white font-extrabold text-[15px] sm:text-[17px] tracking-tight leading-none">Hello <span style="color: #f5c842;">Alibaug</span></span>
+                            <span class="text-white/50 text-[9px] sm:text-[10px] tracking-widest uppercase mt-1 sm:mt-2 font-medium hidden sm:block">Discover · Stay · Eat</span>
                         </div>
                     </a>
 
-                    {{-- Desktop Search Bar --}}
-                    <form action="{{ route('search') }}" method="GET" class="flex-1 hidden md:flex max-w-2xl">
-                        <div class="flex w-full bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-shadow h-11">
-                            <div class="relative flex-1">
-                                <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-[20px]">search</span>
-                                <input type="text" name="q" value="{{ request('q') }}"
-                                    placeholder="Search villas, restaurants, experiences..."
-                                    class="w-full h-full pl-10 pr-4 text-sm text-slate-700 border-0 focus:ring-0 focus:outline-none bg-transparent placeholder:text-slate-400">
-                            </div>
-                            <button type="submit" class="bg-[#e8831a] hover:bg-[#d06b10] text-white px-5 text-sm font-bold transition-colors flex items-center gap-1.5 flex-shrink-0">
-                                <span class="material-symbols-outlined text-[16px]">search</span>
-                                Search
-                            </button>
-                        </div>
-                    </form>
-
-                    {{-- Mobile Search Toggle --}}
-                    <button @click="mobileSearch = !mobileSearch" class="md:hidden p-2 text-white/80 hover:text-white ml-auto">
-                        <span class="material-symbols-outlined text-[22px]" x-text="mobileSearch ? 'close' : 'search'">search</span>
-                    </button>
+                    {{-- Desktop Categories (Absolute Center for UX perfection) --}}
+                    @php $navCategories = \App\Models\Category::where('is_active', true)->orderBy('sort_order')->get(); @endphp
+                    <div class="hidden lg:flex absolute left-[45%] xl:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-1 xl:gap-1.5 max-w-[50vw] overflow-hidden pr-4">
+                        <a href="{{ route('search') }}"
+                            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ !request()->routeIs('category.show') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                            All
+                        </a>
+                        @foreach($navCategories as $cat)
+                        <a href="{{ route('category.show', $cat) }}"
+                            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('category.show') && request()->route('category')?->id === $cat->id ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                            {{ $cat->name }}
+                        </a>
+                        @endforeach
+                    </div>
 
                     {{-- Right Actions --}}
-                    <div class="flex items-center gap-2 sm:gap-3 ml-auto md:ml-0">
+                    <div class="flex items-center gap-2 sm:gap-3 ml-auto">
+                        
+                        {{-- Search Button (Hidden on Home until Scrolled) --}}
+                        <button x-show="!isHome || scrolled" 
+                                x-transition:enter="transition ease-out duration-300 transform"
+                                x-transition:enter-start="opacity-0 scale-90 translate-x-4"
+                                x-transition:enter-end="opacity-100 scale-100 translate-x-0"
+                                x-transition:leave="transition ease-in duration-200 transform"
+                                x-transition:leave-start="opacity-100 scale-100 translate-x-0"
+                                x-transition:leave-end="opacity-0 scale-90 translate-x-4"
+                                style="display: none;"
+                                @click="mobileSearch = !mobileSearch" 
+                                class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 hover:bg-white/20 shadow-sm flex items-center justify-center text-white transition-colors">
+                            <span class="material-symbols-outlined text-[20px] sm:text-[22px]" x-text="mobileSearch ? 'close' : 'search'">search</span>
+                        </button>
+
                         @auth
                             {{-- Wishlist --}}
-                            <a href="{{ route('wishlist.index') }}" class="hidden sm:flex w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 items-center justify-center text-white transition-colors" title="Wishlist">
-                                <span class="material-symbols-outlined text-[20px]">favorite</span>
+                            <a href="{{ route('wishlist.index') }}" class="hidden sm:flex w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 hover:bg-white/20 items-center justify-center text-white transition-colors shadow-sm" title="Wishlist">
+                                <span class="material-symbols-outlined text-[20px] sm:text-[22px]">favorite</span>
                             </a>
 
                             {{-- Notifications --}}
                             <div x-data="{ notifOpen: false }" class="relative">
-                                <button @click="notifOpen = !notifOpen" class="relative w-9 h-9 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors">
-                                    <span class="material-symbols-outlined text-[20px]">notifications</span>
+                                <button @click="notifOpen = !notifOpen" class="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors shadow-sm">
+                                    <span class="material-symbols-outlined text-[20px] sm:text-[22px]">notifications</span>
                                     @php $unreadCount = \App\Models\UserNotification::where('user_id', auth()->id())->unread()->count(); @endphp
                                     @if($unreadCount > 0)
                                         <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
                                     @endif
                                 </button>
-                                <div x-show="notifOpen" @click.outside="notifOpen = false" x-transition class="absolute right-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-slate-100 z-50 overflow-hidden">
-                                    <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between">
+                                <div x-show="notifOpen" @click.outside="notifOpen = false" x-transition class="absolute right-0 mt-3 w-80 bg-white rounded-xl shadow-2xl border border-slate-100 z-50 overflow-hidden origin-top-right">
+                                    <div class="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                                         <span class="text-sm font-bold text-slate-900">Notifications</span>
-                                        <a href="{{ route('notifications.index') }}" class="text-xs text-primary font-medium hover:underline">View All</a>
+                                        <a href="{{ route('notifications.index') }}" class="text-xs text-primary font-bold hover:underline">View All</a>
                                     </div>
                                     <div class="max-h-64 overflow-y-auto divide-y divide-slate-50">
                                         @php $latestNotifs = \App\Models\UserNotification::where('user_id', auth()->id())->latest()->take(5)->get(); @endphp
@@ -106,7 +123,10 @@
                                                 </button>
                                             </form>
                                         @empty
-                                            <div class="px-4 py-8 text-center text-xs text-slate-400">No notifications yet</div>
+                                            <div class="px-4 py-8 text-center text-xs text-slate-400 flex flex-col items-center gap-2">
+                                                <span class="material-symbols-outlined text-3xl text-slate-200">notifications_off</span>
+                                                All caught up!
+                                            </div>
                                         @endforelse
                                     </div>
                                 </div>
@@ -116,43 +136,44 @@
                             <div x-data="{ open: false }" class="relative">
                                 <button @click="open = !open" class="flex items-center gap-2">
                                     <img src="{{ auth()->user()->getAvatarUrl() }}"
-                                        class="w-9 h-9 rounded-xl object-cover border-2 border-white/30 hover:border-white/60 transition-colors">
-                                    <span class="material-symbols-outlined text-white/70 text-[16px] hidden sm:block">expand_more</span>
+                                        class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl object-cover border-2 border-white/30 hover:border-white/60 transition-colors shadow-sm">
+                                    <span class="material-symbols-outlined text-white/70 text-[18px] hidden sm:block">expand_more</span>
                                 </button>
-                                <div x-show="open" @click.outside="open = false" x-transition class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-slate-100 py-2 z-50">
-                                    <div class="px-4 py-3 border-b border-slate-100">
+                                <div x-show="open" @click.outside="open = false" x-transition class="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-2xl border border-slate-100 py-2 z-50 origin-top-right">
+                                    <div class="px-4 py-3 border-b border-slate-100 bg-slate-50/50 mb-1">
                                         <p class="text-sm font-bold text-slate-900 truncate">{{ auth()->user()->name }}</p>
                                         <p class="text-xs text-slate-500 truncate">{{ auth()->user()->email }}</p>
                                     </div>
                                     @if(auth()->user()->isOwner() || auth()->user()->isAdmin())
-                                        <a href="{{ route('owner.dashboard') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50">
-                                            <span class="material-symbols-outlined text-[18px] text-primary">dashboard</span> Dashboard
+                                        <a href="{{ route('owner.dashboard') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-primary/5 hover:text-primary transition-colors">
+                                            <span class="material-symbols-outlined text-[18px] opacity-70">dashboard</span> Dashboard
                                         </a>
                                     @endif
-                                    <a href="{{ route('bookings.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50">
-                                        <span class="material-symbols-outlined text-[18px] text-slate-500">book_online</span> My Bookings
+                                    <a href="{{ route('bookings.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
+                                        <span class="material-symbols-outlined text-[18px] text-slate-400">book_online</span> My Bookings
                                     </a>
-                                    <a href="{{ route('subscription.plans') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50">
-                                        <span class="material-symbols-outlined text-[18px] text-slate-500">workspace_premium</span>
+                                    <a href="{{ route('subscription.plans') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
+                                        <span class="material-symbols-outlined text-[18px] text-slate-400">workspace_premium</span>
                                         My Plan
-                                        <span class="ml-auto text-[10px] bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full uppercase">{{ auth()->user()->subscription?->plan ?? 'Free' }}</span>
+                                        <span class="ml-auto text-[10px] bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">{{ auth()->user()->subscription?->plan ?? 'Free' }}</span>
                                     </a>
-                                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm text-slate-700 hover:bg-slate-50">
-                                        <span class="material-symbols-outlined text-[18px] text-slate-500">person</span> Profile
+                                    <a href="{{ route('profile.edit') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
+                                        <span class="material-symbols-outlined text-[18px] text-slate-400">person</span> Profile
                                     </a>
-                                    <div class="border-t border-slate-100 mt-1.5">
+                                    <div class="border-t border-slate-100 mt-1 pt-1">
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
-                                            <button type="submit" class="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm text-red-500 hover:bg-red-50">
-                                                <span class="material-symbols-outlined text-[18px]">logout</span> Sign Out
+                                            <button type="submit" class="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
+                                                <span class="material-symbols-outlined text-[18px] opacity-70">logout</span> Sign Out
                                             </button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         @else
-                            <a href="{{ route('login') }}" class="hidden sm:flex text-sm font-medium text-white/80 hover:text-white transition-colors px-3 py-2">Log In</a>
-                            <a href="{{ route('register') }}" class="bg-[#e8831a] hover:bg-[#d06b10] text-white px-4 py-2 rounded-xl text-sm font-bold transition-all shadow-md shadow-orange-900/20 flex items-center gap-1.5">
+                            {{-- White background Login Button with Light Shadow --}}
+                            <a href="{{ route('login') }}" class="hidden sm:flex bg-white/95 hover:bg-white text-[#0b3d91] shadow-[0_2px_10px_rgba(0,0,0,0.1)] px-5 py-2 sm:py-2.5 rounded-xl text-sm font-bold transition-all">Log In</a>
+                            <a href="{{ route('register') }}" class="bg-[#e8831a] hover:bg-[#d06b10] text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-sm font-bold transition-all shadow-[0_4px_14px_rgba(232,131,26,0.3)] flex items-center gap-1.5 focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-[#0b3d91]">
                                 <span class="material-symbols-outlined text-[16px]">add_business</span>
                                 <span class="hidden sm:inline">List for Free</span>
                                 <span class="sm:hidden">Join</span>
@@ -160,72 +181,84 @@
                         @endauth
 
                         {{-- Mobile Hamburger --}}
-                        <button @click="mobileOpen = !mobileOpen" class="md:hidden p-2 text-white/80 hover:text-white">
-                            <span class="material-symbols-outlined text-[22px]" x-text="mobileOpen ? 'close' : 'menu'">menu</span>
+                        <button @click="mobileOpen = !mobileOpen" class="xl:hidden p-2 text-white/80 hover:text-white transition-colors">
+                            <span class="material-symbols-outlined text-[24px]" x-text="mobileOpen ? 'close' : 'menu'">menu</span>
                         </button>
                     </div>
                 </div>
+
+                {{-- Mobile/Tablet scrollable categories (Below top bar) --}}
+                <div class="xl:hidden flex items-center gap-2 overflow-x-auto scrollbar-none pb-3 pt-1 border-t border-white/10">
+                    <a href="{{ route('search') }}"
+                            class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ !request()->routeIs('category.show') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                            All
+                    </a>
+                    @foreach($navCategories as $cat)
+                    <a href="{{ route('category.show', $cat) }}"
+                        class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('category.show') && request()->route('category')?->id === $cat->id ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                        {{ $cat->name }}
+                    </a>
+                    @endforeach
+                </div>
             </div>
 
-            {{-- Mobile Search Dropdown --}}
-            <div x-show="mobileSearch" x-transition class="md:hidden bg-[#083180] px-4 pb-3">
-                <form action="{{ route('search') }}" method="GET">
-                    <div class="flex bg-white rounded-xl overflow-hidden h-11">
-                        <div class="relative flex-1">
-                            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
-                            <input type="text" name="q" value="{{ request('q') }}" placeholder="Search..."
-                                class="w-full h-full pl-9 pr-3 text-sm border-0 focus:ring-0 outline-none">
-                        </div>
-                        <button type="submit" class="bg-[#e8831a] text-white px-4 text-sm font-bold">Search</button>
+            {{-- Full Width Search Dropdown (Toggled by the UI Search Button) --}}
+            <div x-show="mobileSearch" 
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 -translate-y-4"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 -translate-y-4"
+                 style="display: none;"
+                 class="absolute top-full left-0 w-full bg-[#083180] border-t border-white/10 py-4 px-4 sm:px-6 lg:px-8 z-40 shadow-2xl backdrop-blur-md">
+                <form action="{{ route('search') }}" method="GET" class="max-w-[1280px] mx-auto flex flex-col sm:flex-row gap-3">
+                    <div class="relative flex-1 bg-white rounded-xl shadow-inner overflow-hidden flex items-center h-12 sm:h-14">
+                        <span class="material-symbols-outlined absolute left-4 text-primary/60 text-[24px]">search</span>
+                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Search villas, restaurants, experiences..."
+                            class="w-full h-full pl-12 pr-4 text-sm sm:text-base border-0 focus:ring-0 outline-none placeholder:text-slate-400 text-slate-900 font-medium">
                     </div>
+                    <button type="submit" class="bg-[#e8831a] hover:bg-[#d06b10] transition-colors shadow-lg shadow-orange-900/30 text-white px-8 h-12 sm:h-14 rounded-xl text-base font-bold flex shrink-0 items-center justify-center gap-2">
+                        <span>Search</span>
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    </button>
                 </form>
             </div>
         </div>
 
-        {{-- ── Tier 2: Categories Navigation Bar ────────────────────────────── --}}
-        <div class="bg-white border-b border-slate-200 shadow-sm">
-            <div class="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-                @php $navCategories = \App\Models\Category::where('is_active', true)->orderBy('sort_order')->get(); @endphp
-                <div class="flex items-center gap-1 overflow-x-auto scrollbar-none h-11">
-                    <a href="{{ route('search') }}"
-                        class="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ !request()->routeIs('category.show') ? 'bg-primary text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100' }}">
-                        <span class="material-symbols-outlined text-[16px]" style="font-variation-settings:'FILL' 1">explore</span>
-                        All
-                    </a>
-                    @foreach($navCategories as $cat)
-                    <a href="{{ route('category.show', $cat) }}"
-                        class="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('category.show') && request()->route('category')?->id === $cat->id ? 'bg-primary text-white shadow-sm' : 'text-slate-600 hover:bg-slate-100' }}">
-                        <span class="material-symbols-outlined text-[16px]">{{ $cat->icon ?? 'storefront' }}</span>
-                        {{ $cat->name }}
-                    </a>
-                    @endforeach
-                    <div class="ml-auto pl-4 flex-shrink-0 hidden md:block">
-                        <a href="{{ route('owner.onboarding.start') }}"
-                            class="flex items-center gap-1.5 text-primary hover:text-primary/80 text-sm font-bold whitespace-nowrap transition-colors">
-                            <span class="material-symbols-outlined text-[16px]">add_circle</span>
-                            Add Listing
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {{-- ── Mobile Full Nav ───────────────────────────────────────────────── --}}
-        <div x-show="mobileOpen" x-transition class="md:hidden bg-white border-b border-slate-200 shadow-lg">
-            <div class="px-4 pt-3 pb-4 space-y-1">
+        {{-- ── Mobile Full Nav (Hamburger menu contents) ───────────────────── --}}
+        <div x-show="mobileOpen" 
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 -translate-y-4"
+             x-transition:enter-end="opacity-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-150"
+             x-transition:leave-start="opacity-100 translate-y-0"
+             x-transition:leave-end="opacity-0 -translate-y-4"
+             style="display: none;"
+             class="xl:hidden bg-white border-b border-slate-200 shadow-xl absolute top-full left-0 w-full">
+            <div class="px-4 pt-3 pb-5 space-y-1 max-h-[70vh] overflow-y-auto">
+                {{-- Only show categories in hamburger if we need them, but they are already in the scrollable row directly above.
+                     Let's keep them here as a fallback list of quick links. --}}
+                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 pt-2 pb-1">Categories</div>
                 @foreach($navCategories as $cat)
                     <a href="{{ route('category.show', $cat) }}"
-                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-700 hover:text-primary hover:bg-primary/5 rounded-xl transition-colors">
-                        <span class="material-symbols-outlined text-[18px] text-primary">{{ $cat->icon ?? 'storefront' }}</span>
+                        class="flex items-center gap-3 px-3 py-3 text-sm font-semibold text-slate-700 hover:text-primary hover:bg-primary/5 rounded-xl transition-colors">
+                        <span class="material-symbols-outlined text-[20px] {{ request()->routeIs('category.show') && request()->route('category')?->id === $cat->id ? 'text-primary' : 'text-slate-400' }}">{{ $cat->icon ?? 'storefront' }}</span>
                         {{ $cat->name }}
                     </a>
                 @endforeach
-                <div class="border-t border-slate-100 pt-3 mt-2">
+                
+                <div class="border-t border-slate-100 pt-4 mt-3 space-y-2">
                     @guest
-                    <a href="{{ route('login') }}" class="flex items-center gap-3 px-3 py-2.5 text-sm font-bold text-slate-700 hover:bg-slate-50 rounded-xl">Log In</a>
+                        <a href="{{ route('login') }}" class="flex items-center gap-3 px-3 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 rounded-xl transition-colors">
+                            <span class="material-symbols-outlined text-[20px] text-slate-400">login</span>
+                            Log In
+                        </a>
                     @endguest
-                    <a href="{{ route('owner.onboarding.start') }}" class="flex items-center gap-3 px-3 py-2.5 text-sm font-bold text-primary rounded-xl">
-                        <span class="material-symbols-outlined text-[18px]">add_circle</span> Add Your Listing
+                    {{-- Replacing "Add Listing" with "List for Free" text but routing strictly --}}
+                    <a href="{{ route('owner.onboarding.start') }}" class="flex items-center gap-3 px-3 py-3 text-sm font-bold text-primary bg-primary/5 rounded-xl transition-colors">
+                        <span class="material-symbols-outlined text-[20px]">add_business</span> 
+                        List Your Business
                     </a>
                 </div>
             </div>

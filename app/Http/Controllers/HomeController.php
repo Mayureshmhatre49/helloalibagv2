@@ -16,7 +16,7 @@ class HomeController extends Controller
     public function index()
     {
         $categories = $this->categoryService->getCategoryWithCounts();
-        $featuredListings = $this->listingService->getFeaturedListings(8);
+        $featuredListings = $this->listingService->getFeaturedListings(4);
         $areas = Area::where('is_active', true)->get();
 
         return view('home', compact('categories', 'featuredListings', 'areas'));

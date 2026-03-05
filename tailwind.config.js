@@ -58,8 +58,9 @@ export default {
                 },
             },
             fontFamily: {
-                display: ['Manrope', ...defaultTheme.fontFamily.sans],
-                serif: ['Noto Serif Display', 'serif'],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+                display: ['Inter', ...defaultTheme.fontFamily.sans],
+                serif: ['"Playfair Display"', 'serif'],
             },
             borderRadius: {
                 DEFAULT: '0.25rem',

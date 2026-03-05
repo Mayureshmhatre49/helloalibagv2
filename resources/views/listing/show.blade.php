@@ -41,30 +41,30 @@
                         <img src="{{ $mainImage->path }}" alt="{{ $listing->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
                     </div>
                 @else
-                    {{-- Grid gallery --}}
-                    <div class="grid grid-cols-2 gap-2 rounded-3xl overflow-hidden" style="height: 480px;">
+                    {{-- Grid gallery responsive layout --}}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-4">
 
-                        {{-- Left: Main / hero image (50%) --}}
-                        <div class="relative cursor-zoom-in overflow-hidden group" @click="open = true; current = 0">
+                        {{-- Top/Left: Main / hero image --}}
+                        <div class="relative cursor-zoom-in overflow-hidden group aspect-square w-full rounded-xl sm:rounded-3xl" @click="open = true; current = 0">
                             <img src="{{ $mainImage->path }}" alt="{{ $listing->title }}"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                         </div>
 
-                        {{-- Right: adaptive grid (50%) --}}
+                        {{-- Bottom/Right: adaptive grid --}}
                         @if($gridImages->count() === 1)
-                            {{-- 2 images total: single image fills entire right half --}}
-                            <div class="relative cursor-zoom-in overflow-hidden group" @click="open = true; current = 1">
+                            {{-- 2 images total: single image --}}
+                            <div class="relative cursor-zoom-in overflow-hidden group aspect-square w-full rounded-xl sm:rounded-3xl" @click="open = true; current = 1">
                                 <img src="{{ $gridImages[0]->path }}" alt="{{ $listing->title }}"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                             </div>
 
                         @elseif($gridImages->count() === 2)
-                            {{-- 3 images total: 2 images stacked vertically --}}
-                            <div class="grid grid-rows-2 gap-2">
+                            {{-- 3 images total: 2 images --}}
+                            <div class="grid grid-rows-2 gap-2 sm:gap-4 aspect-square w-full">
                                 @foreach($gridImages as $i => $image)
-                                    <div class="relative cursor-zoom-in overflow-hidden group" @click="open = true; current = {{ $i + 1 }}">
+                                    <div class="relative cursor-zoom-in overflow-hidden group w-full h-full rounded-xl sm:rounded-3xl" @click="open = true; current = {{ $i + 1 }}">
                                         <img src="{{ $image->path }}" alt="{{ $listing->title }}"
                                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
@@ -74,35 +74,35 @@
 
                         @elseif($gridImages->count() === 3)
                             {{-- 4 images total: 2×2 grid — 3 real images + 4th = "See all" CTA --}}
-                            <div class="grid grid-cols-2 grid-rows-2 gap-2">
+                            <div class="grid grid-cols-2 grid-rows-2 gap-2 sm:gap-4 aspect-square w-full">
                                 @foreach($gridImages as $i => $image)
-                                    <div class="relative cursor-zoom-in overflow-hidden group" @click="open = true; current = {{ $i + 1 }}">
+                                    <div class="relative cursor-zoom-in overflow-hidden group w-full h-full rounded-xl sm:rounded-3xl" @click="open = true; current = {{ $i + 1 }}">
                                         <img src="{{ $image->path }}" alt="{{ $listing->title }}"
                                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                                     </div>
                                 @endforeach
                                 {{-- 4th slot: See all photos CTA --}}
-                                <div class="relative cursor-pointer bg-slate-800 hover:bg-slate-700 transition-colors flex flex-col items-center justify-center gap-2 rounded-sm group"
+                                <div class="relative cursor-pointer bg-slate-800 hover:bg-slate-700 transition-colors flex flex-col items-center justify-center gap-1 sm:gap-2 rounded-xl sm:rounded-3xl group w-full h-full overflow-hidden"
                                      @click="open = true; current = 0">
-                                    <span class="material-symbols-outlined text-white text-3xl" style="font-variation-settings:'FILL' 1">grid_view</span>
-                                    <span class="text-white text-xs font-bold text-center leading-tight px-2">See all<br>{{ $totalImages }} photos</span>
+                                    <span class="material-symbols-outlined text-white text-[24px] sm:text-3xl" style="font-variation-settings:'FILL' 1">grid_view</span>
+                                    <span class="text-white text-[10px] sm:text-xs font-bold text-center leading-tight px-1">See all<br>{{ $totalImages }} photos</span>
                                 </div>
                             </div>
 
                         @else
                             {{-- 5+ images total: straight 2×2 grid, 4th may show +N counter --}}
-                            <div class="grid grid-cols-2 grid-rows-2 gap-2">
+                            <div class="grid grid-cols-2 grid-rows-2 gap-2 sm:gap-4 aspect-square w-full">
                                 @foreach($gridImages as $i => $image)
                                     @php $isLast = ($i === 3); @endphp
-                                    <div class="relative cursor-zoom-in overflow-hidden group" @click="open = true; current = {{ $i + 1 }}">
+                                    <div class="relative cursor-zoom-in overflow-hidden group w-full h-full rounded-xl sm:rounded-3xl" @click="open = true; current = {{ $i + 1 }}">
                                         <img src="{{ $image->path }}" alt="{{ $listing->title }}"
                                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                         @if($isLast && $extraCount > 0)
                                             <div class="absolute inset-0 bg-black/55 flex flex-col items-center justify-center text-white backdrop-blur-[1px]">
-                                                <span class="material-symbols-outlined text-4xl mb-1" style="font-variation-settings:'FILL' 1">photo_library</span>
-                                                <span class="text-3xl font-bold">+{{ $extraCount }}</span>
-                                                <span class="text-sm font-medium mt-1 opacity-80">more photos</span>
+                                                <span class="material-symbols-outlined text-2xl sm:text-4xl mb-1" style="font-variation-settings:'FILL' 1">photo_library</span>
+                                                <span class="text-xl sm:text-3xl font-bold">+{{ $extraCount }}</span>
+                                                <span class="text-[10px] sm:text-sm font-medium mt-1 opacity-80">more photos</span>
                                             </div>
                                         @else
                                             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
