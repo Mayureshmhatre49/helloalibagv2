@@ -76,6 +76,27 @@
     </div>
 </div>
 
+{{-- Analytics Charts --}}
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    {{-- Growth Chart --}}
+    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm p-6">
+        <h2 class="text-base font-bold text-slate-900 flex items-center gap-2 mb-4">
+            <span class="material-symbols-outlined text-primary">trending_up</span>
+            Platform Growth (6 Months)
+        </h2>
+        <div id="growthChart" class="w-full h-72"></div>
+    </div>
+
+    {{-- Inquiry Chart --}}
+    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm p-6">
+        <h2 class="text-base font-bold text-slate-900 flex items-center gap-2 mb-4">
+            <span class="material-symbols-outlined text-purple-500">campaign</span>
+            Inquiries Generated (30 Days)
+        </h2>
+        <div id="inquiryChart" class="w-full h-72"></div>
+    </div>
+</div>
+
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
     {{-- Activity Feed --}}
     <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
@@ -145,4 +166,46 @@
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const primaryColor = '#8B9A46'; // Hello Alibaug Green
+    const secondaryColor = '#0f172a'; // Slate 900
+    const tertiaryColor = '#64748b'; // Slate 500
+
+    // Growth Chart (Area)
+    const growthData = @json($growthChartData);
+    const growthOptions = {
+        series: [
+            { name: 'New Listings', data: growthData.listings.reverse() },
+            { name: 'New Users', data: growthData.users.reverse() }
+        ],
+        chart: { type: 'area', height: 300, fontFamily: 'Manrope, sans-serif', toolbar: { show: false } },
+        colors: [primaryColor, secondaryColor],
+        dataLabels: { enabled: false },
+        stroke: { curve: 'smooth', width: 2 },
+        fill: { type: 'gradient', gradient: { shadeIntensity: 1, opacityFrom: 0.4, opacityTo: 0.05, stops: [0, 90, 100] } },
+        xaxis: { categories: growthData.labels.reverse(), axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { colors: tertiaryColor } } },
+        yaxis: { labels: { style: { colors: tertiaryColor } } },
+        grid: { borderColor: '#f1f5f9', strokeDashArray: 4, yaxis: { lines: { show: true } } },
+        legend: { position: 'top', horizontalAlign: 'right' }
+    };
+    new ApexCharts(document.querySelector("#growthChart"), growthOptions).render();
+
+    // Inquiry Chart (Bar)
+    const inquiryData = @json($inquiryChartData);
+    const inquiryOptions = {
+        series: [{ name: 'Inquiries', data: inquiryData.series.reverse() }],
+        chart: { type: 'bar', height: 300, fontFamily: 'Manrope, sans-serif', toolbar: { show: false } },
+        colors: ['#a855f7'], // Purple
+        plotOptions: { bar: { borderRadius: 4, columnWidth: '60%' } },
+        dataLabels: { enabled: false },
+        xaxis: { categories: inquiryData.labels.reverse(), axisBorder: { show: false }, axisTicks: { show: false }, labels: { style: { colors: tertiaryColor } }, tickAmount: 10 },
+        yaxis: { labels: { style: { colors: tertiaryColor } } },
+        grid: { borderColor: '#f1f5f9', strokeDashArray: 4, yaxis: { lines: { show: true } } }
+    };
+    new ApexCharts(document.querySelector("#inquiryChart"), inquiryOptions).render();
+});
+</script>
 @endsection

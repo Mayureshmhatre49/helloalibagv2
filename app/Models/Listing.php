@@ -99,6 +99,11 @@ class Listing extends Model
         return $this->belongsToMany(Amenity::class, 'listing_amenity');
     }
 
+    public function blogPosts(): BelongsToMany
+    {
+        return $this->belongsToMany(BlogPost::class, 'blog_listing_relations', 'listing_id', 'blog_post_id');
+    }
+
     public function seoMeta(): MorphOne
     {
         return $this->morphOne(SeoMeta::class, 'model');

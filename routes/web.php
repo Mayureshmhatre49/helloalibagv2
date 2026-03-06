@@ -152,6 +152,30 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::get('/areas/{area}/edit', [\App\Http\Controllers\Admin\AreaController::class, 'edit'])->name('areas.edit');
     Route::put('/areas/{area}', [\App\Http\Controllers\Admin\AreaController::class, 'update'])->name('areas.update');
     Route::delete('/areas/{area}', [\App\Http\Controllers\Admin\AreaController::class, 'destroy'])->name('areas.destroy');
+
+    // Blog Categories CRUD
+    Route::get('/blog/categories', [\App\Http\Controllers\Admin\BlogCategoryController::class, 'index'])->name('blog.categories.index');
+    Route::get('/blog/categories/create', [\App\Http\Controllers\Admin\BlogCategoryController::class, 'create'])->name('blog.categories.create');
+    Route::post('/blog/categories', [\App\Http\Controllers\Admin\BlogCategoryController::class, 'store'])->name('blog.categories.store');
+    Route::get('/blog/categories/{category}/edit', [\App\Http\Controllers\Admin\BlogCategoryController::class, 'edit'])->name('blog.categories.edit');
+    Route::put('/blog/categories/{category}', [\App\Http\Controllers\Admin\BlogCategoryController::class, 'update'])->name('blog.categories.update');
+    Route::delete('/blog/categories/{category}', [\App\Http\Controllers\Admin\BlogCategoryController::class, 'destroy'])->name('blog.categories.destroy');
+
+    // Blog Tags CRUD
+    Route::get('/blog/tags', [\App\Http\Controllers\Admin\BlogTagController::class, 'index'])->name('blog.tags.index');
+    Route::get('/blog/tags/create', [\App\Http\Controllers\Admin\BlogTagController::class, 'create'])->name('blog.tags.create');
+    Route::post('/blog/tags', [\App\Http\Controllers\Admin\BlogTagController::class, 'store'])->name('blog.tags.store');
+    Route::get('/blog/tags/{tag}/edit', [\App\Http\Controllers\Admin\BlogTagController::class, 'edit'])->name('blog.tags.edit');
+    Route::put('/blog/tags/{tag}', [\App\Http\Controllers\Admin\BlogTagController::class, 'update'])->name('blog.tags.update');
+    Route::delete('/blog/tags/{tag}', [\App\Http\Controllers\Admin\BlogTagController::class, 'destroy'])->name('blog.tags.destroy');
+
+    // Blog Posts CRUD
+    Route::get('/blog/posts', [\App\Http\Controllers\Admin\BlogPostController::class, 'index'])->name('blog.posts.index');
+    Route::get('/blog/posts/create', [\App\Http\Controllers\Admin\BlogPostController::class, 'create'])->name('blog.posts.create');
+    Route::post('/blog/posts', [\App\Http\Controllers\Admin\BlogPostController::class, 'store'])->name('blog.posts.store');
+    Route::get('/blog/posts/{post}/edit', [\App\Http\Controllers\Admin\BlogPostController::class, 'edit'])->name('blog.posts.edit');
+    Route::put('/blog/posts/{post}', [\App\Http\Controllers\Admin\BlogPostController::class, 'update'])->name('blog.posts.update');
+    Route::delete('/blog/posts/{post}', [\App\Http\Controllers\Admin\BlogPostController::class, 'destroy'])->name('blog.posts.destroy');
 });
 
 // Auth Routes (Breeze) — must be before catch-all slug routes
@@ -162,6 +186,17 @@ Route::post('/listings/{listing}/reviews', [ReviewController::class, 'store'])->
 Route::post('/listings/{listing}/inquiry', [\App\Http\Controllers\InquiryController::class, 'store'])->name('listing.inquiry.store');
 Route::post('/listings/{listing}/book', [\App\Http\Controllers\BookingController::class, 'store'])->middleware('auth')->name('listing.book');
 Route::post('/reviews/{review}/helpful', [ReviewController::class, 'helpful'])->middleware('auth')->name('review.helpful');
+
+// Public Blog Routes
+Route::get('/blog/feed', [\App\Http\Controllers\BlogController::class, 'feed'])->name('blog.feed');
+Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/category/{slug}', [\App\Http\Controllers\BlogController::class, 'category'])->name('blog.category');
+Route::get('/blog/tag/{slug}', [\App\Http\Controllers\BlogController::class, 'tag'])->name('blog.tag');
+Route::get('/blog/author/{slug}', [\App\Http\Controllers\BlogController::class, 'author'])->name('blog.author');
+Route::get('/blog/{post}/og-image', [\App\Http\Controllers\BlogController::class, 'ogImage'])->name('blog.og-image');
+Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
+Route::post('/blog/{post}/vote', [\App\Http\Controllers\BlogController::class, 'vote'])->name('blog.vote');
+Route::get('/sitemap-blog.xml', [\App\Http\Controllers\SitemapController::class, 'blog'])->name('sitemap.blog');
 
 // Static Pages
 Route::get('/about', [\App\Http\Controllers\PageController::class, 'about'])->name('page.about');

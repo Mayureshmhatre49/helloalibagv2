@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @stack('styles')
 </head>
 <body class="bg-background-light text-text-main font-display antialiased" x-data="{ sidebarOpen: false }">
     <div class="flex min-h-screen">
@@ -91,6 +92,25 @@
                             </a>
                         </div>
                     </div>
+
+                    {{-- Blog Section --}}
+                    <div>
+                        <p class="px-3 text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">Blog</p>
+                        <div class="space-y-1">
+                            <a href="{{ route('admin.blog.posts.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('admin.blog.posts.*') ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                                <span class="material-symbols-outlined text-[20px]">article</span>
+                                Posts
+                            </a>
+                            <a href="{{ route('admin.blog.categories.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('admin.blog.categories.*') ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                                <span class="material-symbols-outlined text-[20px]">category</span>
+                                Categories
+                            </a>
+                            <a href="{{ route('admin.blog.tags.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('admin.blog.tags.*') ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                                <span class="material-symbols-outlined text-[20px]">tag</span>
+                                Tags
+                            </a>
+                        </div>
+                    </div>
                 </nav>
 
                 <div class="px-3 py-4 border-t border-gray-700">
@@ -131,5 +151,6 @@
             </div>
         </div>
     </div>
+    @stack('scripts')
 </body>
 </html>

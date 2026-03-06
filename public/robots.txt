@@ -1,2 +1,5 @@
 User-agent: *
 Disallow:
+
+Sitemap: http://helloalibagv2.test/sitemap.xml
+Sitemap: http://helloalibagv2.test/sitemap-blog.xml

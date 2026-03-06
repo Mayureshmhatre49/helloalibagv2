@@ -69,6 +69,11 @@ class User extends Authenticatable
         return $this->role?->slug === 'user';
     }
 
+    public function blogPosts(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(BlogPost::class, 'author_id');
+    }
+
     public function getAvatarUrl(): string
     {
         return $this->avatar

@@ -69,6 +69,10 @@
                             {{ $cat->name }}
                         </a>
                         @endforeach
+                        <a href="{{ route('blog.index') }}"
+                            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('blog.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                            Blog
+                        </a>
                     </div>
 
                     {{-- Right Actions --}}
@@ -199,6 +203,10 @@
                         {{ $cat->name }}
                     </a>
                     @endforeach
+                    <a href="{{ route('blog.index') }}"
+                        class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('blog.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                        Blog
+                    </a>
                 </div>
             </div>
 
@@ -247,6 +255,12 @@
                         {{ $cat->name }}
                     </a>
                 @endforeach
+                
+                <a href="{{ route('blog.index') }}"
+                    class="flex items-center gap-3 px-3 py-3 text-sm font-semibold text-slate-700 hover:text-primary hover:bg-primary/5 rounded-xl transition-colors">
+                    <span class="material-symbols-outlined text-[20px] {{ request()->routeIs('blog.*') ? 'text-primary' : 'text-slate-400' }}">article</span>
+                    Blog
+                </a>
                 
                 <div class="border-t border-slate-100 pt-4 mt-3 space-y-2">
                     @guest
@@ -312,6 +326,7 @@
                         <li><a href="{{ route('page.about') }}" class="hover:text-primary transition-colors">About Us</a></li>
                         <li><a href="{{ route('page.contact') }}" class="hover:text-primary transition-colors">Contact</a></li>
                         <li><a href="{{ route('search') }}" class="hover:text-primary transition-colors">Browse Listings</a></li>
+                        <li><a href="{{ route('blog.index') }}" class="hover:text-primary transition-colors">Blog & Guides</a></li>
                         <li><a href="{{ route('register') }}" class="hover:text-primary transition-colors">List Your Business</a></li>
                     </ul>
                 </div>
