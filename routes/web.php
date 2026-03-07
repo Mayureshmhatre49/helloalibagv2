@@ -199,7 +199,7 @@ Route::post('/blog/{post}/vote', [\App\Http\Controllers\BlogController::class, '
 Route::get('/sitemap-blog.xml', [\App\Http\Controllers\SitemapController::class, 'blog'])->name('sitemap.blog');
 
 // Static Pages
-Route::get('/about', [\App\Http\Controllers\PageController::class, 'about'])->name('page.about');
+Route::get('/about-us', [\App\Http\Controllers\PageController::class, 'about'])->name('page.about');
 Route::get('/contact', [\App\Http\Controllers\PageController::class, 'contact'])->name('page.contact');
 Route::post('/contact', [\App\Http\Controllers\PageController::class, 'contactSubmit'])->name('page.contact.submit');
 Route::get('/privacy-policy', [\App\Http\Controllers\PageController::class, 'privacy'])->name('page.privacy');
