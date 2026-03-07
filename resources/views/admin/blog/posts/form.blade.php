@@ -272,13 +272,7 @@
 @endsection
 
 @push('scripts')
-    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
     <script>
-        document.addEventListener("trix-file-accept", function(event) {
-            event.preventDefault(); // Prevent direct file uploads inside trix for security, can be enabled later
-            alert('Inline image uploads are currently disabled. Please use the featured image facility.');
-        });
-
         const titleInput = document.getElementById('x_title');
         const slugInput = document.getElementById('x_slug');
         const focusKeywordInput = document.getElementById('focus_keyword');
@@ -495,16 +489,52 @@
                 seoScoreCircle.classList.add('text-red-500');
                 seoScoreText.classList.add('text-red-500');
                 seoScoreText.textContent = "Needs Improvement";
-            }
         }
+    </script>
+    <script type="text/javascript" src="https://unpkg.com/trix@2.0.8/dist/trix.umd.min.js"></script>
+    <script>
+        // --- Custom Trix Configuration for SEO Headings ---
+        document.addEventListener("trix-before-initialize", () => {
+            // Add H2 and H3 to Trix's internal block attributes
+            Trix.config.blockAttributes.heading2 = { tagName: "h2", terminal: true, breakOnReturn: true, group: false }
+            Trix.config.blockAttributes.heading3 = { tagName: "h3", terminal: true, breakOnReturn: true, group: false }
 
-        // Listeners for inputs
+            // Grab the default toolbar HTML
+            let toolbar = Trix.config.toolbar.getDefaultHTML();
+            
+            // Find the generic "Heading" button and replace it with specific H1, H2, H3 buttons
+            const newHeadings = `
+                <button type="button" class="trix-button" data-trix-attribute="heading1" title="Heading 1" tabindex="-1">H1</button>
+                <button type="button" class="trix-button" data-trix-attribute="heading2" title="Heading 2" tabindex="-1">H2</button>
+                <button type="button" class="trix-button" data-trix-attribute="heading3" title="Heading 3" tabindex="-1">H3</button>
+            `;
+            
+            // The default heading button looks like: <button type="button" class="trix-button trix-button--icon trix-button--icon-heading-1" data-trix-attribute="heading1" title="Heading" tabindex="-1">Heading</button>
+            // We use string replacement to inject our new buttons.
+            toolbar = toolbar.replace(
+                /<button type="button" class="trix-button trix-button--icon trix-button--icon-heading-1"[^>]*>Heading<\/button>/,
+                newHeadings
+            );
+            
+            // Update the HTML config
+            Trix.config.toolbar.getDefaultHTML = () => toolbar;
+        });
+
+        document.addEventListener("trix-file-accept", function(event) {
+            event.preventDefault(); // Prevent direct file uploads inside trix for security, can be enabled later
+            alert('Inline image uploads are currently disabled. Please use the featured image facility.');
+        });
+        
+        // Listeners for SEO engine
         [titleInput, slugInput, focusKeywordInput, metaTitleInput, metaDescInput, excerptInput].forEach(el => {
             el.addEventListener('input', updatePreview);
         });
 
         // Listen for Trix content changes
-        document.addEventListener("trix-change", updatePreview);
+        document.addEventListener("trix-change", () => {
+            contentInput.value = document.querySelector('trix-editor').value;
+            updatePreview();
+        });
 
         // Initial setup on load
         window.addEventListener('DOMContentLoaded', () => {
