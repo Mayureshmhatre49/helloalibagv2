@@ -35,11 +35,11 @@
                 <p class="text-white/80 text-base max-w-md">Discover luxury stays, premium real estate, and curated dining experiences along the Konkan coast.</p>
                 <div class="mt-8 flex gap-6">
                     <div>
-                        <p class="text-2xl font-bold text-white">500+</p>
+                        <p class="text-2xl font-bold text-white">{{ \App\Models\Listing::count() > 0 ? \App\Models\Listing::count() . '+' : '50+' }}</p>
                         <p class="text-white/60 text-sm">Premium listings</p>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-white">10K+</p>
+                        <p class="text-2xl font-bold text-white">{{ \App\Models\User::count() > 0 ? \App\Models\User::count() . '+' : '100+' }}</p>
                         <p class="text-white/60 text-sm">Happy guests</p>
                     </div>
                     <div>

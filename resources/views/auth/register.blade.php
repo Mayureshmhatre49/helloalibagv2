@@ -38,8 +38,11 @@
                 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] group-focus-within:text-amber-500 transition-colors">call</span>
                 <input id="phone" type="tel" name="phone" value="{{ old('phone') }}" autocomplete="tel"
                     class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:bg-white focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 text-base font-medium transition-all duration-300"
-                    placeholder="+91 98765 43210">
+                    placeholder="+91 98765 43210"
+                    onblur="this.value.trim() === '' || this.value.match(/^(\+91[\s-]?)?[0-9]{10}$/) ? this.setCustomValidity('') : this.setCustomValidity('Please enter a valid phone number (e.g. +91 98765 43210)'); this.reportValidity();"
+                    oninput="this.setCustomValidity('')">
             </div>
+            <p class="mt-1 text-xs text-slate-500 hidden" id="phone-feedback"></p>
         </div>
 
         <!-- Account Type -->

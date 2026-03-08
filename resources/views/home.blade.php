@@ -182,7 +182,7 @@
                 </p>
                 <div class="flex flex-col sm:flex-row gap-3 sm:gap-4">
                     <a href="{{ route('category.show', 'real-estate') }}" class="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-3 rounded-xl font-bold transition-all shadow-lg shadow-primary/20 text-center text-sm sm:text-base">Browse Properties</a>
-                    <a href="#" class="bg-transparent border border-slate-500 hover:border-white text-white px-6 sm:px-8 py-3 rounded-xl font-bold transition-all text-center text-sm sm:text-base">Talk to an Agent</a>
+                    <a href="https://wa.me/919876543210" target="_blank" class="bg-transparent border border-slate-500 hover:border-white text-white px-6 sm:px-8 py-3 rounded-xl font-bold transition-all text-center text-sm sm:text-base">Talk to an Agent</a>
                 </div>
                 <div class="mt-8 sm:mt-10 flex gap-6 sm:gap-8">
                     <div>
@@ -247,7 +247,7 @@
     <div class="max-w-[1280px] mx-auto px-4">
         <h2 class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 mb-6 sm:mb-8">Stories from the Coast</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-8">
-            <article class="flex flex-row sm:flex-col gap-3 group cursor-pointer">
+            <a href="{{ url('/blog') }}" class="flex flex-row sm:flex-col gap-3 group cursor-pointer block">
                 <div class="overflow-hidden rounded-xl w-28 h-28 sm:w-full sm:h-56 flex-shrink-0">
                     <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuATb9RqGRLNFwUnQkWGl-9So1gvmChn9lIU5-O8ax4n6CwjvO5_9BVjLpG7-OWLHtD3WzXUsUMn6WrUw8jgAKWUhGwW63c_ctTOT-HiYF5llGQd7rhuC0VPDEO59P22jRNnr96kagM51UHylZHGsWreEzgPzIudqafKUyGFAPmk1tfzLRtxdBYXHSv5MERRU2kkgbbffH7CYp0EOiDP_9x_LKgbKY48QuSWD2PNxaYksGkz9N92V3K3Cz7PhEIAqibMH57qGdTKPEc" alt="5 Hidden Cafes" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
                 </div>
@@ -256,8 +256,8 @@
                     <h3 class="text-base sm:text-xl font-bold font-serif text-slate-900 group-hover:text-primary transition-colors line-clamp-2">5 Hidden Cafes in Alibaug You Must Visit</h3>
                     <p class="text-slate-500 text-xs sm:text-sm line-clamp-2 hidden sm:block">Discover the culinary secrets tucked away in the lanes of Alibaug.</p>
                 </div>
-            </article>
-            <article class="flex flex-row sm:flex-col gap-3 group cursor-pointer">
+            </a>
+            <a href="{{ url('/blog') }}" class="flex flex-row sm:flex-col gap-3 group cursor-pointer block">
                 <div class="overflow-hidden rounded-xl w-28 h-28 sm:w-full sm:h-56 flex-shrink-0">
                     <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrHIBIjXX_Bd5taVuGlHHl5OWj7SUpm5UA0_SpLyUZFBT7cKS2X0jA795eoEDA03YttzVCUKMWGwxZm8G2e3PcThLHKVz_nbBRVR3kvpWPrjkuEFoQbifA-1onB1yLKTG7i_I01NPF22ex_NBg4gya7KYbJ5b5VF1Hvd-t1MMUKwpUxrBOKFslCJUjbinbCcxqlMrD1Hq1AvdBvuuRQy0fi7dabCTjh2T6c-4arVyPshG4AD1reNzWAFbxV3bnji10MzAMu-w0nu8" alt="Investing in Alibaug" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
                 </div>
@@ -266,8 +266,8 @@
                     <h3 class="text-base sm:text-xl font-bold font-serif text-slate-900 group-hover:text-primary transition-colors line-clamp-2">Investing in Alibaug: 2024 Market Outlook</h3>
                     <p class="text-slate-500 text-xs sm:text-sm line-clamp-2 hidden sm:block">Why Alibaug continues to be the top choice for second home buyers.</p>
                 </div>
-            </article>
-            <article class="flex flex-row sm:flex-col gap-3 group cursor-pointer">
+            </a>
+            <a href="{{ url('/blog') }}" class="flex flex-row sm:flex-col gap-3 group cursor-pointer block">
                 <div class="overflow-hidden rounded-xl w-28 h-28 sm:w-full sm:h-56 flex-shrink-0">
                     <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSKS4HcvLlxOIaLk0ablOzy76JE9Mu3upGe1NogtzvkpA8Ww81gcVCDd1AFnjPZxN86gVsqQegf-dxLSkDgpHlI_QNdC09Y3g9SQtx0oL6jkgPcGVVACwipyFgEw3JiXRrJSxGuGWB_Qq4xI_7w_XJwKUL5pVjwlzl2GI3DQApnAiX3bOYy5SaF9Ev0-DO42vZ5TdhPnql-jFR5fhXHe705iTmBWm58GUel3ZCXBFK0djNqo8mgKdNG9KV54LH3LMa_2bghbfjs0Y" alt="Weekend Itinerary" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
                 </div>
@@ -276,7 +276,7 @@
                     <h3 class="text-base sm:text-xl font-bold font-serif text-slate-900 group-hover:text-primary transition-colors line-clamp-2">A Weekend Itinerary for Wellness Lovers</h3>
                     <p class="text-slate-500 text-xs sm:text-sm line-clamp-2 hidden sm:block">Yoga by the beach, organic farm visits, and spa retreats.</p>
                 </div>
-            </article>
+            </a>
         </div>
     </div>
 </section>
@@ -292,7 +292,7 @@
             <a href="{{ route('register') }}" class="bg-primary hover:bg-primary/90 text-white px-6 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold transition-all shadow-xl shadow-primary/25 w-full sm:w-auto text-center">
                 List Your Business
             </a>
-            <a href="#" class="bg-slate-100 hover:bg-slate-200 text-slate-900 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold transition-all w-full sm:w-auto text-center">
+            <a href="{{ url('/about-us') }}" class="bg-slate-100 hover:bg-slate-200 text-slate-900 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full text-sm sm:text-base font-bold transition-all w-full sm:w-auto text-center">
                 Learn More
             </a>
         </div>

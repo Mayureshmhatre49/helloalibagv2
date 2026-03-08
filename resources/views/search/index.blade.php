@@ -91,7 +91,7 @@
                                            {{ in_array($amenity->id, $filters['amenities'] ?? []) ? 'checked' : '' }}
                                            class="rounded text-primary focus:ring-primary/20" onchange="this.form.submit()">
                                     <span class="material-symbols-outlined text-[14px]">{{ $amenity->icon }}</span>
-                                    {{ $amenity->name }}
+                                    {{ ucwords(strtolower(trim($amenity->name))) }}
                                 </label>
                             @endforeach
                         </div>

@@ -355,9 +355,9 @@
             <div class="border-t border-slate-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-sm text-slate-500">© {{ date('Y') }} Hello Alibaug. All rights reserved.</p>
                 <div class="flex gap-4">
-                    <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all"><span class="material-symbols-outlined text-[18px]">photo_camera</span></a>
-                    <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all"><span class="material-symbols-outlined text-[18px]">alternate_email</span></a>
-                    <a href="#" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all"><span class="material-symbols-outlined text-[18px]">public</span></a>
+                    <a href="https://instagram.com/helloalibaug" target="_blank" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all"><span class="material-symbols-outlined text-[18px]">photo_camera</span></a>
+                    <a href="mailto:hello@helloalibaug.com" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all"><span class="material-symbols-outlined text-[18px]">alternate_email</span></a>
+                    <a href="https://helloalibaug.com" target="_blank" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all"><span class="material-symbols-outlined text-[18px]">public</span></a>
                 </div>
             </div>
         </div>

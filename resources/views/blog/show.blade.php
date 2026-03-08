@@ -361,7 +361,7 @@
                     <div class="flex flex-col justify-center min-w-0">
                         <h4 class="font-semibold text-charcoal dark:text-white text-sm leading-snug group-hover:text-primary transition-colors truncate">{{ $listing->title }}</h4>
                         <p class="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{{ $listing->location->name ?? 'Alibaug' }}</p>
-                        <span class="text-primary font-bold text-sm mt-1">₹{{ number_format($listing->price) }}<span class="text-slate-400 dark:text-slate-500 font-normal text-xs"> / night</span></span>
+                        <span class="text-primary font-bold text-sm mt-1">₹{{ number_format($listing->price) }}@if($listing->category->slug === 'stay')<span class="text-slate-400 dark:text-slate-500 font-normal text-xs"> / night</span>@endif</span>
                     </div>
                 </a>
                 @endforeach

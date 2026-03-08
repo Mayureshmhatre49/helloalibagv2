@@ -60,7 +60,9 @@
         <div class="mt-auto pt-3 flex items-baseline gap-1">
             @if($listing->price)
                 <span class="font-bold text-slate-900 text-base sm:text-lg">₹{{ number_format($listing->price) }}</span>
-                <span class="text-slate-500 text-xs sm:text-sm font-medium">/ night</span>
+                @if($listing->category->slug === 'stay')
+                    <span class="text-slate-500 text-xs sm:text-sm font-medium">/ night</span>
+                @endif
             @else
                 <span class="text-xs sm:text-sm text-slate-500 font-medium">Contact for info</span>
             @endif
