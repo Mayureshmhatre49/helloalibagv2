@@ -1,43 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-   <url>
-      <loc>https://dev.helloalibaug.com/</loc>
-      <priority>1.0</priority>
-   </url>
-   <url>
-      <loc>https://dev.helloalibaug.com/search</loc>
-      <priority>0.8</priority>
-   </url>
-   <url>
-      <loc>https://dev.helloalibaug.com/stay</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://dev.helloalibaug.com/eat</loc>
-      <priority>0.8</priority>
-   </url>
-   <url>
-      <loc>https://dev.helloalibaug.com/events</loc>
-      <priority>0.8</priority>
-   </url>
-   <url>
-      <loc>https://dev.helloalibaug.com/explore</loc>
-      <priority>0.8</priority>
-   </url>
-   <url>
-      <loc>https://dev.helloalibaug.com/services</loc>
-      <priority>0.8</priority>
-   </url>
-   <url>
-      <loc>https://dev.helloalibaug.com/real-estate</loc>
-      <priority>0.8</priority>
-   </url>
-   <url>
-      <loc>https://dev.helloalibaug.com/blog</loc>
-      <priority>0.9</priority>
-   </url>
-   <url>
-      <loc>https://dev.helloalibaug.com/about-us</loc>
-      <priority>0.6</priority>
-   </url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
+    <url>
+        <loc>http://127.0.0.1:8000</loc>
+    
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/stay</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/eat</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/events</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/explore</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/services</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/real-estate</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/stay/villa-azure</loc>
+        <lastmod>2026-03-08T19:51:42+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/stay/the-mango-grove</loc>
+        <lastmod>2026-03-08T19:55:42+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/stay/seaview-penthouse</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/stay/palm-retreat</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/eat/best-seafood-restaurant-alibaug</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/eat/the-coastal-cafe</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/real-estate/premium-plot-in-kashid</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/events/sunset-beach-festival-2026</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/explore/historic-fort-tour</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/services/luxury-yacht-rental</loc>
+        <lastmod>2026-03-08T16:36:46+00:00</lastmod>
+
+            </url>
 </urlset>

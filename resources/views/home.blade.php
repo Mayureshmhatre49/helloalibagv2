@@ -37,12 +37,12 @@
         </p>
 
         {{-- Floating Search Card --}}
-        <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden" x-data="{ activeTab: '{{ $categories->first()?->slug ?? 'stay' }}' }">
+        <div class="w-full max-w-4xl bg-white rounded-2xl shadow-2xl overflow-hidden" x-data="{ activeTab: '{{ $categories->first()?->id ?? 1 }}' }">
             {{-- Category Tabs - Horizontal Scroll on Mobile --}}
             <div class="flex overflow-x-auto hide-scrollbar border-b border-slate-100">
                 @foreach($categories as $cat)
-                    <button @click="activeTab = '{{ $cat->slug }}'"
-                        :class="activeTab === '{{ $cat->slug }}' ? 'text-primary border-b-2 border-primary bg-primary/5 font-bold' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50 font-medium'"
+                    <button type="button" @click="activeTab = '{{ $cat->id }}'"
+                        :class="activeTab === '{{ $cat->id }}' ? 'text-primary border-b-2 border-primary bg-primary/5 font-bold' : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50 font-medium'"
                         class="flex-shrink-0 sm:flex-1 py-3 sm:py-4 px-4 sm:px-6 text-xs sm:text-sm whitespace-nowrap transition-colors">
                         <span class="material-symbols-outlined align-middle mr-0.5 sm:mr-1 text-[16px] sm:text-[20px]">{{ $cat->icon }}</span>
                         <span class="hidden sm:inline">{{ $cat->name }}</span>
@@ -53,7 +53,7 @@
 
             {{-- Search Inputs (Minimalistic) --}}
             <form action="{{ route('search') }}" method="GET" class="p-3 sm:p-5">
-                <input type="hidden" name="category" x-bind:value="activeTab">
+                <input type="hidden" name="category_id" x-bind:value="activeTab">
                 <div class="flex flex-col sm:flex-row gap-3">
                     {{-- Location Input --}}
                     <div class="flex-grow relative border border-slate-200 rounded-xl bg-slate-50 hover:bg-white focus-within:bg-white focus-within:border-primary/30 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
@@ -61,14 +61,6 @@
                         <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary/70 text-[22px]">location_on</span>
                         <input type="text" name="q" class="w-full pl-11 pr-4 pt-5 pb-2 bg-transparent border-none text-slate-900 placeholder-slate-400 text-sm sm:text-base font-medium focus:ring-0" placeholder="Search Alibaug...">
                     </div>
-                    
-                    {{-- Minimalist Guest Count (Optional) --}}
-                    <div class="sm:w-48 relative border border-slate-200 rounded-xl bg-slate-50 hover:bg-white focus-within:bg-white focus-within:border-primary/30 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider absolute top-1.5 left-11">Guests</label>
-                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-primary/70 text-[22px]">group</span>
-                        <input type="number" name="guests" min="1" max="50" class="w-full pl-11 pr-4 pt-5 pb-2 bg-transparent border-none text-slate-900 placeholder-slate-400 text-sm sm:text-base font-medium focus:ring-0" placeholder="Any">
-                    </div>
-
                     {{-- Search Action --}}
                     <button type="submit" class="sm:w-auto bg-primary hover:bg-primary/90 text-white rounded-xl px-8 py-3.5 font-bold text-base shadow-lg shadow-primary/30 flex items-center justify-center gap-2 transition-all">
                         <span class="material-symbols-outlined text-[20px]">search</span>
@@ -141,7 +133,7 @@
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                 <div class="absolute bottom-0 left-0 p-4 sm:p-6">
                     <h3 class="text-white text-lg sm:text-xl font-bold font-serif mb-1">Beachfront Paradises</h3>
-                    <p class="text-white/80 text-xs sm:text-sm mb-2 sm:mb-3">{{ \App\Models\Listing::approved()->count() }} Properties</p>
+                    <p class="text-white/80 text-xs sm:text-sm mb-2 sm:mb-3">Explore Collection</p>
                     <span class="inline-flex items-center text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-2.5 sm:px-3 py-1 rounded-full">Explore</span>
                 </div>
             </div>
@@ -150,7 +142,7 @@
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                 <div class="absolute bottom-0 left-0 p-4 sm:p-6">
                     <h3 class="text-white text-lg sm:text-xl font-bold font-serif mb-1">Architectural Marvels</h3>
-                    <p class="text-white/80 text-xs sm:text-sm mb-2 sm:mb-3">12 Properties</p>
+                    <p class="text-white/80 text-xs sm:text-sm mb-2 sm:mb-3">Explore Collection</p>
                     <span class="inline-flex items-center text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-2.5 sm:px-3 py-1 rounded-full">Explore</span>
                 </div>
             </div>
@@ -159,7 +151,7 @@
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                 <div class="absolute bottom-0 left-0 p-4 sm:p-6">
                     <h3 class="text-white text-lg sm:text-xl font-bold font-serif mb-1">Luxury Resorts</h3>
-                    <p class="text-white/80 text-xs sm:text-sm mb-2 sm:mb-3">8 Properties</p>
+                    <p class="text-white/80 text-xs sm:text-sm mb-2 sm:mb-3">Explore Collection</p>
                     <span class="inline-flex items-center text-white text-[10px] sm:text-xs font-bold uppercase tracking-wider bg-white/20 backdrop-blur-sm px-2.5 sm:px-3 py-1 rounded-full">Explore</span>
                 </div>
             </div>
@@ -265,7 +257,7 @@
 <section class="py-10 sm:py-16 bg-sand/20">
     <div class="max-w-[1280px] mx-auto px-4">
         <h2 class="text-2xl sm:text-3xl font-serif font-bold text-slate-900 mb-6 sm:mb-8">Stories from the Coast</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-8">
             <a href="{{ url('/blog') }}" class="flex flex-row sm:flex-col gap-3 group cursor-pointer block">
                 <div class="overflow-hidden rounded-xl w-28 h-28 sm:w-full sm:h-56 flex-shrink-0">
                     <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuATb9RqGRLNFwUnQkWGl-9So1gvmChn9lIU5-O8ax4n6CwjvO5_9BVjLpG7-OWLHtD3WzXUsUMn6WrUw8jgAKWUhGwW63c_ctTOT-HiYF5llGQd7rhuC0VPDEO59P22jRNnr96kagM51UHylZHGsWreEzgPzIudqafKUyGFAPmk1tfzLRtxdBYXHSv5MERRU2kkgbbffH7CYp0EOiDP_9x_LKgbKY48QuSWD2PNxaYksGkz9N92V3K3Cz7PhEIAqibMH57qGdTKPEc" alt="5 Hidden Cafes" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
@@ -276,26 +268,8 @@
                     <p class="text-slate-500 text-xs sm:text-sm line-clamp-2 hidden sm:block">Discover the culinary secrets tucked away in the lanes of Alibaug.</p>
                 </div>
             </a>
-            <a href="{{ url('/blog') }}" class="flex flex-row sm:flex-col gap-3 group cursor-pointer block">
-                <div class="overflow-hidden rounded-xl w-28 h-28 sm:w-full sm:h-56 flex-shrink-0">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrHIBIjXX_Bd5taVuGlHHl5OWj7SUpm5UA0_SpLyUZFBT7cKS2X0jA795eoEDA03YttzVCUKMWGwxZm8G2e3PcThLHKVz_nbBRVR3kvpWPrjkuEFoQbifA-1onB1yLKTG7i_I01NPF22ex_NBg4gya7KYbJ5b5VF1Hvd-t1MMUKwpUxrBOKFslCJUjbinbCcxqlMrD1Hq1AvdBvuuRQy0fi7dabCTjh2T6c-4arVyPshG4AD1reNzWAFbxV3bnji10MzAMu-w0nu8" alt="Investing in Alibaug" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
-                </div>
-                <div class="flex flex-col gap-1 sm:gap-2 justify-center">
-                    <span class="text-primary text-[10px] sm:text-xs font-bold uppercase tracking-wider">Real Estate</span>
-                    <h3 class="text-base sm:text-xl font-bold font-serif text-slate-900 group-hover:text-primary transition-colors line-clamp-2">Investing in Alibaug: 2026 Market Outlook</h3>
-                    <p class="text-slate-500 text-xs sm:text-sm line-clamp-2 hidden sm:block">Why Alibaug continues to be the top choice for second home buyers.</p>
-                </div>
-            </a>
-            <a href="{{ url('/blog') }}" class="flex flex-row sm:flex-col gap-3 group cursor-pointer block">
-                <div class="overflow-hidden rounded-xl w-28 h-28 sm:w-full sm:h-56 flex-shrink-0">
-                    <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSKS4HcvLlxOIaLk0ablOzy76JE9Mu3upGe1NogtzvkpA8Ww81gcVCDd1AFnjPZxN86gVsqQegf-dxLSkDgpHlI_QNdC09Y3g9SQtx0oL6jkgPcGVVACwipyFgEw3JiXRrJSxGuGWB_Qq4xI_7w_XJwKUL5pVjwlzl2GI3DQApnAiX3bOYy5SaF9Ev0-DO42vZ5TdhPnql-jFR5fhXHe705iTmBWm58GUel3ZCXBFK0djNqo8mgKdNG9KV54LH3LMa_2bghbfjs0Y" alt="Weekend Itinerary" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy">
-                </div>
-                <div class="flex flex-col gap-1 sm:gap-2 justify-center">
-                    <span class="text-primary text-[10px] sm:text-xs font-bold uppercase tracking-wider">Lifestyle</span>
-                    <h3 class="text-base sm:text-xl font-bold font-serif text-slate-900 group-hover:text-primary transition-colors line-clamp-2">A Weekend Itinerary for Wellness Lovers</h3>
-                    <p class="text-slate-500 text-xs sm:text-sm line-clamp-2 hidden sm:block">Yoga by the beach, organic farm visits, and spa retreats.</p>
-                </div>
-            </a>
+            
+            {{-- Upcoming dynamic blog cards from database will go here --}}
         </div>
     </div>
 </section>

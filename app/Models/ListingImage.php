@@ -20,4 +20,11 @@ class ListingImage extends Model
     {
         return $this->belongsTo(Listing::class);
     }
+
+    public function getUrlAttribute(): string
+    {
+        return str_starts_with($this->path, 'http') 
+            ? $this->path 
+            : asset('storage/' . $this->path);
+    }
 }

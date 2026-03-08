@@ -205,6 +205,7 @@ Route::post('/contact', [\App\Http\Controllers\PageController::class, 'contactSu
 Route::get('/privacy-policy', [\App\Http\Controllers\PageController::class, 'privacy'])->name('page.privacy');
 Route::get('/terms-of-service', [\App\Http\Controllers\PageController::class, 'terms'])->name('page.terms');
 
-// Category & Listing Routes (must be last - these use slug routing)
+// Category, Area & Listing Routes (must be last - these use slug routing)
+Route::get('/area/{area:slug}', [\App\Http\Controllers\AreaController::class, 'show'])->name('area.show');
 Route::get('/{category:slug}', [CategoryController::class, 'show'])->name('category.show');
 Route::get('/{category}/{slug}', [ListingController::class, 'show'])->name('listing.show');

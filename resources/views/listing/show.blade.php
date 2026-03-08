@@ -77,7 +77,7 @@
                 @elseif($totalImages === 1)
                     {{-- Single image — full width --}}
                     <div class="aspect-[16/9] rounded-3xl overflow-hidden cursor-zoom-in" @click="open = true; current = 0">
-                        <img src="{{ $mainImage->path }}" alt="{{ $listing->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                        <img src="{{ $mainImage->url }}" alt="{{ $listing->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
                     </div>
                 @else
                     {{-- Grid gallery responsive layout --}}
@@ -85,7 +85,7 @@
 
                         {{-- Top/Left: Main / hero image --}}
                         <div class="relative cursor-zoom-in overflow-hidden group aspect-square w-full rounded-xl sm:rounded-3xl" @click="open = true; current = 0">
-                            <img src="{{ $mainImage->path }}" alt="{{ $listing->title }}"
+                            <img src="{{ $mainImage->url }}" alt="{{ $listing->title }}"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                         </div>
@@ -94,7 +94,7 @@
                         @if($gridImages->count() === 1)
                             {{-- 2 images total: single image --}}
                             <div class="relative cursor-zoom-in overflow-hidden group aspect-square w-full rounded-xl sm:rounded-3xl" @click="open = true; current = 1">
-                                <img src="{{ $gridImages[0]->path }}" alt="{{ $listing->title }}"
+                                <img src="{{ $gridImages[0]->url }}" alt="{{ $listing->title }}"
                                      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                 <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                             </div>
@@ -104,7 +104,7 @@
                             <div class="grid grid-rows-2 gap-2 sm:gap-4 aspect-square w-full">
                                 @foreach($gridImages as $i => $image)
                                     <div class="relative cursor-zoom-in overflow-hidden group w-full h-full rounded-xl sm:rounded-3xl" @click="open = true; current = {{ $i + 1 }}">
-                                        <img src="{{ $image->path }}" alt="{{ $listing->title }}"
+                                        <img src="{{ $image->url }}" alt="{{ $listing->title }}"
                                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                                     </div>
@@ -116,7 +116,7 @@
                             <div class="grid grid-cols-2 grid-rows-2 gap-2 sm:gap-4 aspect-square w-full">
                                 @foreach($gridImages as $i => $image)
                                     <div class="relative cursor-zoom-in overflow-hidden group w-full h-full rounded-xl sm:rounded-3xl" @click="open = true; current = {{ $i + 1 }}">
-                                        <img src="{{ $image->path }}" alt="{{ $listing->title }}"
+                                        <img src="{{ $image->url }}" alt="{{ $listing->title }}"
                                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                         <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                                     </div>
@@ -135,7 +135,7 @@
                                 @foreach($gridImages as $i => $image)
                                     @php $isLast = ($i === 3); @endphp
                                     <div class="relative cursor-zoom-in overflow-hidden group w-full h-full rounded-xl sm:rounded-3xl" @click="open = true; current = {{ $i + 1 }}">
-                                        <img src="{{ $image->path }}" alt="{{ $listing->title }}"
+                                        <img src="{{ $image->url }}" alt="{{ $listing->title }}"
                                              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                                         @if($isLast && $extraCount > 0)
                                             <div class="absolute inset-0 bg-black/55 flex flex-col items-center justify-center text-white backdrop-blur-[1px]">
@@ -180,7 +180,7 @@
                                  x-transition:enter-start="opacity-0"
                                  x-transition:enter-end="opacity-100"
                                  class="absolute inset-0"
-                                 style="background-image: url('{{ $image->path }}'); background-size: cover; background-position: center; filter: blur(28px) saturate(1.4); transform: scale(1.15);">
+                                 style="background-image: url('{{ $image->url }}'); background-size: cover; background-position: center; filter: blur(28px) saturate(1.4); transform: scale(1.15);">
                             </div>
                         @endforeach
                         {{-- Dark scrim over the blurred bg --}}
@@ -195,7 +195,7 @@
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 rounded-lg overflow-hidden border border-white/20 flex-shrink-0">
                                 @if($images->first())
-                                    <img src="{{ $images->first()->path }}" alt="" class="w-full h-full object-cover opacity-70">
+                                    <img src="{{ $images->first()->url }}" alt="" class="w-full h-full object-cover opacity-70">
                                 @endif
                             </div>
                             <div>
@@ -219,7 +219,7 @@
 
                         @foreach($images as $idx => $image)
                             <img x-show="current === {{ $idx }}"
-                                 src="{{ $image->path }}"
+                                 src="{{ $image->url }}"
                                  alt="{{ $image->alt_text ?? $listing->title }}"
                                  class="max-w-full max-h-full object-contain select-none"
                                  style="border-radius: 12px; box-shadow: 0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06);"
@@ -253,7 +253,7 @@
                                     :class="current === {{ $idx }}
                                         ? 'ring-2 ring-white opacity-100 scale-105'
                                         : 'ring-1 ring-white/20 opacity-40 hover:opacity-75 hover:scale-102'">
-                                    <img src="{{ $image->path }}" alt="" class="w-full h-full object-cover">
+                                    <img src="{{ $image->url }}" alt="" class="w-full h-full object-cover">
                                 </button>
                             @endforeach
                         </div>
@@ -335,6 +335,32 @@
                 </div>
             @endif
 
+            {{-- Location Map --}}
+            <div class="bg-white rounded-2xl border border-border-light p-6 mb-6">
+                <h2 class="text-lg font-semibold text-text-main mb-3">Location</h2>
+                @if($listing->address)
+                    <p class="text-sm text-text-secondary mb-4 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">location_on</span>
+                        {{ $listing->address }}, {{ $listing->area?->name ?? '' }}, Alibaug
+                    </p>
+                @elseif($listing->area)
+                    <p class="text-sm text-text-secondary mb-4 flex items-center gap-1">
+                        <span class="material-symbols-outlined text-[16px]">location_on</span>
+                        {{ $listing->area->name }}, Alibaug
+                    </p>
+                @endif
+                <div class="rounded-xl overflow-hidden w-full h-[300px] bg-slate-100 shadow-inner">
+                    <iframe 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        loading="lazy" 
+                        allowfullscreen 
+                        src="https://maps.google.com/maps?q={{ urlencode(($listing->address ? $listing->address . ', ' : '') . ($listing->area?->name ? $listing->area->name . ', ' : '') . 'Alibaug, Maharashtra, India') }}&t=&z=14&ie=UTF8&iwloc=&output=embed">
+                    </iframe>
+                </div>
+            </div>
+
             {{-- Reviews --}}
             <div class="bg-white rounded-2xl border border-border-light p-6 mb-8" id="reviews">
                 <div class="flex items-center justify-between mb-6">
@@ -342,7 +368,20 @@
                 </div>
 
                 @auth
-                    @if(auth()->id() !== $listing->created_by && !$listing->reviews()->where('user_id', auth()->id())->exists())
+                    @php
+                        $hasInquired = \App\Models\Inquiry::where('listing_id', $listing->id)
+                            ->where('user_id', auth()->id())
+                            ->exists();
+                            
+                        $hasBooked = \App\Models\Booking::where('listing_id', $listing->id)
+                            ->where('user_id', auth()->id())
+                            ->whereIn('status', ['confirmed', 'completed'])
+                            ->exists();
+                            
+                        $canReview = ($hasInquired || $hasBooked) && auth()->id() !== $listing->created_by && !$listing->reviews()->where('user_id', auth()->id())->exists();
+                    @endphp
+
+                    @if($canReview)
                         <div class="bg-background-light rounded-xl p-5 mb-8">
                             <h3 class="font-bold text-text-main mb-3">Leave a Review</h3>
                             <form action="{{ route('listing.review.store', $listing) }}" method="POST">
@@ -363,6 +402,11 @@
                                 </div>
                                 <button type="submit" class="bg-primary text-white font-medium px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors border-2 border-primary shadow-sm">Submit Review</button>
                             </form>
+                        </div>
+                    @elseif(!($hasInquired || $hasBooked) && auth()->id() !== $listing->created_by)
+                        <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 mb-8 flex items-center gap-3">
+                            <span class="material-symbols-outlined text-blue-500">verified_user</span>
+                            <p class="text-sm text-text-secondary">Only users who have <strong class="text-text-main">Booked</strong> or <strong class="text-text-main">Inquired</strong> about this listing can leave a review. This ensures all reviews remain authentic!</p>
                         </div>
                     @endif
                 @else
@@ -424,7 +468,7 @@
                         </a>
                     @endif
                     @if($listing->whatsapp)
-                        <a href="https://wa.me/91{{ $listing->whatsapp }}" target="_blank" class="flex items-center justify-center gap-2 w-full bg-green-600 text-white py-3 rounded-xl font-medium text-sm hover:bg-green-700 transition-colors mb-2">
+                        <a href="https://wa.me/91{{ $listing->whatsapp }}?text={{ urlencode('Hi, I\'m interested in ' . $listing->title . ' – ' . url()->current()) }}" target="_blank" class="flex items-center justify-center gap-2 w-full bg-green-600 text-white py-3 rounded-xl font-medium text-sm hover:bg-green-700 transition-colors mb-2">
                             <span class="material-symbols-outlined text-[20px]">chat</span>
                             WhatsApp
                         </a>
@@ -501,6 +545,18 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 @foreach($relatedListings as $related)
                     @include('components.listing-card', ['listing' => $related])
+                @endforeach
+            </div>
+        </section>
+    @endif
+
+    {{-- Recently Viewed --}}
+    @if(isset($recentlyViewed) && $recentlyViewed->count() > 0)
+        <section class="mt-12 mb-8 border-t border-border-light pt-8">
+            <h2 class="text-2xl font-bold text-text-main mb-6">Recently Viewed</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                @foreach($recentlyViewed as $recentView)
+                    @include('components.listing-card', ['listing' => $recentView])
                 @endforeach
             </div>
         </section>

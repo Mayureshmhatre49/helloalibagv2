@@ -172,7 +172,11 @@ class Listing extends Model
         $image = $this->images()->where('is_primary', true)->first()
             ?? $this->images()->first();
 
-        return $image?->path;
+        if (!$image) return null;
+        
+        return str_starts_with($image->path, 'http') 
+            ? $image->path 
+            : asset('storage/' . $image->path);
     }
 
     public function setDynamicAttribute(string $key, ?string $value): void

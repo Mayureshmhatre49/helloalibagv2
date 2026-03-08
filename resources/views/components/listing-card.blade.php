@@ -18,20 +18,27 @@
             {{-- Feature Badge --}}
             <div>
                 @if($listing->is_featured)
-                    <div class="bg-primary text-white px-2 py-1 rounded-md text-[10px] sm:text-xs font-bold shadow-sm backdrop-blur-md bg-opacity-90">
+                    <div class="bg-primary text-white px-2 py-1 rounded-md text-[10px] sm:text-xs font-bold shadow-sm backdrop-blur-md bg-opacity-90 mt-1">
                         Featured
                     </div>
                 @elseif($listing->is_premium)
-                    <div class="bg-amber-500 text-white px-2 py-1 rounded-md text-[10px] sm:text-xs font-bold shadow-sm backdrop-blur-md bg-opacity-90">
+                    <div class="bg-amber-500 text-white px-2 py-1 rounded-md text-[10px] sm:text-xs font-bold shadow-sm backdrop-blur-md bg-opacity-90 mt-1">
                         Premium
                     </div>
                 @endif
             </div>
 
-            {{-- Rating Badge --}}
-            <div class="bg-white/90 backdrop-blur px-2 py-1 rounded-md text-[10px] sm:text-xs font-bold shadow-sm text-slate-800 flex items-center gap-0.5">
-                <span class="material-symbols-outlined text-[14px] text-amber-400" style="font-variation-settings:'FILL' 1">star</span>
-                {{ $listing->getAverageRating() ?: 'New' }}
+            <div class="flex flex-col gap-1 items-end">
+                @if($listing->is_verified)
+                    <div class="bg-blue-600 text-white px-2 py-1 rounded-md text-[10px] sm:text-xs font-bold shadow-sm flex items-center gap-1" title="Verified by Hello Alibaug">
+                        <span class="material-symbols-outlined text-[12px]">verified</span> Verified
+                    </div>
+                @endif
+                {{-- Rating Badge --}}
+                <div class="bg-white/90 backdrop-blur px-2 py-1 rounded-md text-[10px] sm:text-xs font-bold shadow-sm text-slate-800 flex items-center gap-0.5 mt-1">
+                    <span class="material-symbols-outlined text-[14px] text-amber-400" style="font-variation-settings:'FILL' 1">star</span>
+                    {{ $listing->getAverageRating() ?: 'New' }}
+                </div>
             </div>
         </div>
     </div>

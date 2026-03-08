@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @push('title')
-    <title>{{ $post->meta_title ?? $post->title . ' - Hello Alibaug Blog' }}</title>
+    <title>{{ $post->meta_title ?? $post->title }}</title>
 @endpush
 
 @push('meta')

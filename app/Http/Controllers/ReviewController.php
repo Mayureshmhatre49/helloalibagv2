@@ -26,6 +26,20 @@ class ReviewController extends Controller
             return redirect()->back()->with('error', 'You have already reviewed this listing.');
         }
 
+        // Enforce Verified Reviews: User must have either Inquired or Booked this listing
+        $hasInquired = \App\Models\Inquiry::where('listing_id', $listing->id)
+            ->where('user_id', $request->user()->id)
+            ->exists();
+            
+        $hasBooked = \App\Models\Booking::where('listing_id', $listing->id)
+            ->where('user_id', $request->user()->id)
+            ->whereIn('status', ['confirmed', 'completed'])
+            ->exists();
+
+        if (!$hasInquired && !$hasBooked) {
+            return redirect()->back()->with('error', 'You can only review listings you have inquired about or booked.');
+        }
+
         $review = new Review();
         $review->listing_id = $listing->id;
         $review->user_id = $request->user()->id;
