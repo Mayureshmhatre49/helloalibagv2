@@ -1,5 +1,7 @@
 User-agent: *
-Disallow:
+Disallow: /ha-control-2026
+Disallow: /dashboard
+Disallow: /onboarding
 
-Sitemap: http://helloalibagv2.test/sitemap.xml
-Sitemap: http://helloalibagv2.test/sitemap-blog.xml
+Sitemap: https://dev.helloalibaug.com/sitemap.xml
+Sitemap: https://dev.helloalibaug.com/sitemap-blog.xml

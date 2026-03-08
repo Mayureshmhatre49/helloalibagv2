@@ -3,10 +3,21 @@
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    {{-- Page Header --}}
     <div class="mb-8">
-        <h1 class="text-3xl font-bold text-text-main mb-2">{{ $category->name }}</h1>
-        <p class="text-text-secondary">{{ $category->description }}</p>
+        <h1 class="text-3xl sm:text-4xl font-bold text-text-main mb-3">{{ $category->name }} in Alibaug</h1>
+        <p class="text-text-secondary text-lg mb-4">{{ $category->description }}</p>
+        
+        <div class="prose max-w-none text-sm text-text-secondary leading-relaxed">
+            @if($category->slug === 'stay')
+                <p>Discover the finest luxury villas, boutique hotels, and serene farmhouses in Alibaug. Whether you're looking for a beachfront property in Mandwa, a heritage home in Awas, or a modern private pool villa in Nagaon, our curated collection of Stays ensures a perfect coastal getaway. Experience unparalleled hospitality, world-class amenities, and wake up to the sound of waves. Filter by your preferred area, budget, or specific amenities like pet-friendly homes to find your ideal vacation rental.</p>
+            @elseif($category->slug === 'eat')
+                <p>Alibaug's culinary scene is a vibrant mix of authentic Konkani seafood, cozy beachside cafes, and premium fine-dining restaurants. Explore our handpicked guide to the best places to eat in Alibaug. From traditional thalis in local eateries to sunset cocktails at luxury resort lounges, find the perfect spot for every craving. Don't miss the local specialties like Pomfret fry, Surmai thali, and fresh Sol Kadhi. Filter by cuisine to discover your next unforgettable meal.</p>
+            @elseif($category->slug === 'real-estate')
+                <p>Looking to own a piece of paradise? Explore premium real estate listings in Alibaug. From expansive beachfront plots in Kashid to ready-to-move-in luxury villas in Kihim and Zirad, Alibaug is India's most sought-after destination for second homes and smart investments. Our verified real estate listings connect you directly with trusted sellers and agents. Browse through land parcels, agricultural estates, and modern bungalows to find your dream coastal property.</p>
+            @else
+                <p>Welcome to our comprehensive guide for {{ strtolower($category->name) }} in Alibaug. Discover the best local recommendations, curated specifically for travelers seeking premium experiences. Use our intuitive filters to find exactly what you're looking for, read verified reviews from past guests, and connect directly with local businesses to make the most of your coastal getaway.</p>
+            @endif
+        </div>
     </div>
 
     <div class="flex flex-col lg:flex-row gap-8">

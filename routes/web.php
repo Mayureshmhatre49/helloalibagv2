@@ -94,7 +94,7 @@ Route::middleware(['auth', 'role:owner,admin'])->prefix('dashboard')->name('owne
 });
 
 // Admin Panel Routes
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('ha-control-2026')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/listings', [AdminListingController::class, 'index'])->name('listings.index');
     Route::post('/listings/{listing}/approve', [AdminListingController::class, 'approve'])->name('listings.approve');

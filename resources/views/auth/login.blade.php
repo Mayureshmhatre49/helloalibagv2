@@ -50,7 +50,7 @@
         <button type="submit" class="w-full relative group overflow-hidden rounded-xl font-bold text-base text-white py-3.5 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                 style="background: linear-gradient(135deg, #e8a020 0%, #f5c842 100%); box-shadow: 0 8px 25px -4px rgba(232,160,32,0.4);">
             <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>
-            <span class="relative z-10">Sign In to Dashboard</span>
+            <span class="relative z-10">Sign In</span>
         </button>
 
         <div class="pt-6 border-t border-slate-100 text-center">

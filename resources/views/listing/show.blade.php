@@ -2,6 +2,45 @@
 @section('title', $listing->title . ' — ' . $listing->category->name)
 
 @section('content')
+@section('jsonld')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LodgingBusiness",
+  "name": "{{ $listing->title }}",
+  "description": "{{ Str::limit(strip_tags($listing->description), 150) }}",
+  "image": "{{ $listing->getPrimaryImageUrl() ?: asset('images/og-default.jpg') }}",
+  "url": "{{ request()->url() }}",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Alibaug",
+    "addressRegion": "Maharashtra",
+    "addressCountry": "IN"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "{{ route('home') }}"
+  },{
+    "@type": "ListItem",
+    "position": 2,
+    "name": "{{ $listing->category->name }}",
+    "item": "{{ route('category.show', $listing->category) }}"
+  },{
+    "@type": "ListItem",
+    "position": 3,
+    "name": "{{ $listing->title }}"
+  }]
+}
+</script>
+@endsection
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
     {{-- Breadcrumb --}}
     <nav class="flex items-center gap-2 text-sm text-text-secondary mb-6">
@@ -361,13 +400,19 @@
         </div>
 
         {{-- Sidebar --}}
-        <aside class="lg:w-80 flex-shrink-0">
+        <aside class="lg:w-80 flex-shrink-0" id="inquiry-section">
             <div class="lg:sticky lg:top-24 space-y-4">
                 {{-- Price Card --}}
                 <div class="bg-white rounded-2xl border border-border-light p-6">
                     @if($listing->price)
                         <div class="text-2xl font-bold text-text-main mb-1">₹{{ number_format($listing->price) }}</div>
-                        <p class="text-sm text-text-secondary mb-4">per night</p>
+                        @if($listing->category->slug === 'stay')
+                            <p class="text-sm text-text-secondary mb-4">per night</p>
+                        @elseif($listing->category->slug === 'explore' || $listing->category->slug === 'services' || $listing->category->slug === 'events')
+                            <p class="text-sm text-text-secondary mb-4">total price</p>
+                        @else
+                            <div class="mb-4"></div>
+                        @endif
                     @else
                         <p class="text-lg font-semibold text-text-main mb-4">Contact for pricing</p>
                     @endif
@@ -461,4 +506,22 @@
         </section>
     @endif
 </div>
+
+{{-- Mobile Sticky Booking Bar --}}
+<div class="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border-light p-4 z-40 flex items-center justify-between shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+    <div>
+        @if($listing->price)
+            <span class="text-lg font-bold text-text-main">₹{{ number_format($listing->price) }}</span>
+            @if($listing->category->slug === 'stay')
+                <span class="text-xs text-text-secondary">/ night</span>
+            @endif
+        @else
+            <span class="text-sm font-semibold text-text-main">Contact to book</span>
+        @endif
+    </div>
+    <button onclick="document.getElementById('inquiry-section').scrollIntoView({behavior: 'smooth'})" class="bg-primary hover:bg-primary-dark text-white font-bold px-6 py-2.5 rounded-xl text-sm transition-colors shadow-sm">
+        Enquire Now
+    </button>
+</div>
+
 @endsection

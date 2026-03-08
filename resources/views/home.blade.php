@@ -2,6 +2,25 @@
 @section('title', 'Premium Local Marketplace — Stays, Dining & Real Estate')
 
 @section('content')
+@section('jsonld')
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Hello Alibaug",
+  "image": "{{ asset('images/hello-alibaug-banner.png') }}",
+  "url": "{{ url('/') }}",
+  "telephone": "+919876543210",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Alibaug",
+    "addressRegion": "Maharashtra",
+    "addressCountry": "IN"
+  },
+  "description": "Premium Local Marketplace for Stays, Dining & Real Estate in Alibaug."
+}
+</script>
+@endsection
 {{-- Hero Section --}}
 <div class="relative w-full h-[85vh] min-h-[480px] max-h-[700px] sm:h-[600px] sm:max-h-[700px]">
     <div class="absolute inset-0 w-full h-full">
@@ -225,7 +244,7 @@
         <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6 auto-rows-[200px] sm:auto-rows-[300px]">
             @foreach($areas->take(4) as $idx => $area)
                 @php $fallbackImg = $areaImages[$area->name] ?? 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?q=80&w=2062&auto=format&fit=crop'; @endphp
-                <div class="relative rounded-xl sm:rounded-2xl overflow-hidden group {{ $idx === 0 || $idx === 3 ? 'md:col-span-2' : '' }} cursor-pointer">
+                <a href="{{ route('search', ['area_id' => $area->id]) }}" class="relative rounded-xl sm:rounded-2xl overflow-hidden group {{ $idx === 0 || $idx === 3 ? 'md:col-span-2' : '' }} block">
                     @if($area->image)
                         <img src="{{ $area->image }}" alt="{{ $area->name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy">
                     @else
@@ -236,7 +255,7 @@
                         <h3 class="text-lg sm:text-2xl font-bold font-serif">{{ $area->name }}</h3>
                         <p class="text-xs sm:text-sm opacity-90 hidden sm:block">{{ $area->tagline }}</p>
                     </div>
-                </div>
+                </a>
             @endforeach
         </div>
     </div>
@@ -263,7 +282,7 @@
                 </div>
                 <div class="flex flex-col gap-1 sm:gap-2 justify-center">
                     <span class="text-primary text-[10px] sm:text-xs font-bold uppercase tracking-wider">Real Estate</span>
-                    <h3 class="text-base sm:text-xl font-bold font-serif text-slate-900 group-hover:text-primary transition-colors line-clamp-2">Investing in Alibaug: 2024 Market Outlook</h3>
+                    <h3 class="text-base sm:text-xl font-bold font-serif text-slate-900 group-hover:text-primary transition-colors line-clamp-2">Investing in Alibaug: 2026 Market Outlook</h3>
                     <p class="text-slate-500 text-xs sm:text-sm line-clamp-2 hidden sm:block">Why Alibaug continues to be the top choice for second home buyers.</p>
                 </div>
             </a>

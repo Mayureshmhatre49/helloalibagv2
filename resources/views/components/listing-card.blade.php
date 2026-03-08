@@ -50,14 +50,33 @@
                         </button>
                     </form>
                 @else
-                    <a href="{{ route('login') }}" class="flex-shrink-0 ml-2" title="Login to save">
+                    <button onclick="alert('Please sign in to save this listing to your wishlist!'); window.location.href='{{ route('login') }}';" type="button" class="flex-shrink-0 ml-2" title="Login to save">
                         <span class="material-symbols-outlined text-slate-400 hover:text-red-500 transition-colors">favorite</span>
-                    </a>
+                    </button>
                 @endauth
             </div>
         </div>
-        <p class="text-sm text-slate-500 mb-3">{{ $listing->area?->name ? $listing->area->name . ', Alibaug' : $listing->category->name }}</p>
-        <div class="mt-auto pt-3 flex items-baseline gap-1">
+        <p class="text-sm text-slate-500 mb-2 truncate">{{ $listing->area?->name ? $listing->area->name . ', Alibaug' : $listing->category->name }}</p>
+        
+        @if($listing->attrs && (isset($listing->attrs['bedrooms']) || isset($listing->attrs['guests'])))
+        <div class="flex items-center gap-3 text-xs text-slate-500 mb-2 truncate">
+            @if(isset($listing->attrs['guests']))
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">group</span> {{ $listing->attrs['guests'] }}</span>
+            @endif
+            @if(isset($listing->attrs['bedrooms']))
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">bed</span> {{ $listing->attrs['bedrooms'] }}</span>
+            @endif
+            @if(isset($listing->attrs['bathrooms']))
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">shower</span> {{ $listing->attrs['bathrooms'] }}</span>
+            @endif
+        </div>
+        @elseif($listing->category->slug === 'eat' && isset($listing->attrs['cuisine']))
+        <div class="flex items-center gap-3 text-xs text-slate-500 mb-2 truncate">
+            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">restaurant_menu</span> {{ $listing->attrs['cuisine'] }}</span>
+        </div>
+        @endif
+
+        <div class="mt-auto flex items-baseline gap-1">
             @if($listing->price)
                 <span class="font-bold text-slate-900 text-base sm:text-lg">₹{{ number_format($listing->price) }}</span>
                 @if($listing->category->slug === 'stay')

@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         $adminUser = User::create([
             'name' => 'Admin',
             'email' => 'admin@helloalibaug.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('Admin@HelloAlibaug2026!'),
             'role_id' => $admin->id,
         ]);
 
@@ -340,24 +340,6 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // Sample Reviews
-        $approvedListings = Listing::where('status', 'approved')->take(4)->get();
-
-        foreach ($approvedListings as $listing) {
-            Review::create([
-                'listing_id' => $listing->id,
-                'user_id' => $regularUser->id,
-                'rating' => 5,
-                'comment' => 'Absolutely stunning. Highly recommend!',
-                'status' => 'approved',
-            ]);
-            Review::create([
-                'listing_id' => $listing->id,
-                'user_id' => $ownerUser->id,
-                'rating' => 4,
-                'comment' => 'A perfect slice of paradise near Mumbai.',
-                'status' => 'approved',
-            ]);
-        }
+        // Sample reviews removed to prevent identical 4.5 ratings on all featured cards.
     }
 }

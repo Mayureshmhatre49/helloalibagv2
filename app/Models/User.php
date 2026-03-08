@@ -54,6 +54,11 @@ class User extends Authenticatable
     }
 
     // Role helpers
+    public function hasRole(string $role): bool
+    {
+        return $this->role?->slug === $role;
+    }
+
     public function isAdmin(): bool
     {
         return $this->role?->slug === 'admin';

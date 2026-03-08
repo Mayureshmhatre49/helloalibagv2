@@ -13,6 +13,11 @@
         <meta property="og:description" content="@yield('meta_description', 'Discover luxury stays, premium real estate, and authentic local experiences in Alibaug.')">
         <meta property="og:type" content="website">
         <meta property="og:url" content="{{ request()->url() }}">
+        <meta property="og:image" content="{{ asset('images/og-default.jpg') }}">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ config('app.name') }} — @yield('title', 'Discover Alibaug')">
+        <meta name="twitter:description" content="@yield('meta_description', 'Discover luxury stays, premium real estate, and authentic local experiences in Alibaug.')">
+        <meta name="twitter:image" content="{{ asset('images/og-default.jpg') }}">
         <link rel="canonical" href="{{ request()->url() }}">
     @endif
 
@@ -245,17 +250,6 @@
              style="display: none;"
              class="xl:hidden bg-white border-b border-slate-200 shadow-xl absolute top-full left-0 w-full">
             <div class="px-4 pt-3 pb-5 space-y-1 max-h-[70vh] overflow-y-auto">
-                {{-- Only show categories in hamburger if we need them, but they are already in the scrollable row directly above.
-                     Let's keep them here as a fallback list of quick links. --}}
-                <div class="text-[10px] font-bold text-slate-400 uppercase tracking-widest px-3 pt-2 pb-1">Categories</div>
-                @foreach($navCategories as $cat)
-                    <a href="{{ route('category.show', $cat) }}"
-                        class="flex items-center gap-3 px-3 py-3 text-sm font-semibold text-slate-700 hover:text-primary hover:bg-primary/5 rounded-xl transition-colors">
-                        <span class="material-symbols-outlined text-[20px] {{ request()->routeIs('category.show') && request()->route('category')?->id === $cat->id ? 'text-primary' : 'text-slate-400' }}">{{ $cat->icon ?? 'storefront' }}</span>
-                        {{ $cat->name }}
-                    </a>
-                @endforeach
-                
                 <a href="{{ route('blog.index') }}"
                     class="flex items-center gap-3 px-3 py-3 text-sm font-semibold text-slate-700 hover:text-primary hover:bg-primary/5 rounded-xl transition-colors">
                     <span class="material-symbols-outlined text-[20px] {{ request()->routeIs('blog.*') ? 'text-primary' : 'text-slate-400' }}">article</span>
