@@ -51,7 +51,7 @@ class ListingService
     {
         return Listing::where('slug', $slug)
             ->approved()
-            ->with(['category', 'area', 'images', 'amenities', 'creator', 'approvedReviews.user'])
+            ->with(['category', 'area', 'images', 'amenities', 'listingAttributes', 'creator', 'approvedReviews.user'])
             ->first();
     }
 

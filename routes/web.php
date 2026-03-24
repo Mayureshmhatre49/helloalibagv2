@@ -161,6 +161,14 @@ Route::middleware(['auth', 'role:admin'])->prefix('ha-control-2026')->name('admi
     Route::put('/blog/categories/{category}', [\App\Http\Controllers\Admin\BlogCategoryController::class, 'update'])->name('blog.categories.update');
     Route::delete('/blog/categories/{category}', [\App\Http\Controllers\Admin\BlogCategoryController::class, 'destroy'])->name('blog.categories.destroy');
 
+    // Listing Tags CRUD
+    Route::get('/tags', [\App\Http\Controllers\Admin\TagController::class, 'index'])->name('tags.index');
+    Route::get('/tags/create', [\App\Http\Controllers\Admin\TagController::class, 'create'])->name('tags.create');
+    Route::post('/tags', [\App\Http\Controllers\Admin\TagController::class, 'store'])->name('tags.store');
+    Route::get('/tags/{tag}/edit', [\App\Http\Controllers\Admin\TagController::class, 'edit'])->name('tags.edit');
+    Route::put('/tags/{tag}', [\App\Http\Controllers\Admin\TagController::class, 'update'])->name('tags.update');
+    Route::delete('/tags/{tag}', [\App\Http\Controllers\Admin\TagController::class, 'destroy'])->name('tags.destroy');
+
     // Blog Tags CRUD
     Route::get('/blog/tags', [\App\Http\Controllers\Admin\BlogTagController::class, 'index'])->name('blog.tags.index');
     Route::get('/blog/tags/create', [\App\Http\Controllers\Admin\BlogTagController::class, 'create'])->name('blog.tags.create');
@@ -182,10 +190,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('ha-control-2026')->name('admi
 require __DIR__.'/auth.php';
 
 // Interactive/Public POST routes
-Route::post('/listings/{listing}/reviews', [ReviewController::class, 'store'])->middleware('auth')->name('listing.review.store');
-Route::post('/listings/{listing}/inquiry', [\App\Http\Controllers\InquiryController::class, 'store'])->name('listing.inquiry.store');
-Route::post('/listings/{listing}/book', [\App\Http\Controllers\BookingController::class, 'store'])->middleware('auth')->name('listing.book');
-Route::post('/reviews/{review}/helpful', [ReviewController::class, 'helpful'])->middleware('auth')->name('review.helpful');
+Route::post('/listings/{listing}/reviews', [ReviewController::class, 'store'])->middleware(['auth', 'throttle:3,1'])->name('listing.review.store');
+Route::post('/listings/{listing}/inquiry', [\App\Http\Controllers\InquiryController::class, 'store'])->middleware('throttle:5,1')->name('listing.inquiry.store');
+Route::post('/listings/{listing}/book', [\App\Http\Controllers\BookingController::class, 'store'])->middleware(['auth', 'throttle:5,1'])->name('listing.book');
+Route::post('/reviews/{review}/helpful', [ReviewController::class, 'helpful'])->middleware(['auth', 'throttle:10,1'])->name('review.helpful');
 
 // Public Blog Routes
 Route::get('/blog/feed', [\App\Http\Controllers\BlogController::class, 'feed'])->name('blog.feed');
@@ -195,15 +203,19 @@ Route::get('/blog/tag/{slug}', [\App\Http\Controllers\BlogController::class, 'ta
 Route::get('/blog/author/{slug}', [\App\Http\Controllers\BlogController::class, 'author'])->name('blog.author');
 Route::get('/blog/{post}/og-image', [\App\Http\Controllers\BlogController::class, 'ogImage'])->name('blog.og-image');
 Route::get('/blog/{slug}', [\App\Http\Controllers\BlogController::class, 'show'])->name('blog.show');
-Route::post('/blog/{post}/vote', [\App\Http\Controllers\BlogController::class, 'vote'])->name('blog.vote');
+Route::post('/blog/{post}/vote', [\App\Http\Controllers\BlogController::class, 'vote'])->middleware('throttle:10,1')->name('blog.vote');
 Route::get('/sitemap-blog.xml', [\App\Http\Controllers\SitemapController::class, 'blog'])->name('sitemap.blog');
 
 // Static Pages
 Route::get('/about-us', [\App\Http\Controllers\PageController::class, 'about'])->name('page.about');
 Route::get('/contact', [\App\Http\Controllers\PageController::class, 'contact'])->name('page.contact');
-Route::post('/contact', [\App\Http\Controllers\PageController::class, 'contactSubmit'])->name('page.contact.submit');
+Route::post('/contact', [\App\Http\Controllers\PageController::class, 'contactSubmit'])->middleware('throttle:3,1')->name('page.contact.submit');
 Route::get('/privacy-policy', [\App\Http\Controllers\PageController::class, 'privacy'])->name('page.privacy');
 Route::get('/terms-of-service', [\App\Http\Controllers\PageController::class, 'terms'])->name('page.terms');
+Route::post('/newsletter/subscribe', [\App\Http\Controllers\PageController::class, 'newsletterSubscribe'])->middleware('throttle:3,1')->name('newsletter.subscribe');
+Route::get('/emergency', [\App\Http\Controllers\PageController::class, 'emergency'])->name('page.emergency');
+Route::get('/local-markets', [\App\Http\Controllers\PageController::class, 'localMarkets'])->name('page.local-markets');
+Route::get('/how-to-reach', [\App\Http\Controllers\PageController::class, 'howToReach'])->name('page.how-to-reach');
 
 // Category, Area & Listing Routes (must be last - these use slug routing)
 Route::get('/area/{area:slug}', [\App\Http\Controllers\AreaController::class, 'show'])->name('area.show');

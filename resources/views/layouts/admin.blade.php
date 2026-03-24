@@ -51,6 +51,10 @@
                                 <span class="material-symbols-outlined text-[20px]">location_on</span>
                                 Areas
                             </a>
+                            <a href="{{ route('admin.tags.index') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('admin.tags.*') ? 'bg-white/10 text-white' : 'text-gray-400 hover:bg-white/5 hover:text-white' }}">
+                                <span class="material-symbols-outlined text-[20px]">local_offer</span>
+                                Listing Tags
+                            </a>
                         </div>
                     </div>
 

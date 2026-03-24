@@ -217,27 +217,51 @@
                             <p class="text-slate-500">Upload high-quality photos. The first photo will be your cover image. (JPEG / PNG, max 8 MB each)</p>
                         </div>
 
-                        <div class="border-2 border-dashed border-slate-300 rounded-3xl p-10 text-center transition-colors"
-                             :class="imagesCount >= 1 ? 'border-green-300 bg-green-50' : 'bg-slate-50 hover:border-primary/40'">
-                            <span class="material-symbols-outlined text-5xl mb-4" :class="imagesCount >= 1 ? 'text-green-500' : 'text-slate-400'" style="font-variation-settings:'FILL' 1">
-                                <span x-text="imagesCount >= 1 ? 'check_circle' : 'add_photo_alternate'"></span>
+                        <div class="border-2 border-dashed rounded-3xl p-8 text-center transition-colors"
+                             :class="photoError ? 'border-red-400 bg-red-50' : (imagesCount >= 1 ? 'border-green-300 bg-green-50' : 'border-slate-300 bg-slate-50 hover:border-primary/40')">
+
+                            <span class="material-symbols-outlined text-5xl mb-3 block"
+                                  :class="photoError ? 'text-red-400' : (imagesCount >= 1 ? 'text-green-500' : 'text-slate-400')"
+                                  style="font-variation-settings:'FILL' 1"
+                                  x-text="photoError ? 'error' : (imagesCount >= 1 ? 'check_circle' : 'add_photo_alternate')">
                             </span>
-                            <h3 class="font-bold text-slate-800 text-lg mb-2">Upload Listing Photos</h3>
-                            <p class="text-sm text-slate-500 mb-6">Select one or more photos from your device.</p>
+
+                            <h3 class="font-bold text-slate-800 text-lg mb-1">Upload Listing Photos</h3>
+                            <p class="text-sm text-slate-500 mb-5">Select one or more photos from your device. First photo becomes your cover image.</p>
 
                             <input type="file" name="images[]" id="imageInput" multiple accept="image/jpeg,image/png,image/webp"
                                    @change="updateImageCount" class="hidden">
 
-                            <label for="imageInput" class="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-xl font-bold shadow-md cursor-pointer hover:bg-primary/90 transition-colors">
+                            <label for="imageInput"
+                                   class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold shadow-md cursor-pointer transition-colors"
+                                   :class="imagesCount >= 1 ? 'bg-slate-700 hover:bg-slate-800 text-white' : 'bg-primary hover:bg-primary/90 text-white'">
                                 <span class="material-symbols-outlined text-[18px]">upload</span>
-                                Browse & Upload
+                                <span x-text="imagesCount >= 1 ? 'Change Photos' : 'Browse & Upload'">Browse & Upload</span>
                             </label>
 
-                            <div class="mt-5" x-show="imagesCount > 0">
-                                <p class="font-bold text-green-700 flex items-center justify-center gap-2">
-                                    <span class="material-symbols-outlined text-[18px]">check_circle</span>
-                                    <span x-text="imagesCount + ' photo' + (imagesCount > 1 ? 's' : '') + ' selected'"></span>
-                                </p>
+                            {{-- Inline error --}}
+                            <p x-show="photoError" x-cloak class="mt-3 text-sm font-bold text-red-600 flex items-center justify-center gap-1">
+                                <span class="material-symbols-outlined text-[16px]">warning</span>
+                                Please upload at least 1 photo to continue.
+                            </p>
+                        </div>
+
+                        {{-- Thumbnail previews --}}
+                        <div x-show="previews.length > 0" x-cloak class="mt-4">
+                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">
+                                <span x-text="imagesCount"></span> photo<span x-text="imagesCount !== 1 ? 's' : ''"></span> selected — first is your cover
+                            </p>
+                            <div class="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                                <template x-for="(src, idx) in previews" :key="idx">
+                                    <div class="relative aspect-square rounded-xl overflow-hidden border-2 transition-colors"
+                                         :class="idx === 0 ? 'border-primary' : 'border-transparent'">
+                                        <img :src="src" class="w-full h-full object-cover">
+                                        <div x-show="idx === 0"
+                                             class="absolute bottom-0 left-0 right-0 bg-primary text-white text-[9px] font-bold text-center py-0.5">
+                                            Cover
+                                        </div>
+                                    </div>
+                                </template>
                             </div>
                         </div>
 
@@ -291,26 +315,77 @@
                             <p class="text-slate-500">Almost there! Check your info below before submitting.</p>
                         </div>
 
-                        <div class="space-y-3 mb-8">
-                            <div class="flex items-center justify-between bg-slate-50 rounded-xl px-5 py-4 border border-slate-100">
-                                <div>
-                                    <p class="text-xs text-slate-400 mb-0.5">Category</p>
-                                    <p class="font-bold text-slate-900">{{ $category->name }}</p>
+                        <div class="space-y-2.5 mb-8">
+                            {{-- Category (static, no edit needed) --}}
+                            <div class="flex items-center bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
+                                <div class="flex-1">
+                                    <p class="text-[11px] text-slate-400 font-medium mb-0.5">Category</p>
+                                    <p class="font-bold text-slate-900 text-sm">{{ $category->name }}</p>
                                 </div>
                             </div>
-                            <div class="flex items-center justify-between bg-slate-50 rounded-xl px-5 py-4 border border-slate-100">
+
+                            {{-- Title --}}
+                            <div class="flex items-center bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-xs text-slate-400 mb-0.5">Listing Title</p>
-                                    <p class="font-bold text-slate-900 truncate" x-text="formData.title || '—'"></p>
+                                    <p class="text-[11px] text-slate-400 font-medium mb-0.5">Listing Title</p>
+                                    <p class="font-bold text-slate-900 text-sm truncate" x-text="formData.title || '—'"></p>
                                 </div>
-                                <button type="button" @click="goToStep(1)" class="ml-4 text-primary text-sm font-bold hover:underline flex-shrink-0">Edit</button>
+                                <button type="button" @click="goToStep(1)" class="ml-4 text-primary text-xs font-bold hover:underline flex-shrink-0">Edit</button>
                             </div>
-                            <div class="flex items-center justify-between bg-slate-50 rounded-xl px-5 py-4 border border-slate-100">
-                                <div>
-                                    <p class="text-xs text-slate-400 mb-0.5">Photos</p>
-                                    <p class="font-bold" :class="imagesCount >= 1 ? 'text-green-700' : 'text-red-500'" x-text="imagesCount > 0 ? imagesCount + ' photo(s) attached' : 'No photos — please go back!'"></p>
+
+                            {{-- Area + Price --}}
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <div class="flex items-center bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-[11px] text-slate-400 font-medium mb-0.5">Area / Location</p>
+                                        <p class="font-bold text-slate-900 text-sm truncate" x-text="areaDisplayName"></p>
+                                    </div>
+                                    <button type="button" @click="goToStep(1)" class="ml-2 text-primary text-xs font-bold hover:underline flex-shrink-0">Edit</button>
                                 </div>
-                                <button type="button" @click="goToStep(totalSteps - 2)" class="ml-4 text-primary text-sm font-bold hover:underline">Edit</button>
+                                <div class="flex items-center bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-[11px] text-slate-400 font-medium mb-0.5">Price</p>
+                                        <p class="font-bold text-slate-900 text-sm" x-text="priceDisplay"></p>
+                                    </div>
+                                    <button type="button" @click="goToStep(1)" class="ml-2 text-primary text-xs font-bold hover:underline flex-shrink-0">Edit</button>
+                                </div>
+                            </div>
+
+                            {{-- Description snippet --}}
+                            <div class="flex items-start bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-[11px] text-slate-400 font-medium mb-0.5">Description</p>
+                                    <p class="text-slate-700 text-sm leading-relaxed" x-text="descriptionPreview"></p>
+                                </div>
+                                <button type="button" @click="goToStep(1)" class="ml-4 text-primary text-xs font-bold hover:underline flex-shrink-0 mt-0.5">Edit</button>
+                            </div>
+
+                            {{-- Contact --}}
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <div class="bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
+                                    <p class="text-[11px] text-slate-400 font-medium mb-0.5">Phone / WhatsApp</p>
+                                    <p class="font-bold text-slate-900 text-sm" x-text="formData.phone || '—'"></p>
+                                </div>
+                                <div class="bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
+                                    <p class="text-[11px] text-slate-400 font-medium mb-0.5">Email</p>
+                                    <p class="font-bold text-slate-900 text-sm truncate" x-text="formData.email || '—'"></p>
+                                </div>
+                            </div>
+
+                            {{-- Photos --}}
+                            <div class="flex items-center bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
+                                <div class="flex-1">
+                                    <p class="text-[11px] text-slate-400 font-medium mb-0.5">Photos</p>
+                                    <p class="font-bold text-sm" :class="imagesCount >= 1 ? 'text-green-700' : 'text-red-500'"
+                                       x-text="imagesCount > 0 ? imagesCount + ' photo' + (imagesCount > 1 ? 's' : '') + ' ready' : 'No photos — go back and upload!'"></p>
+                                </div>
+                                <div class="flex items-center gap-1 ml-4 flex-shrink-0">
+                                    <template x-for="(src, idx) in previews.slice(0,3)" :key="idx">
+                                        <img :src="src" class="w-8 h-8 rounded-lg object-cover border border-white shadow-sm">
+                                    </template>
+                                    <span x-show="previews.length > 3" class="text-[11px] text-slate-500 font-bold ml-1" x-text="'+' + (previews.length - 3) + ' more'"></span>
+                                </div>
+                                <button type="button" @click="goToStep(totalSteps - 2)" class="ml-3 text-primary text-xs font-bold hover:underline flex-shrink-0">Edit</button>
                             </div>
                         </div>
 
@@ -358,6 +433,9 @@ document.addEventListener('alpine:init', () => {
         hasAttributes: {{ $category->attributes->count() > 0 ? 'true' : 'false' }},
         hasAmenities:  {{ $amenities->count() > 0 ? 'true' : 'false' }},
         imagesCount: 0,
+        previews: [],
+        photoError: false,
+        areaMap: { @foreach($areas as $area)'{{ $area->id }}': '{{ addslashes($area->name) }}',@endforeach },
         formData: {
             title: '{{ old("title", "") }}',
             area_id: '{{ old("area_id", "") }}',
@@ -368,6 +446,19 @@ document.addEventListener('alpine:init', () => {
             phone: '{{ auth()->user()->phone ?? "" }}',
             meta_title: '',
             meta_description: '',
+        },
+
+        get areaDisplayName() {
+            return this.areaMap[this.formData.area_id] || '—';
+        },
+        get descriptionPreview() {
+            const d = this.formData.description;
+            if (!d) return '—';
+            return d.length > 120 ? d.substring(0, 120) + '…' : d;
+        },
+        get priceDisplay() {
+            if (!this.formData.price) return 'Not specified';
+            return '₹' + Number(this.formData.price).toLocaleString('en-IN');
         },
 
         get totalSteps() {
@@ -416,7 +507,10 @@ document.addEventListener('alpine:init', () => {
         },
 
         updateImageCount(e) {
-            this.imagesCount = e.target.files.length;
+            const files = Array.from(e.target.files);
+            this.imagesCount = files.length;
+            this.photoError = false;
+            this.previews = files.map(f => URL.createObjectURL(f));
         },
 
         goToStep(s) {
@@ -468,7 +562,7 @@ document.addEventListener('alpine:init', () => {
             });
 
             if (s === this.totalSteps - 2 && this.imagesCount < 1) {
-                alert('Please upload at least 1 photo before continuing.');
+                this.photoError = true;
                 return false;
             }
             return isValid;

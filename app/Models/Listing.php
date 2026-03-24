@@ -198,4 +198,47 @@ class Listing extends Model
     {
         $this->increment('views_count');
     }
+
+    // Tags relationship for 'Best For' Smart Tags
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class, 'listing_tag');
+    }
+
+    /**
+     * Listing Quality Score (0–100)
+     * image(+20), description(+20), phone(+15), amenities(+15), area(+10), price(+10), whatsapp(+10)
+     */
+    public function getQualityScore(): int
+    {
+        $score = 0;
+
+        if ($this->images()->count() > 0) $score += 20;
+        if (!empty($this->description) && strlen($this->description) > 50) $score += 20;
+        if (!empty($this->phone)) $score += 15;
+        if ($this->amenities()->count() > 0) $score += 15;
+        if (!empty($this->area_id)) $score += 10;
+        if (!empty($this->price) && $this->price > 0) $score += 10;
+        if (!empty($this->whatsapp)) $score += 10;
+
+        return $score;
+    }
+
+    public function getQualityLabel(): string
+    {
+        $score = $this->getQualityScore();
+        if ($score >= 80) return 'Excellent';
+        if ($score >= 60) return 'Good';
+        if ($score >= 40) return 'Fair';
+        return 'Needs Work';
+    }
+
+    public function getQualityColor(): string
+    {
+        $score = $this->getQualityScore();
+        if ($score >= 80) return 'text-emerald-600 bg-emerald-50';
+        if ($score >= 60) return 'text-blue-600 bg-blue-50';
+        if ($score >= 40) return 'text-amber-600 bg-amber-50';
+        return 'text-red-600 bg-red-50';
+    }
 }

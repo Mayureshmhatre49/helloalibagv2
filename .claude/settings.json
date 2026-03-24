@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:helloalibaug.com)",
+      "WebFetch(domain:www.paisleyexperience.com)",
+      "WebFetch(domain:share.google)",
+      "WebFetch(domain:www.google.com)"
+    ]
+  }
+}

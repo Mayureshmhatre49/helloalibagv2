@@ -1,0 +1,20 @@
+@extends('layouts.app')
+@section('title', 'Down for Maintenance')
+@section('meta_desc', 'Hello Alibaug is currently undergoing scheduled maintenance. We will be back shortly.')
+
+@section('content')
+<main class="bg-slate-50 min-h-screen flex items-center justify-center">
+    <div class="max-w-lg mx-auto px-6 py-20 text-center">
+        <div class="inline-flex items-center justify-center w-20 h-20 rounded-full bg-amber-100 text-amber-500 mb-6">
+            <span class="material-symbols-outlined text-4xl">construction</span>
+        </div>
+        <h1 class="text-6xl font-serif font-bold text-slate-900 mb-3">503</h1>
+        <h2 class="text-xl font-bold text-slate-700 mb-3">Down for Maintenance</h2>
+        <p class="text-slate-500 mb-8">Hello Alibaug is undergoing scheduled maintenance and will be back shortly. Thank you for your patience.</p>
+
+        <p class="text-sm text-slate-400">Need urgent help? Email us at
+            <a href="mailto:hello@helloalibaug.com" class="text-primary hover:underline">hello@helloalibaug.com</a>
+        </p>
+    </div>
+</main>
+@endsection

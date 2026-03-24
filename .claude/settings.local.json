@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find /c/xampp/htdocs/helloalibgv2/public -type f \\\\\\(-name *.css -o -name *.js -o -name *.woff* -o -name *.ttf \\\\\\))",
+      "Bash(git -C /c/xampp/htdocs/helloalibgv2 diff app/Http/Controllers/PageController.php)",
+      "Bash(git -C /c/xampp/htdocs/helloalibgv2 diff app/Models/Listing.php)",
+      "Bash(git -C /c/xampp/htdocs/helloalibgv2 diff routes/web.php)",
+      "Bash(find /c/xampp/htdocs/helloalibgv2/tests -type f -name *.php)",
+      "Bash(find /c/xampp/htdocs/helloalibgv2/resources/views/listing -type f -name *.blade.php)",
+      "Bash(find /c/xampp/htdocs/helloalibgv2/resources/views/category -type f -name *.blade.php)",
+      "Bash(find /c/xampp/htdocs/helloalibgv2/resources/views/emails -type f -name *.blade.php)",
+      "Bash(find /c/xampp/htdocs/helloalibgv2/resources/views/bookings -type f -name *.blade.php)",
+      "Bash(git -C /c/xampp/htdocs/helloalibgv2 log --oneline -10)",
+      "Bash(git -C /c/xampp/htdocs/helloalibgv2 status)",
+      "Bash(php artisan:*)",
+      "WebSearch",
+      "WebFetch(domain:www.tripadvisor.in)",
+      "WebFetch(domain:alibagtourism.com)",
+      "WebFetch(domain:wanderlog.com)",
+      "WebFetch(domain:www.justdial.com)",
+      "WebFetch(domain:urbanaut.app)",
+      "WebFetch(domain:www.sluurpy.in)",
+      "WebFetch(domain:www.facebook.com)",
+      "WebFetch(domain:www.zomato.com)",
+      "WebFetch(domain:www.onthebuzz.in)",
+      "WebFetch(domain:www.goya.in)",
+      "Bash(php -r \":*)",
+      "Bash(wc -l /c/xampp/htdocs/helloalibgv2/resources/views/listing/categories/*.blade.php)",
+      "Bash(npm run:*)"
+    ]
+  }
+}

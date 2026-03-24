@@ -3,5 +3,5 @@ Disallow: /ha-control-2026
 Disallow: /dashboard
 Disallow: /onboarding
 
-Sitemap: https://dev.helloalibaug.com/sitemap.xml
-Sitemap: https://dev.helloalibaug.com/sitemap-blog.xml
+Sitemap: https://helloalibaug.com/sitemap.xml
+Sitemap: https://helloalibaug.com/sitemap-blog.xml

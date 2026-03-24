@@ -10,7 +10,7 @@ class ListingImage extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['listing_id', 'path', 'alt_text', 'sort_order', 'is_primary'];
+    protected $fillable = ['listing_id', 'path', 'alt_text', 'sort_order', 'is_primary', 'image_type'];
 
     protected $casts = [
         'is_primary' => 'boolean',
