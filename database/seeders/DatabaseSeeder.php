@@ -36,310 +36,291 @@ class DatabaseSeeder extends Seeder
         // Roles
         $admin = Role::create(['name' => 'Admin', 'slug' => 'admin']);
         $owner = Role::create(['name' => 'Owner', 'slug' => 'owner']);
-        $user = Role::create(['name' => 'User', 'slug' => 'user']);
+        $user  = Role::create(['name' => 'User',  'slug' => 'user']);
 
         // Admin user
         $adminUser = User::create([
-            'name' => 'Admin',
-            'email' => 'admin@helloalibaug.com',
-            'password' => Hash::make('*****************'),
-            'role_id' => $admin->id,
+            'name'     => 'Admin',
+            'email'    => 'admin@helloalibaug.com',
+            'password' => Hash::make('Admin@123'),
+            'role_id'  => $admin->id,
         ]);
 
-        // Owner user
+        // Owner user — Nishat Mhatre (admin)
         $ownerUser = User::create([
-            'name' => 'Rajesh Mehta',
-            'email' => 'owner@helloalibaug.com',
-            'password' => Hash::make('*****************'),
-            'role_id' => $owner->id,
-            'phone' => '9876543210',
+            'name'     => 'Nishat Mhatre',
+            'email'    => 'owner@helloalibaug.com',
+            'password' => Hash::make('Owner@123'),
+            'role_id'  => $admin->id,   // admin role as requested
+            'phone'    => '9082804115',
         ]);
 
         // Regular user
         $regularUser = User::create([
-            'name' => 'Priya Singh',
-            'email' => 'user@helloalibaug.com',
-            'password' => Hash::make('***************'),
-            'role_id' => $user->id,
+            'name'     => 'Priya Singh',
+            'email'    => 'user@helloalibaug.com',
+            'password' => Hash::make('User@123'),
+            'role_id'  => $user->id,
         ]);
 
         // Categories
         $categoriesData = [
-            ['name' => 'Stay', 'slug' => 'stay', 'icon' => 'villa', 'description' => 'Luxury villas, hotels, and vacation rentals', 'sort_order' => 1],
-            ['name' => 'Eat', 'slug' => 'eat', 'icon' => 'restaurant', 'description' => 'Restaurants, cafes, and dining experiences', 'sort_order' => 2],
-            ['name' => 'Events', 'slug' => 'events', 'icon' => 'celebration', 'description' => 'Events, parties, and celebrations', 'sort_order' => 3],
-            ['name' => 'Explore', 'slug' => 'explore', 'icon' => 'explore', 'description' => 'Activities, tours, and experiences', 'sort_order' => 4],
-            ['name' => 'Services', 'slug' => 'services', 'icon' => 'concierge', 'description' => 'Local services and concierge', 'sort_order' => 5],
-            ['name' => 'Real Estate', 'slug' => 'real-estate', 'icon' => 'real_estate_agent', 'description' => 'Property sales, land, and investments', 'sort_order' => 6],
+            ['name' => 'Stay',        'slug' => 'stay',        'icon' => 'villa',              'description' => 'Luxury villas, hotels, and vacation rentals',  'sort_order' => 1],
+            ['name' => 'Eat',         'slug' => 'eat',         'icon' => 'restaurant',         'description' => 'Restaurants, cafes, and dining experiences',    'sort_order' => 2],
+            ['name' => 'Events',      'slug' => 'events',      'icon' => 'celebration',        'description' => 'Events, parties, and celebrations',             'sort_order' => 3],
+            ['name' => 'Explore',     'slug' => 'explore',     'icon' => 'explore',            'description' => 'Activities, tours, and experiences',            'sort_order' => 4],
+            ['name' => 'Services',    'slug' => 'services',    'icon' => 'concierge',          'description' => 'Local services and concierge',                  'sort_order' => 5],
+            ['name' => 'Real Estate', 'slug' => 'real-estate', 'icon' => 'real_estate_agent',  'description' => 'Property sales, land, and investments',         'sort_order' => 6],
         ];
         foreach ($categoriesData as $cat) {
             Category::create($cat);
         }
 
         $stay = Category::where('slug', 'stay')->first();
-        $eat = Category::where('slug', 'eat')->first();
-        $realEstate = Category::where('slug', 'real-estate')->first();
+        $eat  = Category::where('slug', 'eat')->first();
 
         // Areas
         $areasData = [
-            ['name' => 'Mandwa', 'slug' => 'mandwa', 'tagline' => 'The gateway to luxury living'],
-            ['name' => 'Kihim', 'slug' => 'kihim', 'tagline' => 'Quiet beaches & green lanes'],
+            ['name' => 'Mandwa',       'slug' => 'mandwa',       'tagline' => 'The gateway to luxury living'],
+            ['name' => 'Kihim',        'slug' => 'kihim',        'tagline' => 'Quiet beaches & green lanes'],
             ['name' => 'Alibaug Town', 'slug' => 'alibaug-town', 'tagline' => 'Culture, history & markets'],
-            ['name' => 'Awas', 'slug' => 'awas', 'tagline' => 'Exclusive estates & privacy'],
-            ['name' => 'Nagaon', 'slug' => 'nagaon', 'tagline' => 'Vibrant beach life'],
-            ['name' => 'Versoli', 'slug' => 'versoli', 'tagline' => 'Coastal charm & sunsets'],
-            ['name' => 'Zirad', 'slug' => 'zirad', 'tagline' => 'Luxury retreats & estates'],
-            ['name' => 'Kashid', 'slug' => 'kashid', 'tagline' => 'White sands & blue waters'],
-            ['name' => 'Sasawane', 'slug' => 'sasawane', 'tagline' => 'Beachfront serenity'],
+            ['name' => 'Awas',         'slug' => 'awas',         'tagline' => 'Exclusive estates & privacy'],
+            ['name' => 'Nagaon',       'slug' => 'nagaon',       'tagline' => 'Vibrant beach life'],
+            ['name' => 'Versoli',      'slug' => 'versoli',      'tagline' => 'Coastal charm & sunsets'],
+            ['name' => 'Zirad',        'slug' => 'zirad',        'tagline' => 'Luxury retreats & estates'],
+            ['name' => 'Kashid',       'slug' => 'kashid',       'tagline' => 'White sands & blue waters'],
+            ['name' => 'Sasawane',     'slug' => 'sasawane',     'tagline' => 'Beachfront serenity'],
+            ['name' => 'Dhokawade',    'slug' => 'dhokawade',    'tagline' => 'Village charm & farm flavours'],
         ];
         foreach ($areasData as $area) {
             Area::create($area);
         }
 
+        $alibaugTown = Area::where('slug', 'alibaug-town')->first();
+        $dhokawade   = Area::where('slug', 'dhokawade')->first();
+
         // Amenities
         $amenitiesData = [
-            ['name' => 'Pool', 'icon' => 'pool', 'category' => 'outdoor'],
-            ['name' => 'WiFi', 'icon' => 'wifi', 'category' => 'essential'],
-            ['name' => 'Pet Friendly', 'icon' => 'pets', 'category' => 'policy'],
-            ['name' => 'AC', 'icon' => 'ac_unit', 'category' => 'essential'],
-            ['name' => 'Kitchen', 'icon' => 'soup_kitchen', 'category' => 'indoor'],
-            ['name' => 'Beach View', 'icon' => 'beach_access', 'category' => 'outdoor'],
-            ['name' => 'Free Parking', 'icon' => 'directions_car', 'category' => 'essential'],
-            ['name' => 'BBQ Grill', 'icon' => 'outdoor_grill', 'category' => 'outdoor'],
-            ['name' => 'Jacuzzi', 'icon' => 'hot_tub', 'category' => 'outdoor'],
-            ['name' => 'Smart TV', 'icon' => 'tv', 'category' => 'indoor'],
-            ['name' => 'Washer & Dryer', 'icon' => 'local_laundry_service', 'category' => 'indoor'],
-            ['name' => 'Garden', 'icon' => 'forest', 'category' => 'outdoor'],
-            ['name' => 'Gym', 'icon' => 'fitness_center', 'category' => 'indoor'],
-            ['name' => 'Sea View', 'icon' => 'waves', 'category' => 'outdoor'],
-            ['name' => 'Balcony', 'icon' => 'balcony', 'category' => 'outdoor'],
-            ['name' => 'Caretaker', 'icon' => 'support_agent', 'category' => 'service'],
+            ['name' => 'Pool',            'icon' => 'pool',                   'category' => 'outdoor'],
+            ['name' => 'WiFi',            'icon' => 'wifi',                   'category' => 'essential'],
+            ['name' => 'Pet Friendly',    'icon' => 'pets',                   'category' => 'policy'],
+            ['name' => 'AC',              'icon' => 'ac_unit',                'category' => 'essential'],
+            ['name' => 'Kitchen',         'icon' => 'soup_kitchen',           'category' => 'indoor'],
+            ['name' => 'Beach View',      'icon' => 'beach_access',           'category' => 'outdoor'],
+            ['name' => 'Free Parking',    'icon' => 'directions_car',         'category' => 'essential'],
+            ['name' => 'BBQ Grill',       'icon' => 'outdoor_grill',          'category' => 'outdoor'],
+            ['name' => 'Jacuzzi',         'icon' => 'hot_tub',                'category' => 'outdoor'],
+            ['name' => 'Smart TV',        'icon' => 'tv',                     'category' => 'indoor'],
+            ['name' => 'Washer & Dryer',  'icon' => 'local_laundry_service',  'category' => 'indoor'],
+            ['name' => 'Garden',          'icon' => 'forest',                 'category' => 'outdoor'],
+            ['name' => 'Gym',             'icon' => 'fitness_center',         'category' => 'indoor'],
+            ['name' => 'Sea View',        'icon' => 'waves',                  'category' => 'outdoor'],
+            ['name' => 'Balcony',         'icon' => 'balcony',                'category' => 'outdoor'],
+            ['name' => 'Caretaker',       'icon' => 'support_agent',          'category' => 'service'],
+            ['name' => 'Meals Included',  'icon' => 'restaurant_menu',        'category' => 'service'],
         ];
         foreach ($amenitiesData as $idx => $amenity) {
             Amenity::create(array_merge($amenity, ['sort_order' => $idx + 1]));
         }
 
-        // Sample Listings
-        $mandwa = Area::where('slug', 'mandwa')->first();
-        $kihim = Area::where('slug', 'kihim')->first();
-        $versoli = Area::where('slug', 'versoli')->first();
-        $awas = Area::where('slug', 'awas')->first();
-        $nagaon = Area::where('slug', 'nagaon')->first();
-        $alibaugTown = Area::where('slug', 'alibaug-town')->first();
-        $kashid = Area::where('slug', 'kashid')->first();
+        // ─────────────────────────────────────────────
+        // LISTING 1 — Paisley Experience (Eat / Dining)
+        // Website: https://www.paisleyexperience.com/
+        // ─────────────────────────────────────────────
+        $paisley = Listing::create([
+            'title'       => 'Paisley Experience',
+            'category_id' => $eat->id,
+            'area_id'     => $dhokawade->id,
+            'description' => 'Paisley Experience offers bespoke catering and farm dining in Alibaug. Enjoy heirloom Pachkalshi flavours, private sit-down meals for small groups, and menus crafted the traditional way. Choose from à la carte or signature taats — generous, seasonal plates made fresh to order. Perfect for intimate dining or tailored catering at your special occasions.',
+            'price'       => null,
+            'status'      => 'approved',
+            'is_featured' => true,
+            'created_by'  => $ownerUser->id,
+            'approved_by' => $adminUser->id,
+            'approved_at' => now(),
+            'views_count' => 312,
+            'address'     => 'Dhokawade 1, Alibaug 402201',
+            'phone'       => '9082804115',
+            'website'     => 'https://www.paisleyexperience.com/',
+        ]);
 
-        $listingsData = [
-            [
-                'title' => 'Villa Azure',
-                'category_id' => $stay->id,
-                'area_id' => $mandwa->id,
-                'description' => 'Escape to Villa Azure, a stunning 5-bedroom beachfront sanctuary.',
-                'price' => 25000,
-                'status' => 'approved',
-                'is_featured' => true,
-                'created_by' => $ownerUser->id,
-                'approved_by' => $adminUser->id,
-                'approved_at' => now(),
-                'views_count' => 342,
-                'address' => 'Mandwa Beach Rd',
-                'phone' => '9876543210',
-                'attrs' => ['bedrooms' => '5', 'bathrooms' => '6', 'guests' => '12', 'property_type' => 'Villa'],
-                'amenity_list' => ['Pool', 'WiFi', 'AC', 'Kitchen', 'Free Parking', 'BBQ Grill', 'Pet Friendly', 'Smart TV'],
-                'image' => 'listings/demo-stay-1.jpg',
-            ],
-            [
-                'title' => 'The Mango Grove',
-                'category_id' => $stay->id,
-                'area_id' => $kihim->id,
-                'description' => 'A charming farmhouse surrounded by mango orchards.',
-                'price' => 12500,
-                'status' => 'approved',
-                'is_featured' => true,
-                'created_by' => $ownerUser->id,
-                'approved_by' => $adminUser->id,
-                'approved_at' => now(),
-                'views_count' => 215,
-                'attrs' => ['bedrooms' => '3', 'bathrooms' => '3', 'guests' => '6', 'property_type' => 'Farmhouse'],
-                'amenity_list' => ['WiFi', 'Kitchen', 'BBQ Grill', 'Garden', 'Free Parking'],
-                'image' => 'listings/demo-stay-2.jpg',
-            ],
-            [
-                'title' => 'Seaview Penthouse',
-                'category_id' => $stay->id,
-                'area_id' => $versoli->id,
-                'description' => 'A stunning penthouse with panoramic sea views.',
-                'price' => 32000,
-                'status' => 'approved',
-                'is_featured' => true,
-                'created_by' => $ownerUser->id,
-                'approved_by' => $adminUser->id,
-                'approved_at' => now(),
-                'views_count' => 189,
-                'attrs' => ['bedrooms' => '3', 'bathrooms' => '3', 'guests' => '6', 'property_type' => 'Apartment'],
-                'amenity_list' => ['WiFi', 'AC', 'Sea View', 'Balcony', 'Smart TV'],
-                'image' => 'listings/demo-stay-3.jpg',
-            ],
-            [
-                'title' => 'Palm Retreat',
-                'category_id' => $stay->id,
-                'area_id' => $awas->id,
-                'description' => 'Traditional Konkan-style villa with palm-lined pathways.',
-                'price' => 18000,
-                'status' => 'approved',
-                'is_featured' => true,
-                'created_by' => $ownerUser->id,
-                'approved_by' => $adminUser->id,
-                'approved_at' => now(),
-                'views_count' => 168,
-                'attrs' => ['bedrooms' => '4', 'bathrooms' => '4', 'guests' => '8', 'property_type' => 'Villa'],
-                'amenity_list' => ['Pool', 'WiFi', 'AC', 'Garden', 'Caretaker'],
-                'image' => 'listings/demo-stay-4.jpg',
-            ],
-            [
-                'title' => 'Coastal Retreat Bungalow',
-                'category_id' => $stay->id,
-                'area_id' => $nagaon->id,
-                'description' => 'Modern coastal bungalow near Nagaon beach.',
-                'price' => 18500,
-                'status' => 'pending',
-                'is_featured' => false,
-                'created_by' => $ownerUser->id,
-                'views_count' => 0,
-                'attrs' => ['bedrooms' => '3', 'bathrooms' => '3', 'guests' => '6', 'property_type' => 'Bungalow'],
-                'amenity_list' => ['WiFi', 'AC', 'Kitchen', 'Free Parking'],
-                'image' => 'listings/demo-stay-5.jpg',
-            ],
-            [
-                'title' => 'Best Seafood Restaurant Alibaug',
-                'category_id' => $eat->id,
-                'area_id' => $alibaugTown->id,
-                'description' => 'Authentic Konkan seafood with ocean views.',
-                'price' => null,
-                'status' => 'approved',
-                'is_featured' => true,
-                'created_by' => $ownerUser->id,
-                'approved_by' => $adminUser->id,
-                'approved_at' => now(),
-                'views_count' => 456,
-                'attrs' => ['cuisine' => 'Seafood', 'seating_capacity' => '120'],
-                'amenity_list' => ['WiFi', 'AC', 'Free Parking'],
-                'image' => 'listings/demo-eat-1.jpg',
-            ],
-            [
-                'title' => 'The Coastal Cafe',
-                'category_id' => $eat->id,
-                'area_id' => $mandwa->id,
-                'description' => 'A cozy cafe serving continental breakfast and fresh coffee.',
-                'price' => null,
-                'status' => 'approved',
-                'is_featured' => false,
-                'created_by' => $ownerUser->id,
-                'approved_by' => $adminUser->id,
-                'approved_at' => now(),
-                'views_count' => 312,
-                'attrs' => ['cuisine' => 'Continental', 'seating_capacity' => '40'],
-                'amenity_list' => ['WiFi', 'AC', 'Free Parking'],
-                'image' => 'listings/demo-eat-2.jpg',
-            ],
-            [
-                'title' => 'Premium Plot in Kashid',
-                'category_id' => $realEstate->id,
-                'area_id' => $kashid->id,
-                'description' => 'Prime 5000 sqft plot close to Kashid beach.',
-                'price' => 7500000,
-                'status' => 'approved',
-                'is_featured' => false,
-                'is_premium' => true,
-                'created_by' => $ownerUser->id,
-                'approved_by' => $adminUser->id,
-                'approved_at' => now(),
-                'views_count' => 89,
-                'attrs' => ['plot_area' => '5000 sqft', 'property_type' => 'Plot'],
-                'amenity_list' => [],
-                'image' => 'listings/demo-re-1.jpg',
-            ],
-            [
-                'title' => 'Sunset Beach Festival 2026',
-                'category_id' => Category::where('slug', 'events')->first()->id,
-                'area_id' => $nagaon->id,
-                'description' => 'Join the biggest beach festival with live music and food stalls.',
-                'price' => 1500,
-                'status' => 'approved',
-                'is_featured' => true,
-                'created_by' => $ownerUser->id,
-                'approved_by' => $adminUser->id,
-                'approved_at' => now(),
-                'views_count' => 600,
-                'attrs' => ['date' => 'Make dynamic', 'time' => '4 PM onwards'],
-                'amenity_list' => ['Free Parking'],
-                'image' => 'listings/demo-events-1.jpg',
-            ],
-            [
-                'title' => 'Historic Fort Tour',
-                'category_id' => Category::where('slug', 'explore')->first()->id,
-                'area_id' => $alibaugTown->id,
-                'description' => 'Guided tour of Kolaba Fort with rich historical insights.',
-                'price' => 500,
-                'status' => 'approved',
-                'is_featured' => false,
-                'created_by' => $ownerUser->id,
-                'approved_by' => $adminUser->id,
-                'approved_at' => now(),
-                'views_count' => 200,
-                'attrs' => ['duration' => '3 Hours'],
-                'amenity_list' => [],
-                'image' => 'listings/demo-explore-1.jpg',
-            ],
-            [
-                'title' => 'Luxury Yacht Rental',
-                'category_id' => Category::where('slug', 'services')->first()->id,
-                'area_id' => $mandwa->id,
-                'description' => 'Private luxury yacht rental from Mandwa to Mumbai.',
-                'price' => 25000,
-                'status' => 'approved',
-                'is_featured' => true,
-                'created_by' => $ownerUser->id,
-                'approved_by' => $adminUser->id,
-                'approved_at' => now(),
-                'views_count' => 410,
-                'attrs' => ['capacity' => '10 Persons'],
-                'amenity_list' => [],
-                'image' => 'listings/demo-services-1.jpg',
-            ],
-        ];
-
-        foreach ($listingsData as $data) {
-            $attrs = $data['attrs'] ?? [];
-            $amenityList = $data['amenity_list'] ?? [];
-            $imageUrl = $data['image'] ?? null;
-            unset($data['attrs'], $data['amenity_list'], $data['image']);
-
-            $listing = Listing::create($data);
-
-            foreach ($attrs as $key => $value) {
-                ListingAttribute::create([
-                    'listing_id' => $listing->id,
-                    'attribute_key' => $key,
-                    'attribute_value' => $value,
-                ]);
-            }
-
-            if (!empty($amenityList)) {
-                $amenityIds = Amenity::whereIn('name', $amenityList)->pluck('id')->toArray();
-                $listing->amenities()->sync($amenityIds);
-            }
-
-            if ($imageUrl) {
-                ListingImage::create([
-                    'listing_id' => $listing->id,
-                    'path' => $imageUrl,
-                    'alt_text' => $listing->title,
-                    'sort_order' => 0,
-                    'is_primary' => true,
-                ]);
-            }
+        foreach ([
+            'cuisine'          => 'Maharashtrian / Konkan',
+            'seating_capacity' => '30',
+            'meal_type'        => 'Farm Dining & Catering',
+        ] as $key => $value) {
+            ListingAttribute::create(['listing_id' => $paisley->id, 'attribute_key' => $key, 'attribute_value' => $value]);
         }
 
-        // Sample reviews removed to prevent identical 4.5 ratings on all featured cards.
+        $amenityIds = Amenity::whereIn('name', ['WiFi', 'Free Parking', 'Meals Included'])->pluck('id')->toArray();
+        $paisley->amenities()->sync($amenityIds);
+
+        // Real images from www.paisleyexperience.com (Wix CDN)
+        $paisleyImages = [
+            [
+                'path'       => 'https://static.wixstatic.com/media/98bf86_2a434a1cb25b43429a15435fbaf62311~mv2.jpg/v1/crop/x_0,y_173,w_1080,h_696/fill/w_1002,h_662,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Taat.jpg',
+                'alt_text'   => 'Paisley Experience – Signature Taat Meal',
+                'is_primary' => true,
+                'sort_order' => 0,
+            ],
+            [
+                'path'       => 'https://static.wixstatic.com/media/98bf86_dfaaed3f117143bc82300644d523e98b~mv2.jpg/v1/fill/w_1000,h_640,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/Catering_edited.jpg',
+                'alt_text'   => 'Paisley Experience – Catering Setup',
+                'is_primary' => false,
+                'sort_order' => 1,
+            ],
+            [
+                'path'       => 'https://static.wixstatic.com/media/98bf86_7592667b75f54a0c91405ab30cbd16fc~mv2.jpg/v1/crop/x_0,y_10,w_768,h_492/fill/w_768,h_492,al_c,q_85,enc_avif,quality_auto/Experiences.jpg',
+                'alt_text'   => 'Paisley Experience – Cultural Experiences',
+                'is_primary' => false,
+                'sort_order' => 2,
+            ],
+        ];
+        foreach ($paisleyImages as $img) {
+            ListingImage::create(array_merge(['listing_id' => $paisley->id], $img));
+        }
+
+        // ─────────────────────────────────────────────
+        // LISTING 2 — Hestia Villa (Stay)
+        // Website: https://hestiavillas.in/
+        // ─────────────────────────────────────────────
+        $hestia = Listing::create([
+            'title'       => 'Hestia Villa',
+            'category_id' => $stay->id,
+            'area_id'     => $dhokawade->id,
+            'description' => 'Discover intelligent villas and refined interiors with Hestia Villas. Bespoke design, sustainable architecture, and premium second-home investments near Mumbai. Hestia specialises in thoughtfully designed, sustainable villas connected to nature while delivering enduring lifestyle value. Every villa is crafted with an uncompromising focus on build quality, longevity, and livability.',
+            'price'       => 35000,
+            'status'      => 'approved',
+            'is_featured' => true,
+            'created_by'  => $ownerUser->id,
+            'approved_by' => $adminUser->id,
+            'approved_at' => now(),
+            'views_count' => 278,
+            'address'     => 'At. Post. Dhokawade, Alibag, Raigad, Maharashtra 402201',
+            'phone'       => '8010234802',
+            'website'     => 'https://hestiavillas.in/',
+        ]);
+
+        foreach ([
+            'property_type' => 'Villa',
+            'bedrooms'      => '3-6',
+            'bathrooms'     => '4-7',
+            'guests'        => 'Up to 18',
+            'architect'     => 'Hestia Villas',
+        ] as $key => $value) {
+            ListingAttribute::create(['listing_id' => $hestia->id, 'attribute_key' => $key, 'attribute_value' => $value]);
+        }
+
+        $amenityIds = Amenity::whereIn('name', ['Pool', 'WiFi', 'AC', 'Kitchen', 'Garden', 'Caretaker', 'Free Parking', 'Smart TV'])->pluck('id')->toArray();
+        $hestia->amenities()->sync($amenityIds);
+
+        // Real images from hestiavillas.in
+        $hestiaImages = [
+            [
+                'path'       => 'https://hestiavillas.in/wp-content/uploads/2022/02/Picture1-2-1024x562.jpg',
+                'alt_text'   => 'Hestia Villa – Exterior View',
+                'is_primary' => true,
+                'sort_order' => 0,
+            ],
+            [
+                'path'       => 'https://hestiavillas.in/wp-content/uploads/2023/07/4.jpg',
+                'alt_text'   => 'Hestia Villa – Interior Space',
+                'is_primary' => false,
+                'sort_order' => 1,
+            ],
+            [
+                'path'       => 'https://hestiavillas.in/wp-content/uploads/2022/02/image10-e1676548129722.jpeg',
+                'alt_text'   => 'Hestia Villa – Outdoor Living Area',
+                'is_primary' => false,
+                'sort_order' => 2,
+            ],
+        ];
+        foreach ($hestiaImages as $img) {
+            ListingImage::create(array_merge(['listing_id' => $hestia->id], $img));
+        }
+
+        // ─────────────────────────────────────────────
+        // LISTING 3 — Casa Frangipani (Stay)
+        // Website: https://hestiavillas.in/case_study/casa-frangipani-rent-and-buy/
+        // ─────────────────────────────────────────────
+        $casaFrangipani = Listing::create([
+            'title'       => 'Casa Frangipani',
+            'category_id' => $stay->id,
+            'area_id'     => $dhokawade->id,
+            'description' => 'Casa Frangipani is a luxurious 6-bedroom villa in Alibaug, perfect for those seeking peace and privacy amidst nature. Surrounded by lush greenery, this beautifully designed retreat welcomes you through a grand entrance into airy, sunlit spaces. Crafted with 100-year-old teak wood and glass windows, the villa offers breathtaking views of the verdant landscape. Designed for relaxation — the shimmering pool, open terrace, and BBQ sit-out create the perfect setting for a weekend escape.',
+            'price'       => 45000,
+            'status'      => 'approved',
+            'is_featured' => true,
+            'created_by'  => $ownerUser->id,
+            'approved_by' => $adminUser->id,
+            'approved_at' => now(),
+            'views_count' => 520,
+            'address'     => 'Dhokawade, Alibag, Raigad, Maharashtra 402201',
+            'phone'       => '8010234802',
+            'website'     => 'https://hestiavillas.in/case_study/casa-frangipani-rent-and-buy/',
+        ]);
+
+        foreach ([
+            'property_type' => 'Villa',
+            'bedrooms'      => '6',
+            'bathrooms'     => '7',
+            'guests'        => '18',
+            'pool_size'     => '20ft x 40ft',
+            'lawn_area'     => '2000 sq. ft',
+        ] as $key => $value) {
+            ListingAttribute::create(['listing_id' => $casaFrangipani->id, 'attribute_key' => $key, 'attribute_value' => $value]);
+        }
+
+        $amenityIds = Amenity::whereIn('name', ['Pool', 'WiFi', 'AC', 'Kitchen', 'Garden', 'BBQ Grill', 'Balcony', 'Caretaker', 'Meals Included', 'Smart TV', 'Free Parking'])->pluck('id')->toArray();
+        $casaFrangipani->amenities()->sync($amenityIds);
+
+        // Real images from hestiavillas.in — Casa Frangipani gallery
+        $casaImages = [
+            [
+                'path'       => 'https://hestiavillas.in/wp-content/uploads/2025/01/casa-frangipani-657c43.webp',
+                'alt_text'   => 'Casa Frangipani – Main View',
+                'is_primary' => true,
+                'sort_order' => 0,
+            ],
+            [
+                'path'       => 'https://hestiavillas.in/wp-content/uploads/2025/01/casa-frangifani1.jpeg',
+                'alt_text'   => 'Casa Frangipani – Villa Entrance',
+                'is_primary' => false,
+                'sort_order' => 1,
+            ],
+            [
+                'path'       => 'https://hestiavillas.in/wp-content/uploads/2025/01/casa-frangifani2.jpeg',
+                'alt_text'   => 'Casa Frangipani – Swimming Pool',
+                'is_primary' => false,
+                'sort_order' => 2,
+            ],
+            [
+                'path'       => 'https://hestiavillas.in/wp-content/uploads/2025/01/casa-frangifani3.jpeg',
+                'alt_text'   => 'Casa Frangipani – Bedroom',
+                'is_primary' => false,
+                'sort_order' => 3,
+            ],
+            [
+                'path'       => 'https://hestiavillas.in/wp-content/uploads/2025/01/casa-frangifani4.jpeg',
+                'alt_text'   => 'Casa Frangipani – Living Area',
+                'is_primary' => false,
+                'sort_order' => 4,
+            ],
+            [
+                'path'       => 'https://hestiavillas.in/wp-content/uploads/2025/01/Lawn-scaled.jpg',
+                'alt_text'   => 'Casa Frangipani – Lawn',
+                'is_primary' => false,
+                'sort_order' => 5,
+            ],
+            [
+                'path'       => 'https://hestiavillas.in/wp-content/uploads/2025/01/casa-frangipani-8b5e9e.webp',
+                'alt_text'   => 'Casa Frangipani – Garden View',
+                'is_primary' => false,
+                'sort_order' => 6,
+            ],
+        ];
+        foreach ($casaImages as $img) {
+            ListingImage::create(array_merge(['listing_id' => $casaFrangipani->id], $img));
+        }
     }
 }
