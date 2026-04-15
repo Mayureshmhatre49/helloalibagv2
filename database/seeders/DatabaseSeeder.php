@@ -42,7 +42,7 @@ class DatabaseSeeder extends Seeder
         $adminUser = User::create([
             'name' => 'Admin',
             'email' => 'admin@helloalibaug.com',
-            'password' => Hash::make('Admin@HelloAlibaug2026!'),
+            'password' => Hash::make('*****************'),
             'role_id' => $admin->id,
         ]);
 
@@ -50,7 +50,7 @@ class DatabaseSeeder extends Seeder
         $ownerUser = User::create([
             'name' => 'Rajesh Mehta',
             'email' => 'owner@helloalibaug.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('*****************'),
             'role_id' => $owner->id,
             'phone' => '9876543210',
         ]);
@@ -59,7 +59,7 @@ class DatabaseSeeder extends Seeder
         $regularUser = User::create([
             'name' => 'Priya Singh',
             'email' => 'user@helloalibaug.com',
-            'password' => Hash::make('password'),
+            'password' => Hash::make('***************'),
             'role_id' => $user->id,
         ]);
 
