@@ -135,7 +135,11 @@ class ListingService
             'approved_at' => now(),
         ]);
         
-        Mail::to($listing->creator->email)->send(new ListingApproved($listing));
+        try {
+            Mail::to($listing->creator->email)->send(new ListingApproved($listing));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('ListingApproved mail failed: ' . $e->getMessage());
+        }
         
         \App\Models\UserNotification::create([
             'user_id' => $listing->created_by,
@@ -155,7 +159,11 @@ class ListingService
             'rejection_reason' => $reason
         ]);
         
-        Mail::to($listing->creator->email)->send(new ListingRejected($listing));
+        try {
+            Mail::to($listing->creator->email)->send(new ListingRejected($listing));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('ListingRejected mail failed: ' . $e->getMessage());
+        }
         
         \App\Models\UserNotification::create([
             'user_id' => $listing->created_by,

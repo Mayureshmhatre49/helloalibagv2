@@ -2,14 +2,22 @@
 @section('page-title', 'Listing Approval Queue')
 
 @section('content')
-{{-- Status Tabs --}}
-<div class="flex items-center gap-2 mb-6">
-    @foreach(['pending' => 'Pending', 'approved' => 'Approved', 'rejected' => 'Rejected', 'all' => 'All'] as $key => $label)
-        <a href="{{ route('admin.listings.index', ['status' => $key]) }}" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {{ $status === $key ? 'bg-primary text-white' : 'bg-white text-text-secondary border border-border-light hover:bg-background-light' }}">
-            {{ $label }}
-        </a>
-    @endforeach
+{{-- Toolbar: Status tabs + Import button --}}
+
+<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
+    <div class="flex items-center gap-2 flex-wrap">
+        @foreach(['pending' => 'Pending', 'approved' => 'Approved', 'rejected' => 'Rejected', 'all' => 'All'] as $key => $label)
+            <a href="{{ route('admin.listings.index', ['status' => $key]) }}" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors {{ $status === $key ? 'bg-primary text-white' : 'bg-white text-text-secondary border border-border-light hover:bg-background-light' }}">
+                {{ $label }}
+            </a>
+        @endforeach
+    </div>
+    <a href="{{ route('admin.listings.import') }}" class="flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+        <span class="material-symbols-outlined text-[18px]">upload_file</span>
+        Import CSV
+    </a>
 </div>
+
 
 @if($listings->count() > 0)
     <div class="bg-white rounded-2xl border border-border-light overflow-hidden">

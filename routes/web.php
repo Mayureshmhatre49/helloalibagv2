@@ -10,6 +10,7 @@ use App\Http\Controllers\Owner\DashboardController as OwnerDashboardController;
 use App\Http\Controllers\Owner\ListingController as OwnerListingController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ListingController as AdminListingController;
+use App\Http\Controllers\Admin\ListingImportController as AdminListingImportController;
 use Illuminate\Support\Facades\Route;
 
 // Public Routes
@@ -97,6 +98,10 @@ Route::middleware(['auth', 'role:owner,admin'])->prefix('dashboard')->name('owne
 Route::middleware(['auth', 'role:admin'])->prefix('ha-control-2026')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/listings', [AdminListingController::class, 'index'])->name('listings.index');
+
+    // CSV Bulk Import — must be before {listing} wildcard routes
+    Route::get('/listings/import', [AdminListingImportController::class, 'index'])->name('listings.import');
+    Route::post('/listings/import', [AdminListingImportController::class, 'store'])->name('listings.import.store');
     Route::post('/listings/{listing}/approve', [AdminListingController::class, 'approve'])->name('listings.approve');
     Route::get('/listings/{listing}/approve', function () {
         return redirect()->route('admin.listings.index', ['status' => 'pending'])
@@ -109,6 +114,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('ha-control-2026')->name('admi
     });
     Route::patch('/listings/{listing}/toggle-featured', [AdminListingController::class, 'toggleFeatured'])->name('listings.toggle-featured');
     Route::patch('/listings/{listing}/toggle-premium', [AdminListingController::class, 'togglePremium'])->name('listings.toggle-premium');
+
 
     // User Management
     Route::get('/users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
