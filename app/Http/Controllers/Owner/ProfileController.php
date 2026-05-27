@@ -24,7 +24,7 @@ class ProfileController extends Controller
             'instagram' => 'nullable|string|max:255',
             'facebook' => 'nullable|string|max:255',
             'user_website' => 'nullable|url|max:255',
-            'avatar' => 'nullable|image|max:2048',
+            'avatar' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
         ]);
 
         if ($request->hasFile('avatar')) {

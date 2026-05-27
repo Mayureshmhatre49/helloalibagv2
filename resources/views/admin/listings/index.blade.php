@@ -104,6 +104,14 @@
                                             <span class="material-symbols-outlined text-[16px]">{{ $listing->is_featured ? 'star' : 'star_border' }}</span>
                                         </button>
                                     </form>
+                                    <form method="POST" action="{{ route('admin.listings.toggle-verified', $listing) }}"
+                                          onsubmit="return {{ $listing->is_verified ? 'confirm(\'Revoke verification?\')' : 'true' }};">
+                                        @csrf @method('PATCH')
+                                        <button class="text-xs font-medium {{ $listing->is_verified ? 'text-emerald-700 bg-emerald-50' : 'text-text-secondary bg-background-light' }} hover:opacity-80 px-2.5 py-1.5 rounded-lg transition-colors"
+                                                title="{{ $listing->is_verified ? 'Revoke verification' : 'Mark as verified' }}">
+                                            <span class="material-symbols-outlined text-[16px]" style="font-variation-settings:'FILL' {{ $listing->is_verified ? '1' : '0' }}">verified</span>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

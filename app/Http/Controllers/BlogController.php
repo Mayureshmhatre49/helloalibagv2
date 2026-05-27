@@ -216,6 +216,13 @@ class BlogController extends Controller
             return response()->file(storage_path('app/public/' . $post->featured_image));
         }
 
+        // Serve from cache if already generated
+        $cachePath = 'blog/og/' . $post->id . '.jpg';
+        if (\Storage::disk('public')->exists($cachePath)) {
+            return response()->file(storage_path('app/public/' . $cachePath))
+                ->header('Cache-Control', 'public, max-age=86400');
+        }
+
         // Generate dynamic OG image
         $img = \Image::canvas(1200, 630, '#101828'); // Dark slate background
 
@@ -257,7 +264,12 @@ class BlogController extends Controller
             $y += 80;
         }
 
-        return $img->response('jpg', 90);
+        // Save generated image to disk for future requests
+        \Storage::disk('public')->makeDirectory('blog/og');
+        \Storage::disk('public')->put($cachePath, $img->encode('jpg', 90)->encoded);
+
+        return response()->file(storage_path('app/public/' . $cachePath))
+            ->header('Cache-Control', 'public, max-age=86400');
     }
 
     public function category($slug)

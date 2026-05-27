@@ -13,14 +13,19 @@ class ListingController extends Controller
 
     public function index(Request $request)
     {
-        $status = $request->get('status', 'pending');
+        // When searching from the top bar, span all statuses by default.
+        $status = $request->get('status', $request->filled('q') ? 'all' : 'pending');
         $query = Listing::with(['category', 'area', 'creator', 'images']);
 
         if ($status !== 'all') {
             $query->where('status', $status);
         }
 
-        $listings = $query->latest()->paginate(20);
+        if ($q = $request->get('q')) {
+            $query->where('title', 'like', '%' . $q . '%');
+        }
+
+        $listings = $query->latest()->paginate(20)->withQueryString();
 
         return view('admin.listings.index', compact('listings', 'status'));
     }
@@ -52,5 +57,36 @@ class ListingController extends Controller
         $listing->update(['is_premium' => !$listing->is_premium]);
 
         return redirect()->back()->with('success', 'Premium status toggled.');
+    }
+
+    /**
+     * Mark a listing as verified (or revoke). Verification is a trust signal
+     * — only admins flip this. Stores the admin who did it + a timestamp + an
+     * optional note for the audit trail.
+     */
+    public function toggleVerified(\Illuminate\Http\Request $request, Listing $listing)
+    {
+        if ($listing->is_verified) {
+            $listing->update([
+                'is_verified' => false,
+                'verified_at' => null,
+                'verification_note' => null,
+                'verified_by' => null,
+            ]);
+            return redirect()->back()->with('success', "Verification revoked for “{$listing->title}”.");
+        }
+
+        $data = $request->validate([
+            'verification_note' => 'nullable|string|max:255',
+        ]);
+
+        $listing->update([
+            'is_verified' => true,
+            'verified_at' => now(),
+            'verification_note' => $data['verification_note'] ?? null,
+            'verified_by' => auth()->id(),
+        ]);
+
+        return redirect()->back()->with('success', "“{$listing->title}” marked as Verified.");
     }
 }

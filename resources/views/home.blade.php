@@ -35,6 +35,11 @@
         <div class="absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/75"></div>
     </div>
 
+    {{-- Floating live-weather widget (desktop only — top right) --}}
+    <div class="hidden md:block absolute top-6 right-6 z-20 w-[300px]">
+        <x-weather-widget variant="hero" />
+    </div>
+
     {{-- Content --}}
     <div class="relative z-10 h-full max-w-[1280px] mx-auto px-4 sm:px-6 flex flex-col items-center justify-center text-center">
 
@@ -92,6 +97,11 @@
             </form>
         </div>
 
+        {{-- Mobile weather widget (sits between search and area pills) --}}
+        <div class="md:hidden w-full max-w-3xl mt-4">
+            <x-weather-widget variant="hero" />
+        </div>
+
         {{-- Quick area links below search --}}
         <div class="flex flex-wrap items-center justify-center gap-2 mt-5">
             <span class="text-white/50 text-xs">Popular:</span>
@@ -144,6 +154,186 @@
             <div>
                 <p class="text-sm font-bold text-slate-900 leading-none">Local Experts</p>
                 <p class="text-[11px] text-slate-500 mt-0.5">Real Alibaug knowledge</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- ═══════════════════════════════════════════════════════════════
+     PLAN YOUR TRIP WIZARD
+═══════════════════════════════════════════════════════════════ --}}
+<section class="relative bg-gradient-to-br from-slate-50 via-white to-slate-50 py-12 sm:py-16 border-b border-slate-100 overflow-hidden">
+    {{-- Decorative blobs --}}
+    <div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 w-96 h-96 bg-amber-400/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
+
+    <div class="relative max-w-[1100px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-8 sm:mb-10">
+            <div class="inline-flex items-center gap-2 bg-primary/10 text-primary px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-4">
+                <span class="material-symbols-outlined text-[16px]">auto_awesome</span>
+                Plan in 30 seconds
+            </div>
+            <h2 class="text-slate-900 font-serif font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight mb-3">Build your Alibaug trip</h2>
+            <p class="text-slate-600 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
+                Three quick taps and we'll show you the handpicked places that match.
+            </p>
+        </div>
+
+        @php
+            $wizardCats = $categories->take(6);
+            $wizardAreas = $areas->take(6);
+        @endphp
+
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden"
+             x-data="{
+                 step: 1,
+                 purpose: '',
+                 purposeName: '',
+                 area: '',
+                 areaName: '',
+                 partySize: '',
+                 partySizeLabel: '',
+                 next() { if (this.step < 3) this.step++; },
+                 prev() { if (this.step > 1) this.step--; },
+                 submit() {
+                     const params = new URLSearchParams();
+                     if (this.purpose) params.set('category_id', this.purpose);
+                     if (this.area) params.set('area_id', this.area);
+                     if (this.partySize) params.set('guests', this.partySize);
+                     window.location.href = '{{ route('search') }}?' + params.toString();
+                 },
+             }">
+            {{-- Progress bar --}}
+            <div class="bg-slate-50 px-6 sm:px-8 py-4 border-b border-slate-100">
+                <div class="flex items-center justify-between max-w-md mx-auto">
+                    @foreach ([1 => 'Purpose', 2 => 'Where', 3 => 'Group'] as $stepNum => $label)
+                        <div class="flex items-center gap-2 flex-1">
+                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 transition-all"
+                                 :class="step >= {{ $stepNum }} ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-slate-200 text-slate-500'">
+                                <template x-if="step > {{ $stepNum }}">
+                                    <span class="material-symbols-outlined text-[16px]">check</span>
+                                </template>
+                                <template x-if="step <= {{ $stepNum }}">
+                                    <span>{{ $stepNum }}</span>
+                                </template>
+                            </div>
+                            <span class="text-xs font-bold uppercase tracking-wider hidden sm:inline transition-colors"
+                                  :class="step >= {{ $stepNum }} ? 'text-slate-900' : 'text-slate-400'">{{ $label }}</span>
+                            @if ($stepNum < 3)
+                                <div class="flex-1 h-0.5 mx-2 rounded-full transition-colors"
+                                     :class="step > {{ $stepNum }} ? 'bg-primary' : 'bg-slate-200'"></div>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- STEP 1: Purpose --}}
+            <div x-show="step === 1"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 class="p-6 sm:p-10">
+                <h3 class="text-slate-900 font-bold text-xl sm:text-2xl mb-2 text-center">What's the visit about?</h3>
+                <p class="text-text-secondary text-sm mb-8 text-center">Pick the main reason you're heading to Alibaug.</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    @foreach ($wizardCats as $cat)
+                        <button type="button"
+                                @click="purpose = '{{ $cat->id }}'; purposeName = '{{ $cat->name }}'; next()"
+                                class="group bg-white border-2 border-slate-200 hover:border-primary hover:bg-primary/5 active:scale-[0.98] rounded-2xl px-4 py-5 text-left transition-all"
+                                :class="purpose === '{{ $cat->id }}' ? 'border-primary bg-primary/5 ring-4 ring-primary/15' : ''">
+                            <span class="material-symbols-outlined text-primary text-[32px] mb-2 block" style="font-variation-settings:'FILL' 1">{{ $cat->icon }}</span>
+                            <p class="text-slate-900 font-bold text-base">{{ $cat->name }}</p>
+                        </button>
+                    @endforeach
+                </div>
+            </div>
+
+            {{-- STEP 2: Area --}}
+            <div x-show="step === 2"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 style="display: none;"
+                 class="p-6 sm:p-10">
+                <h3 class="text-slate-900 font-bold text-xl sm:text-2xl mb-2 text-center">Which part of Alibaug?</h3>
+                <p class="text-text-secondary text-sm mb-8 text-center">Choose a specific area, or skip to see everywhere.</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+                    @foreach ($wizardAreas as $a)
+                        <button type="button"
+                                @click="area = '{{ $a->id }}'; areaName = '{{ $a->name }}'; next()"
+                                class="bg-white border-2 border-slate-200 hover:border-primary hover:bg-primary/5 active:scale-[0.98] rounded-2xl px-4 py-4 transition-all text-left"
+                                :class="area === '{{ $a->id }}' ? 'border-primary bg-primary/5 ring-4 ring-primary/15' : ''">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-[20px]">location_on</span>
+                                <p class="text-slate-900 font-bold text-sm">{{ $a->name }}</p>
+                            </div>
+                        </button>
+                    @endforeach
+                </div>
+                <div class="flex items-center justify-between gap-4 pt-4 border-t border-slate-100">
+                    <button type="button" @click="prev()"
+                            class="inline-flex items-center gap-1.5 text-slate-600 hover:text-slate-900 font-semibold text-sm transition-colors">
+                        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                        Back
+                    </button>
+                    <button type="button" @click="area = ''; areaName = 'Anywhere'; next()"
+                            class="text-slate-500 hover:text-primary font-semibold text-sm transition-colors">
+                        Skip — show me everywhere →
+                    </button>
+                </div>
+            </div>
+
+            {{-- STEP 3: Party size --}}
+            <div x-show="step === 3"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 style="display: none;"
+                 class="p-6 sm:p-10">
+                <h3 class="text-slate-900 font-bold text-xl sm:text-2xl mb-2 text-center">Who's coming?</h3>
+                <p class="text-text-secondary text-sm mb-8 text-center">We'll filter for the right size of place.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                    @foreach ([
+                        ['val' => '1', 'label' => 'Solo', 'icon' => 'person', 'sub' => 'Just you'],
+                        ['val' => '2', 'label' => 'Couple', 'icon' => 'favorite', 'sub' => '2 people'],
+                        ['val' => '4', 'label' => 'Family', 'icon' => 'family_restroom', 'sub' => '3–5 people'],
+                        ['val' => '8', 'label' => 'Group', 'icon' => 'groups', 'sub' => '6+ people'],
+                    ] as $opt)
+                        <button type="button"
+                                @click="partySize = '{{ $opt['val'] }}'; partySizeLabel = '{{ $opt['label'] }}'"
+                                class="bg-white border-2 border-slate-200 hover:border-primary hover:bg-primary/5 active:scale-[0.98] rounded-2xl px-4 py-5 transition-all text-center"
+                                :class="partySize === '{{ $opt['val'] }}' ? 'border-primary bg-primary/5 ring-4 ring-primary/15' : ''">
+                            <span class="material-symbols-outlined text-primary text-[28px] mb-1.5 block" style="font-variation-settings:'FILL' 1">{{ $opt['icon'] }}</span>
+                            <p class="text-slate-900 font-bold text-sm">{{ $opt['label'] }}</p>
+                            <p class="text-text-secondary text-xs mt-0.5">{{ $opt['sub'] }}</p>
+                        </button>
+                    @endforeach
+                </div>
+
+                {{-- Summary --}}
+                <div class="bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 mb-4 text-sm">
+                    <p class="text-text-secondary">
+                        <span class="font-semibold text-slate-900" x-text="purposeName"></span> ·
+                        <span class="font-semibold text-slate-900" x-text="areaName || 'Anywhere in Alibaug'"></span>
+                        <span x-show="partySizeLabel">· <span class="font-semibold text-slate-900" x-text="partySizeLabel"></span></span>
+                    </p>
+                </div>
+
+                <div class="flex items-center justify-between gap-4 pt-4 border-t border-slate-100">
+                    <button type="button" @click="prev()"
+                            class="inline-flex items-center gap-1.5 text-slate-600 hover:text-slate-900 font-semibold text-sm transition-colors">
+                        <span class="material-symbols-outlined text-[18px]">arrow_back</span>
+                        Back
+                    </button>
+                    <button type="button" @click="submit()"
+                            :disabled="!partySize"
+                            :class="partySize ? 'bg-primary hover:bg-primary-dark text-white shadow-lg shadow-primary/30' : 'bg-slate-200 text-slate-400 cursor-not-allowed'"
+                            class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all">
+                        See matching places
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -519,6 +709,60 @@ $catConfig = [
     </div>
 </section>
 @endif
+
+{{-- ═══════════════════════════════════════════════════════════════
+     PLAN YOUR TRIP — Weather + Getting Here + Markets
+═══════════════════════════════════════════════════════════════ --}}
+<section class="py-14 sm:py-20 bg-slate-50">
+    <div class="max-w-[1280px] mx-auto px-4 sm:px-6">
+        <div class="text-center max-w-2xl mx-auto mb-10">
+            <p class="text-text-secondary text-xs uppercase tracking-[0.18em] font-bold mb-3">Plan Your Visit</p>
+            <h2 class="text-slate-900 font-serif font-bold text-3xl sm:text-4xl tracking-tight mb-3">Everything you need before you go</h2>
+            <p class="text-slate-600 text-base sm:text-lg leading-relaxed">Live weather, ferry timings, and local know-how — so your trip starts smooth from the first hour.</p>
+        </div>
+
+        <div class="grid lg:grid-cols-3 gap-5">
+            {{-- Weather card (live) --}}
+            <div class="lg:col-span-1">
+                <x-weather-widget variant="compact" />
+            </div>
+
+            {{-- How to reach --}}
+            <a href="{{ route('page.how-to-reach') }}" class="group block bg-white border border-border-light hover:border-primary/40 hover:shadow-lg rounded-2xl p-6 transition-all">
+                <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary group-hover:scale-105 transition-all">
+                    <span class="material-symbols-outlined text-primary group-hover:text-white text-[26px]" style="font-variation-settings:'FILL' 1">directions_boat</span>
+                </div>
+                <h3 class="text-slate-900 font-bold text-xl leading-tight mb-2">How to Reach Alibaug</h3>
+                <p class="text-text-secondary text-sm leading-relaxed mb-4">Ferry timings from Gateway of India, road routes from Mumbai &amp; Pune, and travel cost comparison.</p>
+                <ul class="space-y-1.5 text-sm text-slate-700 font-medium mb-5">
+                    <li class="flex items-start gap-2"><span class="material-symbols-outlined text-emerald-500 text-[16px] mt-0.5">check</span> Ferry, road &amp; train options</li>
+                    <li class="flex items-start gap-2"><span class="material-symbols-outlined text-emerald-500 text-[16px] mt-0.5">check</span> Live ticket prices &amp; timings</li>
+                    <li class="flex items-start gap-2"><span class="material-symbols-outlined text-emerald-500 text-[16px] mt-0.5">check</span> Best route for your start point</li>
+                </ul>
+                <span class="inline-flex items-center gap-1.5 text-primary font-bold text-sm group-hover:gap-2.5 transition-all">
+                    Travel Guide <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </span>
+            </a>
+
+            {{-- Local markets --}}
+            <a href="{{ route('page.local-markets') }}" class="group block bg-white border border-border-light hover:border-primary/40 hover:shadow-lg rounded-2xl p-6 transition-all">
+                <div class="w-12 h-12 rounded-xl bg-amber-100 flex items-center justify-center mb-4 group-hover:bg-amber-500 group-hover:scale-105 transition-all">
+                    <span class="material-symbols-outlined text-amber-600 group-hover:text-white text-[26px]" style="font-variation-settings:'FILL' 1">storefront</span>
+                </div>
+                <h3 class="text-slate-900 font-bold text-xl leading-tight mb-2">Local Markets &amp; Tips</h3>
+                <p class="text-text-secondary text-sm leading-relaxed mb-4">Where to shop for fresh seafood, Konkan specialities, and authentic souvenirs in Alibaug.</p>
+                <ul class="space-y-1.5 text-sm text-slate-700 font-medium mb-5">
+                    <li class="flex items-start gap-2"><span class="material-symbols-outlined text-emerald-500 text-[16px] mt-0.5">check</span> Daily fish market timings</li>
+                    <li class="flex items-start gap-2"><span class="material-symbols-outlined text-emerald-500 text-[16px] mt-0.5">check</span> Best produce stalls</li>
+                    <li class="flex items-start gap-2"><span class="material-symbols-outlined text-emerald-500 text-[16px] mt-0.5">check</span> What's in season this month</li>
+                </ul>
+                <span class="inline-flex items-center gap-1.5 text-primary font-bold text-sm group-hover:gap-2.5 transition-all">
+                    Local Guide <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+                </span>
+            </a>
+        </div>
+    </div>
+</section>
 
 {{-- ═══════════════════════════════════════════════════════════════
      NEWSLETTER CTA

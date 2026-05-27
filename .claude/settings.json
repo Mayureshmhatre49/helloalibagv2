@@ -4,7 +4,13 @@
       "WebFetch(domain:helloalibaug.com)",
       "WebFetch(domain:www.paisleyexperience.com)",
       "WebFetch(domain:share.google)",
-      "WebFetch(domain:www.google.com)"
+      "WebFetch(domain:www.google.com)",
+      "Bash(curl -s -o /dev/null -w ' *)",
+      "Bash(curl -s -o /dev/null -w \"status=%{http_code} size=%{size_download}b time=%{time_total}s\\\\n\" 'http://127.0.0.1:8765/trip/lszg74rSQsJgmsmV7mxvhqyq')",
+      "Bash(curl -s 'http://127.0.0.1:8765/eat/paisley-experience')",
+      "Bash(grep -l 'is_featured || $listing->is_premium' 'resources/views/listing/categories/*.blade.php')",
+      "Bash(curl -s 'http://127.0.0.1:8765/search?verified_only=1')",
+      "Bash(curl -s 'http://127.0.0.1:8765/search')"
     ]
   }
 }

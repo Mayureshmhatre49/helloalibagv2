@@ -36,7 +36,7 @@
         {{-- Gradient overlay for bottom readability --}}
         <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none"></div>
 
-        {{-- Top-Left: Feature / Premium badge --}}
+        {{-- Top-Left: Feature / Premium / Verified badges --}}
         <div class="absolute top-3 left-3 z-20 pointer-events-none flex flex-col gap-1">
             @if($listing->is_featured)
                 <span class="inline-flex items-center gap-1 bg-primary text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow">
@@ -46,6 +46,9 @@
                 <span class="inline-flex items-center gap-1 bg-amber-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow">
                     <span class="material-symbols-outlined text-[11px]" style="font-variation-settings:'FILL' 1">workspace_premium</span> Premium
                 </span>
+            @endif
+            @if($listing->is_verified)
+                <x-verified-badge :listing="$listing" size="sm" />
             @endif
         </div>
 
@@ -114,6 +117,9 @@
         <p class="text-xs text-slate-500 truncate mb-2.5">
             {{ $listing->area?->name ? $listing->area->name . ', Alibaug' : 'Alibaug' }}
         </p>
+
+        {{-- "Best For" tags --}}
+        <x-listing-tags :listing="$listing" :limit="2" :linkable="false" class="mb-2.5" />
 
         {{-- Attribute pills (beds/guests/cuisine) --}}
         @php $attrs = $listing->attrs ?? []; @endphp

@@ -59,8 +59,11 @@
     <div class="mb-6">
 
         {{-- Badges --}}
-        @if($listing->is_featured || $listing->is_premium)
-            <div class="flex items-center gap-2 mb-3">
+        @if($listing->is_featured || $listing->is_premium || $listing->is_verified)
+            <div class="flex items-center gap-2 mb-3 flex-wrap">
+                @if($listing->is_verified)
+                    <x-verified-badge :listing="$listing" size="lg" />
+                @endif
                 @if($listing->is_featured)
                     <span class="inline-flex items-center gap-1 bg-primary text-white px-3 py-1 rounded-full text-xs font-bold">
                         <span class="material-symbols-outlined text-[13px]" style="font-variation-settings:'FILL' 1">star</span>
@@ -80,6 +83,9 @@
         <h1 class="font-display text-3xl sm:text-4xl font-bold text-slate-900 leading-tight mb-3">
             {{ $listing->title }}
         </h1>
+
+        {{-- "Best For" tags --}}
+        <x-listing-tags :listing="$listing" class="mb-4" />
 
         {{-- Rating + Location + Views --}}
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm mb-4">
@@ -104,22 +110,10 @@
             </span>
         </div>
 
-        {{-- Tags --}}
-        @if($listing->tags->isNotEmpty())
-            <div class="flex flex-wrap gap-2 mb-4">
-                @foreach($listing->tags as $tag)
-                    <span class="inline-flex items-center gap-1.5 bg-primary/5 border border-primary/20 text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                        @if($tag->icon)
-                            <span class="material-symbols-outlined text-[13px]">{{ $tag->icon }}</span>
-                        @endif
-                        {{ $tag->name }}
-                    </span>
-                @endforeach
-            </div>
-        @endif
-
-        {{-- Share buttons --}}
-        <div class="flex items-center gap-2 pt-4 border-t border-slate-100" x-data="{ copied: false }">
+        {{-- Trip + Share row --}}
+        <div class="flex items-center gap-2 pt-4 border-t border-slate-100 flex-wrap" x-data="{ copied: false }">
+            <x-add-to-trip :listing="$listing" />
+            <span class="text-xs text-slate-400 font-medium mx-1">·</span>
             <span class="text-xs text-slate-400 font-medium mr-1">Share:</span>
             <a href="https://wa.me/?text={{ urlencode($listing->title . ' — ' . url()->current()) }}"
                target="_blank"
@@ -205,6 +199,9 @@
 
             {{-- 5. Reviews --}}
             @include('listing.partials._reviews')
+
+            {{-- 6. FAQ (auto-generated + schema.org FAQPage for rich snippets) --}}
+            <x-listing-faq :listing="$listing" />
 
         </div>
         {{-- /main content --}}

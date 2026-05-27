@@ -74,9 +74,24 @@
                             {{ $cat->name }}
                         </a>
                         @endforeach
+                        <a href="{{ route('map.index') }}"
+                            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('map.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                            <span class="material-symbols-outlined text-[16px]">map</span>
+                            Map
+                        </a>
+                        <a href="{{ route('guides.index') }}"
+                            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('guides.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                            <span class="material-symbols-outlined text-[16px]">menu_book</span>
+                            Guides
+                        </a>
                         <a href="{{ route('blog.index') }}"
                             class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('blog.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                             Blog
+                        </a>
+                        <a href="{{ route('marketplace.index') }}"
+                            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('marketplace.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                            <span class="material-symbols-outlined text-[16px]">storefront</span>
+                            Buy &amp; Sell
                         </a>
                     </div>
 
@@ -158,6 +173,12 @@
                                             <span class="material-symbols-outlined text-[18px] opacity-70">dashboard</span> Dashboard
                                         </a>
                                     @endif
+                                    <a href="{{ route('trips.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
+                                        <span class="material-symbols-outlined text-[18px] text-slate-400">luggage</span> My Trips
+                                    </a>
+                                    <a href="{{ route('marketplace.my') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
+                                        <span class="material-symbols-outlined text-[18px] text-slate-400">sell</span> My Items
+                                    </a>
                                     <a href="{{ route('bookings.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
                                         <span class="material-symbols-outlined text-[18px] text-slate-400">book_online</span> My Bookings
                                     </a>
@@ -208,9 +229,24 @@
                         {{ $cat->name }}
                     </a>
                     @endforeach
+                    <a href="{{ route('map.index') }}"
+                        class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('map.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                        <span class="material-symbols-outlined text-[14px]">map</span>
+                        Map
+                    </a>
+                    <a href="{{ route('guides.index') }}"
+                        class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('guides.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                        <span class="material-symbols-outlined text-[14px]">menu_book</span>
+                        Guides
+                    </a>
                     <a href="{{ route('blog.index') }}"
                         class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('blog.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                         Blog
+                    </a>
+                    <a href="{{ route('marketplace.index') }}"
+                        class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('marketplace.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                        <span class="material-symbols-outlined text-[14px]">storefront</span>
+                        Buy &amp; Sell
                     </a>
                 </div>
             </div>
@@ -320,7 +356,12 @@
                         <li><a href="{{ route('page.about') }}" class="hover:text-primary transition-colors">About Us</a></li>
                         <li><a href="{{ route('page.contact') }}" class="hover:text-primary transition-colors">Contact</a></li>
                         <li><a href="{{ route('search') }}" class="hover:text-primary transition-colors">Browse Listings</a></li>
-                        <li><a href="{{ route('blog.index') }}" class="hover:text-primary transition-colors">Blog & Guides</a></li>
+                        <li><a href="{{ route('map.index') }}" class="hover:text-primary transition-colors">Explore on Map</a></li>
+                        <li><a href="{{ route('events.calendar') }}" class="hover:text-primary transition-colors">Events Calendar</a></li>
+                        <li><a href="{{ route('guides.index') }}" class="hover:text-primary transition-colors">Travel Guides</a></li>
+                        <li><a href="{{ route('blog.index') }}" class="hover:text-primary transition-colors">Blog</a></li>
+                        <li><a href="{{ route('weather.index') }}" class="hover:text-primary transition-colors">Weather & Best Time</a></li>
+                        <li><a href="{{ route('page.how-to-reach') }}" class="hover:text-primary transition-colors">How to Reach</a></li>
                         <li><a href="{{ route('register') }}" class="hover:text-primary transition-colors">List Your Business</a></li>
                     </ul>
                 </div>

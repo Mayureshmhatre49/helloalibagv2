@@ -18,6 +18,8 @@
             @if(!empty($filters['category_id']))<input type="hidden" name="category_id" value="{{ $filters['category_id'] }}">@endif
             @if(!empty($filters['area_id']))<input type="hidden" name="area_id" value="{{ $filters['area_id'] }}">@endif
             @if(!empty($filters['sort']))<input type="hidden" name="sort" value="{{ $filters['sort'] }}">@endif
+            @if(!empty($filters['verified_only']))<input type="hidden" name="verified_only" value="1">@endif
+            @foreach($filters['tags'] ?? [] as $tagId)<input type="hidden" name="tags[]" value="{{ $tagId }}">@endforeach
         </form>
     </div>
 
@@ -81,6 +83,24 @@
                         <button type="submit" class="w-full mt-2 bg-background-light text-text-main py-2 rounded-xl text-xs font-medium hover:bg-gray-200 transition-colors">Apply Price</button>
                     </div>
 
+                    {{-- Trust filter --}}
+                    <div class="bg-white rounded-2xl border border-border-light p-4">
+                        <h3 class="text-sm font-bold text-text-main mb-3">Trust</h3>
+                        <label class="flex items-start gap-2.5 cursor-pointer group">
+                            <input type="checkbox" name="verified_only" value="1"
+                                   {{ !empty($filters['verified_only']) ? 'checked' : '' }}
+                                   class="mt-0.5 rounded text-primary focus:ring-primary/20"
+                                   onchange="this.form.submit()">
+                            <span class="text-sm text-text-secondary group-hover:text-text-main">
+                                <span class="font-bold text-slate-900 flex items-center gap-1.5">
+                                    <span class="material-symbols-outlined text-emerald-500 text-[16px]" style="font-variation-settings:'FILL' 1">verified</span>
+                                    Verified only
+                                </span>
+                                <span class="block text-[11px] mt-0.5">Show only listings reviewed and vetted by Hello Alibaug.</span>
+                            </span>
+                        </label>
+                    </div>
+
                     {{-- Amenities --}}
                     <div class="bg-white rounded-2xl border border-border-light p-4">
                         <h3 class="text-sm font-bold text-text-main mb-3">Amenities</h3>
@@ -97,6 +117,24 @@
                         </div>
                     </div>
 
+                    {{-- Best For tags --}}
+                    @if($tags->isNotEmpty())
+                    <div class="bg-white rounded-2xl border border-border-light p-4">
+                        <h3 class="text-sm font-bold text-text-main mb-3">Best For</h3>
+                        <div class="space-y-2 max-h-48 overflow-y-auto">
+                            @foreach($tags as $tag)
+                                <label class="flex items-center gap-2 text-sm text-text-secondary cursor-pointer hover:text-text-main">
+                                    <input type="checkbox" name="tags[]" value="{{ $tag->id }}"
+                                           {{ in_array($tag->id, $filters['tags'] ?? []) ? 'checked' : '' }}
+                                           class="rounded text-primary focus:ring-primary/20" onchange="this.form.submit()">
+                                    @if($tag->icon)<span class="material-symbols-outlined text-[14px]">{{ $tag->icon }}</span>@endif
+                                    {{ $tag->name }}
+                                </label>
+                            @endforeach
+                        </div>
+                    </div>
+                    @endif
+
                     {{-- Clear Filters --}}
                     <a href="{{ route('search', ['q' => $query]) }}" class="block text-center text-sm text-primary font-medium hover:underline">Clear All Filters</a>
                 </form>
@@ -105,7 +143,7 @@
 
         {{-- Results --}}
         <div class="flex-1">
-            <div class="flex items-center justify-between mb-4">
+            <div class="flex items-center justify-between gap-4 mb-4 flex-wrap">
                 <p class="text-sm text-text-secondary">
                     @if($results->total() > 0)
                         {{ $results->total() }} {{ Str::plural('result', $results->total()) }}
@@ -116,6 +154,28 @@
                         Browse all listings
                     @endif
                 </p>
+
+                <div class="flex items-center gap-2">
+                    @php
+                        $searchShareText = trim(
+                            'Found these on Hello Alibaug' .
+                            ($query ? " for \"{$query}\"" : '')
+                        );
+                    @endphp
+                    <x-share-menu :text="$searchShareText" label="Share" />
+
+                    <div class="inline-flex bg-slate-100 rounded-xl p-1" role="tablist" aria-label="View toggle">
+                        <span class="bg-white shadow-sm text-slate-900 font-bold text-xs px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 cursor-default" aria-current="true">
+                            <span class="material-symbols-outlined text-[16px]">view_list</span>
+                            List
+                        </span>
+                        <a href="{{ route('map.index') }}"
+                           class="text-slate-600 hover:text-slate-900 font-semibold text-xs px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 transition-colors">
+                            <span class="material-symbols-outlined text-[16px]">map</span>
+                            Map
+                        </a>
+                    </div>
+                </div>
             </div>
 
             @if($results->count() > 0)

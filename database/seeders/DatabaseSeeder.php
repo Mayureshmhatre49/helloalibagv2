@@ -322,5 +322,11 @@ class DatabaseSeeder extends Seeder
         foreach ($casaImages as $img) {
             ListingImage::create(array_merge(['listing_id' => $casaFrangipani->id], $img));
         }
+
+        // Seed editorial guides (depends on Listings being seeded first).
+        $this->call(GuideSeeder::class);
+
+        // Seed marketplace (classifieds) categories.
+        $this->call(ClassifiedCategorySeeder::class);
     }
 }

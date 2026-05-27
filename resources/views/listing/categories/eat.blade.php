@@ -220,6 +220,9 @@
             {{ $listing->title }}
         </h1>
 
+        {{-- "Best For" tags --}}
+        <x-listing-tags :listing="$listing" class="mb-4" />
+
         {{-- Rating + Location + Views + Featured/Premium badges --}}
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-sm mb-4">
             @if($avgRating > 0)
@@ -242,6 +245,9 @@
                 {{ number_format($listing->views_count) }} views
             </span>
 
+            @if($listing->is_verified)
+                <x-verified-badge :listing="$listing" />
+            @endif
             @if($listing->is_featured)
                 <span class="inline-flex items-center gap-1 bg-primary text-white px-2.5 py-1 rounded-full text-xs font-bold">
                     <span class="material-symbols-outlined text-[12px]" style="font-variation-settings:'FILL' 1">star</span>
@@ -256,23 +262,11 @@
             @endif
         </div>
 
-        {{-- Tags --}}
-        @if($listing->tags->isNotEmpty())
-            <div class="flex flex-wrap gap-2 mb-4">
-                @foreach($listing->tags as $tag)
-                    <span class="inline-flex items-center gap-1.5 bg-primary/5 border border-primary/20 text-primary px-3 py-1 rounded-full text-xs font-semibold">
-                        @if($tag->icon)
-                            <span class="material-symbols-outlined text-[13px]">{{ $tag->icon }}</span>
-                        @endif
-                        {{ $tag->name }}
-                    </span>
-                @endforeach
-            </div>
-        @endif
-
         {{-- Share buttons --}}
         <div class="flex items-center gap-2 pt-4 border-t border-slate-100" x-data="{ copied: false }">
             <span class="text-xs text-slate-400 font-medium mr-1">Share:</span>
+            <x-add-to-trip :listing="$listing" />
+            <span class="text-xs text-slate-400 font-medium mx-1">·</span>
             <a href="https://wa.me/?text={{ urlencode($listing->title . ' — ' . url()->current()) }}"
                target="_blank"
                class="inline-flex items-center gap-1.5 text-xs font-medium text-[#25D366] bg-[#25D366]/10 hover:bg-[#25D366]/20 px-3 py-1.5 rounded-full transition-colors">
@@ -614,6 +608,9 @@
             {{-- 5. Reviews --}}
             @include('listing.partials._reviews')
 
+            {{-- 6. FAQ (auto-generated + schema.org FAQPage for rich snippets) --}}
+            <x-listing-faq :listing="$listing" />
+
         </div>
         {{-- /main content --}}
 
@@ -694,6 +691,9 @@
                         </div>
                     </div>
                 </div>
+
+                {{-- Live Alibaug Weather --}}
+                <x-weather-widget variant="inline" />
 
                 {{-- Owner Card --}}
                 <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">

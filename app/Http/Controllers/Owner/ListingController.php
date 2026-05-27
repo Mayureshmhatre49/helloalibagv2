@@ -51,7 +51,7 @@ class ListingController extends Controller
             'attributes' => 'nullable|array',
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
-            'images.*' => 'nullable|image|max:5120',
+            'images.*' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
         ]);
 
         // Convert multi-checkbox attributes (arrays) to comma-separated strings
@@ -121,9 +121,9 @@ class ListingController extends Controller
             'tags' => 'nullable|array',
             'tags.*' => 'exists:tags,id',
             'images' => 'nullable|array',
-            'images.*' => 'nullable|image|max:5120',
+            'images.*' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
             'menu_images' => 'nullable|array',
-            'menu_images.*' => 'nullable|image|max:5120',
+            'menu_images.*' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
         ]);
 
         // Convert multi-checkbox attributes (arrays) to comma-separated strings

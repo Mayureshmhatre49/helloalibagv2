@@ -10,7 +10,7 @@ class SearchService
     public function search(string $query = '', array $filters = [], int $perPage = 12): LengthAwarePaginator
     {
         $builder = Listing::approved()
-            ->with(['category', 'area', 'images', 'amenities']);
+            ->with(['category', 'area', 'images', 'amenities', 'tags']);
 
         if (!empty($query)) {
             $builder->search($query);
@@ -35,6 +35,16 @@ class SearchService
         if (!empty($filters['amenities']) && is_array($filters['amenities'])) {
             $builder->whereHas('amenities', function ($q) use ($filters) {
                 $q->whereIn('amenities.id', $filters['amenities']);
+            });
+        }
+
+        if (!empty($filters['verified_only'])) {
+            $builder->where('is_verified', true);
+        }
+
+        if (!empty($filters['tags']) && is_array($filters['tags'])) {
+            $builder->whereHas('tags', function ($q) use ($filters) {
+                $q->whereIn('tags.id', $filters['tags']);
             });
         }
 

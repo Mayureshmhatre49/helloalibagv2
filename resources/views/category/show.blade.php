@@ -86,6 +86,32 @@
                 <div class="mt-8">
                     {{ $listings->links() }}
                 </div>
+
+                {{-- Internal links to programmatic category-in-area landing pages --}}
+                @php
+                    $catAreaLinks = \App\Models\Area::where('is_active', true)
+                        ->whereHas('listings', fn ($q) => $q->approved()->where('category_id', $category->id))
+                        ->orderBy('name')
+                        ->get();
+                @endphp
+                @if ($catAreaLinks->isNotEmpty())
+                    <div class="mt-12 pt-10 border-t border-border-light">
+                        <p class="text-text-secondary text-xs uppercase tracking-[0.18em] font-bold mb-2">Browse by area</p>
+                        <h2 class="text-slate-900 font-serif font-bold text-2xl md:text-3xl tracking-tight mb-6">{{ $category->name }} by neighborhood</h2>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            @foreach ($catAreaLinks as $linkArea)
+                                <a href="{{ url('/' . $category->slug . '-in-' . $linkArea->slug) }}"
+                                   class="group bg-white border border-border-light hover:border-primary/40 hover:shadow-md rounded-xl px-4 py-3 flex items-center gap-3 transition-all">
+                                    <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                        <span class="material-symbols-outlined text-primary text-[18px]">location_on</span>
+                                    </div>
+                                    <span class="text-slate-900 font-bold text-sm flex-1">{{ $category->name }} in {{ $linkArea->name }}</span>
+                                    <span class="material-symbols-outlined text-slate-400 group-hover:text-primary group-hover:translate-x-0.5 transition-all text-[18px]">arrow_forward</span>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             @else
                 <div class="text-center py-16 bg-white rounded-2xl border border-border-light">
                     <span class="material-symbols-outlined text-5xl text-gray-300 mb-3">search_off</span>

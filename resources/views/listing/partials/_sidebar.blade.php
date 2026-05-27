@@ -158,6 +158,9 @@
             </div>
         </div>
 
+        {{-- Live Alibaug Weather --}}
+        <x-weather-widget variant="inline" />
+
         {{-- Owner Card --}}
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
             <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">Listed by</p>

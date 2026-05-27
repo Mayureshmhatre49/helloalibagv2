@@ -1,79 +1,45 @@
 @extends('layouts.admin')
 @section('page-title', 'Overview')
 
-@section('content')
-{{-- Metrics Row 1 --}}
-<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-2">
-            <span class="material-symbols-outlined text-primary text-2xl">list_alt</span>
-            <span class="text-[10px] font-bold text-green-600 bg-green-50 px-2 py-0.5 rounded-lg">Total</span>
-        </div>
-        <p class="text-2xl font-bold text-slate-900">{{ $totalListings }}</p>
-        <p class="text-xs text-slate-500 font-medium">Business Listings</p>
-    </div>
-    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-2">
-            <span class="material-symbols-outlined text-amber-500 text-2xl">pending_actions</span>
-            <span class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-lg">Action</span>
-        </div>
-        <p class="text-2xl font-bold text-slate-900">{{ $pendingListings }}</p>
-        <p class="text-xs text-slate-500 font-medium">Pending Approvals</p>
-    </div>
-    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-2">
-            <span class="material-symbols-outlined text-blue-500 text-2xl">group</span>
-            <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-lg">Growth</span>
-        </div>
-        <p class="text-2xl font-bold text-slate-900">{{ $totalOwners }}</p>
-        <p class="text-xs text-slate-500 font-medium">Business Owners</p>
-    </div>
-    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-2">
-            <span class="material-symbols-outlined text-rose-500 text-2xl">visibility</span>
-            <span class="text-[10px] font-bold text-rose-600 bg-rose-50 px-2 py-0.5 rounded-lg">Traffic</span>
-        </div>
-        <p class="text-2xl font-bold text-slate-900">{{ number_format($totalViews) }}</p>
-        <p class="text-xs text-slate-500 font-medium">Total Views</p>
-    </div>
-</div>
+@section('page-actions')
+    <a href="{{ route('admin.listings.index', ['status' => 'pending']) }}" class="inline-flex items-center gap-1.5 bg-white border border-border-light text-text-main text-sm font-semibold px-4 py-2 rounded-lg hover:bg-slate-50 transition-colors">
+        <span class="material-symbols-outlined text-[18px]">approval</span> Review queue
+    </a>
+    <a href="{{ route('admin.classifieds.create') }}" class="inline-flex items-center gap-1.5 bg-primary text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-primary-dark transition-colors shadow-sm">
+        <span class="material-symbols-outlined text-[18px]">add_circle</span> Add item
+    </a>
+@endsection
 
-{{-- Metrics Row 2 --}}
+@section('content')
+<p class="text-sm text-text-secondary -mt-2 mb-6">{{ now()->format('l, d M Y') }} · Here's what's happening on Hello Alibaug.</p>
+
+{{-- Stat cards --}}
+@php
+    $stats = [
+        ['label' => 'Business Listings', 'value' => $totalListings,                'icon' => 'list_alt',        'tile' => 'bg-primary/10 text-primary',        'href' => route('admin.listings.index', ['status' => 'all'])],
+        ['label' => 'Pending Approvals', 'value' => $pendingListings,              'icon' => 'pending_actions', 'tile' => 'bg-amber-50 text-amber-600',        'href' => route('admin.listings.index', ['status' => 'pending']), 'alert' => $pendingListings > 0],
+        ['label' => 'Business Owners',   'value' => $totalOwners,                  'icon' => 'group',           'tile' => 'bg-indigo-50 text-indigo-600',      'href' => route('admin.users.index')],
+        ['label' => 'Total Views',       'value' => number_format($totalViews),    'icon' => 'visibility',      'tile' => 'bg-rose-50 text-rose-600'],
+        ['label' => 'Total Inquiries',   'value' => $totalInquiries,               'icon' => 'mail',            'tile' => 'bg-purple-50 text-purple-600',      'href' => route('admin.inquiries.index')],
+        ['label' => 'Open Tickets',      'value' => $openTickets,                  'icon' => 'support_agent',   'tile' => 'bg-orange-50 text-orange-600',      'href' => route('admin.support.index'), 'alert' => $openTickets > 0],
+        ['label' => 'Pending Reviews',   'value' => $pendingReviews,               'icon' => 'reviews',         'tile' => 'bg-amber-50 text-amber-600',        'href' => route('admin.reviews.index'), 'alert' => $pendingReviews > 0],
+        ['label' => 'Premium Listings',  'value' => $premiumListings,              'icon' => 'workspace_premium','tile' => 'bg-emerald-50 text-emerald-600'],
+    ];
+@endphp
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-2">
-            <span class="material-symbols-outlined text-purple-500 text-2xl">mail</span>
-        </div>
-        <p class="text-2xl font-bold text-slate-900">{{ $totalInquiries }}</p>
-        <p class="text-xs text-slate-500 font-medium">Total Inquiries</p>
-    </div>
-    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-2">
-            <span class="material-symbols-outlined text-orange-500 text-2xl">support_agent</span>
-            @if($openTickets > 0)
-                <span class="text-[10px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded-lg">{{ $openTickets }} open</span>
+    @foreach($stats as $stat)
+        <{{ ($stat['href'] ?? null) ? 'a href="'.e($stat['href']).'"' : 'div' }}
+           class="group bg-white rounded-2xl border border-border-light p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all relative">
+            @if($stat['alert'] ?? false)
+                <span class="absolute top-4 right-4 w-2 h-2 rounded-full bg-red-500 ring-4 ring-red-50"></span>
             @endif
-        </div>
-        <p class="text-2xl font-bold text-slate-900">{{ $openTickets }}</p>
-        <p class="text-xs text-slate-500 font-medium">Open Tickets</p>
-    </div>
-    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-2">
-            <span class="material-symbols-outlined text-amber-500 text-2xl">reviews</span>
-            @if($pendingReviews > 0)
-                <span class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-lg">{{ $pendingReviews }} pending</span>
-            @endif
-        </div>
-        <p class="text-2xl font-bold text-slate-900">{{ $pendingReviews }}</p>
-        <p class="text-xs text-slate-500 font-medium">Pending Reviews</p>
-    </div>
-    <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
-        <div class="flex items-center justify-between mb-2">
-            <span class="material-symbols-outlined text-emerald-500 text-2xl">stars</span>
-        </div>
-        <p class="text-2xl font-bold text-slate-900">{{ $premiumListings }}</p>
-        <p class="text-xs text-slate-500 font-medium">Premium Listings</p>
-    </div>
+            <div class="w-11 h-11 rounded-xl {{ $stat['tile'] }} flex items-center justify-center mb-3">
+                <span class="material-symbols-outlined text-[22px]">{{ $stat['icon'] }}</span>
+            </div>
+            <p class="text-2xl font-bold text-slate-900 leading-none">{{ $stat['value'] }}</p>
+            <p class="text-xs text-text-secondary font-medium mt-1.5">{{ $stat['label'] }}</p>
+        </{{ ($stat['href'] ?? null) ? 'a' : 'div' }}>
+    @endforeach
 </div>
 
 {{-- Analytics Charts --}}
@@ -170,7 +136,7 @@
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const primaryColor = '#8B9A46'; // Hello Alibaug Green
+    const primaryColor = '#1183d4'; // Hello Alibaug primary blue
     const secondaryColor = '#0f172a'; // Slate 900
     const tertiaryColor = '#64748b'; // Slate 500
 

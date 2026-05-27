@@ -20,6 +20,12 @@ class ImageService
      */
     public function store(UploadedFile $file, string $directory = 'listings'): array
     {
+        $allowedMimes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+        $detectedMime = (new \finfo(FILEINFO_MIME_TYPE))->file($file->getRealPath());
+        if (!in_array($detectedMime, $allowedMimes, true)) {
+            abort(422, 'Invalid image file type.');
+        }
+
         $filename = Str::uuid() . '.webp';
         $thumbFilename = 'thumb_' . $filename;
 

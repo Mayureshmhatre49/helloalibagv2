@@ -11,11 +11,11 @@ class EnsureRole
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
         if (!$request->user() || !$request->user()->role) {
-            return redirect()->route('home')->with('error', 'Please complete your registration.');
+            return redirect()->route('login');
         }
 
         if (!in_array($request->user()->role->slug, $roles)) {
-            return redirect()->route('home')->with('error', 'You do not have permission to access that page.');
+            abort(403);
         }
 
         return $next($request);

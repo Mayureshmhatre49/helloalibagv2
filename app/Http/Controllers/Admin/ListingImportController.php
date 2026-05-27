@@ -133,13 +133,22 @@ class ListingImportController extends Controller
 
                 // ── Primary Image ─────────────────────────────────────────────
                 if (!empty($data['image_url'])) {
-                    ListingImage::create([
-                        'listing_id' => $listing->id,
-                        'path'       => $data['image_url'],
-                        'alt_text'   => $listing->title,
-                        'is_primary' => true,
-                        'sort_order' => 0,
-                    ]);
+                    $imageUrl = $data['image_url'];
+                    if (
+                        filter_var($imageUrl, FILTER_VALIDATE_URL) &&
+                        preg_match('#^https://#i', $imageUrl) &&
+                        preg_match('#\.(jpe?g|png|webp|gif)(\?.*)?$#i', $imageUrl)
+                    ) {
+                        ListingImage::create([
+                            'listing_id' => $listing->id,
+                            'path'       => $imageUrl,
+                            'alt_text'   => $listing->title,
+                            'is_primary' => true,
+                            'sort_order' => 0,
+                        ]);
+                    } else {
+                        $errors[] = "Row {$rowNumber} ({$title}): invalid image_url '{$imageUrl}' — image skipped.";
+                    }
                 }
 
                 $imported++;

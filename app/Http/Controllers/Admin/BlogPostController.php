@@ -8,6 +8,7 @@ use App\Models\BlogCategory;
 use App\Models\BlogTag;
 use App\Models\Listing;
 use Illuminate\Http\Request;
+use Mews\Purifier\Facades\Purifier;
 
 class BlogPostController extends Controller
 {
@@ -42,11 +43,12 @@ class BlogPostController extends Controller
             'seo_score' => 'nullable|integer|min:0|max:100',
         ]);
 
+        $validated['content'] = Purifier::clean($validated['content'], 'blog');
         $validated['author_id'] = auth()->id();
         $validated['is_featured'] = $request->has('is_featured');
         $validated['is_indexable'] = $request->has('is_indexable');
-        
-        $wordCount = str_word_count(strip_tags($request->input('content')));
+
+        $wordCount = str_word_count(strip_tags($validated['content']));
         $validated['reading_time'] = max(1, ceil($wordCount / 200));
 
         if ($validated['status'] === 'published') {
@@ -109,10 +111,11 @@ class BlogPostController extends Controller
             'seo_score' => 'nullable|integer|min:0|max:100',
         ]);
 
+        $validated['content'] = Purifier::clean($validated['content'], 'blog');
         $validated['is_featured'] = $request->has('is_featured');
         $validated['is_indexable'] = $request->has('is_indexable');
-        
-        $wordCount = str_word_count(strip_tags($request->input('content')));
+
+        $wordCount = str_word_count(strip_tags($validated['content']));
         $validated['reading_time'] = max(1, ceil($wordCount / 200));
 
         if ($validated['status'] === 'published' && !$post->published_at) {

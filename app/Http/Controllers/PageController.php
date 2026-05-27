@@ -22,6 +22,12 @@ class PageController extends Controller
 
     public function contactSubmit(Request $request)
     {
+        // Honeypot: bots fill hidden fields, humans don't
+        if ($request->filled('website') || $request->filled('phone_verify')) {
+            return redirect()->route('page.contact')
+                ->with('success', 'Thank you for your message! We\'ll get back to you within 24 hours.');
+        }
+
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',

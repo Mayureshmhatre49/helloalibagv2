@@ -13,11 +13,13 @@ class Area extends Model
     use HasFactory, HasSlug;
 
     protected $fillable = [
-        'name', 'slug', 'description', 'image', 'tagline', 'is_active',
+        'name', 'slug', 'description', 'image', 'tagline', 'is_active', 'latitude', 'longitude',
     ];
 
     protected $casts = [
         'is_active' => 'boolean',
+        'latitude' => 'float',
+        'longitude' => 'float',
     ];
 
     public function getSlugOptions(): SlugOptions

@@ -20,6 +20,11 @@
             <div class="bg-white rounded-2xl border border-border-light p-6">
                 <form method="POST" action="{{ route('page.contact.submit') }}" class="space-y-4">
                     @csrf
+                    {{-- Honeypot: hidden from humans, bots fill these --}}
+                    <div style="display:none" aria-hidden="true">
+                        <input type="text" name="website" value="" tabindex="-1" autocomplete="off">
+                        <input type="text" name="phone_verify" value="" tabindex="-1" autocomplete="off">
+                    </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm font-medium text-text-main mb-1">Name *</label>

@@ -40,7 +40,7 @@ class ListingService
     {
         $query = Listing::approved()
             ->where('category_id', $category->id)
-            ->with(['area', 'images', 'amenities', 'creator']);
+            ->with(['area', 'images', 'amenities', 'tags', 'creator']);
 
         $this->applyFilters($query, $filters);
 
@@ -51,7 +51,7 @@ class ListingService
     {
         return Listing::where('slug', $slug)
             ->approved()
-            ->with(['category', 'area', 'images', 'amenities', 'listingAttributes', 'creator', 'approvedReviews.user'])
+            ->with(['category', 'area', 'images', 'amenities', 'tags', 'listingAttributes', 'creator', 'approvedReviews.user', 'approvedReviews.photos'])
             ->first();
     }
 

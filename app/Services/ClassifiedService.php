@@ -1,0 +1,104 @@
+<?php
+
+namespace App\Services;
+
+use App\Models\Classified;
+use App\Models\User;
+use App\Models\UserNotification;
+use Illuminate\Support\Facades\Log;
+
+class ClassifiedService
+{
+    /** How long an active item stays live before auto-expiring. */
+    public const LIVE_DAYS = 30;
+
+    public function store(array $data, User $seller): Classified
+    {
+        return Classified::create([
+            'title' => $data['title'],
+            'description' => $data['description'] ?? null,
+            'price' => $data['price'] ?? null,
+            'is_negotiable' => $data['is_negotiable'] ?? false,
+            'condition' => $data['condition'] ?? null,
+            'classified_category_id' => $data['classified_category_id'],
+            'area_id' => $data['area_id'] ?? null,
+            'seller_id' => $seller->id,
+            'status' => 'pending',
+            'contact_phone' => $data['contact_phone'] ?? null,
+            'contact_whatsapp' => $data['contact_whatsapp'] ?? null,
+        ]);
+    }
+
+    public function update(Classified $classified, array $data): Classified
+    {
+        $classified->update([
+            'title' => $data['title'] ?? $classified->title,
+            'description' => $data['description'] ?? $classified->description,
+            'price' => $data['price'] ?? null,
+            'is_negotiable' => $data['is_negotiable'] ?? false,
+            'condition' => $data['condition'] ?? null,
+            'classified_category_id' => $data['classified_category_id'] ?? $classified->classified_category_id,
+            'area_id' => $data['area_id'] ?? null,
+            'contact_phone' => $data['contact_phone'] ?? null,
+            'contact_whatsapp' => $data['contact_whatsapp'] ?? null,
+        ]);
+
+        return $classified->fresh();
+    }
+
+    public function approve(Classified $classified, User $admin): Classified
+    {
+        $classified->update([
+            'status' => 'active',
+            'approved_by' => $admin->id,
+            'approved_at' => now(),
+            'expires_at' => now()->addDays(self::LIVE_DAYS),
+        ]);
+
+        $this->notify($classified, 'classified_approved', 'Your item is live!',
+            '"' . $classified->title . '" has been approved and is now listed in the marketplace.');
+
+        return $classified;
+    }
+
+    public function reject(Classified $classified, ?string $reason = null): Classified
+    {
+        $classified->update(['status' => 'rejected', 'rejection_reason' => $reason]);
+
+        $this->notify($classified, 'classified_rejected', 'Item needs changes',
+            '"' . $classified->title . '" was not approved. Reason: ' . $reason);
+
+        return $classified;
+    }
+
+    public function markSold(Classified $classified): Classified
+    {
+        $classified->update(['status' => 'sold', 'sold_at' => now()]);
+
+        return $classified;
+    }
+
+    /** Flip active items past their expiry date to 'expired'. Called by the scheduler. */
+    public function expireOverdue(): int
+    {
+        return Classified::where('status', 'active')
+            ->whereNotNull('expires_at')
+            ->where('expires_at', '<=', now())
+            ->update(['status' => 'expired']);
+    }
+
+    private function notify(Classified $classified, string $type, string $title, string $message): void
+    {
+        try {
+            UserNotification::create([
+                'user_id' => $classified->seller_id,
+                'type' => $type,
+                'title' => $title,
+                'message' => $message,
+                'data' => ['classified_id' => $classified->id],
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('Classified notification failed: ' . $e->getMessage());
+        }
+    }
+}

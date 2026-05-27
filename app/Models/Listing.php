@@ -8,18 +8,21 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
+use OwenIt\Auditing\Contracts\Auditable;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class Listing extends Model
+class Listing extends Model implements Auditable
 {
-    use HasFactory, HasSlug;
+    use HasFactory, HasSlug, \OwenIt\Auditing\Auditable;
 
     protected $fillable = [
         'title', 'slug', 'category_id', 'area_id', 'description', 'price',
         'status', 'rejection_reason', 'is_featured', 'is_premium', 'created_by', 'approved_by',
         'approved_at', 'views_count', 'address', 'phone', 'email',
         'website', 'whatsapp', 'city_id', 'subscription_ready',
+        'event_start_at', 'event_end_at', 'event_is_recurring',
+        'is_verified', 'verified_at', 'verification_note', 'verified_by',
     ];
 
     protected $casts = [
@@ -29,6 +32,11 @@ class Listing extends Model
         'subscription_ready' => 'boolean',
         'approved_at' => 'datetime',
         'views_count' => 'integer',
+        'event_start_at' => 'datetime',
+        'event_end_at' => 'datetime',
+        'event_is_recurring' => 'boolean',
+        'is_verified' => 'boolean',
+        'verified_at' => 'datetime',
     ];
 
     public function getSlugOptions(): SlugOptions
@@ -128,6 +136,46 @@ class Listing extends Model
     public function scopePremium($query)
     {
         return $query->where('is_premium', true);
+    }
+
+    // ── Event-specific scopes (for the /events-calendar view) ──
+
+    public function scopeUpcomingEvents($query)
+    {
+        return $query->whereNotNull('event_start_at')
+            ->where(function ($q) {
+                $q->where('event_start_at', '>=', now())
+                  ->orWhere('event_end_at', '>=', now());
+            })
+            ->orderBy('event_start_at');
+    }
+
+    public function scopeEventsBetween($query, \DateTimeInterface $from, \DateTimeInterface $to)
+    {
+        return $query->whereNotNull('event_start_at')
+            ->where('event_start_at', '<=', $to)
+            ->where(function ($q) use ($from) {
+                $q->where('event_end_at', '>=', $from)
+                  ->orWhere(function ($q2) use ($from) {
+                      $q2->whereNull('event_end_at')->where('event_start_at', '>=', $from);
+                  });
+            })
+            ->orderBy('event_start_at');
+    }
+
+    public function scopeThisWeekend($query)
+    {
+        // "This weekend" means Sat 00:00 IST through Sun 23:59 IST of the
+        // current calendar week — works whether today is Mon or Sun.
+        $tz = 'Asia/Kolkata';
+        $sat = now($tz)->next(\Carbon\CarbonInterface::SATURDAY)->startOfDay();
+        // If today *is* the weekend, use the current Sat/Sun window.
+        if (now($tz)->isWeekend()) {
+            $sat = now($tz)->startOfWeek(\Carbon\CarbonInterface::SATURDAY)->startOfDay();
+        }
+        $sun = $sat->copy()->addDay()->endOfDay();
+
+        return $query->eventsBetween($sat, $sun);
     }
 
     public function scopeByCategory($query, $categoryId)

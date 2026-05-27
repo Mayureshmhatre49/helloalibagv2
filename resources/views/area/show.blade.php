@@ -125,6 +125,32 @@
                     @endforeach
                 </div>
                 <div class="mt-8">{{ $results->links() }}</div>
+
+                {{-- Internal links to programmatic category-in-area landing pages --}}
+                @php
+                    $areaCategoryLinks = \App\Models\Category::where('is_active', true)
+                        ->whereHas('listings', fn ($q) => $q->approved()->where('area_id', $area->id))
+                        ->orderBy('sort_order')
+                        ->get();
+                @endphp
+                @if ($areaCategoryLinks->isNotEmpty())
+                    <div class="mt-12 pt-10 border-t border-border-light">
+                        <p class="text-text-secondary text-xs uppercase tracking-[0.18em] font-bold mb-2">Browse by category</p>
+                        <h2 class="text-slate-900 font-serif font-bold text-2xl md:text-3xl tracking-tight mb-6">What to do in {{ $area->name }}</h2>
+                        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            @foreach ($areaCategoryLinks as $linkCat)
+                                <a href="{{ url('/' . $linkCat->slug . '-in-' . $area->slug) }}"
+                                   class="group bg-white border border-border-light hover:border-primary/40 hover:shadow-md rounded-xl px-4 py-3 flex items-center gap-3 transition-all">
+                                    <div class="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                        <span class="material-symbols-outlined text-primary text-[18px]" style="font-variation-settings:'FILL' 1">{{ $linkCat->icon }}</span>
+                                    </div>
+                                    <span class="text-slate-900 font-bold text-sm flex-1">{{ $linkCat->name }} in {{ $area->name }}</span>
+                                    <span class="material-symbols-outlined text-slate-400 group-hover:text-primary group-hover:translate-x-0.5 transition-all text-[18px]">arrow_forward</span>
+                                </a>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
             @else
                 <div class="text-center py-16 bg-white rounded-2xl border border-border-light">
                     <span class="material-symbols-outlined text-5xl text-gray-300 mb-3">search_off</span>
