@@ -70,7 +70,8 @@
                         <span class="material-symbols-outlined text-[20px]">add_circle</span>
                         Add Listing
                     </a>
-                    <a href="{{ route('owner.availability.index', auth()->user()->listings()->latest()->first() ?? 0) }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('owner.availability.*') ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-background-light' }}">
+                    @php $latestListing = auth()->user()->listings()->latest()->first(); @endphp
+                    <a href="{{ $latestListing ? route('owner.availability.index', $latestListing) : route('owner.onboarding.start') }}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium {{ request()->routeIs('owner.availability.*') ? 'bg-primary/10 text-primary' : 'text-text-secondary hover:bg-background-light' }}">
                         <span class="material-symbols-outlined text-[20px]">event_available</span>
                         Availability
                     </a>
