@@ -1,359 +1,359 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     <url>
-        <loc>http://127.0.0.1:8000</loc>
+        <loc>http://localhost</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/weather</loc>
+        <loc>http://localhost/weather</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/map</loc>
+        <loc>http://localhost/map</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/how-to-reach</loc>
+        <loc>http://localhost/how-to-reach</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/local-markets</loc>
+        <loc>http://localhost/local-markets</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/guides</loc>
+        <loc>http://localhost/guides</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/stay</loc>
+        <loc>http://localhost/stay</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/eat</loc>
+        <loc>http://localhost/eat</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/events</loc>
+        <loc>http://localhost/events</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/explore</loc>
+        <loc>http://localhost/explore</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/services</loc>
+        <loc>http://localhost/services</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/real-estate</loc>
+        <loc>http://localhost/real-estate</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/area/mandwa</loc>
+        <loc>http://localhost/area/mandwa</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/area/kihim</loc>
+        <loc>http://localhost/area/kihim</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/area/alibaug-town</loc>
+        <loc>http://localhost/area/alibaug-town</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/area/awas</loc>
+        <loc>http://localhost/area/awas</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/area/nagaon</loc>
+        <loc>http://localhost/area/nagaon</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/area/versoli</loc>
+        <loc>http://localhost/area/versoli</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/area/zirad</loc>
+        <loc>http://localhost/area/zirad</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/area/kashid</loc>
+        <loc>http://localhost/area/kashid</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/area/sasawane</loc>
+        <loc>http://localhost/area/sasawane</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/area/dhokawade</loc>
+        <loc>http://localhost/area/dhokawade</loc>
         <lastmod>2026-04-17T14:41:13+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/guides/best-beaches-in-alibaug</loc>
+        <loc>http://localhost/guides/best-beaches-in-alibaug</loc>
         <lastmod>2026-05-18T15:50:06+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/guides/family-friendly-villas-alibaug-under-20000</loc>
+        <loc>http://localhost/guides/family-friendly-villas-alibaug-under-20000</loc>
         <lastmod>2026-05-17T04:26:16+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/guides/monsoon-in-alibaug</loc>
+        <loc>http://localhost/guides/monsoon-in-alibaug</loc>
         <lastmod>2026-05-17T04:26:16+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/eat/paisley-experience</loc>
-        <lastmod>2026-05-27T20:32:17+00:00</lastmod>
+        <loc>http://localhost/eat/paisley-experience</loc>
+        <lastmod>2026-07-18T19:13:35+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/stay/hestia-villa</loc>
+        <loc>http://localhost/stay/hestia-villa</loc>
         <lastmod>2026-05-27T20:30:30+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/stay/casa-frangipani</loc>
+        <loc>http://localhost/stay/casa-frangipani</loc>
         <lastmod>2026-05-27T20:33:35+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/stay/taj-alibaug-resort-spa</loc>
+        <loc>http://localhost/stay/taj-alibaug-resort-spa</loc>
         <lastmod>2026-05-27T20:30:19+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/stay/paradise-villas-resort</loc>
-        <lastmod>2026-05-15T20:18:42+00:00</lastmod>
+        <loc>http://localhost/stay/paradise-villas-resort</loc>
+        <lastmod>2026-07-18T19:03:56+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/stay/zostel-alibaug</loc>
+        <loc>http://localhost/stay/zostel-alibaug</loc>
+        <lastmod>2026-07-18T19:04:01+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/stay/veranda-resort-alibaug</loc>
+        <lastmod>2026-07-18T19:04:07+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/stay/kihim-courtyard-by-ama</loc>
+        <lastmod>2026-07-18T19:04:11+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/explore/kolaba-fort-guided-tour</loc>
+        <lastmod>2026-07-18T19:04:12+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/explore/nagaon-beach-water-sports</loc>
+        <lastmod>2026-07-18T19:04:18+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/explore/murud-janjira-fort-day-trip</loc>
+        <lastmod>2026-07-18T19:04:23+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/events/nagaon-sunset-beach-party</loc>
+        <lastmod>2026-07-18T19:04:26+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/events/alibaug-craft-beer-festival</loc>
+        <lastmod>2026-07-18T19:04:27+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/events/weekend-yoga-wellness-retreat</loc>
+        <lastmod>2026-07-18T19:04:31+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/events/konkan-stargazing-night</loc>
+        <lastmod>2026-07-18T19:04:34+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/services/mandwa-ferry-service</loc>
+        <lastmod>2026-07-18T19:04:39+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/services/alibaug-cab-local-transport</loc>
+        <lastmod>2026-07-18T19:04:40+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/services/sunrise-spa-wellness-alibaug</loc>
+        <lastmod>2026-07-18T19:04:44+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/services/konkan-catering-services</loc>
+        <lastmod>2026-07-18T19:04:45+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/services/alibaug-bike-cycle-rentals</loc>
+        <lastmod>2026-07-18T19:04:51+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/real-estate/beachfront-plot-in-mandwa</loc>
+        <lastmod>2026-07-18T19:04:55+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/real-estate/farmhouse-plot-in-kihim</loc>
+        <lastmod>2026-07-18T19:04:58+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/real-estate/kashid-beachside-land</loc>
+        <lastmod>2026-07-18T19:05:00+00:00</lastmod>
+
+            </url>
+    <url>
+        <loc>http://localhost/real-estate/ready-villa-for-sale-in-awas</loc>
         <lastmod>2026-04-17T14:57:18+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/stay/veranda-resort-alibaug</loc>
-        <lastmod>2026-04-17T14:57:19+00:00</lastmod>
+        <loc>http://localhost/real-estate/gated-farmhouse-plot-in-nagaon</loc>
+        <lastmod>2026-07-18T19:05:11+00:00</lastmod>
 
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/stay/kihim-courtyard-by-ama</loc>
-        <lastmod>2026-05-27T20:33:11+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/explore/kolaba-fort-guided-tour</loc>
-        <lastmod>2026-04-17T14:57:19+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/explore/nagaon-beach-water-sports</loc>
-        <lastmod>2026-04-17T14:57:20+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/explore/murud-janjira-fort-day-trip</loc>
-        <lastmod>2026-04-17T14:54:43+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/events/nagaon-sunset-beach-party</loc>
-        <lastmod>2026-05-20T19:09:37+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/events/alibaug-craft-beer-festival</loc>
-        <lastmod>2026-05-19T14:51:14+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/events/weekend-yoga-wellness-retreat</loc>
-        <lastmod>2026-05-19T14:51:14+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/events/konkan-stargazing-night</loc>
-        <lastmod>2026-05-19T14:51:14+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/services/mandwa-ferry-service</loc>
-        <lastmod>2026-04-17T14:57:16+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/services/alibaug-cab-local-transport</loc>
-        <lastmod>2026-04-17T14:57:16+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/services/sunrise-spa-wellness-alibaug</loc>
-        <lastmod>2026-04-17T14:57:16+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/services/konkan-catering-services</loc>
-        <lastmod>2026-04-17T14:57:17+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/services/alibaug-bike-cycle-rentals</loc>
-        <lastmod>2026-04-17T14:57:17+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/real-estate/beachfront-plot-in-mandwa</loc>
-        <lastmod>2026-05-17T04:02:27+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/real-estate/farmhouse-plot-in-kihim</loc>
-        <lastmod>2026-04-17T14:57:17+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/real-estate/kashid-beachside-land</loc>
-        <lastmod>2026-04-17T14:57:18+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/real-estate/ready-villa-for-sale-in-awas</loc>
-        <lastmod>2026-04-17T14:57:18+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/real-estate/gated-farmhouse-plot-in-nagaon</loc>
-        <lastmod>2026-04-17T14:54:56+00:00</lastmod>
-
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/stay-in-alibaug</loc>
+        <loc>http://localhost/stay-in-alibaug</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/stay-in-mandwa</loc>
+        <loc>http://localhost/stay-in-mandwa</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/stay-in-kihim</loc>
+        <loc>http://localhost/stay-in-kihim</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/stay-in-alibaug-town</loc>
+        <loc>http://localhost/stay-in-alibaug-town</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/stay-in-versoli</loc>
+        <loc>http://localhost/stay-in-versoli</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/stay-in-dhokawade</loc>
+        <loc>http://localhost/stay-in-dhokawade</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/eat-in-alibaug</loc>
+        <loc>http://localhost/eat-in-alibaug</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/eat-in-dhokawade</loc>
+        <loc>http://localhost/eat-in-dhokawade</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/events-in-alibaug</loc>
+        <loc>http://localhost/events-in-alibaug</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/events-in-kihim</loc>
+        <loc>http://localhost/events-in-kihim</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/events-in-alibaug-town</loc>
+        <loc>http://localhost/events-in-alibaug-town</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/events-in-nagaon</loc>
+        <loc>http://localhost/events-in-nagaon</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/events-in-kashid</loc>
+        <loc>http://localhost/events-in-kashid</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/explore-in-alibaug</loc>
+        <loc>http://localhost/explore-in-alibaug</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/explore-in-alibaug-town</loc>
+        <loc>http://localhost/explore-in-alibaug-town</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/explore-in-nagaon</loc>
+        <loc>http://localhost/explore-in-nagaon</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/services-in-alibaug</loc>
+        <loc>http://localhost/services-in-alibaug</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/services-in-mandwa</loc>
+        <loc>http://localhost/services-in-mandwa</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/services-in-alibaug-town</loc>
+        <loc>http://localhost/services-in-alibaug-town</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/real-estate-in-alibaug</loc>
+        <loc>http://localhost/real-estate-in-alibaug</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/real-estate-in-mandwa</loc>
+        <loc>http://localhost/real-estate-in-mandwa</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/real-estate-in-kihim</loc>
+        <loc>http://localhost/real-estate-in-kihim</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/real-estate-in-awas</loc>
+        <loc>http://localhost/real-estate-in-awas</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/real-estate-in-nagaon</loc>
+        <loc>http://localhost/real-estate-in-nagaon</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/real-estate-in-kashid</loc>
+        <loc>http://localhost/real-estate-in-kashid</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/budget-villas-in-alibaug</loc>
+        <loc>http://localhost/budget-villas-in-alibaug</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/luxury-villas-in-alibaug</loc>
+        <loc>http://localhost/luxury-villas-in-alibaug</loc>
     
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/mid-range-villas-in-alibaug</loc>
+        <loc>http://localhost/mid-range-villas-in-alibaug</loc>
     
             </url>
 </urlset>

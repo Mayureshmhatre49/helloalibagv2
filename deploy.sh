@@ -74,9 +74,22 @@ fi
 echo "==> [5/7] Running migrations"
 "$PHP" artisan migrate --force
 
+# Reference-data seeders only — each MUST be idempotent (firstOrCreate/updateOrCreate).
+# NEVER run the bare `db:seed` / DatabaseSeeder here: it truncates users, roles,
+# listings, areas, categories, reviews, and amenities, then recreates a single
+# hardcoded admin account. Only ever call individual --class= seeders below.
+"$PHP" artisan db:seed --class="Database\\Seeders\\ClassifiedCategorySeeder" --force
+
 echo "==> [6/7] Refreshing caches"
 "$PHP" artisan optimize:clear
 "$PHP" artisan storage:link 2>/dev/null || true
+
+# Self-host any externally-hotlinked listing images (idempotent: a no-op once all
+# images are local). `|| true` so a flaky remote image host never fails the deploy.
+"$PHP" artisan listings:localize-images || true
+# NOTE: `listings:geocode` is intentionally NOT run here — for this data it mostly
+# resolves to town-level coordinates (pins stack). Run it manually only if useful;
+# real per-listing accuracy comes from the in-form location picker.
 "$PHP" artisan config:cache
 "$PHP" artisan view:cache
 # route:cache fails if any route uses a closure — fall back to clearing it.

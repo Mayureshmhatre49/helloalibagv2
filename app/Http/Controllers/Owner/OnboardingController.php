@@ -60,6 +60,8 @@ class OnboardingController extends Controller
             'phone'              => 'nullable|string|max:20',
             'email'              => 'nullable|email|max:255',
             'address'            => 'nullable|string|max:500',
+            'latitude'           => 'nullable|numeric|between:-90,90',
+            'longitude'          => 'nullable|numeric|between:-180,180',
             'category_id'        => 'required|exists:categories,id',
             'images'             => 'required|array|min:1',
             'images.*'           => 'image|mimes:jpeg,png,jpg,webp|max:8192',
@@ -86,6 +88,8 @@ class OnboardingController extends Controller
         $listing->phone       = $request->phone;
         $listing->email       = $request->email;
         $listing->address     = $request->address;
+        $listing->latitude    = $request->filled('latitude') ? $request->latitude : null;
+        $listing->longitude   = $request->filled('longitude') ? $request->longitude : null;
         $listing->status      = 'pending';
         $listing->created_by  = $request->user()->id;
         $listing->save();

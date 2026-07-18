@@ -67,6 +67,8 @@ class ListingService
                 'status' => 'pending',
                 'created_by' => $user->id,
                 'address' => $data['address'] ?? null,
+                'latitude' => $data['latitude'] ?? null,
+                'longitude' => $data['longitude'] ?? null,
                 'phone' => $data['phone'] ?? null,
                 'email' => $data['email'] ?? null,
                 'website' => $data['website'] ?? null,
@@ -105,6 +107,10 @@ class ListingService
                 'description' => $data['description'] ?? $listing->description,
                 'price' => $data['price'] ?? $listing->price,
                 'address' => $data['address'] ?? $listing->address,
+                // Coordinates: use array_key_exists so a deliberately-cleared pin
+                // (which arrives as null) actually clears, rather than keeping the old value.
+                'latitude' => array_key_exists('latitude', $data) ? $data['latitude'] : $listing->latitude,
+                'longitude' => array_key_exists('longitude', $data) ? $data['longitude'] : $listing->longitude,
                 'phone' => $data['phone'] ?? $listing->phone,
                 'email' => $data['email'] ?? $listing->email,
                 'website' => $data['website'] ?? $listing->website,

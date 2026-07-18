@@ -349,6 +349,10 @@
                     <input type="text" name="address" value="{{ old('address') }}" class="w-full rounded-xl border-slate-200 text-sm focus:border-primary focus:ring-primary py-3">
                 </div>
             </div>
+
+            <div class="mt-6">
+                @include('partials.location-picker', ['areas' => $areas, 'latitude' => null, 'longitude' => null])
+            </div>
         </div>
 
         {{-- Amenities --}}

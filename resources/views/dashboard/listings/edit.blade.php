@@ -699,6 +699,10 @@
                                 <input type="email" name="email" value="{{ old('email', $listing->email) }}" class="w-full rounded-xl border-slate-200 text-sm focus:border-primary focus:ring-primary py-3 px-4 bg-slate-50/50" placeholder="hello@example.com">
                             </div>
                         </div>
+
+                        <div class="mt-2">
+                            @include('partials.location-picker', ['areas' => $areas, 'latitude' => $listing->latitude, 'longitude' => $listing->longitude])
+                        </div>
                     </div>
                 </div>
 

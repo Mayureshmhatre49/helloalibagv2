@@ -784,7 +784,7 @@ $catConfig = [
             Join our exclusive network of premium stays, restaurants, and real estate listings. Reach thousands of travellers and buyers — for free.
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <a href="{{ route('register') }}"
+            <a href="{{ auth()->guest() ? route('register') : ((auth()->user()->isOwner() || auth()->user()->isAdmin()) ? route('owner.dashboard') : route('subscription.plans')) }}"
                class="bg-primary hover:bg-primary/90 text-white px-8 py-3.5 rounded-full font-bold transition-all shadow-xl shadow-primary/25 w-full sm:w-auto text-center text-sm sm:text-base">
                 List Your Business — Free
             </a>

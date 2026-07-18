@@ -113,11 +113,11 @@
                            @mouseleave="unhoverMarker(m.id)"
                            class="block px-4 py-3 hover:bg-slate-50 transition-colors group">
                             <div class="flex gap-3">
-                                <div class="w-16 h-16 rounded-xl bg-slate-100 overflow-hidden flex-shrink-0 relative">
-                                    <template x-if="m.image">
-                                        <img :src="m.image" :alt="m.title" loading="lazy" class="w-full h-full object-cover">
+                                <div class="w-16 h-16 rounded-xl bg-slate-100 overflow-hidden flex-shrink-0 relative" x-data="{ imgError: false }">
+                                    <template x-if="m.image && !imgError">
+                                        <img :src="m.image" :alt="m.title" loading="lazy" x-on:error="imgError = true" class="w-full h-full object-cover">
                                     </template>
-                                    <template x-if="!m.image">
+                                    <template x-if="!m.image || imgError">
                                         <div class="w-full h-full flex items-center justify-center text-slate-300">
                                             <span class="material-symbols-outlined text-[28px]">image</span>
                                         </div>

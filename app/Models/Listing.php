@@ -19,7 +19,7 @@ class Listing extends Model implements Auditable
     protected $fillable = [
         'title', 'slug', 'category_id', 'area_id', 'description', 'price',
         'status', 'rejection_reason', 'is_featured', 'is_premium', 'created_by', 'approved_by',
-        'approved_at', 'views_count', 'address', 'phone', 'email',
+        'approved_at', 'views_count', 'address', 'latitude', 'longitude', 'phone', 'email',
         'website', 'whatsapp', 'city_id', 'subscription_ready',
         'event_start_at', 'event_end_at', 'event_is_recurring',
         'is_verified', 'verified_at', 'verification_note', 'verified_by',
@@ -27,6 +27,8 @@ class Listing extends Model implements Auditable
 
     protected $casts = [
         'price' => 'decimal:2',
+        'latitude' => 'decimal:7',
+        'longitude' => 'decimal:7',
         'is_featured' => 'boolean',
         'is_premium' => 'boolean',
         'subscription_ready' => 'boolean',

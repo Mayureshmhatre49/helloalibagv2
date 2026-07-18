@@ -356,7 +356,7 @@
                         <li><a href="{{ route('blog.index') }}" class="hover:text-primary transition-colors">Blog</a></li>
                         <li><a href="{{ route('weather.index') }}" class="hover:text-primary transition-colors">Weather & Best Time</a></li>
                         <li><a href="{{ route('page.how-to-reach') }}" class="hover:text-primary transition-colors">How to Reach</a></li>
-                        <li><a href="{{ route('register') }}" class="hover:text-primary transition-colors">List Your Business</a></li>
+                        <li><a href="{{ auth()->guest() ? route('register') : ((auth()->user()->isOwner() || auth()->user()->isAdmin()) ? route('owner.dashboard') : route('subscription.plans')) }}" class="hover:text-primary transition-colors">List Your Business</a></li>
                     </ul>
                 </div>
 

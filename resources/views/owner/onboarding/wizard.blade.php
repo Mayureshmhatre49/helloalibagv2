@@ -115,6 +115,10 @@
                             </div>
 
                             <div>
+                                @include('partials.location-picker', ['areas' => $areas, 'latitude' => null, 'longitude' => null])
+                            </div>
+
+                            <div>
                                 <label class="block text-sm font-bold text-slate-700 mb-2">Description <span class="text-red-500">*</span></label>
                                 <textarea name="description" x-model="formData.description" required rows="6"
                                     class="w-full rounded-xl border-slate-200 focus:border-primary focus:ring-primary py-3"
