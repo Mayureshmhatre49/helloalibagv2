@@ -28,7 +28,13 @@
       "Bash(wc -l /c/xampp/htdocs/helloalibgv2/resources/views/listing/categories/*.blade.php)",
       "Bash(npm run:*)",
       "Bash(cd /Users/mayuresh/Projects/Nishant-Dada/helloalibagv2 *)",
-      "Bash(php -r ' *)"
+      "Bash(php -r ' *)",
+      "Bash(chmod +x deploy.sh)",
+      "Bash(bash -n deploy.sh)",
+      "Bash(command -v shellcheck)",
+      "Bash(shellcheck deploy.sh)",
+      "Bash(grep -iE \"\\\\.env|\\\\.log|/D$|^\\\\?\\\\? D|node_modules|\\\\.DS_Store|public/hot\")",
+      "Bash(git commit -m 'Add deploy.sh for conflict-proof production deploys *)"
     ],
     "additionalDirectories": [
       "/Users/mayuresh/Projects/Nishant-Dada/helloalibagv2/app/Services"
