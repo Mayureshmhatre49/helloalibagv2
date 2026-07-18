@@ -172,6 +172,10 @@
                                         <a href="{{ route('owner.dashboard') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-primary/5 hover:text-primary transition-colors">
                                             <span class="material-symbols-outlined text-[18px] opacity-70">dashboard</span> Dashboard
                                         </a>
+                                    @else
+                                        <a href="{{ route('subscription.plans') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-primary hover:bg-primary/5 transition-colors">
+                                            <span class="material-symbols-outlined text-[18px]">add_business</span> List Your Business
+                                        </a>
                                     @endif
                                     <a href="{{ route('trips.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
                                         <span class="material-symbols-outlined text-[18px] text-slate-400">luggage</span> My Trips
