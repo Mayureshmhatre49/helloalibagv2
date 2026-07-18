@@ -275,6 +275,8 @@ Route::post('/contact', [\App\Http\Controllers\PageController::class, 'contactSu
 Route::get('/privacy-policy', [\App\Http\Controllers\PageController::class, 'privacy'])->name('page.privacy');
 Route::get('/terms-of-service', [\App\Http\Controllers\PageController::class, 'terms'])->name('page.terms');
 Route::post('/newsletter/subscribe', [\App\Http\Controllers\PageController::class, 'newsletterSubscribe'])->middleware('throttle:3,1')->name('newsletter.subscribe');
+Route::get('/newsletter/confirm/{token}', [\App\Http\Controllers\PageController::class, 'newsletterConfirm'])->name('newsletter.confirm');
+Route::get('/newsletter/unsubscribe/{token}', [\App\Http\Controllers\PageController::class, 'newsletterUnsubscribe'])->name('newsletter.unsubscribe');
 Route::get('/emergency', [\App\Http\Controllers\PageController::class, 'emergency'])->name('page.emergency');
 Route::get('/local-markets', [\App\Http\Controllers\PageController::class, 'localMarkets'])->name('page.local-markets');
 Route::get('/how-to-reach', [\App\Http\Controllers\PageController::class, 'howToReach'])->name('page.how-to-reach');

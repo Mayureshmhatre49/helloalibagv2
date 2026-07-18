@@ -58,11 +58,6 @@
                 <p class="text-sm text-text-secondary">hello@helloalibaug.com</p>
             </div>
             <div class="bg-white rounded-2xl border border-border-light p-5">
-                <span class="material-symbols-outlined text-primary text-2xl mb-2 block">call</span>
-                <h3 class="font-bold text-text-main text-sm mb-1">Phone</h3>
-                <p class="text-sm text-text-secondary">+91 98765 43210</p>
-            </div>
-            <div class="bg-white rounded-2xl border border-border-light p-5">
                 <span class="material-symbols-outlined text-primary text-2xl mb-2 block">location_on</span>
                 <h3 class="font-bold text-text-main text-sm mb-1">Address</h3>
                 <p class="text-sm text-text-secondary">Alibag, Raigad, Maharashtra 402201</p>

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Mail\ContactFormMail;
+use App\Mail\NewsletterConfirmationMail;
 use App\Models\NewsletterSubscriber;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -75,11 +77,41 @@ class PageController extends Controller
     {
         $request->validate(['email' => 'required|email|max:255']);
 
-        NewsletterSubscriber::firstOrCreate(
+        $subscriber = NewsletterSubscriber::firstOrCreate(
             ['email' => $request->input('email')],
             ['unsubscribe_token' => Str::random(64)],
         );
 
-        return back()->with('newsletter_success', 'You\'re subscribed! Welcome to the Hello Alibaug community.');
+        if ($subscriber->confirmed_at) {
+            Cookie::queue('newsletter_subscribed', $subscriber->unsubscribe_token, 60 * 24 * 365);
+
+            return back()->with('newsletter_success', 'You\'re already subscribed!');
+        }
+
+        Mail::to($subscriber->email)->send(new NewsletterConfirmationMail($subscriber));
+
+        return back()->with('newsletter_success', 'Almost there! Check your inbox to confirm your subscription.');
+    }
+
+    public function newsletterConfirm(string $token)
+    {
+        $subscriber = NewsletterSubscriber::where('unsubscribe_token', $token)->firstOrFail();
+
+        if (!$subscriber->confirmed_at) {
+            $subscriber->update(['confirmed_at' => now()]);
+        }
+
+        Cookie::queue('newsletter_subscribed', $subscriber->unsubscribe_token, 60 * 24 * 365);
+
+        return view('pages.newsletter-confirmed');
+    }
+
+    public function newsletterUnsubscribe(string $token)
+    {
+        NewsletterSubscriber::where('unsubscribe_token', $token)->delete();
+
+        Cookie::queue(Cookie::forget('newsletter_subscribed'));
+
+        return view('pages.newsletter-unsubscribed');
     }
 }

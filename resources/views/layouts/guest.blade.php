@@ -21,15 +21,8 @@
             <div class="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-slate-900/40 mix-blend-multiply"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent"></div>
             <div class="absolute inset-0 flex flex-col justify-end p-12">
-                <a href="{{ route('home') }}" class="flex items-center gap-3 mb-8">
-                    <div class="w-11 h-11 rounded-2xl flex items-center justify-center shadow-lg"
-                         style="background: linear-gradient(135deg, #e8a020 0%, #f5c842 100%); box-shadow: 0 4px 16px rgba(232,160,32,0.5);">
-                        <span class="material-symbols-outlined text-white text-[24px]" style="font-variation-settings:'FILL' 1">sailing</span>
-                    </div>
-                    <div class="leading-none">
-                        <p class="text-white font-extrabold text-xl tracking-tight leading-none">Hello <span style="color:#f5c842;">Alibaug</span></p>
-                        <p class="text-white/55 text-[10px] tracking-widest uppercase mt-2 font-medium">Discover · Stay · Eat</p>
-                    </div>
+                <a href="{{ route('home') }}" class="flex items-center mb-8">
+                    <img src="{{ asset('images/helloalibaug-logo.png') }}" alt="Hello Alibaug — Discover, Stay, Eat" class="h-12 w-auto">
                 </a>
                 <h2 class="text-3xl font-serif font-bold text-white mb-3 leading-tight">Experience the finest of<br>coastal living</h2>
                 <p class="text-white/80 text-base max-w-md">Discover luxury stays, premium real estate, and curated dining experiences along the Konkan coast.</p>
