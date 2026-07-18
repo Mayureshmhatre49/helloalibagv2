@@ -48,10 +48,13 @@ git fetch origin
 git reset --hard "origin/$BRANCH"
 
 echo "==> [3/7] Installing composer dependencies"
-if command -v composer >/dev/null 2>&1; then
-    COMPOSER_CMD="composer"
-elif [ -f composer.phar ]; then
+# Always invoke composer through $PHP explicitly — a bare `composer` on PATH
+# runs under the shell's default php (often an older version than $PHP on
+# shared/cPanel hosting), which trips Composer's platform-requirement check.
+if [ -f composer.phar ]; then
     COMPOSER_CMD="$PHP composer.phar"
+elif command -v composer >/dev/null 2>&1; then
+    COMPOSER_CMD="$PHP $(command -v composer)"
 else
     echo "    composer not found — downloading composer.phar"
     curl -sS https://getcomposer.org/installer | "$PHP"
