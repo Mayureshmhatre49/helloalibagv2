@@ -263,7 +263,7 @@
         </div>
 
         {{-- Share buttons --}}
-        <div class="flex items-center gap-2 pt-4 border-t border-slate-100" x-data="{ copied: false }">
+        <div class="flex items-center gap-2 pt-4 border-t border-slate-100 flex-wrap" x-data="{ copied: false }">
             <span class="text-xs text-slate-400 font-medium mr-1">Share:</span>
             <x-add-to-trip :listing="$listing" />
             <span class="text-xs text-slate-400 font-medium mx-1">·</span>

@@ -43,9 +43,8 @@
     {{-- Content --}}
     <div class="relative z-10 h-full max-w-[1280px] mx-auto px-4 sm:px-6 flex flex-col items-center justify-center text-center">
 
-        {{-- Pill label --}}
-        <div class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md border border-white/20 text-white px-4 py-1.5 rounded-full text-xs font-bold mb-5 tracking-wider uppercase">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse inline-block"></span>
+        {{-- Eyebrow label --}}
+        <div class="text-white/90 text-xs font-bold mb-5 tracking-wider uppercase">
             Alibaug's #1 Local Marketplace
         </div>
 
