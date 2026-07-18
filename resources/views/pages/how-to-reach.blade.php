@@ -110,7 +110,7 @@
                         <dd class="text-slate-900 font-bold tabular-nums">₹150–₹280</dd>
                     </div>
                     <div class="flex justify-between items-center py-2 border-b border-border-light">
-                        <dt class="text-text-secondary font-medium">With car (RoRo)</dt>
+                        <dt class="text-text-secondary font-medium">With car (M2M/RoRo)</dt>
                         <dd class="text-slate-900 font-bold tabular-nums">₹1,200–₹2,500</dd>
                     </div>
                     <div class="flex justify-between items-center py-2 border-b border-border-light">
@@ -123,7 +123,7 @@
                     </div>
                 </dl>
                 <div class="bg-blue-50 border border-blue-100 rounded-xl p-4 text-xs text-blue-900 mt-4 leading-relaxed">
-                    <strong class="font-bold">Pro tip:</strong> Book <a href="https://www.m2mferries.com/schedule" target="_blank" rel="noopener" class="underline hover:text-blue-700">M2M</a> or RoRo tickets online during weekends — last ferry from Mandwa departs around 6:00 PM. Monsoon (June–Sep) ferries are often suspended.
+                    <strong class="font-bold">Pro tip:</strong> Book <a href="https://www.m2mferries.com/schedule" target="_blank" rel="noopener" class="underline hover:text-blue-700">M2M/RoRo</a> tickets online during weekends — last ferry from Mandwa departs around 6:00 PM. Monsoon (June–Sep) ferries are often suspended.
                 </div>
             </div>
         </article>
@@ -183,24 +183,28 @@
                 </p>
 
                 {{-- Operator cards --}}
-                <div class="grid sm:grid-cols-3 gap-4">
+                <div class="grid sm:grid-cols-2 gap-4">
                     <div class="bg-white border border-border-light rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
-                        <div class="bg-gradient-to-br from-primary to-primary-dark text-white p-4">
-                            <span class="material-symbols-outlined text-[26px] mb-1" style="font-variation-settings:'FILL' 1">bolt</span>
-                            <h3 class="font-bold text-base leading-tight">M2M Ferry</h3>
-                            <p class="text-white/75 text-xs">High-speed AC catamaran</p>
+                        <div class="bg-gradient-to-br from-amber-500 to-orange-600 text-white p-4">
+                            <span class="material-symbols-outlined text-[26px] mb-1" style="font-variation-settings:'FILL' 1">directions_car</span>
+                            <h3 class="font-bold text-base leading-tight">M2M / RoRo Ferry</h3>
+                            <p class="text-white/75 text-xs">Vehicle + passenger RoRo ferry</p>
                         </div>
                         <div class="p-4 space-y-2">
                             <div class="flex justify-between text-xs">
                                 <span class="text-text-secondary">Hours</span>
-                                <span class="font-bold text-slate-900 tabular-nums">7:00 AM–6:00 PM</span>
+                                <span class="font-bold text-slate-900 tabular-nums">7:00 AM–7:00 PM</span>
                             </div>
                             <div class="flex justify-between text-xs">
-                                <span class="text-text-secondary">Price</span>
-                                <span class="font-bold text-primary tabular-nums">₹250–₹350</span>
+                                <span class="text-text-secondary">Foot passenger</span>
+                                <span class="font-bold text-amber-600 tabular-nums">₹250–₹350</span>
+                            </div>
+                            <div class="flex justify-between text-xs">
+                                <span class="text-text-secondary">With vehicle</span>
+                                <span class="font-bold text-amber-600 tabular-nums">₹1,200–₹2,500</span>
                             </div>
                             <a href="https://www.m2mferries.com/schedule" target="_blank" rel="noopener"
-                               class="mt-1 flex items-center justify-center gap-1 w-full bg-primary/10 text-primary font-bold text-xs py-2 rounded-lg hover:bg-primary/20 transition-colors">
+                               class="mt-1 flex items-center justify-center gap-1 w-full bg-amber-50 text-amber-700 font-bold text-xs py-2 rounded-lg hover:bg-amber-100 transition-colors">
                                 Book tickets <span class="material-symbols-outlined text-[14px]">arrow_outward</span>
                             </a>
                         </div>
@@ -221,28 +225,14 @@
                                 <span class="text-text-secondary">Price</span>
                                 <span class="font-bold text-emerald-600 tabular-nums">₹150–₹200</span>
                             </div>
+                            <div class="flex items-center gap-3 text-xs pt-1">
+                                <a href="http://www.MyBoatRide.com" target="_blank" rel="noopener" class="text-emerald-700 font-semibold underline hover:text-emerald-800">Book PNP</a>
+                                <a href="http://www.maldarcatamaran.com" target="_blank" rel="noopener" class="text-emerald-700 font-semibold underline hover:text-emerald-800">Book Maldar</a>
+                            </div>
                             <a href="#full-timetable"
                                class="mt-1 flex items-center justify-center gap-1 w-full bg-emerald-50 text-emerald-700 font-bold text-xs py-2 rounded-lg hover:bg-emerald-100 transition-colors">
                                 See full timetable <span class="material-symbols-outlined text-[14px]">expand_more</span>
                             </a>
-                        </div>
-                    </div>
-
-                    <div class="bg-white border border-border-light rounded-2xl overflow-hidden hover:shadow-md transition-shadow">
-                        <div class="bg-gradient-to-br from-amber-500 to-orange-600 text-white p-4">
-                            <span class="material-symbols-outlined text-[26px] mb-1" style="font-variation-settings:'FILL' 1">directions_car</span>
-                            <h3 class="font-bold text-base leading-tight">RoRo Ferry</h3>
-                            <p class="text-white/75 text-xs">Cars + passengers</p>
-                        </div>
-                        <div class="p-4 space-y-2">
-                            <div class="flex justify-between text-xs">
-                                <span class="text-text-secondary">Hours</span>
-                                <span class="font-bold text-slate-900 tabular-nums">7:00 AM–7:00 PM</span>
-                            </div>
-                            <div class="flex justify-between text-xs">
-                                <span class="text-text-secondary">Price</span>
-                                <span class="font-bold text-amber-600 tabular-nums">₹1,200–₹2,500</span>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -254,6 +244,7 @@
                 @php
                     $operatorColors = ['AJANTA' => '#2F9E68', 'APOLLO' => '#E2603A', 'MALDAR' => '#7B5FC4', 'PNP' => '#2E6FE0'];
                     $operatorNames  = ['AJANTA' => 'Ajanta', 'APOLLO' => 'Apollo', 'MALDAR' => 'Maldar', 'PNP' => 'PNP'];
+                    $operatorBookingUrls = ['PNP' => 'http://www.MyBoatRide.com', 'MALDAR' => 'http://www.maldarcatamaran.com'];
 
                     $rawToMandwa = [
                         ['6:15 AM','AJANTA'], ['7:00 AM','AJANTA'], ['7:45 AM','APOLLO'], ['8:15 AM','PNP'],
@@ -319,7 +310,7 @@
                         </span>
                         <h3 class="text-slate-900 font-serif font-bold text-xl tracking-tight">Full sailing-by-sailing timetable</h3>
                     </div>
-                    <p class="text-text-secondary text-sm mb-4">Every scheduled crossing for the four standard open-deck operators. M2M and RoRo (above) run to their own separate schedules.</p>
+                    <p class="text-text-secondary text-sm mb-4">Every scheduled crossing for the four standard open-deck operators. M2M/RoRo (above) runs to its own separate schedule.</p>
 
                     <div class="inline-flex bg-slate-100 rounded-xl p-1 mb-4 gap-1">
                         <button type="button" @click="dir = 'toMandwa'"
@@ -336,9 +327,16 @@
 
                     <div class="flex flex-wrap items-center gap-3 mb-4">
                         @foreach ($operatorNames as $code => $name)
-                            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-text-secondary">
-                                <span class="w-2 h-2 rounded-full" style="background:{{ $operatorColors[$code] }}"></span> {{ $name }}
-                            </span>
+                            @if (isset($operatorBookingUrls[$code]))
+                                <a href="{{ $operatorBookingUrls[$code] }}" target="_blank" rel="noopener"
+                                   class="inline-flex items-center gap-1.5 text-xs font-semibold text-text-secondary underline decoration-dotted hover:text-slate-900">
+                                    <span class="w-2 h-2 rounded-full" style="background:{{ $operatorColors[$code] }}"></span> {{ $name }}
+                                </a>
+                            @else
+                                <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-text-secondary">
+                                    <span class="w-2 h-2 rounded-full" style="background:{{ $operatorColors[$code] }}"></span> {{ $name }}
+                                </span>
+                            @endif
                         @endforeach
                     </div>
 
@@ -392,7 +390,7 @@
                 <div class="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-200 rounded-2xl p-5">
                     <span class="material-symbols-outlined text-emerald-600 text-[28px] mb-2">tips_and_updates</span>
                     <h3 class="font-bold text-slate-900 text-base mb-1.5">Skip the queue</h3>
-                    <p class="text-slate-700 text-xs leading-relaxed">Book <a href="https://www.m2mferries.com/schedule" target="_blank" rel="noopener" class="text-emerald-700 font-semibold underline">M2M</a> or RoRo tickets online via their apps. Walk-ins are accepted at the jetty but weekends and holidays can see 30–45 minute waits.</p>
+                    <p class="text-slate-700 text-xs leading-relaxed">Book <a href="https://www.m2mferries.com/schedule" target="_blank" rel="noopener" class="text-emerald-700 font-semibold underline">M2M/RoRo</a> tickets online via their app, or the standard ferries directly with PNP or Maldar. Walk-ins are accepted at the jetty but weekends and holidays can see 30–45 minute waits.</p>
                 </div>
 
                 <div class="bg-gradient-to-br from-sky-50 to-blue-50 border border-sky-200 rounded-2xl p-5">
@@ -532,10 +530,10 @@
         <div class="space-y-3" x-data="{ open: 0 }">
             @php
                 $transitFaqs = [
-                    ['q' => 'What is the fastest way to reach Alibaug from Mumbai?', 'a' => 'The M2M speed-ferry from Gateway of India to Mandwa is the fastest, taking around 60 minutes by sea plus a 20–30 minute cab/auto to Alibaug town. Total door-to-door is roughly 1 hour 30 minutes.'],
-                    ['q' => 'Are ferries running during the monsoon?', 'a' => 'Most ferries suspend operations from mid-June to mid-September due to rough sea conditions. M2M typically does not operate during monsoon. RoRo and PNP may run intermittently on calm days. Always check operator websites or call before heading to the jetty.'],
-                    ['q' => 'Can I take my car to Alibaug?', 'a' => 'Yes, via two routes — drive the full 95 km via NH66 (Panvel-Pen-Alibaug), or take the RoRo car ferry from Bhaucha Dhakka (Mazgaon) to Mandwa for ₹1,200–₹2,500. RoRo saves time and traffic stress but books up fast on weekends.'],
-                    ['q' => 'What time does the last ferry leave Mandwa for Mumbai?', 'a' => 'Last ferries from Mandwa typically depart around 6:00 PM. Times shift seasonally — confirm with M2M, PNP, or RoRo on the day of travel. Missing the last ferry means a 3+ hour road journey back.'],
+                    ['q' => 'What is the fastest way to reach Alibaug from Mumbai?', 'a' => 'The standard passenger ferries (PNP, Ajanta, Maldar, Apollo) from Gateway of India are the fastest, taking around 60 minutes by sea plus a 20–30 minute cab/auto to Alibaug town. Total door-to-door is roughly 1 hour 30 minutes.'],
+                    ['q' => 'Are ferries running during the monsoon?', 'a' => 'Most ferries suspend operations from mid-June to mid-September due to rough sea conditions. M2M/RoRo typically does not operate during monsoon. PNP, Ajanta, Maldar, and Apollo may run intermittently on calm days. Always check operator websites or call before heading to the jetty.'],
+                    ['q' => 'Can I take my car to Alibaug?', 'a' => 'Yes, via two routes — drive the full 95 km via NH66 (Panvel-Pen-Alibaug), or take the M2M/RoRo car ferry from Bhaucha Dhakka (Mazgaon) to Mandwa for ₹1,200–₹2,500. M2M/RoRo saves time and traffic stress but books up fast on weekends.'],
+                    ['q' => 'What time does the last ferry leave Mandwa for Mumbai?', 'a' => 'Last ferries from Mandwa typically depart around 6:00 PM–8:00 PM depending on operator. Times shift seasonally — confirm with M2M/RoRo or the standard ferry operators (PNP, Ajanta, Maldar, Apollo) on the day of travel. Missing the last ferry means a 3+ hour road journey back.'],
                     ['q' => 'Is there a direct train to Alibaug?', 'a' => 'No. The nearest railway station is Pen (~30 km from Alibaug). From Pen, take a pre-paid taxi or auto (₹400–₹600, 45 min) to reach Alibaug town.'],
                     ['q' => 'How much does a typical Mumbai-Alibaug trip cost?', 'a' => 'Cheapest: bus (₹150–₹300 per person). Ferry + cab: ₹350–₹500 per person. Road by car (4 people): ₹250–₹400 per person including fuel and tolls. Train + cab: ₹150–₹700 per person.'],
                     ['q' => 'Can I reach Alibaug by air?', 'a' => 'There is no commercial airport in Alibaug. The nearest airport is Mumbai (CSMIA), about 110 km away (2.5–4 hours by road). A small helipad exists for chartered helicopter services from Mumbai for premium travelers.'],
@@ -588,9 +586,9 @@
     "@context": "https://schema.org",
     "@type": "FAQPage",
     "mainEntity": [
-        {"@type":"Question","name":"What is the fastest way to reach Alibaug from Mumbai?","acceptedAnswer":{"@type":"Answer","text":"The M2M speed-ferry from Gateway of India to Mandwa is the fastest, taking around 60 minutes by sea plus a 20–30 minute cab/auto to Alibaug town."}},
+        {"@type":"Question","name":"What is the fastest way to reach Alibaug from Mumbai?","acceptedAnswer":{"@type":"Answer","text":"The standard passenger ferries (PNP, Ajanta, Maldar, Apollo) from Gateway of India are the fastest, taking around 60 minutes by sea plus a 20–30 minute cab/auto to Alibaug town."}},
         {"@type":"Question","name":"Are ferries running during the monsoon?","acceptedAnswer":{"@type":"Answer","text":"Most ferries suspend operations from mid-June to mid-September due to rough sea conditions. Always check operator websites before heading to the jetty."}},
-        {"@type":"Question","name":"Can I take my car to Alibaug?","acceptedAnswer":{"@type":"Answer","text":"Yes — drive the full 95 km via NH66, or take the RoRo car ferry from Bhaucha Dhakka to Mandwa for ₹1,200–₹2,500."}},
+        {"@type":"Question","name":"Can I take my car to Alibaug?","acceptedAnswer":{"@type":"Answer","text":"Yes — drive the full 95 km via NH66, or take the M2M/RoRo car ferry from Bhaucha Dhakka to Mandwa for ₹1,200–₹2,500."}},
         {"@type":"Question","name":"What time does the last ferry leave Mandwa for Mumbai?","acceptedAnswer":{"@type":"Answer","text":"Last ferries from Mandwa typically depart around 6:00 PM. Times shift seasonally — confirm with the operator on the day of travel."}},
         {"@type":"Question","name":"Is there a direct train to Alibaug?","acceptedAnswer":{"@type":"Answer","text":"No. The nearest railway station is Pen (~30 km from Alibaug). From Pen, take a pre-paid taxi or auto for the remaining journey."}},
         {"@type":"Question","name":"How much does a typical Mumbai-Alibaug trip cost?","acceptedAnswer":{"@type":"Answer","text":"Cheapest is bus at ₹150–₹300. Ferry plus cab is ₹350–₹500 per person. Road by car splits to roughly ₹250–₹400 per person for a group of 4."}},
