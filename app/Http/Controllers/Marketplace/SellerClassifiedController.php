@@ -105,10 +105,15 @@ class SellerClassifiedController extends Controller
             'price' => 'nullable|numeric|min:0|max:99999999',
             'is_negotiable' => 'nullable|boolean',
             'condition' => 'nullable|in:new,like_new,good,fair',
-            'contact_phone' => 'nullable|string|max:20',
-            'contact_whatsapp' => 'nullable|string|max:20',
+            // Array syntax (not pipe string) — the {7,15} comma would otherwise be
+            // parsed as a rule separator and break the pattern.
+            'contact_phone' => ['nullable', 'string', 'regex:/^[0-9]{7,15}$/'],
+            'contact_whatsapp' => ['nullable', 'string', 'regex:/^[0-9]{7,15}$/'],
             'images' => 'nullable|array|max:8',
             'images.*' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
+        ], [
+            'contact_phone.regex' => 'Enter a valid phone number — digits only (7–15 digits).',
+            'contact_whatsapp.regex' => 'Enter a valid WhatsApp number — digits only (7–15 digits).',
         ]);
     }
 

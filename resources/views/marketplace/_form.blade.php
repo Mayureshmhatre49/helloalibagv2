@@ -67,16 +67,22 @@
 
     <div>
         <label class="block text-sm font-bold text-text-main mb-1.5">Contact phone</label>
-        <input type="text" name="contact_phone" maxlength="20"
+        <input type="tel" name="contact_phone" maxlength="15" inputmode="numeric"
+               pattern="[0-9]{7,15}" oninput="this.value = this.value.replace(/\D/g, '')"
+               placeholder="10-digit mobile number"
                value="{{ old('contact_phone', $editing ? $classified->contact_phone : (auth()->user()->phone ?? '')) }}"
                class="w-full border border-border-light rounded-xl px-4 py-2.5 text-sm focus:border-primary focus:ring-primary">
+        @error('contact_phone')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
     </div>
 
     <div>
         <label class="block text-sm font-bold text-text-main mb-1.5">WhatsApp number</label>
-        <input type="text" name="contact_whatsapp" maxlength="20"
+        <input type="tel" name="contact_whatsapp" maxlength="15" inputmode="numeric"
+               pattern="[0-9]{7,15}" oninput="this.value = this.value.replace(/\D/g, '')"
+               placeholder="Digits only"
                value="{{ old('contact_whatsapp', $editing ? $classified->contact_whatsapp : '') }}"
                class="w-full border border-border-light rounded-xl px-4 py-2.5 text-sm focus:border-primary focus:ring-primary">
+        @error('contact_whatsapp')<p class="text-xs text-red-500 mt-1">{{ $message }}</p>@enderror
     </div>
 
     {{-- Existing images (edit mode) --}}
