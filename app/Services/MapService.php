@@ -18,7 +18,10 @@ class MapService
     {
         return Cache::remember('map.markers.approved', self::CACHE_TTL, function () {
             $listings = Listing::approved()
-                ->with(['category:id,name,slug,icon', 'area:id,name,latitude,longitude', 'images' => fn ($q) => $q->orderBy('sort_order')->limit(1)])
+                // NOTE: no ->limit(1) inside the eager-load closure — on a hasMany it
+                // caps the TOTAL images loaded across ALL listings to 1 (only one pin
+                // ever gets an image). Order by sort_order and pick first() per listing.
+                ->with(['category:id,name,slug,icon', 'area:id,name,latitude,longitude', 'images' => fn ($q) => $q->orderBy('sort_order')])
                 ->whereHas('area', fn ($q) => $q->whereNotNull('latitude')->whereNotNull('longitude'))
                 ->get();
 
