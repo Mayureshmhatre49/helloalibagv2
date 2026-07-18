@@ -205,11 +205,11 @@
                             </tr>
                             <tr>
                                 <td class="px-4 py-3">
-                                    <p class="font-bold text-slate-900">PNP / Maldar</p>
-                                    <p class="text-text-secondary text-xs">Standard ferry</p>
+                                    <p class="font-bold text-slate-900">PNP · Ajanta · Maldar · Apollo</p>
+                                    <p class="text-text-secondary text-xs">Standard ferry (4 operators)</p>
                                 </td>
                                 <td class="px-4 py-3 text-text-secondary">Open-air deck</td>
-                                <td class="px-4 py-3 text-slate-700 font-medium tabular-nums">6:30 AM – 6:30 PM</td>
+                                <td class="px-4 py-3 text-slate-700 font-medium tabular-nums">7:10 AM – 8:15 PM</td>
                                 <td class="px-4 py-3 text-right text-slate-900 font-bold tabular-nums">₹150–₹200</td>
                             </tr>
                             <tr>
@@ -227,6 +227,77 @@
                 <p class="text-text-secondary text-xs mt-3 leading-relaxed">
                     * Schedules vary on weekends and during monsoon (June–September). Always confirm via the operator's website or call ahead.
                 </p>
+
+                {{-- Full departure timetable --}}
+                <div class="mt-8" x-data="{ dir: 'toMandwa' }">
+                    <h3 class="text-slate-900 font-serif font-bold text-xl tracking-tight mb-1">Full sailing-by-sailing timetable</h3>
+                    <p class="text-text-secondary text-sm mb-4">Every scheduled crossing for the four standard open-deck operators — Ajanta, Apollo, Maldar &amp; PNP. M2M and RoRo (above) run to their own separate schedules.</p>
+
+                    <div class="inline-flex bg-slate-100 rounded-xl p-1 mb-4">
+                        <button type="button" @click="dir = 'toMandwa'"
+                                :class="dir === 'toMandwa' ? 'bg-white text-slate-900 shadow-sm' : 'text-text-secondary'"
+                                class="px-4 py-2 rounded-lg text-sm font-bold transition-colors">Gateway → Mandwa</button>
+                        <button type="button" @click="dir = 'toGateway'"
+                                :class="dir === 'toGateway' ? 'bg-white text-slate-900 shadow-sm' : 'text-text-secondary'"
+                                class="px-4 py-2 rounded-lg text-sm font-bold transition-colors">Mandwa → Gateway</button>
+                    </div>
+
+                    <div class="border border-border-light rounded-2xl overflow-hidden">
+                        <div class="max-h-[420px] overflow-y-auto">
+                            @php
+                                $operatorColors = ['AJANTA' => '#2F9E68', 'APOLLO' => '#E2603A', 'MALDAR' => '#7B5FC4', 'PNP' => '#2E6FE0'];
+                                $operatorNames  = ['AJANTA' => 'Ajanta', 'APOLLO' => 'Apollo', 'MALDAR' => 'Maldar', 'PNP' => 'PNP'];
+                                $ferryToMandwa = [
+                                    ['6:15 AM','AJANTA'], ['7:00 AM','AJANTA'], ['7:45 AM','APOLLO'], ['8:15 AM','PNP'],
+                                    ['8:30 AM','MALDAR'], ['9:15 AM','AJANTA'], ['10:00 AM','AJANTA'], ['10:15 AM','PNP'],
+                                    ['10:45 AM','MALDAR'], ['11:15 AM','AJANTA'], ['12:00 PM','AJANTA'], ['12:15 PM','PNP'],
+                                    ['12:45 PM','APOLLO'], ['1:15 PM','MALDAR'], ['2:00 PM','AJANTA'], ['2:15 PM','PNP'],
+                                    ['3:00 PM','AJANTA'], ['3:30 PM','MALDAR'], ['4:00 PM','AJANTA'], ['4:15 PM','PNP'],
+                                    ['4:30 PM','AJANTA'], ['5:00 PM','AJANTA'], ['5:30 PM','APOLLO'], ['6:00 PM','MALDAR'],
+                                    ['6:30 PM','PNP'], ['7:00 PM','APOLLO'], ['8:15 PM','PNP'],
+                                ];
+                                $ferryToGateway = [
+                                    ['7:10 AM','PNP'], ['7:30 AM','AJANTA'], ['8:15 AM','AJANTA'], ['8:45 AM','APOLLO'],
+                                    ['9:05 AM','PNP'], ['9:30 AM','MALDAR'], ['10:30 AM','AJANTA'], ['11:05 AM','PNP'],
+                                    ['11:15 AM','AJANTA'], ['11:45 AM','MALDAR'], ['12:30 PM','AJANTA'], ['1:05 PM','PNP'],
+                                    ['1:15 PM','AJANTA'], ['1:45 PM','APOLLO'], ['2:15 PM','MALDAR'], ['3:05 PM','PNP'],
+                                    ['3:15 PM','AJANTA'], ['4:15 PM','AJANTA'], ['4:30 PM','MALDAR'], ['5:05 PM','PNP'],
+                                    ['5:15 PM','AJANTA'], ['5:45 PM','AJANTA'], ['6:15 PM','AJANTA'], ['6:30 PM','APOLLO'],
+                                    ['7:00 PM','MALDAR'], ['7:30 PM','PNP'], ['8:00 PM','APOLLO'],
+                                ];
+                            @endphp
+                            <template x-if="dir === 'toMandwa'">
+                                <div class="divide-y divide-border-light">
+                                    @foreach ($ferryToMandwa as [$time, $op])
+                                        <div class="flex items-center justify-between px-4 py-2.5 text-sm">
+                                            <span class="font-bold text-slate-900 tabular-nums">{{ $time }}</span>
+                                            <span class="inline-flex items-center gap-2 text-text-secondary font-medium">
+                                                <span class="w-2 h-2 rounded-full flex-shrink-0" style="background:{{ $operatorColors[$op] }}"></span>
+                                                {{ $operatorNames[$op] }}
+                                            </span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </template>
+                            <template x-if="dir === 'toGateway'">
+                                <div class="divide-y divide-border-light">
+                                    @foreach ($ferryToGateway as [$time, $op])
+                                        <div class="flex items-center justify-between px-4 py-2.5 text-sm">
+                                            <span class="font-bold text-slate-900 tabular-nums">{{ $time }}</span>
+                                            <span class="inline-flex items-center gap-2 text-text-secondary font-medium">
+                                                <span class="w-2 h-2 rounded-full flex-shrink-0" style="background:{{ $operatorColors[$op] }}"></span>
+                                                {{ $operatorNames[$op] }}
+                                            </span>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                    <p class="text-text-secondary text-xs mt-3 leading-relaxed">
+                        Source: Uniland Estates ferry timetable. Confirm the day's schedule directly with the operator — sailings shift with tide, weather, and monsoon closures.
+                    </p>
+                </div>
             </div>
 
             {{-- Side info --}}
