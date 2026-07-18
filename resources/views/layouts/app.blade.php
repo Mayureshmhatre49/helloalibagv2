@@ -299,11 +299,17 @@
                             Log In
                         </a>
                     @endguest
-                    {{-- Replacing "Add Listing" with "List for Free" text but routing strictly --}}
-                    <a href="{{ route('owner.onboarding.start') }}" class="flex items-center gap-3 px-3 py-3 text-sm font-bold text-primary bg-primary/5 rounded-xl transition-colors">
-                        <span class="material-symbols-outlined text-[20px]">add_business</span> 
-                        List Your Business
-                    </a>
+                    @auth
+                        <a href="{{ auth()->user()->isOwner() || auth()->user()->isAdmin() ? route('owner.onboarding.start') : route('subscription.plans') }}" class="flex items-center gap-3 px-3 py-3 text-sm font-bold text-primary bg-primary/5 rounded-xl transition-colors">
+                            <span class="material-symbols-outlined text-[20px]">add_business</span>
+                            List Your Business
+                        </a>
+                    @else
+                        <a href="{{ route('register') }}" class="flex items-center gap-3 px-3 py-3 text-sm font-bold text-primary bg-primary/5 rounded-xl transition-colors">
+                            <span class="material-symbols-outlined text-[20px]">add_business</span>
+                            List Your Business
+                        </a>
+                    @endauth
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\Subscription;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -29,6 +30,15 @@ class SubscriptionController extends Controller
         $user = $request->user();
 
         Subscription::activateFree($user);
+
+        // Selecting a plan is how a plain user signals they want to list a
+        // business — promote them to owner so onboarding is reachable.
+        if ($user->isUser()) {
+            $ownerRole = Role::getBySlug('owner');
+            if ($ownerRole) {
+                $user->update(['role_id' => $ownerRole->id]);
+            }
+        }
 
         // Owners go to onboarding (or dashboard if they already have listings)
         if ($user->isOwner() || $user->isAdmin()) {
