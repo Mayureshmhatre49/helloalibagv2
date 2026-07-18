@@ -65,15 +65,15 @@
                 </ul>
 
                 {{-- CTA --}}
-                @if($subscription?->isActive())
+                @if($subscription?->isActive() && (auth()->user()->isOwner() || auth()->user()->isAdmin()))
                     <div class="flex items-center gap-3 justify-center w-full py-4 rounded-2xl bg-green-50 border border-green-200 text-green-700 font-semibold">
                         <span class="material-symbols-outlined">check_circle</span>
                         You're already on the Free plan!
                     </div>
                     <div class="text-center mt-4">
-                        <a href="{{ auth()->user()->isOwner() || auth()->user()->isAdmin() ? route('owner.dashboard') : route('home') }}"
+                        <a href="{{ route('owner.dashboard') }}"
                            class="text-sm text-primary font-medium hover:underline">
-                            Go to {{ auth()->user()->isOwner() || auth()->user()->isAdmin() ? 'Dashboard' : 'Homepage' }} →
+                            Go to Dashboard →
                         </a>
                     </div>
                 @else
@@ -82,7 +82,7 @@
                         <button type="submit"
                             class="w-full py-4 rounded-2xl bg-primary hover:bg-primary/90 text-white font-bold text-base transition-all shadow-lg shadow-primary/25 flex items-center justify-center gap-2 group">
                             <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">rocket_launch</span>
-                            Get Started Free
+                            {{ $subscription?->isActive() ? 'Continue to Listing' : 'Get Started Free' }}
                         </button>
                     </form>
                 @endif
