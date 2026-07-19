@@ -52,9 +52,10 @@
                         <img src="{{ asset('images/helloalibaug-logo.png') }}" alt="Hello Alibaug — Discover, Stay, Eat" class="h-11 sm:h-14 w-auto">
                     </a>
 
-                    {{-- Desktop Categories (Absolute Center for UX perfection) --}}
+                    {{-- Desktop Categories — flex child between logo and actions so it
+                         can never overlap the right-side buttons (scrolls if too many). --}}
                     @php $navCategories = \App\Models\Category::where('is_active', true)->orderBy('sort_order')->get(); @endphp
-                    <div class="hidden lg:flex absolute left-[45%] xl:left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center gap-1 xl:gap-1.5 max-w-[50vw] overflow-hidden pr-4">
+                    <div class="hidden lg:flex flex-1 min-w-0 items-center justify-center gap-1 xl:gap-1.5 overflow-x-auto scrollbar-none">
                         <a href="{{ route('search') }}"
                             class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ !request()->routeIs('category.show') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                             All
@@ -87,7 +88,7 @@
                     </div>
 
                     {{-- Right Actions --}}
-                    <div class="flex items-center gap-2 sm:gap-3 ml-auto">
+                    <div class="flex items-center gap-2 sm:gap-3 ml-auto lg:ml-0 flex-shrink-0">
                         
                         {{-- Search Button (Hidden on Home until Scrolled) --}}
                         <button x-show="!isHome || scrolled" 
