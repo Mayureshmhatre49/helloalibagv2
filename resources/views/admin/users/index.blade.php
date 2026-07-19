@@ -2,7 +2,28 @@
 @section('page-title', 'User Management')
 
 @section('content')
-<div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
+<div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm" x-data="{ selected: [] }">
+    {{-- Bulk action bar --}}
+    <div x-show="selected.length > 0" x-cloak class="px-6 py-3 bg-primary/5 border-b border-primary/10 flex items-center justify-between gap-3 flex-wrap">
+        <span class="text-sm font-semibold text-slate-700"><span x-text="selected.length"></span> user(s) selected</span>
+        <div class="flex items-center gap-2">
+            <button type="button" @click="selected = []" class="text-sm text-slate-500 hover:text-slate-700 px-3 py-1.5 rounded-lg">Clear</button>
+            <button type="button"
+                    @click="if (confirm('Delete ' + selected.length + ' selected user(s)? This cannot be undone.')) $refs.bulkForm.submit()"
+                    class="flex items-center gap-1.5 text-sm font-bold text-white bg-rose-600 hover:bg-rose-700 px-4 py-1.5 rounded-lg transition-colors">
+                <span class="material-symbols-outlined text-[18px]">delete</span> Delete selected
+            </button>
+        </div>
+    </div>
+
+    {{-- Hidden form that carries the selected ids (kept outside the table so it
+         doesn't nest with the per-row action forms). --}}
+    <form x-ref="bulkForm" method="POST" action="{{ route('admin.users.bulk-destroy') }}" class="hidden">
+        @csrf
+        @method('DELETE')
+        <template x-for="id in selected" :key="id"><input type="hidden" name="ids[]" :value="id"></template>
+    </form>
+
     {{-- Header & Filters --}}
     <div class="px-6 py-5 border-b border-slate-100 bg-slate-50/50">
         <form action="{{ route('admin.users.index') }}" method="GET" class="flex flex-col sm:flex-row gap-4">
@@ -34,7 +55,16 @@
     <div class="overflow-x-auto">
         <table class="w-full text-left">
             <thead>
+                @php $deletableIds = $users->filter(fn($u) => ($u->role?->slug !== 'admin') && $u->id !== auth()->id())->pluck('id')->values(); @endphp
                 <tr class="bg-slate-50/50 text-[11px] font-bold text-slate-500 uppercase tracking-widest border-b border-slate-100">
+                    <th class="px-4 py-4 w-10">
+                        @if($deletableIds->isNotEmpty())
+                            <input type="checkbox"
+                                   @change="selected = $event.target.checked ? {{ $deletableIds->toJson() }} : []"
+                                   :checked="selected.length === {{ $deletableIds->count() }} && selected.length > 0"
+                                   class="rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer" title="Select all">
+                        @endif
+                    </th>
                     <th class="px-6 py-4">User</th>
                     <th class="px-6 py-4">Role</th>
                     <th class="px-6 py-4">Listings</th>
@@ -45,6 +75,12 @@
             <tbody class="divide-y divide-slate-50">
                 @forelse($users as $user)
                     <tr class="hover:bg-slate-50/30 transition-colors group">
+                        <td class="px-4 py-4">
+                            @if(($user->role?->slug !== 'admin') && $user->id !== auth()->id())
+                                <input type="checkbox" value="{{ $user->id }}" x-model.number="selected"
+                                       class="rounded border-slate-300 text-primary focus:ring-primary/30 cursor-pointer">
+                            @endif
+                        </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-3">
                                 <div class="w-10 h-10 rounded-full overflow-hidden bg-slate-100 flex-shrink-0">
@@ -141,7 +177,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-20 text-center">
+                        <td colspan="6" class="px-6 py-20 text-center">
                             <div class="max-w-xs mx-auto">
                                 <span class="material-symbols-outlined text-4xl text-slate-200 mb-2">person_search</span>
                                 <p class="text-sm text-slate-500 italic">No users found matching your criteria.</p>

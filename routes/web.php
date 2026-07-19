@@ -158,6 +158,7 @@ Route::middleware(['auth', 'role:admin', '2fa'])->prefix(config('admin.prefix'))
     Route::post('/users/{user}/toggle-status', [\App\Http\Controllers\Admin\UserController::class, 'toggleStatus'])->name('users.toggle-status');
     Route::post('/users/{user}/toggle-2fa', [\App\Http\Controllers\Admin\UserController::class, 'toggleTwoFactor'])->name('users.toggle-2fa');
     Route::post('/users/{user}/set-password', [\App\Http\Controllers\Admin\UserController::class, 'setPassword'])->name('users.set-password');
+    Route::delete('/users/bulk', [\App\Http\Controllers\Admin\UserController::class, 'bulkDestroy'])->name('users.bulk-destroy');
     Route::delete('/users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
 
     // Review Management

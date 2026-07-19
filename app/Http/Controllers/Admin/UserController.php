@@ -54,6 +54,42 @@ class UserController extends Controller
     }
 
     /**
+     * Delete several users at once. Administrators and the current user are
+     * never deleted, even if their id is submitted.
+     */
+    public function bulkDestroy(Request $request)
+    {
+        $data = $request->validate([
+            'ids'   => ['required', 'array'],
+            'ids.*' => ['integer', 'exists:users,id'],
+        ]);
+
+        $deleted = User::query()
+            ->whereIn('id', $data['ids'])
+            ->where('id', '!=', auth()->id())
+            ->whereDoesntHave('role', fn ($q) => $q->where('slug', 'admin'))
+            ->get();
+
+        $count = $deleted->count();
+        $skipped = count($data['ids']) - $count;
+
+        foreach ($deleted as $user) {
+            $user->delete();
+        }
+
+        if ($count === 0) {
+            return back()->with('error', 'No users were deleted (administrators and your own account are protected).');
+        }
+
+        $msg = "{$count} user" . ($count === 1 ? '' : 's') . ' deleted.';
+        if ($skipped > 0) {
+            $msg .= " {$skipped} skipped (administrators or your own account).";
+        }
+
+        return back()->with('success', $msg);
+    }
+
+    /**
      * Turn two-factor authentication on or off for a user.
      * Disabling also clears any existing secret so re-enabling starts fresh.
      */
