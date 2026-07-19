@@ -15,8 +15,29 @@ class OnboardingController extends Controller
 {
     public function start(Request $request)
     {
+        if ($redirect = $this->guardListingLimit($request)) {
+            return $redirect;
+        }
+
         $categories = Category::where('is_active', true)->orderBy('sort_order')->get();
         return view('owner.onboarding.start', compact('categories'));
+    }
+
+    /**
+     * Block the onboarding flow when the owner is at their plan's listing cap.
+     */
+    private function guardListingLimit(Request $request)
+    {
+        $user = auth()->user();
+
+        if ($user && !$user->canCreateListing()) {
+            $limit = $user->listingLimit();
+
+            return redirect()->route('owner.dashboard')
+                ->with('error', "You've reached your plan's limit of {$limit} listing" . ($limit == 1 ? '' : 's') . ". Upgrade your plan to add more.");
+        }
+
+        return null;
     }
 
     public function processStart(Request $request)
@@ -32,6 +53,10 @@ class OnboardingController extends Controller
 
     public function wizard(Request $request)
     {
+        if ($redirect = $this->guardListingLimit($request)) {
+            return $redirect;
+        }
+
         $categoryId = $request->session()->get('onboarding_category_id');
         if (!$categoryId) {
             return redirect()->route('owner.onboarding.start');
@@ -52,6 +77,10 @@ class OnboardingController extends Controller
 
     public function submit(Request $request, \App\Services\ImageService $imageService)
     {
+        if ($redirect = $this->guardListingLimit($request)) {
+            return $redirect;
+        }
+
         $request->validate([
             'title'              => 'required|string|max:255',
             'area_id'            => 'required|exists:areas,id',

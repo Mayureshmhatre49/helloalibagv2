@@ -136,6 +136,12 @@
                     <span class="text-sm font-medium">{{ session('success') }}</span>
                 </div>
             @endif
+            @if(session('error'))
+                <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 6000)" class="mx-4 sm:mx-6 mt-4 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-xl flex items-center gap-2">
+                    <span class="material-symbols-outlined text-red-600">error</span>
+                    <span class="text-sm font-medium">{{ session('error') }}</span>
+                </div>
+            @endif
 
             <div class="p-4 sm:p-6">
                 @yield('content')

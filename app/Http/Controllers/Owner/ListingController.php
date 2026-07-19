@@ -25,6 +25,10 @@ class ListingController extends Controller
 
     public function create()
     {
+        if (!auth()->user()->canCreateListing()) {
+            return $this->listingLimitRedirect();
+        }
+
         $categories = Category::where('is_active', true)->orderBy('sort_order')->get();
         $areas = Area::where('is_active', true)->get();
         $amenities = Amenity::orderBy('sort_order')->get();
@@ -33,8 +37,23 @@ class ListingController extends Controller
         return view('dashboard.listings.create', compact('categories', 'areas', 'amenities', 'tags'));
     }
 
+    /**
+     * Redirect with a clear message when the owner is at their plan's listing cap.
+     */
+    private function listingLimitRedirect()
+    {
+        $limit = auth()->user()->listingLimit();
+
+        return redirect()->route('owner.listings.index')
+            ->with('error', "You've reached your plan's limit of {$limit} listing" . ($limit == 1 ? '' : 's') . ". Upgrade your plan to add more.");
+    }
+
     public function store(Request $request)
     {
+        if (!auth()->user()->canCreateListing()) {
+            return $this->listingLimitRedirect();
+        }
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',

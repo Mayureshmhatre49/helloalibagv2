@@ -61,6 +61,40 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
         return $this->hasMany(Listing::class, 'created_by');
     }
 
+    /**
+     * Max listings this user may have, based on their plan. null = unlimited.
+     * Admins are never capped. No active subscription falls back to the free cap.
+     */
+    public function listingLimit(): ?int
+    {
+        if ($this->isAdmin()) {
+            return null;
+        }
+
+        return $this->subscription?->isActive()
+            ? $this->subscription->listingLimit()
+            : (\App\Models\Subscription::LISTING_LIMITS['free'] ?? 1);
+    }
+
+    /**
+     * Listings that count toward the plan limit — everything except rejected
+     * ones (a rejected listing shouldn't permanently use up a slot).
+     */
+    public function activeListingCount(): int
+    {
+        return $this->listings()->where('status', '!=', 'rejected')->count();
+    }
+
+    /**
+     * Whether the user can create another listing under their plan.
+     */
+    public function canCreateListing(): bool
+    {
+        $limit = $this->listingLimit();
+
+        return $limit === null || $this->activeListingCount() < $limit;
+    }
+
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);

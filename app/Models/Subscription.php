@@ -110,6 +110,25 @@ class Subscription extends Model
         return $this->plan === 'free';
     }
 
+    /**
+     * Max listings allowed per plan. null = unlimited.
+     */
+    public const LISTING_LIMITS = [
+        'free'    => 1,
+        'basic'   => 3,
+        'premium' => null,
+    ];
+
+    /**
+     * The listing cap for this subscription's plan. null = unlimited.
+     */
+    public function listingLimit(): ?int
+    {
+        return array_key_exists($this->plan, self::LISTING_LIMITS)
+            ? self::LISTING_LIMITS[$this->plan]
+            : 1;
+    }
+
     public function getPlanDetails(): array
     {
         return self::$plans[$this->plan] ?? self::$plans['free'];

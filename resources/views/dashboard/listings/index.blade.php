@@ -2,12 +2,29 @@
 @section('page-title', 'My Listings')
 
 @section('content')
-<div class="flex items-center justify-between mb-6">
-    <h2 class="text-xl font-bold text-text-main">My Listings</h2>
-    <a href="{{ route('owner.onboarding.start') }}" class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-primary-dark transition-colors">
-        <span class="material-symbols-outlined text-[18px]">add</span>
-        Add Listing
-    </a>
+@php
+    $listingLimit = auth()->user()->listingLimit();
+    $usedListings = auth()->user()->activeListingCount();
+    $canAddListing = auth()->user()->canCreateListing();
+@endphp
+<div class="flex items-center justify-between mb-6 gap-4 flex-wrap">
+    <div>
+        <h2 class="text-xl font-bold text-text-main">My Listings</h2>
+        @if($listingLimit !== null)
+            <p class="text-xs text-text-secondary mt-0.5">{{ $usedListings }} of {{ $listingLimit }} listing{{ $listingLimit == 1 ? '' : 's' }} used on your current plan</p>
+        @endif
+    </div>
+    @if($canAddListing)
+        <a href="{{ route('owner.onboarding.start') }}" class="flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-primary-dark transition-colors">
+            <span class="material-symbols-outlined text-[18px]">add</span>
+            Add Listing
+        </a>
+    @else
+        <a href="{{ route('subscription.plans') }}" class="flex items-center gap-2 bg-amber-500 text-white px-4 py-2 rounded-xl text-sm font-medium hover:bg-amber-600 transition-colors" title="You've reached your plan's listing limit">
+            <span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+            Upgrade to add more
+        </a>
+    @endif
 </div>
 
 @if($listings->count() > 0)
