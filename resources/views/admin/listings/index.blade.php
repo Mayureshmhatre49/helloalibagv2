@@ -38,9 +38,13 @@
                         <tr x-data="{ showRejectModal: false }" class="hover:bg-background-light/50 transition-colors">
                             <td class="px-5 py-4">
                                 <div class="flex items-center gap-3">
-                                    <div class="w-12 h-10 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+                                    <div class="relative w-12 h-10 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0 flex items-center justify-center text-slate-300">
+                                        <span class="material-symbols-outlined text-[18px]">image</span>
                                         @if($listing->getPrimaryImageUrl())
-                                            <img src="{{ $listing->getPrimaryImageUrl() }}" class="w-full h-full object-cover">
+                                            {{-- Sits on top of the placeholder; if the URL is dead it removes
+                                                 itself and the icon underneath shows. --}}
+                                            <img src="{{ $listing->getPrimaryImageUrl() }}" class="absolute inset-0 w-full h-full object-cover"
+                                                 onerror="this.remove()">
                                         @endif
                                     </div>
                                     <div>
