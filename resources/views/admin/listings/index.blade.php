@@ -69,6 +69,11 @@
                             </td>
                             <td class="px-5 py-4 text-right">
                                 <div class="flex items-center justify-end gap-1.5">
+                                    <a href="{{ route('listing.show', [$listing->category->slug ?? 'stay', $listing->slug]) }}" target="_blank" rel="noopener"
+                                       class="flex items-center gap-1 text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg transition-colors" title="View full listing / uploaded data">
+                                        <span class="material-symbols-outlined text-[16px]">visibility</span>
+                                        View
+                                    </a>
                                     @if($listing->status === 'pending')
                                         <form method="POST" action="{{ route('admin.listings.approve', $listing) }}">
                                             @csrf

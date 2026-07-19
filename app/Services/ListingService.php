@@ -55,6 +55,17 @@ class ListingService
             ->first();
     }
 
+    /**
+     * Fetch a listing by slug regardless of status — used for admin/owner
+     * preview of listings that are still pending or rejected.
+     */
+    public function getListingBySlugAnyStatus(string $slug): ?Listing
+    {
+        return Listing::where('slug', $slug)
+            ->with(['category', 'area', 'images', 'amenities', 'tags', 'listingAttributes', 'creator', 'approvedReviews.user', 'approvedReviews.photos'])
+            ->first();
+    }
+
     public function store(array $data, User $user): Listing
     {
         return DB::transaction(function () use ($data, $user) {

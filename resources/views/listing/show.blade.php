@@ -41,6 +41,18 @@
 @endsection
 
 @section('content')
+@if($isPreview ?? false)
+    <div class="bg-amber-500 text-white">
+        <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center gap-x-3 gap-y-1 justify-center text-center text-sm">
+            <span class="material-symbols-outlined text-[20px]">visibility</span>
+            <span class="font-bold">Preview mode</span>
+            <span class="opacity-90">This listing is <strong>{{ ucfirst($listing->status) }}</strong> and not visible to the public yet.</span>
+            @if(auth()->user()?->isAdmin())
+                <a href="{{ route('admin.listings.index', ['status' => $listing->status]) }}" class="underline font-semibold hover:opacity-80">Back to review queue</a>
+            @endif
+        </div>
+    </div>
+@endif
 @php
     $avgRating   = $listing->getAverageRating();
     $reviewCount = $listing->approvedReviews->count();

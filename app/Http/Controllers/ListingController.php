@@ -12,9 +12,28 @@ class ListingController extends Controller
     public function show(string $category, string $slug)
     {
         $listing = $this->listingService->getListingBySlug($slug);
+        $isPreview = false;
+
+        // Admins (any listing) and owners (their own) may preview a listing that
+        // isn't approved yet, so they can review the full page before deciding.
+        if (!$listing) {
+            $candidate = $this->listingService->getListingBySlugAnyStatus($slug);
+            $user = auth()->user();
+            if ($candidate && $user && ($user->isAdmin() || $candidate->created_by === $user->id)) {
+                $listing = $candidate;
+                $isPreview = true;
+            }
+        }
 
         if (!$listing) {
             abort(404);
+        }
+
+        if ($isPreview) {
+            // Don't inflate view counts or recently-viewed history for previews.
+            $relatedListings = collect();
+            $recentlyViewed = collect();
+            return view('listing.show', compact('listing', 'relatedListings', 'recentlyViewed', 'isPreview'));
         }
 
         $listing->incrementViews();
@@ -47,6 +66,6 @@ class ListingController extends Controller
             ->limit(4)
             ->get();
 
-        return view('listing.show', compact('listing', 'relatedListings', 'recentlyViewed'));
+        return view('listing.show', compact('listing', 'relatedListings', 'recentlyViewed', 'isPreview'));
     }
 }
