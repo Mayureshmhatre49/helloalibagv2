@@ -1,5 +1,8 @@
 @extends('layouts.app')
 @section('title', 'Search Listings')
+{{-- Search-result pages are thin/duplicate and query variations are infinite —
+     don't index them, but do follow the links to real listings. --}}
+@section('robots', 'noindex, follow')
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

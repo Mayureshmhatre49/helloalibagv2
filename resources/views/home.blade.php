@@ -2,21 +2,42 @@
 @section('title', 'Premium Local Marketplace — Stays, Dining & Real Estate')
 @section('meta_desc', 'Discover curated stays, premium real estate, dining, events and local experiences in Alibaug. Hello Alibaug is your gateway to coastal luxury.')
 
+@section('meta_description', 'Hello Alibaug is Alibaug\'s local marketplace — discover villas & stays, restaurants, experiences, events and real estate. Browse verified listings, book, and plan your trip.')
+
 @section('jsonld')
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "Hello Alibaug",
-  "url": "{{ url('/') }}",
-  "telephone": "+919876543210",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Alibaug",
-    "addressRegion": "Maharashtra",
-    "addressCountry": "IN"
-  },
-  "description": "Premium Local Marketplace for Stays, Dining & Real Estate in Alibaug."
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "{{ url('/') }}#organization",
+      "name": "Hello Alibaug",
+      "url": "{{ url('/') }}",
+      "logo": "{{ asset('images/helloalibaug-logo.png') }}"
+    },
+    {
+      "@type": "WebSite",
+      "@id": "{{ url('/') }}#website",
+      "url": "{{ url('/') }}",
+      "name": "Hello Alibaug",
+      "publisher": { "@id": "{{ url('/') }}#organization" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": { "@type": "EntryPoint", "urlTemplate": "{{ route('search') }}?q={search_term_string}" },
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "LocalBusiness",
+      "name": "Hello Alibaug",
+      "url": "{{ url('/') }}",
+      "image": "{{ asset('images/og-default.jpg') }}",
+      "address": { "@type": "PostalAddress", "addressLocality": "Alibaug", "addressRegion": "Maharashtra", "addressCountry": "IN" },
+      "areaServed": "Alibaug, Raigad, Maharashtra",
+      "description": "Premium local marketplace for stays, dining, experiences & real estate in Alibaug."
+    }
+  ]
 }
 </script>
 @endsection

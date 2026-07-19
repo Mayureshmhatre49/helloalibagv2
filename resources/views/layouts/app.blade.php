@@ -4,22 +4,28 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    @hasSection('seo')
-        @yield('seo')
-    @else
-        <title>{{ config('app.name', 'Hello Alibaug') }} — @yield('title', 'Discover Alibaug')</title>
-        <meta name="description" content="@yield('meta_description', 'Hello Alibaug — Your gateway to luxury villas, dining, events, and experiences in Alibaug.')">
-        <meta property="og:title" content="{{ config('app.name') }} — @yield('title', 'Discover Alibaug')">
-        <meta property="og:description" content="@yield('meta_description', 'Discover luxury stays, premium real estate, and authentic local experiences in Alibaug.')">
-        <meta property="og:type" content="website">
-        <meta property="og:url" content="{{ request()->url() }}">
-        <meta property="og:image" content="{{ asset('images/og-default.jpg') }}">
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="{{ config('app.name') }} — @yield('title', 'Discover Alibaug')">
-        <meta name="twitter:description" content="@yield('meta_description', 'Discover luxury stays, premium real estate, and authentic local experiences in Alibaug.')">
-        <meta name="twitter:image" content="{{ asset('images/og-default.jpg') }}">
-        <link rel="canonical" href="{{ request()->url() }}">
-    @endif
+    {{-- ── SEO ─────────────────────────────────────────────────────────────
+         Per-page overrides via @section: title, meta_description, og_image,
+         og_type, canonical, robots, and jsonld (structured data). --}}
+    <title>{{ config('app.name', 'Hello Alibaug') }} — @yield('title', 'Discover Alibaug')</title>
+    <meta name="description" content="@yield('meta_description', 'Hello Alibaug — Your gateway to luxury villas, dining, events, and experiences in Alibaug.')">
+    <meta name="robots" content="@yield('robots', 'index, follow')">
+    <link rel="canonical" href="@yield('canonical', url()->current())">
+
+    <meta property="og:site_name" content="{{ config('app.name') }}">
+    <meta property="og:title" content="{{ config('app.name') }} — @yield('title', 'Discover Alibaug')">
+    <meta property="og:description" content="@yield('meta_description', 'Discover luxury stays, premium real estate, and authentic local experiences in Alibaug.')">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="@yield('canonical', url()->current())">
+    <meta property="og:image" content="@yield('og_image', asset('images/og-default.jpg'))">
+    <meta property="og:locale" content="en_IN">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ config('app.name') }} — @yield('title', 'Discover Alibaug')">
+    <meta name="twitter:description" content="@yield('meta_description', 'Discover luxury stays, premium real estate, and authentic local experiences in Alibaug.')">
+    <meta name="twitter:image" content="@yield('og_image', asset('images/og-default.jpg'))">
+
+    @yield('jsonld')
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

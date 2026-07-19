@@ -1,7 +1,15 @@
 @extends('layouts.app')
 @section('title', $listing->title . ' — ' . $listing->category->name . ' in Alibaug')
+@section('meta_description', addslashes(Str::limit(strip_tags($listing->description ?: ($listing->title . ' — ' . $listing->category->name . ' in ' . ($listing->area?->name ?? 'Alibaug') . ', Maharashtra. View photos, price, location and contact details on Hello Alibaug.')), 160)))
+@section('og_image', $listing->getPrimaryImageUrl() ?: asset('images/og-default.jpg'))
+@section('og_type', 'website')
+@section('robots', ($isPreview ?? false) ? 'noindex, nofollow' : 'index, follow')
 
 @section('jsonld')
+@php
+    $ldRating = $listing->getAverageRating();
+    $ldReviews = $listing->approvedReviews->count();
+@endphp
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -9,7 +17,7 @@
   "name": "{{ addslashes($listing->title) }}",
   "description": "{{ addslashes(Str::limit(strip_tags($listing->description ?? ''), 150)) }}",
   "image": "{{ $listing->getPrimaryImageUrl() ?: asset('images/og-default.jpg') }}",
-  "url": "{{ request()->url() }}",
+  "url": "{{ url()->current() }}",
   "address": {
     "@type": "PostalAddress",
     "streetAddress": "{{ addslashes($listing->address ?? '') }}",
@@ -17,11 +25,17 @@
     "addressRegion": "Maharashtra",
     "addressCountry": "IN"
   }
+  @if($listing->latitude && $listing->longitude)
+  ,"geo": { "@type": "GeoCoordinates", "latitude": {{ $listing->latitude }}, "longitude": {{ $listing->longitude }} }
+  @endif
   @if($listing->phone)
   ,"telephone": "{{ $listing->phone }}"
   @endif
   @if($listing->price)
   ,"priceRange": "₹{{ number_format($listing->price) }}"
+  @endif
+  @if($ldReviews > 0)
+  ,"aggregateRating": { "@type": "AggregateRating", "ratingValue": "{{ number_format($ldRating, 1) }}", "reviewCount": {{ $ldReviews }} }
   @endif
 }
 </script>

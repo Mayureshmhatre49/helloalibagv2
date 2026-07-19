@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('title', $category->name . ' in Alibaug')
+@section('meta_description', 'Discover the best ' . strtolower($category->name) . ' in Alibaug — browse verified listings with photos, prices, reviews and exact locations on Hello Alibaug.')
 
 @section('content')
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
