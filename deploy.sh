@@ -82,7 +82,14 @@ echo "==> [5/7] Running migrations"
 
 echo "==> [6/7] Refreshing caches"
 "$PHP" artisan optimize:clear
-"$PHP" artisan storage:link 2>/dev/null || true
+# --force recreates the public/storage symlink even if a stale/broken one exists.
+# Without this symlink every locally-stored image (uploads) 404s.
+"$PHP" artisan storage:link --force || echo "    WARNING: storage:link failed — uploaded images will 404 until public/storage points to storage/app/public"
+if [ -L public/storage ]; then
+    echo "    storage symlink OK -> $(readlink public/storage)"
+else
+    echo "    WARNING: public/storage is not a symlink — uploaded images will not load"
+fi
 
 # Self-host any externally-hotlinked listing images (idempotent: a no-op once all
 # images are local). `|| true` so a flaky remote image host never fails the deploy.
