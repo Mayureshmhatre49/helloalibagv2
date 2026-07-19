@@ -1,9 +1,14 @@
 @extends('layouts.app')
-@section('title', $listing->title . ' — ' . $listing->category->name . ' in Alibaug')
-@section('meta_description', addslashes(Str::limit(strip_tags($listing->description ?: ($listing->title . ' — ' . $listing->category->name . ' in ' . ($listing->area?->name ?? 'Alibaug') . ', Maharashtra. View photos, price, location and contact details on Hello Alibaug.')), 160)))
-@section('og_image', $listing->getPrimaryImageUrl() ?: asset('images/og-default.jpg'))
+{{-- Admin-entered SEO (seoMeta) overrides the auto-generated defaults. --}}
+@section('title', $listing->seoMeta?->meta_title ?: ($listing->title . ' — ' . $listing->category->name . ' in Alibaug'))
+@section('meta_description', $listing->seoMeta?->meta_description ?: addslashes(Str::limit(strip_tags($listing->description ?: ($listing->title . ' — ' . $listing->category->name . ' in ' . ($listing->area?->name ?? 'Alibaug') . ', Maharashtra. View photos, price, location and contact details on Hello Alibaug.')), 160)))
+@section('og_image', $listing->seoMeta?->og_image ?: ($listing->getPrimaryImageUrl() ?: asset('images/og-default.jpg')))
+@section('canonical', $listing->seoMeta?->canonical_url ?: url()->current())
 @section('og_type', 'website')
 @section('robots', ($isPreview ?? false) ? 'noindex, nofollow' : 'index, follow')
+@if($listing->seoMeta?->meta_keywords)
+@section('keywords', $listing->seoMeta->meta_keywords)
+@endif
 
 @section('jsonld')
 @php

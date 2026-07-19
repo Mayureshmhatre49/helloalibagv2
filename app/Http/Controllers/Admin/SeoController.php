@@ -30,11 +30,11 @@ class SeoController extends Controller
     public function update(Request $request, Listing $listing)
     {
         $validated = $request->validate([
-            'meta_title' => 'nullable|string|max:70',
+            'meta_title'       => 'nullable|string|max:70',
             'meta_description' => 'nullable|string|max:160',
-            'og_title' => 'nullable|string|max:100',
-            'og_description' => 'nullable|string|max:200',
-            'keywords' => 'nullable|string|max:255',
+            'og_image'         => 'nullable|url|max:500',
+            'canonical_url'    => 'nullable|url|max:500',
+            'meta_keywords'    => 'nullable|string|max:255',
         ]);
 
         $listing->seoMeta()->updateOrCreate(

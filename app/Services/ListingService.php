@@ -51,7 +51,7 @@ class ListingService
     {
         return Listing::where('slug', $slug)
             ->approved()
-            ->with(['category', 'area', 'images', 'amenities', 'tags', 'listingAttributes', 'creator', 'approvedReviews.user', 'approvedReviews.photos'])
+            ->with(['category', 'area', 'images', 'amenities', 'tags', 'listingAttributes', 'creator', 'seoMeta', 'approvedReviews.user', 'approvedReviews.photos'])
             ->first();
     }
 
@@ -62,7 +62,7 @@ class ListingService
     public function getListingBySlugAnyStatus(string $slug): ?Listing
     {
         return Listing::where('slug', $slug)
-            ->with(['category', 'area', 'images', 'amenities', 'tags', 'listingAttributes', 'creator', 'approvedReviews.user', 'approvedReviews.photos'])
+            ->with(['category', 'area', 'images', 'amenities', 'tags', 'listingAttributes', 'creator', 'seoMeta', 'approvedReviews.user', 'approvedReviews.photos'])
             ->first();
     }
 

@@ -9,6 +9,7 @@
          og_type, canonical, robots, and jsonld (structured data). --}}
     <title>{{ config('app.name', 'Hello Alibaug') }} — @yield('title', 'Discover Alibaug')</title>
     <meta name="description" content="@yield('meta_description', 'Hello Alibaug — Your gateway to luxury villas, dining, events, and experiences in Alibaug.')">
+    @hasSection('keywords')<meta name="keywords" content="@yield('keywords')">@endif
     <meta name="robots" content="@yield('robots', 'index, follow')">
     <link rel="canonical" href="@yield('canonical', url()->current())">
 
