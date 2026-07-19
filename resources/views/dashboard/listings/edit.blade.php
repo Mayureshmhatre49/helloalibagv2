@@ -2,14 +2,45 @@
 @section('page-title', 'Edit Listing')
 
 @section('content')
+@php
+    // Map each validation field to the tab it lives on, so we can flag the tab
+    // and auto-open the first one with an error.
+    $tabFields = [
+        'basic'   => ['title', 'category_id', 'price', 'description'],
+        'details' => ['attributes', 'amenities'],
+        'photos'  => ['images', 'menu_images'],
+        'contact' => ['address', 'area_id', 'phone', 'whatsapp', 'email', 'latitude', 'longitude', 'website'],
+    ];
+    $errorKeys = $errors->keys();
+    $errorTabs = [];
+    foreach ($tabFields as $tab => $fields) {
+        foreach ($fields as $f) {
+            foreach ($errorKeys as $key) {
+                if ($key === $f || \Illuminate\Support\Str::startsWith($key, $f . '.')) {
+                    $errorTabs[] = $tab;
+                    continue 3;
+                }
+            }
+        }
+    }
+    $errorInitialTab = $errors->any() ? ($errorTabs[0] ?? 'basic') : '';
+@endphp
 <div class="max-w-6xl mx-auto" x-data="{
     activeTab: 'basic',
+    errorTab: '{{ $errorInitialTab }}',
     selectedCategory: '{{ old('category_id', $listing->category_id) }}',
     categorySlug: '',
     priceLabel: 'Price (₹)',
     categoryMap: { @foreach($categories as $cat)'{{ $cat->id }}': '{{ $cat->slug }}',@endforeach },
     priceLabels: { 'stay': 'Price per Night (₹)', 'eat': 'Average Cost for 2 (₹)', 'events': 'Starting Price (₹)', 'explore': 'Price per Person (₹)', 'services': 'Service Charge (₹)', 'real-estate': 'Price (₹)' },
-    init() { if (this.selectedCategory) { this.onCategoryChange(); } },
+    init() {
+        // Force the errored tab after a failed save; otherwise resume the tab the
+        // owner was last on (so saving from a step returns them to that step).
+        var saved = localStorage.getItem('editTab_{{ $listing->id }}');
+        this.activeTab = this.errorTab || saved || 'basic';
+        this.$watch('activeTab', v => localStorage.setItem('editTab_{{ $listing->id }}', v));
+        if (this.selectedCategory) { this.onCategoryChange(); }
+    },
     onCategoryChange() { this.categorySlug = this.categoryMap[this.selectedCategory] || ''; this.priceLabel = this.priceLabels[this.categorySlug] || 'Price (₹)'; }
 }">
 
@@ -26,18 +57,7 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div class="mb-6 bg-green-50 text-green-700 border border-green-200 rounded-xl p-4 flex items-center gap-3 font-medium">
-            <span class="material-symbols-outlined">check_circle</span>
-            {{ session('success') }}
-        </div>
-    @endif
-    @if(session('error'))
-        <div class="mb-6 bg-red-50 text-red-700 border border-red-200 rounded-xl p-4 flex items-center gap-3 font-medium">
-            <span class="material-symbols-outlined">error</span>
-            {{ session('error') }}
-        </div>
-    @endif
+    {{-- success/error flashes are rendered once by the dashboard layout --}}
     @if($errors->any())
         <div class="mb-6 bg-red-50 text-red-700 border border-red-200 rounded-xl p-4">
             <div class="flex items-center gap-2 font-bold mb-2">
@@ -59,17 +79,20 @@
                     :class="activeTab === 'basic' ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-50'">
                     <span class="material-symbols-outlined text-[20px]" :class="activeTab === 'basic' ? 'text-primary' : 'text-slate-400'">description</span>
                     Basic Info
+                    @if(in_array('basic', $errorTabs))<span class="ml-auto w-2 h-2 rounded-full bg-red-500" title="Has errors"></span>@endif
                 </button>
                 <button @click="activeTab = 'details'" type="button" class="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold transition-all text-left"
                     :class="activeTab === 'details' ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-50'">
                     <span class="material-symbols-outlined text-[20px]" :class="activeTab === 'details' ? 'text-primary' : 'text-slate-400'">tune</span>
                     Details & Amenities
+                    @if(in_array('details', $errorTabs))<span class="ml-auto w-2 h-2 rounded-full bg-red-500" title="Has errors"></span>@endif
                 </button>
                 <button @click="activeTab = 'photos'" type="button" class="flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold transition-all text-left group"
                     :class="activeTab === 'photos' ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-50'">
                     <div class="flex items-center gap-3">
                         <span class="material-symbols-outlined text-[20px]" :class="activeTab === 'photos' ? 'text-primary' : 'text-slate-400'">photo_library</span>
                         Photos
+                        @if(in_array('photos', $errorTabs))<span class="w-2 h-2 rounded-full bg-red-500" title="Has errors"></span>@endif
                     </div>
                     <span class="bg-slate-100 text-slate-500 text-[10px] px-2 py-0.5 rounded-full font-bold group-hover:bg-slate-200">{{ $galleryImages->count() }}</span>
                 </button>
@@ -77,6 +100,7 @@
                     :class="activeTab === 'contact' ? 'bg-primary/10 text-primary' : 'text-slate-600 hover:bg-slate-50'">
                     <span class="material-symbols-outlined text-[20px]" :class="activeTab === 'contact' ? 'text-primary' : 'text-slate-400'">location_on</span>
                     Location & Contact
+                    @if(in_array('contact', $errorTabs))<span class="ml-auto w-2 h-2 rounded-full bg-red-500" title="Has errors"></span>@endif
                 </button>
             </nav>
 
