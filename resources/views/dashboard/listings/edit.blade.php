@@ -439,12 +439,16 @@
                                 {{-- Platform Cards --}}
                                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
                                     @foreach($platformDefs as $key => $p)
+                                        {{-- Dynamic colors use inline :style (arbitrary Tailwind classes like
+                                             border-[#E23744] aren't seen by the JIT compiler, so they never apply). --}}
                                         <button type="button" @click="toggle('{{ $key }}')"
                                             class="relative flex items-center gap-2.5 p-3 rounded-xl border-2 transition-all text-left"
-                                            :class="has('{{ $key }}') ? 'border-[{{ $p['color'] }}] bg-[{{ $p['bg'] }}]' : 'border-slate-200 bg-white hover:border-slate-300'">
-                                            {{-- Checkmark --}}
-                                            <div class="absolute top-2 right-2 w-4 h-4 rounded-full flex items-center justify-center transition-all"
-                                                 :class="has('{{ $key }}') ? 'bg-[{{ $p['color'] }}]' : 'bg-slate-100'">
+                                            :class="has('{{ $key }}') ? 'shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300'"
+                                            :style="has('{{ $key }}') ? 'border-color: {{ $p['color'] }}; background-color: {{ $p['bg'] }};' : ''">
+                                            {{-- Checkbox indicator: empty outline when off, filled + check when on --}}
+                                            <div class="absolute top-2 right-2 w-4 h-4 rounded-md flex items-center justify-center transition-all border"
+                                                 :class="has('{{ $key }}') ? 'border-transparent' : 'border-slate-300 bg-white'"
+                                                 :style="has('{{ $key }}') ? 'background-color: {{ $p['color'] }};' : ''">
                                                 <svg x-show="has('{{ $key }}')" class="w-2.5 h-2.5 text-white" viewBox="0 0 10 8" fill="none">
                                                     <path d="M1 4l2.5 2.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                                 </svg>
@@ -454,7 +458,7 @@
                                                 {{ strtoupper(substr($p['label'], 0, 1)) }}
                                             </div>
                                             <div class="min-w-0">
-                                                <p class="text-xs font-bold text-slate-800 leading-none mb-0.5">{{ $p['label'] }}</p>
+                                                <p class="text-xs font-bold leading-none mb-0.5" :class="has('{{ $key }}') ? '' : 'text-slate-800'" :style="has('{{ $key }}') ? 'color: {{ $p['color'] }};' : ''">{{ $p['label'] }}</p>
                                                 <p class="text-[10px] text-slate-400 leading-tight">{{ $p['desc'] }}</p>
                                             </div>
                                         </button>

@@ -52,10 +52,11 @@
                         <img src="{{ asset('images/helloalibaug-logo.png') }}" alt="Hello Alibaug — Discover, Stay, Eat" class="h-11 sm:h-14 w-auto">
                     </a>
 
-                    {{-- Desktop Categories — flex child between logo and actions so it
-                         can never overlap the right-side buttons (scrolls if too many). --}}
+                    {{-- Desktop Categories — flex child between logo and actions. Core
+                         browse items stay inline; secondary links live in "More". --}}
                     @php $navCategories = \App\Models\Category::where('is_active', true)->orderBy('sort_order')->get(); @endphp
-                    <div class="hidden lg:flex flex-1 min-w-0 items-center justify-center gap-1 xl:gap-1.5 overflow-x-auto scrollbar-none">
+                    @php $moreActive = request()->routeIs('guides.*') || request()->routeIs('blog.*') || request()->routeIs('marketplace.*'); @endphp
+                    <div class="hidden lg:flex flex-1 min-w-0 items-center justify-center gap-1 xl:gap-1.5">
                         <a href="{{ route('search') }}"
                             class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ !request()->routeIs('category.show') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                             All
@@ -71,20 +72,27 @@
                             <span class="material-symbols-outlined text-[16px]">map</span>
                             Map
                         </a>
-                        <a href="{{ route('guides.index') }}"
-                            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('guides.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
-                            <span class="material-symbols-outlined text-[16px]">menu_book</span>
-                            Guides
-                        </a>
-                        <a href="{{ route('blog.index') }}"
-                            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('blog.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
-                            Blog
-                        </a>
-                        <a href="{{ route('marketplace.index') }}"
-                            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('marketplace.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
-                            <span class="material-symbols-outlined text-[16px]">storefront</span>
-                            Buy &amp; Sell
-                        </a>
+
+                        {{-- More dropdown (secondary links) --}}
+                        <div x-data="{ moreOpen: false }" class="relative">
+                            <button @click="moreOpen = !moreOpen" @click.outside="moreOpen = false" type="button"
+                                class="flex items-center gap-1 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ $moreActive ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                                More
+                                <span class="material-symbols-outlined text-[18px] transition-transform" :class="moreOpen ? 'rotate-180' : ''">expand_more</span>
+                            </button>
+                            <div x-show="moreOpen" x-transition style="display:none;"
+                                 class="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white rounded-xl shadow-2xl border border-slate-100 py-2 z-50 origin-top">
+                                <a href="{{ route('guides.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium {{ request()->routeIs('guides.*') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50' }} transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-slate-400">menu_book</span> Guides
+                                </a>
+                                <a href="{{ route('blog.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium {{ request()->routeIs('blog.*') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50' }} transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-slate-400">article</span> Blog
+                                </a>
+                                <a href="{{ route('marketplace.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium {{ request()->routeIs('marketplace.*') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50' }} transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-slate-400">storefront</span> Buy &amp; Sell
+                                </a>
+                            </div>
+                        </div>
                     </div>
 
                     {{-- Right Actions --}}
