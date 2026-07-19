@@ -86,7 +86,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Alibaug Town', 'slug' => 'alibaug-town', 'tagline' => 'Culture, history & markets'],
             ['name' => 'Awas',         'slug' => 'awas',         'tagline' => 'Exclusive estates & privacy'],
             ['name' => 'Nagaon',       'slug' => 'nagaon',       'tagline' => 'Vibrant beach life'],
-            ['name' => 'Versoli',      'slug' => 'versoli',      'tagline' => 'Coastal charm & sunsets'],
+            ['name' => 'Varsoli',      'slug' => 'versoli',      'tagline' => 'Coastal charm & sunsets'],
             ['name' => 'Zirad',        'slug' => 'zirad',        'tagline' => 'Luxury retreats & estates'],
             ['name' => 'Kashid',       'slug' => 'kashid',       'tagline' => 'White sands & blue waters'],
             ['name' => 'Sasawane',     'slug' => 'sasawane',     'tagline' => 'Beachfront serenity'],
