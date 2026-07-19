@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -50,5 +51,40 @@ class UserController extends Controller
 
         $user->delete();
         return back()->with('success', 'User deleted successfully.');
+    }
+
+    /**
+     * Turn two-factor authentication on or off for a user.
+     * Disabling also clears any existing secret so re-enabling starts fresh.
+     */
+    public function toggleTwoFactor(User $user)
+    {
+        if ($user->two_factor_enabled) {
+            $user->update([
+                'two_factor_enabled' => false,
+                'two_factor_secret' => null,
+                'two_factor_confirmed_at' => null,
+            ]);
+
+            return back()->with('success', "Two-factor authentication disabled for {$user->name}.");
+        }
+
+        $user->update(['two_factor_enabled' => true]);
+
+        return back()->with('success', "Two-factor authentication enabled for {$user->name}. They'll set it up at their next admin login.");
+    }
+
+    /**
+     * Set a new password for a user.
+     */
+    public function setPassword(Request $request, User $user)
+    {
+        $request->validate([
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ]);
+
+        $user->forceFill(['password' => Hash::make($request->input('password'))])->save();
+
+        return back()->with('success', "Password updated for {$user->name}.");
     }
 }

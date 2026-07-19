@@ -74,8 +74,25 @@
                         <td class="px-6 py-4">
                             <span class="text-xs text-slate-500 font-medium">{{ $user->created_at->format('M d, Y') }}</span>
                         </td>
-                        <td class="px-6 py-4 text-right">
-                            <div class="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <td class="px-6 py-4 text-right" x-data="{ pwOpen: false }">
+                            <div class="flex items-center justify-end gap-2">
+                                {{-- 2FA state / toggle --}}
+                                <form action="{{ route('admin.users.toggle-2fa', $user) }}" method="POST"
+                                      onsubmit="return confirm('{{ $user->two_factor_enabled ? 'Disable two-factor authentication for ' . addslashes($user->name) . '? They will be able to sign in with just a password.' : 'Enable two-factor authentication for ' . addslashes($user->name) . '?' }}')">
+                                    @csrf
+                                    <button type="submit"
+                                            class="p-2 rounded-lg transition-colors {{ $user->two_factor_enabled ? 'text-emerald-600 hover:bg-emerald-50' : 'text-slate-300 hover:text-slate-500 hover:bg-slate-50' }}"
+                                            title="{{ $user->two_factor_enabled ? '2FA is ON — click to disable' : '2FA is OFF — click to enable' }}">
+                                        <span class="material-symbols-outlined text-[20px]">{{ $user->two_factor_enabled ? 'lock' : 'lock_open' }}</span>
+                                    </button>
+                                </form>
+
+                                {{-- Set password --}}
+                                <button type="button" @click="pwOpen = true"
+                                        class="p-2 rounded-lg text-slate-400 hover:text-primary hover:bg-primary/5 transition-colors" title="Set password">
+                                    <span class="material-symbols-outlined text-[20px]">key</span>
+                                </button>
+
                                 <form action="{{ route('admin.users.toggle-status', $user) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="p-2 rounded-lg text-slate-400 hover:text-primary hover:bg-primary/5 transition-colors" title="Toggle Status">
@@ -91,6 +108,34 @@
                                         </button>
                                     </form>
                                 @endif
+                            </div>
+
+                            {{-- Set password modal --}}
+                            <div x-show="pwOpen" x-cloak style="display:none;"
+                                 class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4"
+                                 @click.self="pwOpen = false" @keydown.escape.window="pwOpen = false">
+                                <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 text-left">
+                                    <h3 class="text-lg font-bold text-slate-900 mb-1">Set password</h3>
+                                    <p class="text-xs text-slate-500 mb-4">For <strong>{{ $user->name }}</strong> ({{ $user->email }})</p>
+                                    <form action="{{ route('admin.users.set-password', $user) }}" method="POST" class="space-y-3">
+                                        @csrf
+                                        <div>
+                                            <label class="block text-xs font-bold text-slate-600 mb-1">New password</label>
+                                            <input type="password" name="password" required minlength="8" autocomplete="new-password"
+                                                   class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:border-primary focus:ring-primary">
+                                        </div>
+                                        <div>
+                                            <label class="block text-xs font-bold text-slate-600 mb-1">Confirm password</label>
+                                            <input type="password" name="password_confirmation" required minlength="8" autocomplete="new-password"
+                                                   class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:border-primary focus:ring-primary">
+                                        </div>
+                                        <p class="text-[11px] text-slate-400">Minimum 8 characters. The user is not emailed — share it with them directly.</p>
+                                        <div class="flex items-center justify-end gap-2 pt-1">
+                                            <button type="button" @click="pwOpen = false" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
+                                            <button type="submit" class="px-4 py-2 rounded-xl text-sm font-bold text-white bg-primary hover:bg-primary/90">Set password</button>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </td>
                     </tr>

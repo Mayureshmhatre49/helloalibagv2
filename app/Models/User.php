@@ -25,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
     protected $fillable = [
         'name', 'email', 'password', 'phone', 'role_id', 'city_id',
         'bio', 'avatar', 'instagram', 'facebook', 'user_website',
-        'two_factor_secret', 'two_factor_confirmed_at',
+        'two_factor_secret', 'two_factor_confirmed_at', 'two_factor_enabled',
     ];
 
     protected $hidden = [
@@ -37,6 +37,7 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'two_factor_confirmed_at' => 'datetime',
+        'two_factor_enabled' => 'boolean',
         'password' => 'hashed',
     ];
 
