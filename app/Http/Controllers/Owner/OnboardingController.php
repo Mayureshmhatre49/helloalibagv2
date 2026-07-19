@@ -15,22 +15,21 @@ class OnboardingController extends Controller
 {
     public function start(Request $request)
     {
-        if ($redirect = $this->guardListingLimit($request)) {
-            return $redirect;
-        }
-
+        // No limit guard here — the category isn't chosen yet, and real estate
+        // (paid/offline) is always allowed. The limit is enforced at submit.
         $categories = Category::where('is_active', true)->orderBy('sort_order')->get();
         return view('owner.onboarding.start', compact('categories'));
     }
 
     /**
      * Block the onboarding flow when the owner is at their plan's listing cap.
+     * Real-estate ($categorySlug) is exempt (paid offline).
      */
-    private function guardListingLimit(Request $request)
+    private function guardListingLimit(?string $categorySlug = null)
     {
         $user = auth()->user();
 
-        if ($user && !$user->canCreateListing()) {
+        if ($user && !$user->canCreateListing($categorySlug)) {
             $limit = $user->listingLimit();
 
             return redirect()->route('owner.dashboard')
@@ -53,13 +52,13 @@ class OnboardingController extends Controller
 
     public function wizard(Request $request)
     {
-        if ($redirect = $this->guardListingLimit($request)) {
-            return $redirect;
-        }
-
         $categoryId = $request->session()->get('onboarding_category_id');
         if (!$categoryId) {
             return redirect()->route('owner.onboarding.start');
+        }
+
+        if ($redirect = $this->guardListingLimit(Category::find($categoryId)?->slug)) {
+            return $redirect;
         }
 
         $category = Category::with(['attributes.values'])->findOrFail($categoryId);
@@ -77,7 +76,7 @@ class OnboardingController extends Controller
 
     public function submit(Request $request, \App\Services\ImageService $imageService)
     {
-        if ($redirect = $this->guardListingLimit($request)) {
+        if ($redirect = $this->guardListingLimit(Category::find($request->category_id)?->slug)) {
             return $redirect;
         }
 
@@ -176,7 +175,11 @@ class OnboardingController extends Controller
             \Log::warning('Admin listing email failed: ' . $e->getMessage());
         }
 
-        return redirect()->route('owner.dashboard')
-            ->with('success', '🎉 Your listing has been submitted for review! Approval usually takes 24 hours.');
+        $isRealEstate = optional(Category::find($request->category_id))->slug === 'real-estate';
+        $message = $isRealEstate
+            ? '🏡 Your Real Estate listing has been submitted. It\'s a paid (offline) category — our team will contact you to arrange payment, and it goes live once an admin approves.'
+            : '🎉 Your listing has been submitted for review! Approval usually takes 24 hours.';
+
+        return redirect()->route('owner.dashboard')->with('success', $message);
     }
 }

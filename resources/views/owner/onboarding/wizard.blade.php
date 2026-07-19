@@ -20,6 +20,16 @@
             </a>
         </div>
 
+        @if($category->slug === 'real-estate')
+            <div class="mb-8 bg-amber-50 border border-amber-200 rounded-2xl p-5 flex gap-4">
+                <span class="material-symbols-outlined text-amber-600 text-[26px] flex-shrink-0">workspace_premium</span>
+                <div class="text-sm text-amber-900 leading-relaxed">
+                    <p class="font-bold mb-1">Paid category — offline payment</p>
+                    <p>Submitting is free. Our team will contact you to arrange the payment offline, and your listing goes live once an admin approves it after payment.</p>
+                </div>
+            </div>
+        @endif
+
         {{-- Progress Header --}}
         <div class="mb-8">
             <div class="flex items-center justify-between">

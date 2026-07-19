@@ -49,9 +49,16 @@
                                     </div>
                                     <div>
                                         <p class="font-medium text-text-main">{{ $listing->title }}</p>
-                                        @if($listing->area)
-                                            <p class="text-xs text-text-secondary">{{ $listing->area->name }}</p>
-                                        @endif
+                                        <div class="flex items-center gap-1.5 flex-wrap">
+                                            @if($listing->area)
+                                                <p class="text-xs text-text-secondary">{{ $listing->area->name }}</p>
+                                            @endif
+                                            @if(($listing->category->slug ?? '') === 'real-estate' && $listing->status !== 'approved')
+                                                <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 uppercase tracking-wide" title="Real Estate is paid — collect offline payment before approving">
+                                                    <span class="material-symbols-outlined text-[12px]">payments</span> Collect payment
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </td>

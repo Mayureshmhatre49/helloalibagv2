@@ -10,6 +10,7 @@
             <p class="text-slate-500 text-lg">Select a category to begin your guided setup.</p>
         </div>
 
+        @php $realEstateId = optional($categories->firstWhere('slug', 'real-estate'))->id; @endphp
         <form action="{{ route('owner.onboarding.start') }}" method="POST" x-data="{ selected: '' }">
             @csrf
 
@@ -34,6 +35,18 @@
                 </label>
                 @endforeach
             </div>
+
+            {{-- Real Estate: paid (offline) category notice --}}
+            @if($realEstateId)
+                <div x-show="selected == '{{ $realEstateId }}'" x-cloak x-transition
+                     class="max-w-2xl mx-auto mb-8 bg-amber-50 border border-amber-200 rounded-2xl p-5 flex gap-4">
+                    <span class="material-symbols-outlined text-amber-600 text-[28px] flex-shrink-0">workspace_premium</span>
+                    <div class="text-sm text-amber-900 leading-relaxed">
+                        <p class="font-bold mb-1">Real Estate is a paid category (offline payment)</p>
+                        <p>You can create and submit your listing now, for free. Because Real Estate is a paid category, <strong>our team will contact you to arrange the payment offline</strong>. Your listing goes live once an admin approves it after payment is confirmed.</p>
+                    </div>
+                </div>
+            @endif
 
             <div class="flex justify-center border-t border-slate-200 pt-8">
                 <button type="submit" :disabled="!selected" class="bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-full font-bold text-lg transition-all shadow-xl shadow-primary/30 disabled:opacity-50 disabled:shadow-none disabled:cursor-not-allowed flex items-center gap-2">

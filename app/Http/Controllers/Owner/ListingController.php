@@ -25,10 +25,8 @@ class ListingController extends Controller
 
     public function create()
     {
-        if (!auth()->user()->canCreateListing()) {
-            return $this->listingLimitRedirect();
-        }
-
+        // No limit block on the form itself — the category (and the real-estate
+        // exemption) isn't known until submit, which is where the limit is enforced.
         $categories = Category::where('is_active', true)->orderBy('sort_order')->get();
         $areas = Area::where('is_active', true)->get();
         $amenities = Amenity::orderBy('sort_order')->get();
@@ -50,7 +48,8 @@ class ListingController extends Controller
 
     public function store(Request $request)
     {
-        if (!auth()->user()->canCreateListing()) {
+        $categorySlug = Category::find($request->input('category_id'))?->slug;
+        if (!auth()->user()->canCreateListing($categorySlug)) {
             return $this->listingLimitRedirect();
         }
 

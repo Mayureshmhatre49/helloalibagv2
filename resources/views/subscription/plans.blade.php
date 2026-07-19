@@ -97,6 +97,14 @@
             </div>
         </div>
 
+        {{-- Real Estate paid-category note --}}
+        <div class="mt-4 bg-amber-50 border border-amber-200 rounded-2xl px-6 py-4 flex gap-3">
+            <span class="material-symbols-outlined text-amber-600 text-[22px] flex-shrink-0">real_estate_agent</span>
+            <p class="text-xs text-amber-900 leading-relaxed">
+                <strong>Listing under Real Estate?</strong> It's a separate paid category with offline payment — and it doesn't use up your free listing slot. You can submit a Real Estate listing any time; our team will contact you to arrange payment, and an admin approves it once payment is confirmed.
+            </p>
+        </div>
+
         {{-- Trust badges --}}
         <div class="flex items-center justify-center gap-6 mt-8 text-xs text-slate-400">
             <span class="flex items-center gap-1.5">

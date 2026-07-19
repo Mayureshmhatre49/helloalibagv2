@@ -78,18 +78,28 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
 
     /**
      * Listings that count toward the plan limit — everything except rejected
-     * ones (a rejected listing shouldn't permanently use up a slot).
+     * ones (they shouldn't permanently use a slot) and real-estate listings
+     * (billed separately/offline, so they don't consume a plan slot).
      */
     public function activeListingCount(): int
     {
-        return $this->listings()->where('status', '!=', 'rejected')->count();
+        return $this->listings()
+            ->where('status', '!=', 'rejected')
+            ->whereHas('category', fn ($q) => $q->where('slug', '!=', 'real-estate'))
+            ->count();
     }
 
     /**
-     * Whether the user can create another listing under their plan.
+     * Whether the user can create another listing under their plan. Real estate
+     * is a paid, offline category and is always allowed (admin approves after
+     * payment), regardless of the listing limit.
      */
-    public function canCreateListing(): bool
+    public function canCreateListing(?string $categorySlug = null): bool
     {
+        if ($categorySlug === 'real-estate') {
+            return true;
+        }
+
         $limit = $this->listingLimit();
 
         return $limit === null || $this->activeListingCount() < $limit;
