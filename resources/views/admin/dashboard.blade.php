@@ -28,7 +28,10 @@
 @endphp
 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
     @foreach($stats as $stat)
-        <{{ ($stat['href'] ?? null) ? 'a href="'.e($stat['href']).'"' : 'div' }}
+        {{-- {!! !!} so the tag's real quotes aren't HTML-escaped into &quot; (which
+             would wrap the href value in literal quotes and 404). The URL is still
+             escaped via e(). --}}
+        <{!! ($stat['href'] ?? null) ? 'a href="'.e($stat['href']).'"' : 'div' !!}
            class="group bg-white rounded-2xl border border-border-light p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all relative">
             @if($stat['alert'] ?? false)
                 <span class="absolute top-4 right-4 w-2 h-2 rounded-full bg-red-500 ring-4 ring-red-50"></span>
