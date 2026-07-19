@@ -95,12 +95,24 @@
 
             if (locateBtn) {
                 locateBtn.addEventListener('click', function () {
-                    if (!navigator.geolocation) return;
+                    if (!navigator.geolocation) {
+                        coordsEl.textContent = 'Location is not supported by this browser — drag the pin instead.';
+                        return;
+                    }
+                    var original = locateBtn.innerHTML;
                     locateBtn.disabled = true;
+                    locateBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">hourglass_top</span> Locating…';
                     navigator.geolocation.getCurrentPosition(function (pos) {
                         setPin(L.latLng(pos.coords.latitude, pos.coords.longitude), 16);
                         locateBtn.disabled = false;
-                    }, function () { locateBtn.disabled = false; }, { enableHighAccuracy: true, timeout: 8000 });
+                        locateBtn.innerHTML = original;
+                    }, function (err) {
+                        locateBtn.disabled = false;
+                        locateBtn.innerHTML = original;
+                        coordsEl.textContent = err.code === err.PERMISSION_DENIED
+                            ? 'Location permission was blocked — allow it in your browser, or just drag the pin.'
+                            : 'Couldn’t get your location — drag the pin to set it manually.';
+                    }, { enableHighAccuracy: true, timeout: 10000 });
                 });
             }
 

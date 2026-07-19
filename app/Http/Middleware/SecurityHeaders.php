@@ -16,7 +16,10 @@ class SecurityHeaders
         $response->headers->set('X-Content-Type-Options', 'nosniff');
         $response->headers->set('X-XSS-Protection', '1; mode=block');
         $response->headers->set('Referrer-Policy', 'strict-origin-when-cross-origin');
-        $response->headers->set('Permissions-Policy', 'geolocation=(), camera=(), microphone=()');
+        // geolocation=(self) allows the site's own pages to use the browser
+        // geolocation API (the listing location picker's "Use my location") while
+        // still blocking it inside third-party iframes. camera/mic stay disabled.
+        $response->headers->set('Permissions-Policy', 'geolocation=(self), camera=(), microphone=()');
         $response->headers->set(
             'Content-Security-Policy',
             implode('; ', [
