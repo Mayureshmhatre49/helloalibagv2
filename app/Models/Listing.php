@@ -223,10 +223,16 @@ class Listing extends Model implements Auditable
             ?? $this->images()->first();
 
         if (!$image) return null;
-        
-        return str_starts_with($image->path, 'http') 
-            ? $image->path 
-            : asset('storage/' . $image->path);
+
+        if (str_starts_with($image->path, 'http')) {
+            return $image->path;
+        }
+
+        // Normalise any leading "/storage/" (legacy ImageService paths) so the
+        // URL never doubles up to "/storage//storage/…".
+        $clean = ltrim(preg_replace('#^/?storage/#', '', $image->path), '/');
+
+        return asset('storage/' . $clean);
     }
 
     public function setDynamicAttribute(string $key, ?string $value): void

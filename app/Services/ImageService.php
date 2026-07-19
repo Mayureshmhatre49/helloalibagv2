@@ -49,9 +49,12 @@ class ImageService
         $thumbPath = $directory . '/thumbnails/' . $thumbFilename;
         Storage::disk('public')->put($thumbPath, $thumb->encode('webp', $this->quality)->encoded);
 
+        // Return the relative storage-disk path (no "/storage/" prefix). Display
+        // code prepends asset('storage/…'); baking the prefix in here caused
+        // doubled "/storage//storage/…" URLs that 404.
         return [
-            'path' => '/storage/' . $mainPath,
-            'thumbnail' => '/storage/' . $thumbPath,
+            'path' => $mainPath,
+            'thumbnail' => $thumbPath,
         ];
     }
 
