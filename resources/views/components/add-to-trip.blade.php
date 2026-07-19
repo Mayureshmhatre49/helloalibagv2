@@ -83,7 +83,7 @@
          x-transition:enter="transition ease-out duration-150"
          x-transition:enter-start="opacity-0 scale-95 -translate-y-1"
          x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-         class="absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-xl border border-slate-100 z-50 origin-top-right overflow-hidden"
+         class="absolute left-0 mt-2 w-72 max-w-[calc(100vw-2rem)] bg-white rounded-xl shadow-xl border border-slate-100 z-50 origin-top-left overflow-hidden"
          style="display: none;">
 
         @guest
