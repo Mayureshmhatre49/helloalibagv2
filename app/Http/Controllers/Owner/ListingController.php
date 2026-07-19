@@ -142,6 +142,16 @@ class ListingController extends Controller
         $this->listingService->update($listing, $validated);
         $listing->tags()->sync($request->input('tags', []));
 
+        // Editing resubmits the listing for review — the (possibly changed)
+        // content must be re-approved before it goes live again.
+        $wasApproved = $listing->status === 'approved';
+        $listing->update([
+            'status' => 'pending',
+            'rejection_reason' => null,
+            'approved_at' => null,
+            'approved_by' => null,
+        ]);
+
         // Handle uploaded gallery images
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $idx => $image) {
@@ -176,8 +186,12 @@ class ListingController extends Controller
         $addedCount = ($request->hasFile('images') ? count($request->file('images')) : 0)
                     + ($request->hasFile('menu_images') ? count($request->file('menu_images')) : 0);
 
+        $notice = $wasApproved
+            ? 'Listing updated and resubmitted for review — it will go live again once an admin approves the changes.'
+            : 'Listing updated and submitted for review.';
+
         return redirect()->back()
-            ->with('success', 'Listing updated successfully!' . ($addedCount > 0 ? " {$addedCount} new photo(s) added." : ''));
+            ->with('success', $notice . ($addedCount > 0 ? " {$addedCount} new photo(s) added." : ''));
     }
 
     public function destroy(Listing $listing)
