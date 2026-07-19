@@ -131,7 +131,7 @@ Route::middleware(['auth', 'role:admin'])->name('')->group(function () {
 });
 
 // Admin Panel Routes
-Route::middleware(['auth', 'role:admin', '2fa'])->prefix(env('ADMIN_PREFIX', 'ha-control-2026'))->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:admin', '2fa'])->prefix(config('admin.prefix'))->name('admin.')->group(function () {
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/listings', [AdminListingController::class, 'index'])->name('listings.index');
 
