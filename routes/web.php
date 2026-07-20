@@ -153,6 +153,9 @@ Route::middleware(['auth', 'role:admin', '2fa'])->prefix(config('admin.prefix'))
     Route::patch('/listings/{listing}/toggle-verified', [AdminListingController::class, 'toggleVerified'])->name('listings.toggle-verified');
     Route::get('/listings/{listing}/edit', [AdminListingController::class, 'edit'])->name('listings.edit');
     Route::put('/listings/{listing}', [AdminListingController::class, 'update'])->name('listings.update');
+    Route::delete('/listings/{listing}', [AdminListingController::class, 'destroy'])->name('listings.destroy');
+    Route::patch('/listings/{listing}/set-pending', [AdminListingController::class, 'setPending'])->name('listings.set-pending');
+
 
 
     // User Management

@@ -189,4 +189,37 @@ class ListingController extends Controller
         return redirect()->route('admin.listings.index', ['status' => $listing->fresh()->status])
             ->with('success', "Listing \"{$listing->title}\" updated successfully.");
     }
+
+    /**
+     * Permanently delete a listing.
+     * Requires the admin to explicitly type the confirmation phrase
+     * in the modal before the form is submitted.
+     */
+    public function destroy(Request $request, Listing $listing)
+    {
+        $title = $listing->title;
+        $listing->delete();
+
+        return redirect()->route('admin.listings.index', ['status' => 'all'])
+            ->with('success', "Listing \"{$title}\" has been permanently deleted.");
+    }
+
+    /**
+     * Reset a listing's status back to pending — puts it back in the
+     * approval queue so it can be reviewed again. Useful when an approved
+     * listing needs to be re-evaluated, or a rejected listing deserves
+     * another look after the owner has made corrections.
+     */
+    public function setPending(Listing $listing)
+    {
+        $listing->update([
+            'status'           => 'pending',
+            'approved_at'      => null,
+            'approved_by'      => null,
+            'rejection_reason' => null,
+        ]);
+
+        return redirect()->back()
+            ->with('success', "\"" . $listing->title . "\" has been moved back to the pending queue.");
+    }
 }

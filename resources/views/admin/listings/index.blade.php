@@ -35,7 +35,7 @@
                 </thead>
                 <tbody class="divide-y divide-border-light">
                     @foreach($listings as $listing)
-                        <tr x-data="{ showRejectModal: false }" class="hover:bg-background-light/50 transition-colors">
+                        <tr x-data="{ showRejectModal: false, showDeleteModal: false, deleteConfirm: '' }" class="hover:bg-background-light/50 transition-colors">
                             <td class="px-5 py-4">
                                 <div class="flex items-center gap-3">
                                     <div class="relative w-12 h-10 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0 flex items-center justify-center text-slate-300">
@@ -133,6 +133,68 @@
                                             <span class="material-symbols-outlined text-[16px]" style="font-variation-settings:'FILL' {{ $listing->is_verified ? '1' : '0' }}">verified</span>
                                         </button>
                                     </form>
+
+                                    {{-- Set Pending Button (for approved / rejected listings) --}}
+                                    @if(in_array($listing->status, ['approved', 'rejected']))
+                                        <form method="POST" action="{{ route('admin.listings.set-pending', $listing) }}">
+                                            @csrf @method('PATCH')
+                                            <button type="submit"
+                                                    onclick="return confirm('Move \"{{ addslashes($listing->title) }}\" back to Pending?')"
+                                                    class="flex items-center gap-1 text-xs font-medium text-amber-600 bg-amber-50 hover:bg-amber-100 px-2.5 py-1.5 rounded-lg transition-colors"
+                                                    title="Move back to Pending queue">
+                                                <span class="material-symbols-outlined text-[16px]">pending</span>
+                                            </button>
+                                        </form>
+                                    @endif
+
+                                    {{-- Delete Button --}}
+                                    <button type="button" @click="showDeleteModal = true; deleteConfirm = ''"
+                                            class="flex items-center gap-1 text-xs font-medium text-rose-600 bg-rose-50 hover:bg-rose-100 px-2.5 py-1.5 rounded-lg transition-colors"
+                                            title="Permanently delete listing">
+                                        <span class="material-symbols-outlined text-[16px]">delete_forever</span>
+                                    </button>
+
+                                    {{-- Delete Confirmation Modal --}}
+                                    <div x-show="showDeleteModal" class="fixed inset-0 bg-black/60 z-50 flex items-center justify-center text-left" style="display: none;" x-transition.opacity>
+                                        <div @click.away="showDeleteModal = false; deleteConfirm = ''" class="bg-white rounded-2xl p-6 w-full max-w-md mx-4 shadow-2xl">
+                                            <div class="flex items-center gap-3 mb-4">
+                                                <div class="w-10 h-10 rounded-full bg-rose-100 flex items-center justify-center flex-shrink-0">
+                                                    <span class="material-symbols-outlined text-rose-600 text-[22px]">delete_forever</span>
+                                                </div>
+                                                <div>
+                                                    <h3 class="text-lg font-bold text-slate-900 leading-tight">Permanently Delete Listing</h3>
+                                                    <p class="text-xs text-rose-600 font-semibold">This action cannot be undone</p>
+                                                </div>
+                                            </div>
+                                            <p class="text-sm text-slate-600 mb-1">You are about to permanently delete:</p>
+                                            <p class="text-sm font-bold text-slate-900 mb-4 bg-slate-50 rounded-lg px-3 py-2 border border-slate-200">"{{ $listing->title }}"</p>
+                                            <p class="text-sm text-slate-500 mb-3">This will remove the listing, all its images, reviews, and data forever. To confirm, type <span class="font-bold text-slate-800">permanently delete</span> below:</p>
+                                            <input type="text" x-model="deleteConfirm"
+                                                   placeholder="permanently delete"
+                                                   class="w-full rounded-xl border-slate-200 focus:border-rose-500 focus:ring-rose-500 text-sm mb-4 px-3 py-2"
+                                                   @keydown.enter.prevent="">
+                                            <form method="POST" action="{{ route('admin.listings.destroy', $listing) }}">
+                                                @csrf
+                                                @method('DELETE')
+                                                <div class="flex justify-end gap-2">
+                                                    <button type="button" @click="showDeleteModal = false; deleteConfirm = ''"
+                                                            class="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">
+                                                        Cancel
+                                                    </button>
+                                                    <button type="submit"
+                                                            :disabled="deleteConfirm.trim().toLowerCase() !== 'permanently delete'"
+                                                            :class="deleteConfirm.trim().toLowerCase() === 'permanently delete'
+                                                                ? 'bg-rose-600 hover:bg-rose-700 text-white cursor-pointer'
+                                                                : 'bg-slate-200 text-slate-400 cursor-not-allowed'"
+                                                            class="flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg shadow-sm transition-colors">
+                                                        <span class="material-symbols-outlined text-[16px]">delete_forever</span>
+                                                        Delete Permanently
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+
                                 </div>
                             </td>
                         </tr>
