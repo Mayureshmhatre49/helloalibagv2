@@ -151,6 +151,8 @@ Route::middleware(['auth', 'role:admin', '2fa'])->prefix(config('admin.prefix'))
     Route::patch('/listings/{listing}/toggle-featured', [AdminListingController::class, 'toggleFeatured'])->name('listings.toggle-featured');
     Route::patch('/listings/{listing}/toggle-premium', [AdminListingController::class, 'togglePremium'])->name('listings.toggle-premium');
     Route::patch('/listings/{listing}/toggle-verified', [AdminListingController::class, 'toggleVerified'])->name('listings.toggle-verified');
+    Route::get('/listings/{listing}/edit', [AdminListingController::class, 'edit'])->name('listings.edit');
+    Route::put('/listings/{listing}', [AdminListingController::class, 'update'])->name('listings.update');
 
 
     // User Management

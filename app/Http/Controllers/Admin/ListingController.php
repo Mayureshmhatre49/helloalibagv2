@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Amenity;
+use App\Models\Area;
+use App\Models\Category;
 use App\Models\Listing;
+use App\Models\ListingImage;
+use App\Models\Tag;
 use App\Services\ListingService;
 use Illuminate\Http\Request;
 
@@ -88,5 +93,100 @@ class ListingController extends Controller
         ]);
 
         return redirect()->back()->with('success', "“{$listing->title}” marked as Verified.");
+    }
+
+    /**
+     * Show the admin edit form for a listing.
+     * Admins can edit any listing regardless of ownership.
+     */
+    public function edit(Listing $listing)
+    {
+        $categories = Category::where('is_active', true)->orderBy('sort_order')->get();
+        $areas = Area::where('is_active', true)->get();
+        $amenities = Amenity::orderBy('sort_order')->get();
+        $tags = Tag::orderBy('sort_order')->get();
+        $listing->load(['images', 'amenities', 'listingAttributes', 'tags']);
+        $galleryImages = $listing->images->where('image_type', '!=', 'menu')->values();
+        $menuImages    = $listing->images->where('image_type', 'menu')->values();
+
+        return view('admin.listings.edit', compact('listing', 'categories', 'areas', 'amenities', 'tags', 'galleryImages', 'menuImages'));
+    }
+
+    /**
+     * Update a listing as an admin.
+     * Unlike the owner update, admin edits do NOT reset status to pending —
+     * admins are trusted to make corrections without needing re-approval.
+     */
+    public function update(Request $request, Listing $listing)
+    {
+        $validated = $request->validate([
+            'title'        => 'required|string|max:255',
+            'category_id'  => 'required|exists:categories,id',
+            'area_id'      => 'nullable|exists:areas,id',
+            'description'  => 'nullable|string|max:5000',
+            'price'        => 'nullable|numeric|min:0',
+            'address'      => 'nullable|string|max:255',
+            'latitude'     => 'nullable|numeric|between:-90,90',
+            'longitude'    => 'nullable|numeric|between:-180,180',
+            'phone'        => 'nullable|string|max:20',
+            'email'        => 'nullable|email|max:255',
+            'website'      => 'nullable|url|max:255',
+            'whatsapp'     => 'nullable|string|max:20',
+            'amenities'    => 'nullable|array',
+            'amenities.*'  => 'exists:amenities,id',
+            'attributes'   => 'nullable|array',
+            'tags'         => 'nullable|array',
+            'tags.*'       => 'exists:tags,id',
+            'images'       => 'nullable|array',
+            'images.*'     => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
+            'menu_images'  => 'nullable|array',
+            'menu_images.*'=> 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
+        ]);
+
+        // Convert multi-checkbox attributes (arrays) to comma-separated strings
+        if (!empty($validated['attributes'])) {
+            foreach ($validated['attributes'] as $key => $value) {
+                if (is_array($value)) {
+                    $validated['attributes'][$key] = implode(',', array_filter($value));
+                }
+            }
+        }
+
+        $this->listingService->update($listing, $validated);
+        $listing->tags()->sync($request->input('tags', []));
+
+        // Handle uploaded gallery images
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $idx => $image) {
+                $path = $image->store('listings/' . $listing->id, 'public');
+                ListingImage::create([
+                    'listing_id' => $listing->id,
+                    'path'       => $path,
+                    'alt_text'   => $listing->title,
+                    'sort_order' => $listing->images->count() + $idx,
+                    'is_primary' => false,
+                    'image_type' => 'gallery',
+                ]);
+            }
+        }
+
+        // Handle uploaded menu images
+        if ($request->hasFile('menu_images')) {
+            $existingMenuCount = $listing->images->where('image_type', 'menu')->count();
+            foreach ($request->file('menu_images') as $idx => $image) {
+                $path = $image->store('listings/' . $listing->id . '/menu', 'public');
+                ListingImage::create([
+                    'listing_id' => $listing->id,
+                    'path'       => $path,
+                    'alt_text'   => $listing->title . ' - Menu',
+                    'sort_order' => $existingMenuCount + $idx,
+                    'is_primary' => false,
+                    'image_type' => 'menu',
+                ]);
+            }
+        }
+
+        return redirect()->route('admin.listings.index', ['status' => $listing->fresh()->status])
+            ->with('success', "Listing \"{$listing->title}\" updated successfully.");
     }
 }

@@ -85,6 +85,11 @@
                                         <span class="material-symbols-outlined text-[16px]">visibility</span>
                                         View
                                     </a>
+                                    <a href="{{ route('admin.listings.edit', $listing) }}"
+                                       class="flex items-center gap-1 text-xs font-medium text-indigo-600 bg-indigo-50 hover:bg-indigo-100 px-3 py-1.5 rounded-lg transition-colors" title="Edit listing">
+                                        <span class="material-symbols-outlined text-[16px]">edit</span>
+                                        Edit
+                                    </a>
                                     @if($listing->status === 'pending')
                                         <form method="POST" action="{{ route('admin.listings.approve', $listing) }}">
                                             @csrf
