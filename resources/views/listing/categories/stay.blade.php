@@ -112,8 +112,7 @@
 
         {{-- Trip + Share row --}}
         <div class="flex items-center gap-2 pt-4 border-t border-slate-100 flex-wrap" x-data="{ copied: false }">
-            <x-add-to-trip :listing="$listing" />
-            <span class="text-xs text-slate-400 font-medium mx-1">·</span>
+
             <span class="text-xs text-slate-400 font-medium mr-1">Share:</span>
             <a href="https://wa.me/?text={{ urlencode($listing->title . ' — ' . url()->current()) }}"
                target="_blank"
