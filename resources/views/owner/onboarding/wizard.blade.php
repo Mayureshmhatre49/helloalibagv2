@@ -3,7 +3,32 @@
 @section('title', 'Add Your Listing — ' . $category->name)
 
 @section('content')
-<div class="min-h-screen bg-slate-50 py-10" x-data="wizard()" x-init="init()">
+@php
+    // Map each validation field to the named wizard step it lives on, so we can
+    // jump straight to the step with the actual problem (step *numbers* shift
+    // depending on whether this category has attributes/amenities, so we resolve
+    // the name -> number in Alpine using the same logic it already has).
+    $stepFieldMap = [
+        'basic'     => ['title', 'area_id', 'price', 'address', 'description', 'phone', 'email'],
+        'details'   => ['dynamic_attributes'],
+        'amenities' => ['amenities'],
+        'photos'    => ['images'],
+        'seo'       => ['meta_title', 'meta_description'],
+    ];
+    $errorStepNames = [];
+    foreach ($stepFieldMap as $stepName => $fields) {
+        foreach ($fields as $f) {
+            foreach ($errors->keys() as $key) {
+                if ($key === $f || \Illuminate\Support\Str::startsWith($key, $f . '.') || \Illuminate\Support\Str::startsWith($key, $f . '[')) {
+                    $errorStepNames[] = $stepName;
+                    continue 3;
+                }
+            }
+        }
+    }
+    $firstErrorStep = $errorStepNames[0] ?? null;
+@endphp
+<div class="min-h-screen bg-slate-50 py-10" x-data="wizard()" x-init="init('{{ $firstErrorStep }}')">
     <div class="max-w-4xl mx-auto px-4 w-full">
 
         {{-- Header: Category badge --}}
@@ -88,20 +113,22 @@
                                     Listing Title <span class="text-red-500">*</span>
                                 </label>
                                 <input type="text" name="title" x-model="formData.title" required maxlength="100"
-                                    class="w-full rounded-xl border-slate-200 focus:border-primary focus:ring-primary py-3"
+                                    class="w-full rounded-xl {{ $errors->has('title') ? 'border-red-300 focus:border-red-400 focus:ring-red-200' : 'border-slate-200 focus:border-primary focus:ring-primary' }} py-3"
                                     placeholder="{{ match($category->slug) { 'stay' => 'e.g., Sunrise Sea View Villa, Alibaug', 'eat' => 'e.g., The Coastal Kitchen — Seafood & Grills', 'real-estate' => 'e.g., Premium Beachside Villa Plot — 3000 sq.ft', default => 'e.g., Professional ' . $category->name . ' Service in Alibaug' } }}">
+                                @error('title')<p class="text-xs text-red-500 mt-1 font-medium">{{ $message }}</p>@enderror
                                 <p class="text-xs text-slate-400 mt-1">Keep it descriptive and specific — good titles get 3x more clicks.</p>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div>
                                     <label class="block text-sm font-bold text-slate-700 mb-2">Area / Location <span class="text-red-500">*</span></label>
-                                    <select name="area_id" x-model="formData.area_id" required class="w-full rounded-xl border-slate-200 focus:border-primary focus:ring-primary py-3">
+                                    <select name="area_id" x-model="formData.area_id" required class="w-full rounded-xl {{ $errors->has('area_id') ? 'border-red-300 focus:border-red-400 focus:ring-red-200' : 'border-slate-200 focus:border-primary focus:ring-primary' }} py-3">
                                         <option value="">Select Area in Alibaug</option>
                                         @foreach($areas as $area)
                                             <option value="{{ $area->id }}" {{ old('area_id') == $area->id ? 'selected' : '' }}>{{ $area->name }}</option>
                                         @endforeach
                                     </select>
+                                    @error('area_id')<p class="text-xs text-red-500 mt-1 font-medium">{{ $message }}</p>@enderror
                                 </div>
                                 <div>
                                     <label class="block text-sm font-bold text-slate-700 mb-2">
@@ -130,15 +157,18 @@
 
                             <div>
                                 <label class="block text-sm font-bold text-slate-700 mb-2">Description <span class="text-red-500">*</span></label>
-                                <textarea name="description" x-model="formData.description" required rows="6"
-                                    class="w-full rounded-xl border-slate-200 focus:border-primary focus:ring-primary py-3"
+                                <textarea name="description" x-model="formData.description" required rows="6" minlength="20"
+                                    class="w-full rounded-xl {{ $errors->has('description') ? 'border-red-300 focus:border-red-400 focus:ring-red-200' : 'border-slate-200 focus:border-primary focus:ring-primary' }} py-3"
                                     placeholder="{{ match($category->slug) {
                                         'stay' => 'Describe the property — its setting, unique features, what\'s nearby, and the experience guests will have...',
                                         'eat' => 'Tell visitors about your restaurant — the vibe, signature dishes, sourcing, and what makes dining here special...',
                                         'real-estate' => 'Describe the property — construction status, views, connectivity to Mandwa/Mumbai ferry, plot dimensions...',
                                         default => 'Tell visitors what you offer, your expertise, and why they should choose you...'
                                     } }}"></textarea>
-                                <p class="text-xs text-slate-400 mt-1">Minimum 20 characters. Write for your customer — what will excite them?</p>
+                                @error('description')<p class="text-xs text-red-500 mt-1 font-medium">{{ $message }}</p>@enderror
+                                <p class="text-xs text-slate-400 mt-1">
+                                    <span x-text="formData.description.length" :class="formData.description.length > 0 && formData.description.length < 20 ? 'text-red-500 font-bold' : ''"></span>/20 characters minimum. Write for your customer — what will excite them?
+                                </p>
                             </div>
 
                             <div class="bg-slate-50 p-6 rounded-2xl border border-slate-100">
@@ -231,6 +261,16 @@
                             <p class="text-slate-500">Upload high-quality photos. The first photo will be your cover image. (JPEG / PNG, max 8 MB each)</p>
                         </div>
 
+                        @if($errors->any())
+                            {{-- Browsers never resend a file input's value after a failed submit —
+                                 whatever was chosen before this reload is gone, even if the error
+                                 that failed the form was on a different step. --}}
+                            <div class="mb-6 bg-amber-50 border border-amber-200 text-amber-800 rounded-2xl px-4 py-3 text-sm flex items-start gap-2">
+                                <span class="material-symbols-outlined text-amber-500 text-[20px] mt-0.5">info</span>
+                                <span>Your form couldn't be submitted — please re-select your photos here before trying again. Browsers don't keep file selections after an error on another step.</span>
+                            </div>
+                        @endif
+
                         <div class="border-2 border-dashed rounded-3xl p-8 text-center transition-colors"
                              :class="photoError ? 'border-red-400 bg-red-50' : (imagesCount >= 1 ? 'border-green-300 bg-green-50' : 'border-slate-300 bg-slate-50 hover:border-primary/40')">
 
@@ -258,6 +298,8 @@
                                 <span class="material-symbols-outlined text-[16px]">warning</span>
                                 Please upload at least 1 photo to continue.
                             </p>
+                            @error('images')<p class="mt-3 text-sm font-bold text-red-600">{{ $message }}</p>@enderror
+                            @error('images.*')<p class="mt-3 text-sm font-bold text-red-600">{{ $message }}</p>@enderror
                         </div>
 
                         {{-- Thumbnail previews --}}
@@ -515,9 +557,25 @@ document.addEventListener('alpine:init', () => {
             return this.formData.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
         },
 
-        init() {
+        init(errorStepName) {
             // If no attributes AND no amenities, we have only 4 steps: Basic / Photos / SEO / Review
             // Adjust step display logic accordingly (handled by x-show conditions)
+
+            // After a failed submit, jump straight to the step that actually has
+            // the problem instead of always landing back on step 1.
+            if (!errorStepName) return;
+            const stepNumbers = {
+                basic: 1,
+                details: this.hasAttributes ? 2 : null,
+                amenities: this.hasAmenities ? (this.hasAttributes ? 3 : 2) : null,
+                photos: this.totalSteps - 2,
+                seo: this.totalSteps - 1,
+            };
+            const target = stepNumbers[errorStepName];
+            if (target) {
+                this.step = target;
+                this.$nextTick(() => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            }
         },
 
         updateImageCount(e) {
