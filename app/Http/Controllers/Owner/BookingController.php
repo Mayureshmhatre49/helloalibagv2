@@ -62,6 +62,7 @@ class BookingController extends Controller
             'title'   => 'Booking Confirmed! 🎉',
             'message' => "Your booking for {$booking->listing->title} has been confirmed!",
             'data'    => json_encode(['booking_id' => $booking->id]),
+            'action_url' => route('bookings.index'),
         ]);
 
         return back()->with('success', 'Booking confirmed and guest notified.');
@@ -88,6 +89,7 @@ class BookingController extends Controller
             'title'   => 'Booking Update',
             'message' => "Your booking request for {$booking->listing->title} could not be confirmed at this time.",
             'data'    => json_encode(['booking_id' => $booking->id]),
+            'action_url' => route('bookings.index'),
         ]);
 
         return back()->with('success', 'Booking declined and guest notified.');

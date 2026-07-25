@@ -164,6 +164,7 @@ class ListingService
             'title' => 'Listing Approved!',
             'message' => '"' . $listing->title . '" has been approved and is now live.',
             'data' => ['listing_id' => $listing->id],
+            'action_url' => route('listing.show', [$listing->category->slug, $listing->slug]),
         ]);
         
         return $listing;
@@ -188,6 +189,7 @@ class ListingService
             'title' => 'Listing Needs Changes',
             'message' => '"' . $listing->title . '" was not approved. Reason: ' . $reason,
             'data' => ['listing_id' => $listing->id],
+            'action_url' => route('owner.listings.edit', $listing),
         ]);
         
         return $listing;

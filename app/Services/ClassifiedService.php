@@ -89,6 +89,12 @@ class ClassifiedService
 
     private function notify(Classified $classified, string $type, string $title, string $message): void
     {
+        // Approved items are live for buyers to see; anything else sends the
+        // seller back to their own edit page (e.g. to fix and resubmit).
+        $actionUrl = $type === 'classified_approved'
+            ? route('marketplace.show', $classified)
+            : route('marketplace.edit', $classified);
+
         try {
             UserNotification::create([
                 'user_id' => $classified->seller_id,
@@ -96,6 +102,7 @@ class ClassifiedService
                 'title' => $title,
                 'message' => $message,
                 'data' => ['classified_id' => $classified->id],
+                'action_url' => $actionUrl,
             ]);
         } catch (\Throwable $e) {
             Log::error('Classified notification failed: ' . $e->getMessage());

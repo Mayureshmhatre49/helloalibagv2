@@ -59,6 +59,7 @@ class ReviewController extends Controller
             'title'   => 'Owner Replied to Your Review',
             'message' => "The owner of {$review->listing->title} replied to your review.",
             'data'    => json_encode(['review_id' => $review->id]),
+            'action_url' => route('listing.show', [$review->listing->category->slug, $review->listing->slug]) . '#reviews',
         ]);
 
         return back()->with('success', 'Reply posted successfully.');

@@ -56,6 +56,7 @@ class InquiryController extends Controller
                     'title' => 'New Inquiry',
                     'message' => $request->name . ' sent an inquiry for ' . $listing->title,
                     'data' => ['inquiry_id' => $inquiry->id, 'listing_id' => $listing->id],
+                    'action_url' => route('owner.inquiries.show', $inquiry),
                 ]);
             } catch (\Throwable $e) {
                 Log::warning("Inquiry notification failed (inquiry #{$inquiry->id}): " . $e->getMessage());

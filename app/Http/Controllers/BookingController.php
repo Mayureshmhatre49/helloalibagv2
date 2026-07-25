@@ -39,6 +39,7 @@ class BookingController extends Controller
             'title'   => 'New Booking Request',
             'message' => "{$request->user()->name} sent a booking request for {$listing->title}.",
             'data'    => json_encode(['booking_id' => $booking->id, 'listing_id' => $listing->id]),
+            'action_url' => route('owner.bookings.show', $booking),
         ]);
 
         return back()->with('success', 'Booking request sent! The owner will confirm within 24 hours.');
