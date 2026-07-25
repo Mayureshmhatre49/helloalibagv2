@@ -16,22 +16,25 @@
     @if($notifications->count() > 0)
         <div class="space-y-2">
             @foreach($notifications as $notification)
-                <a href="{{ route('notifications.read', $notification) }}"
-                   class="flex items-start gap-4 p-4 rounded-xl border transition-all {{ $notification->read_at ? 'bg-white border-border-light' : 'bg-primary/5 border-primary/20' }} hover:shadow-sm">
-                    <div class="w-10 h-10 rounded-full bg-background-light flex items-center justify-center flex-shrink-0">
-                        <span class="material-symbols-outlined {{ $notification->getIconClass() }} text-[20px]">{{ $notification->getIcon() }}</span>
-                    </div>
-                    <div class="flex-1 min-w-0">
-                        <div class="flex items-center justify-between gap-2">
-                            <p class="text-sm font-semibold text-text-main">{{ $notification->title }}</p>
-                            @if(!$notification->read_at)
-                                <span class="w-2 h-2 bg-primary rounded-full flex-shrink-0"></span>
-                            @endif
+                <form method="POST" action="{{ route('notifications.read', $notification) }}">
+                    @csrf
+                    <button type="submit"
+                       class="w-full flex items-start gap-4 p-4 rounded-xl border transition-all text-left {{ $notification->read_at ? 'bg-white border-border-light' : 'bg-primary/5 border-primary/20' }} hover:shadow-sm">
+                        <div class="w-10 h-10 rounded-full bg-background-light flex items-center justify-center flex-shrink-0">
+                            <span class="material-symbols-outlined {{ $notification->getIconClass() }} text-[20px]">{{ $notification->getIcon() }}</span>
                         </div>
-                        <p class="text-sm text-text-secondary line-clamp-2 mt-0.5">{{ $notification->message }}</p>
-                        <p class="text-xs text-text-secondary mt-1">{{ $notification->created_at->diffForHumans() }}</p>
-                    </div>
-                </a>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between gap-2">
+                                <p class="text-sm font-semibold text-text-main">{{ $notification->title }}</p>
+                                @if(!$notification->read_at)
+                                    <span class="w-2 h-2 bg-primary rounded-full flex-shrink-0"></span>
+                                @endif
+                            </div>
+                            <p class="text-sm text-text-secondary line-clamp-2 mt-0.5">{{ $notification->message }}</p>
+                            <p class="text-xs text-text-secondary mt-1">{{ $notification->created_at->diffForHumans() }}</p>
+                        </div>
+                    </button>
+                </form>
             @endforeach
         </div>
         <div class="mt-6">{{ $notifications->links() }}</div>
