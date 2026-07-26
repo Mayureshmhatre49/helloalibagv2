@@ -74,7 +74,7 @@
 </section>
 
 {{-- ── MAP LAYOUT ──────────────────────────────────────────────────────── --}}
-<section class="bg-slate-50">
+<section class="bg-slate-50 isolate">
     <div class="max-w-[1400px] mx-auto px-4 sm:px-6 py-6">
         <div class="grid lg:grid-cols-[340px_1fr] gap-5"
              x-data="haMap({
