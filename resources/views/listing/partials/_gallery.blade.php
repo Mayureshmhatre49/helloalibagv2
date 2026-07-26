@@ -17,56 +17,36 @@
             <p class="text-sm">No photos yet</p>
         </div>
     @elseif($totalImages === 1)
-        <div class="aspect-[16/9] rounded-3xl overflow-hidden cursor-zoom-in" @click="open = true; current = 0">
+        <div class="aspect-[4/3] rounded-2xl overflow-hidden cursor-zoom-in" @click="open = true; current = 0">
             <img src="{{ $mainImage->url }}" alt="{{ $listing->title }}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
         </div>
     @else
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-2 sm:gap-3">
-            {{-- Main image --}}
-            <div class="relative cursor-zoom-in overflow-hidden group aspect-square w-full rounded-xl sm:rounded-3xl" @click="open = true; current = 0">
-                <img src="{{ $mainImage->url }}" alt="{{ $listing->title }}"
-                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
-            </div>
-
-            @if($gridImages->count() === 1)
-                <div class="relative cursor-zoom-in overflow-hidden group aspect-square w-full rounded-xl sm:rounded-3xl" @click="open = true; current = 1">
-                    <img src="{{ $gridImages[0]->url }}" alt="{{ $listing->title }}"
+        @php
+            $visibleImages = $images->take(5)->values();
+            $extraCount    = max(0, $totalImages - 5);
+        @endphp
+        <div class="grid gap-2"
+             style="grid-template-columns: repeat({{ min($totalImages, 5) <= 3 ? min($totalImages, 5) : (min($totalImages, 5) <= 4 ? 4 : 5) }}, 1fr);">
+            @foreach($visibleImages as $i => $image)
+                @php $isLast = ($i === $visibleImages->count() - 1); @endphp
+                <div class="relative cursor-zoom-in overflow-hidden group rounded-xl aspect-square"
+                     @click="open = true; current = {{ $i }}">
+                    <img src="{{ $image->url }}" alt="{{ $listing->title }}"
                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
-                </div>
-            @elseif($gridImages->count() === 2)
-                <div class="grid grid-rows-2 gap-2 sm:gap-3 aspect-square w-full">
-                    @foreach($gridImages as $i => $image)
-                        <div class="relative cursor-zoom-in overflow-hidden group w-full h-full rounded-xl sm:rounded-3xl" @click="open = true; current = {{ $i + 1 }}">
-                            <img src="{{ $image->url }}" alt="{{ $listing->title }}"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                    @if($isLast && $extraCount > 0)
+                        <div class="absolute inset-0 bg-black/55 flex flex-col items-center justify-center text-white backdrop-blur-[1px]">
+                            <span class="material-symbols-outlined text-3xl mb-1" style="font-variation-settings:'FILL' 1">photo_library</span>
+                            <span class="text-2xl font-bold">+{{ $extraCount }}</span>
+                            <span class="text-xs font-medium mt-1 opacity-80">more photos</span>
                         </div>
-                    @endforeach
+                    @else
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
+                    @endif
                 </div>
-            @else
-                <div class="grid grid-cols-2 grid-rows-2 gap-2 sm:gap-3 aspect-square w-full">
-                    @foreach($gridImages as $i => $image)
-                        @php $isLast = ($i === 3); @endphp
-                        <div class="relative cursor-zoom-in overflow-hidden group w-full h-full rounded-xl sm:rounded-3xl" @click="open = true; current = {{ $i + 1 }}">
-                            <img src="{{ $image->url }}" alt="{{ $listing->title }}"
-                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            @if($isLast && $extraCount > 0)
-                                <div class="absolute inset-0 bg-black/55 flex flex-col items-center justify-center text-white backdrop-blur-[1px]">
-                                    <span class="material-symbols-outlined text-4xl mb-1" style="font-variation-settings:'FILL' 1">photo_library</span>
-                                    <span class="text-3xl font-bold">+{{ $extraCount }}</span>
-                                    <span class="text-sm font-medium mt-1 opacity-80">more photos</span>
-                                </div>
-                            @else
-                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
-                            @endif
-                        </div>
-                    @endforeach
-                </div>
-            @endif
+            @endforeach
         </div>
 
+        @if($totalImages > 5)
         <div class="flex justify-end mt-2">
             <button @click="open = true; current = 0"
                 class="flex items-center gap-2 text-sm font-bold text-slate-700 border border-slate-300 bg-white hover:bg-slate-50 px-4 py-2 rounded-xl shadow-sm transition-all">
@@ -74,6 +54,7 @@
                 View all {{ $totalImages }} photos
             </button>
         </div>
+        @endif
     @endif
 
     {{-- Fullscreen Gallery Lightbox --}}
