@@ -1,19 +1,23 @@
-@component('mail::message')
-# New Contact Form Submission
+<x-mail::message>
 
-You have received a new message via the Hello Alibaug contact form.
+# 📬 New Contact Form Submission
 
+A new message has been received through the Hello Alibaug contact form.
+
+<x-mail::panel>
 **From:** {{ $senderName }}
 **Email:** {{ $senderEmail }}
 **Subject:** {{ $subject }}
+</x-mail::panel>
 
 **Message:**
+
 > {!! nl2br(e($messageBody)) !!}
 
 ---
 
 *Reply directly to this email to respond to {{ $senderName }}.*
 
-Thanks,
-{{ config('app.name') }}
-@endcomponent
+**The Hello Alibaug Team**
+
+</x-mail::message>

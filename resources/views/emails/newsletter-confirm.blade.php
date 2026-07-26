@@ -1,14 +1,29 @@
-@component('mail::message')
-# Confirm Your Subscription
+<x-mail::message>
 
-Thanks for signing up for Hello Alibaug Insights! Please confirm your email to start receiving our best travel guides, hidden gems, and exclusive villa deals.
+# Confirm Your Subscription 📬
 
-@component('mail::button', ['url' => route('newsletter.confirm', $subscriber->unsubscribe_token)])
-Confirm Subscription
-@endcomponent
+Hi there,
 
-If you didn't sign up for this, you can safely ignore this email — you won't be subscribed unless you click the button above.
+Thank you for signing up for **Hello Alibaug Insights**! 
 
-Thanks,
-{{ config('app.name') }}
-@endcomponent
+You're one click away from receiving:
+
+- 🏖️ **Hidden gems** across Alibaug & the Konkan coast
+- 🏡 **Exclusive villa deals** and seasonal offers
+- 🍽️ **Food guides** — the best local restaurants and experiences
+- 📅 **Events & festivals** happening near you
+
+Please confirm your email address to activate your subscription.
+
+<x-mail::button :url="route('newsletter.confirm', $subscriber->unsubscribe_token)">
+Yes, Confirm My Subscription →
+</x-mail::button>
+
+---
+
+*Didn't sign up for this? No worries — just ignore this email and you won't be added to our list.*
+
+Warm regards,<br>
+**The Hello Alibaug Team**
+
+</x-mail::message>
