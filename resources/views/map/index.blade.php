@@ -17,6 +17,9 @@
     /* Leaflet div-icons render content outside the iconAnchor box — override to allow that */
     .leaflet-div-icon { background: transparent !important; border: 0 !important; }
 
+    /* Contain Leaflet's high internal z-indexes inside the map section stacking context */
+    .ha-map-section { position: relative; z-index: 0; }
+
     .ha-marker {
         background: white;
         border-radius: 9999px;
@@ -74,7 +77,7 @@
 </section>
 
 {{-- ── MAP LAYOUT ──────────────────────────────────────────────────────── --}}
-<section class="bg-slate-50 isolate">
+<section class="bg-slate-50 ha-map-section">
     <div class="max-w-[1400px] mx-auto px-4 sm:px-6 py-6">
         <div class="grid lg:grid-cols-[340px_1fr] gap-5"
              x-data="haMap({

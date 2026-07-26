@@ -39,7 +39,7 @@
 </head>
 <body class="bg-background-light text-slate-900 font-display antialiased overflow-x-hidden">
     {{-- Navbar --}}
-    <header class="sticky top-0 z-50 w-full transition-all duration-300" 
+    <header class="sticky top-0 z-[9999] w-full transition-all duration-300" 
             x-data="{ 
                 mobileOpen: false, 
                 mobileSearch: false,
