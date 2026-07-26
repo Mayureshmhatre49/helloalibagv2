@@ -204,7 +204,7 @@
             $wizardAreas  = $areas->where('is_active', true)->values();
         @endphp
 
-        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden"
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-100"
              x-data="{
                  step: 1,
                  purpose: '',
@@ -286,11 +286,11 @@
                          return this.allAreas.filter(a => a.name.toLowerCase().includes(q));
                      },
                      selectArea(id, name) {
-                         this.area = id;
-                         this.areaName = name;
+                         this.$parent.area = id;
+                         this.$parent.areaName = name;
                          this.areaSearch = name;
                          this.areaOpen = false;
-                         this.$nextTick(() => this.next());
+                         this.$nextTick(() => this.$parent.next());
                      }
                  }">
                 <h3 class="text-slate-900 font-bold text-xl sm:text-2xl mb-2 text-center">Which part of Alibaug?</h3>
@@ -345,12 +345,12 @@
                 </div>
 
                 <div class="flex items-center justify-between gap-4 pt-4 border-t border-slate-100">
-                    <button type="button" @click="prev()"
+                    <button type="button" @click="$parent.prev()"
                             class="inline-flex items-center gap-1.5 text-slate-600 hover:text-slate-900 font-semibold text-sm transition-colors">
                         <span class="material-symbols-outlined text-[18px]">arrow_back</span>
                         Back
                     </button>
-                    <button type="button" @click="area = ''; areaName = 'Anywhere'; areaSearch = ''; next()"
+                    <button type="button" @click="$parent.area = ''; $parent.areaName = 'Anywhere'; areaSearch = ''; $parent.next()"
                             class="text-slate-500 hover:text-primary font-semibold text-sm transition-colors">
                         Skip — show me everywhere →
                     </button>
