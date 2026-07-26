@@ -182,7 +182,7 @@
 {{-- ═══════════════════════════════════════════════════════════════
      PLAN YOUR TRIP WIZARD
 ═══════════════════════════════════════════════════════════════ --}}
-<section class="relative bg-gradient-to-br from-slate-50 via-white to-slate-50 py-12 sm:py-16 border-b border-slate-100 overflow-hidden">
+<section class="relative z-10 bg-gradient-to-br from-slate-50 via-white to-slate-50 py-12 sm:py-16 border-b border-slate-100">
     {{-- Decorative blobs --}}
     <div class="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
     <div class="absolute bottom-0 left-0 w-96 h-96 bg-amber-400/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
