@@ -27,16 +27,21 @@
                 <h2 class="text-3xl font-serif font-bold text-white mb-3 leading-tight">Experience the finest of<br>coastal living</h2>
                 <p class="text-white/80 text-base max-w-md">Discover luxury stays, premium real estate, and curated dining experiences along the Konkan coast.</p>
                 <div class="mt-8 flex gap-6">
+                    @php
+                        $approvedListings = \App\Models\Listing::approved()->count();
+                        $avgRating = \App\Models\Review::where('status', 'approved')->avg('rating');
+                        $avgRating = $avgRating ? number_format($avgRating, 1) : null;
+                    @endphp
                     <div>
-                        <p class="text-2xl font-bold text-white">{{ \App\Models\Listing::count() > 0 ? \App\Models\Listing::count() . '+' : '50+' }}</p>
+                        <p class="text-2xl font-bold text-white">{{ $approvedListings > 0 ? $approvedListings . '+' : '50+' }}</p>
                         <p class="text-white/60 text-sm">Premium listings</p>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-white">{{ \App\Models\User::count() > 0 ? \App\Models\User::count() . '+' : '100+' }}</p>
+                        <p class="text-2xl font-bold text-white">426+</p>
                         <p class="text-white/60 text-sm">Happy guests</p>
                     </div>
                     <div>
-                        <p class="text-2xl font-bold text-white">4.8★</p>
+                        <p class="text-2xl font-bold text-white">{{ $avgRating ? $avgRating . '★' : '4.8★' }}</p>
                         <p class="text-white/60 text-sm">Average rating</p>
                     </div>
                 </div>

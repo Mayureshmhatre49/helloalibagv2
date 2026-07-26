@@ -200,8 +200,8 @@
         </div>
 
         @php
-            $wizardCats = $categories->take(6);
-            $wizardAreas = $areas->take(6);
+            $wizardCats   = $categories->take(6);
+            $wizardAreas  = $areas->where('is_active', true)->values();
         @endphp
 
         <div class="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden"
@@ -275,29 +275,82 @@
                  x-transition:enter-start="opacity-0 translate-y-2"
                  x-transition:enter-end="opacity-100 translate-y-0"
                  style="display: none;"
-                 class="p-6 sm:p-10">
+                 class="p-6 sm:p-10"
+                 x-data="{
+                     areaSearch: '',
+                     areaOpen: false,
+                     allAreas: @js($wizardAreas->map(fn($a) => ['id' => (string)$a->id, 'name' => $a->name])->values()),
+                     get filteredAreas() {
+                         if (!this.areaSearch) return this.allAreas;
+                         const q = this.areaSearch.toLowerCase();
+                         return this.allAreas.filter(a => a.name.toLowerCase().includes(q));
+                     },
+                     selectArea(id, name) {
+                         this.area = id;
+                         this.areaName = name;
+                         this.areaSearch = name;
+                         this.areaOpen = false;
+                         this.$nextTick(() => this.next());
+                     }
+                 }">
                 <h3 class="text-slate-900 font-bold text-xl sm:text-2xl mb-2 text-center">Which part of Alibaug?</h3>
-                <p class="text-text-secondary text-sm mb-8 text-center">Choose a specific area, or skip to see everywhere.</p>
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-                    @foreach ($wizardAreas as $a)
-                        <button type="button"
-                                @click="area = '{{ $a->id }}'; areaName = '{{ $a->name }}'; next()"
-                                class="bg-white border-2 border-slate-200 hover:border-primary hover:bg-primary/5 active:scale-[0.98] rounded-2xl px-4 py-4 transition-all text-left"
-                                :class="area === '{{ $a->id }}' ? 'border-primary bg-primary/5 ring-4 ring-primary/15' : ''">
-                            <div class="flex items-center gap-2">
-                                <span class="material-symbols-outlined text-primary text-[20px]">location_on</span>
-                                <p class="text-slate-900 font-bold text-sm">{{ $a->name }}</p>
-                            </div>
+                <p class="text-text-secondary text-sm mb-6 text-center">Choose a specific area, or skip to see everywhere.</p>
+
+                {{-- Searchable Dropdown --}}
+                <div class="relative max-w-sm mx-auto mb-6" @click.outside="areaOpen = false">
+                    <div class="relative">
+                        <span class="absolute left-3.5 top-1/2 -translate-y-1/2 material-symbols-outlined text-primary text-[20px] pointer-events-none">location_on</span>
+                        <input type="text"
+                               x-model="areaSearch"
+                               @focus="areaOpen = true"
+                               @input="areaOpen = true"
+                               placeholder="Search or select an area..."
+                               class="w-full pl-10 pr-10 py-3.5 border-2 border-slate-200 rounded-2xl text-slate-900 font-semibold text-sm placeholder:font-normal placeholder:text-slate-400 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition-all bg-white">
+                        <button type="button" @click="areaOpen = !areaOpen"
+                                class="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors">
+                            <span class="material-symbols-outlined text-[20px]" x-text="areaOpen ? 'expand_less' : 'expand_more'">expand_more</span>
                         </button>
-                    @endforeach
+                    </div>
+
+                    {{-- Dropdown List --}}
+                    <div x-show="areaOpen"
+                         x-transition:enter="transition ease-out duration-150"
+                         x-transition:enter-start="opacity-0 -translate-y-1"
+                         x-transition:enter-end="opacity-100 translate-y-0"
+                         x-transition:leave="transition ease-in duration-100"
+                         x-transition:leave-start="opacity-100 translate-y-0"
+                         x-transition:leave-end="opacity-0 -translate-y-1"
+                         class="absolute z-30 top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-2xl shadow-xl overflow-hidden max-h-64 overflow-y-auto">
+                        <template x-for="a in filteredAreas" :key="a.id">
+                            <button type="button"
+                                    @click="selectArea(a.id, a.name)"
+                                    class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-primary/5 transition-colors group"
+                                    :class="area === a.id ? 'bg-primary/8 text-primary' : 'text-slate-700'">
+                                <span class="material-symbols-outlined text-[18px] flex-shrink-0"
+                                      :class="area === a.id ? 'text-primary' : 'text-slate-300 group-hover:text-primary'"
+                                      style="font-variation-settings:'FILL' 1">location_on</span>
+                                <span class="font-semibold text-sm" x-text="a.name"></span>
+                                <template x-if="area === a.id">
+                                    <span class="ml-auto material-symbols-outlined text-primary text-[18px]" style="font-variation-settings:'FILL' 1">check_circle</span>
+                                </template>
+                            </button>
+                        </template>
+                        <template x-if="filteredAreas.length === 0">
+                            <div class="px-4 py-6 text-center text-slate-400 text-sm">
+                                <span class="material-symbols-outlined text-2xl block mb-1">search_off</span>
+                                No areas found
+                            </div>
+                        </template>
+                    </div>
                 </div>
+
                 <div class="flex items-center justify-between gap-4 pt-4 border-t border-slate-100">
                     <button type="button" @click="prev()"
                             class="inline-flex items-center gap-1.5 text-slate-600 hover:text-slate-900 font-semibold text-sm transition-colors">
                         <span class="material-symbols-outlined text-[18px]">arrow_back</span>
                         Back
                     </button>
-                    <button type="button" @click="area = ''; areaName = 'Anywhere'; next()"
+                    <button type="button" @click="area = ''; areaName = 'Anywhere'; areaSearch = ''; next()"
                             class="text-slate-500 hover:text-primary font-semibold text-sm transition-colors">
                         Skip — show me everywhere →
                     </button>

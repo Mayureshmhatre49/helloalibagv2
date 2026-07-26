@@ -44,9 +44,10 @@
                 mobileOpen: false, 
                 mobileSearch: false,
                 isHome: {{ request()->routeIs('home') ? 'true' : 'false' }},
+                isMap: {{ request()->routeIs('map.*') ? 'true' : 'false' }},
                 scrolled: false 
             }" 
-            @scroll.window="scrolled = (window.pageYOffset > 300)"
+            @scroll.window="if (!isMap) scrolled = (window.pageYOffset > 300)"
             :class="scrolled ? 'shadow-xl' : 'shadow-lg'">
 
         {{-- ── Primary Blue Header ─────────────────────────────────────────── --}}

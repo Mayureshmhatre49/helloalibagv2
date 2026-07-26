@@ -133,6 +133,9 @@
                                         <span class="material-symbols-outlined text-[12px]">location_on</span>
                                         <span x-text="m.area"></span>
                                     </p>
+                                    <template x-if="m.price">
+                                        <p class="text-[#e8831a] text-xs font-bold mt-1" x-text="m.price"></p>
+                                    </template>
                                 </div>
                                 <template x-if="m.is_featured">
                                     <span class="material-symbols-outlined text-amber-500 text-[16px] flex-shrink-0" title="Featured" style="font-variation-settings:'FILL' 1">star</span>
