@@ -13,18 +13,40 @@ class CreateAdminUser extends Command
     protected $signature = 'user:create-admin
         {email : Login email for the new admin}
         {name : Display name}
-        {--password= : Set a specific password (omit to auto-generate and print it)}';
+        {--password= : Set a specific password (omit to auto-generate and print it)}
+        {--promote : If the email already exists, promote that account to admin instead of aborting}';
 
-    protected $description = 'Create a new user with the admin role. Safe to re-run — skips if the email already exists.';
+    protected $description = 'Create a new user with the admin role, or promote an existing account to admin with --promote. Safe to re-run — skips if the email already exists and --promote wasn\'t given.';
 
     public function handle(): int
     {
         $email = strtolower(trim($this->argument('email')));
 
-        if (User::where('email', $email)->exists()) {
-            $this->warn("A user with email {$email} already exists — no changes made.");
-            $this->line('Use `php artisan user:2fa` / `php artisan user:set-password` to manage that account instead.');
-            return self::FAILURE;
+        $existing = User::with('role')->where('email', $email)->first();
+        if ($existing) {
+            if (! $this->option('promote')) {
+                $currentRole = $existing->role?->slug ?? 'no role';
+                $this->warn("A user with email {$email} already exists (role: {$currentRole}) — no changes made.");
+                $this->line("Re-run with --promote to grant this account admin, or use `php artisan user:2fa` / `php artisan user:set-password` to manage it instead.");
+                return self::FAILURE;
+            }
+
+            if ($existing->role?->slug === 'admin') {
+                $this->info("{$existing->name} <{$existing->email}> is already an admin — nothing to do.");
+                return self::SUCCESS;
+            }
+
+            $adminRole = Role::getBySlug('admin');
+            if (! $adminRole) {
+                $this->error('No "admin" role found in the roles table — aborting.');
+                return self::FAILURE;
+            }
+
+            $fromRole = $existing->role?->slug ?? 'no role';
+            $existing->update(['role_id' => $adminRole->id]);
+            $this->info("Promoted {$existing->name} <{$existing->email}> from '{$fromRole}' to admin.");
+
+            return self::SUCCESS;
         }
 
         $adminRole = Role::getBySlug('admin');
