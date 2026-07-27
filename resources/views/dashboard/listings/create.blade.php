@@ -11,7 +11,8 @@
     init() { if (this.selectedCategory) { this.onCategoryChange(); } },
     onCategoryChange() { this.categorySlug = this.categoryMap[this.selectedCategory] || ''; this.priceLabel = this.priceLabels[this.categorySlug] || 'Price (₹)'; }
 }">
-    <form action="{{ route('owner.listings.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+    <form action="{{ route('owner.listings.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6"
+          onsubmit="this.querySelector('[type=submit]').disabled = true;">
         @csrf
 
         {{-- Basic Info --}}

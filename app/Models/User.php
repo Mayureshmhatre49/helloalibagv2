@@ -26,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
         'name', 'email', 'password', 'phone', 'role_id', 'city_id',
         'bio', 'avatar', 'instagram', 'facebook', 'user_website',
         'two_factor_secret', 'two_factor_confirmed_at', 'two_factor_enabled',
+        'is_active',
     ];
 
     protected $hidden = [
@@ -38,6 +39,7 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
         'email_verified_at' => 'datetime',
         'two_factor_confirmed_at' => 'datetime',
         'two_factor_enabled' => 'boolean',
+        'is_active' => 'boolean',
         'password' => 'hashed',
     ];
 
@@ -108,6 +110,16 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function classifieds(): HasMany
+    {
+        return $this->hasMany(Classified::class, 'seller_id');
+    }
+
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(Booking::class);
     }
 
     public function trips(): HasMany

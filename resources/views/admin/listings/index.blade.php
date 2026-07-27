@@ -91,7 +91,16 @@
                                         Edit
                                     </a>
                                     @if($listing->status === 'pending')
-                                        <form method="POST" action="{{ route('admin.listings.approve', $listing) }}">
+                                        @php
+                                            $approveWarnings = [];
+                                            if ($listing->images->isEmpty()) $approveWarnings[] = 'it has no photos';
+                                            if (empty($listing->phone) && empty($listing->email)) $approveWarnings[] = 'it has no contact phone or email';
+                                            $approveConfirm = $approveWarnings
+                                                ? 'Approve "' . addslashes($listing->title) . '" even though ' . implode(' and ', $approveWarnings) . '?'
+                                                : '';
+                                        @endphp
+                                        <form method="POST" action="{{ route('admin.listings.approve', $listing) }}"
+                                              @if($approveConfirm) onsubmit="return confirm('{{ $approveConfirm }}')" @endif>
                                             @csrf
                                             <button class="flex items-center gap-1 text-xs font-medium text-green-600 bg-green-50 hover:bg-green-100 px-3 py-1.5 rounded-lg transition-colors" title="Approve">
                                                 <span class="material-symbols-outlined text-[16px]">check</span>

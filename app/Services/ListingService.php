@@ -144,20 +144,35 @@ class ListingService
         });
     }
 
+    /**
+     * Approve a listing. Uses an atomic conditional update (rather than a
+     * plain save) so that if two admins approve the same listing at nearly
+     * the same time, only the first one actually applies and sends the
+     * approval email/notification — the second is a silent no-op instead of
+     * re-sending it.
+     */
     public function approve(Listing $listing, User $admin): Listing
     {
-        $listing->update([
-            'status' => 'approved',
-            'approved_by' => $admin->id,
-            'approved_at' => now(),
-        ]);
-        
+        $applied = Listing::where('id', $listing->id)
+            ->where('status', '!=', 'approved')
+            ->update([
+                'status' => 'approved',
+                'approved_by' => $admin->id,
+                'approved_at' => now(),
+            ]);
+
+        $listing = $listing->fresh();
+
+        if ($applied === 0) {
+            return $listing;
+        }
+
         try {
             Mail::to($listing->creator->email)->send(new ListingApproved($listing));
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\Log::error('ListingApproved mail failed: ' . $e->getMessage());
         }
-        
+
         \App\Models\UserNotification::create([
             'user_id' => $listing->created_by,
             'type' => 'listing_approved',
@@ -166,23 +181,35 @@ class ListingService
             'data' => ['listing_id' => $listing->id],
             'action_url' => route('listing.show', [$listing->category->slug, $listing->slug]),
         ]);
-        
+
         return $listing;
     }
 
+    /**
+     * Reject a listing. Same atomic-guard approach as approve() — a listing
+     * already rejected won't re-trigger the rejection email/notification.
+     */
     public function reject(Listing $listing, ?string $reason = null): Listing
     {
-        $listing->update([
-            'status' => 'rejected',
-            'rejection_reason' => $reason
-        ]);
-        
+        $applied = Listing::where('id', $listing->id)
+            ->where('status', '!=', 'rejected')
+            ->update([
+                'status' => 'rejected',
+                'rejection_reason' => $reason,
+            ]);
+
+        $listing = $listing->fresh();
+
+        if ($applied === 0) {
+            return $listing;
+        }
+
         try {
             Mail::to($listing->creator->email)->send(new ListingRejected($listing));
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\Log::error('ListingRejected mail failed: ' . $e->getMessage());
         }
-        
+
         \App\Models\UserNotification::create([
             'user_id' => $listing->created_by,
             'type' => 'listing_rejected',
@@ -191,8 +218,36 @@ class ListingService
             'data' => ['listing_id' => $listing->id],
             'action_url' => route('owner.listings.edit', $listing),
         ]);
-        
+
         return $listing;
+    }
+
+    /**
+     * Give every admin an in-app bell notification that a listing needs
+     * review — whether it's brand new or an edit that bounced back to
+     * pending. Used from every listing-creation/resubmission entry point so
+     * none of them can silently skip notifying admins.
+     */
+    public function notifyAdminsOfSubmission(Listing $listing, bool $isResubmission = false): void
+    {
+        $admins = User::whereHas('role', fn ($q) => $q->where('slug', 'admin'))->get();
+
+        foreach ($admins as $admin) {
+            try {
+                \App\Models\UserNotification::create([
+                    'user_id' => $admin->id,
+                    'type' => $isResubmission ? 'listing_resubmitted' : 'listing_submitted',
+                    'title' => $isResubmission ? 'Listing Resubmitted' : 'New Listing Submitted',
+                    'message' => $isResubmission
+                        ? '"' . $listing->title . '" was edited and resubmitted for approval.'
+                        : '"' . $listing->title . '" was submitted and is awaiting approval.',
+                    'data' => ['listing_id' => $listing->id],
+                    'action_url' => route('admin.listings.index', ['status' => 'pending']),
+                ]);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Admin listing notification failed: ' . $e->getMessage());
+            }
+        }
     }
 
     public function getUserListings(User $user, ?string $status = null, int $perPage = 10): LengthAwarePaginator

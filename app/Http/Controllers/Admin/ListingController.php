@@ -37,17 +37,23 @@ class ListingController extends Controller
 
     public function approve(Listing $listing)
     {
+        $alreadyApproved = $listing->status === 'approved';
         $this->listingService->approve($listing, auth()->user());
 
-        return redirect()->back()->with('success', 'Listing approved successfully!');
+        return redirect()->back()->with('success', $alreadyApproved
+            ? 'This listing was already approved.'
+            : 'Listing approved successfully!');
     }
 
     public function reject(Request $request, Listing $listing)
     {
         $request->validate(['rejection_reason' => 'required|string|max:1000']);
+        $alreadyRejected = $listing->status === 'rejected';
         $this->listingService->reject($listing, $request->rejection_reason);
 
-        return redirect()->back()->with('success', 'Listing rejected with reason.');
+        return redirect()->back()->with('success', $alreadyRejected
+            ? 'This listing was already rejected.'
+            : 'Listing rejected with reason.');
     }
 
     public function toggleFeatured(Listing $listing)

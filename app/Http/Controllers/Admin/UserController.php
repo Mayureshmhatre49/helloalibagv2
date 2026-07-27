@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $query = User::with(['role', 'listings']);
+        $query = User::with('role')->withCount(['listings', 'reviews', 'classifieds', 'bookings']);
 
         if ($request->filled('search')) {
             $search = $request->search;
@@ -35,12 +35,29 @@ class UserController extends Controller
         return view('admin.users.index', compact('users', 'roles'));
     }
 
+    /**
+     * Suspend or reactivate a user. Suspending also kills their active
+     * sessions so it takes effect immediately, not just on their next login.
+     */
     public function toggleStatus(User $user)
     {
-        // This is a placeholder since we don't have an 'is_active' column yet.
-        // If we wanted to implement this, we'd need a migration.
-        // For now, let's just show a message.
-        return back()->with('success', "Status toggled for {$user->name} (Feature coming soon)");
+        if ($user->isAdmin()) {
+            return back()->with('error', 'Cannot suspend an administrator.');
+        }
+
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'You cannot suspend your own account.');
+        }
+
+        $user->update(['is_active' => ! $user->is_active]);
+
+        if (! $user->is_active) {
+            \Illuminate\Support\Facades\DB::table('sessions')->where('user_id', $user->id)->delete();
+
+            return back()->with('success', "{$user->name} has been suspended and signed out.");
+        }
+
+        return back()->with('success', "{$user->name} has been reactivated.");
     }
 
     public function destroy(User $user)

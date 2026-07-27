@@ -469,9 +469,11 @@
                             class="bg-slate-900 hover:bg-black text-white px-8 py-3 rounded-xl font-bold transition-all shadow-lg shadow-slate-900/20 flex items-center gap-2">
                             Next <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                         </button>
-                        <button type="submit" x-show="step === totalSteps" :disabled="imagesCount < 1"
+                        <button type="submit" x-show="step === totalSteps" :disabled="imagesCount < 1 || submitting"
+                            @click="submitting = true; setTimeout(() => submitting = false, 8000)"
                             class="bg-primary hover:bg-primary/90 text-white px-10 py-3 rounded-xl font-bold transition-all shadow-xl shadow-primary/30 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
-                            <span class="material-symbols-outlined text-[20px]">rocket_launch</span> Submit Listing
+                            <span class="material-symbols-outlined text-[20px]">rocket_launch</span>
+                            <span x-text="submitting ? 'Submitting…' : 'Submit Listing'"></span>
                         </button>
                     </div>
                 </div>
@@ -491,6 +493,7 @@ document.addEventListener('alpine:init', () => {
         imagesCount: 0,
         previews: [],
         photoError: false,
+        submitting: false,
         areaMap: { @foreach($areas as $area)'{{ $area->id }}': '{{ addslashes($area->name) }}',@endforeach },
         formData: {
             title: '{{ old("title", "") }}',

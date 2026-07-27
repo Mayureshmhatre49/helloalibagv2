@@ -71,7 +71,13 @@
                                     @endif
                                     <a href="{{ route('admin.classifieds.edit', $item) }}" class="text-xs font-semibold px-3 py-1.5 rounded-lg border border-border-light hover:bg-slate-50">Edit</a>
                                     @if($item->status === 'pending' || $item->status === 'rejected')
-                                        <form method="POST" action="{{ route('admin.classifieds.approve', $item) }}">
+                                        @php
+                                            $itemApproveConfirm = $item->images->isEmpty()
+                                                ? 'Approve "' . addslashes($item->title) . '" even though it has no photos?'
+                                                : '';
+                                        @endphp
+                                        <form method="POST" action="{{ route('admin.classifieds.approve', $item) }}"
+                                              @if($itemApproveConfirm) onsubmit="return confirm('{{ $itemApproveConfirm }}')" @endif>
                                             @csrf
                                             <button class="text-xs font-bold px-3 py-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700">Approve</button>
                                         </form>

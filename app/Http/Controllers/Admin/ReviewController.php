@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ReviewApproved;
+use App\Mail\ReviewRejected;
 use App\Models\Review;
+use App\Models\UserNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ReviewController extends Controller
 {
@@ -36,14 +41,54 @@ class ReviewController extends Controller
 
     public function approve(Review $review)
     {
-        $review->update(['status' => 'approved']);
-        return back()->with('success', 'Review approved successfully.');
+        $applied = Review::where('id', $review->id)->where('status', '!=', 'approved')->update(['status' => 'approved']);
+        $review = $review->fresh();
+
+        if ($applied > 0) {
+            $this->notify($review, 'approved');
+        }
+
+        return back()->with('success', $applied > 0 ? 'Review approved successfully.' : 'This review was already approved.');
     }
 
     public function reject(Review $review)
     {
-        $review->update(['status' => 'rejected']);
-        return back()->with('success', 'Review rejected successfully.');
+        $applied = Review::where('id', $review->id)->where('status', '!=', 'rejected')->update(['status' => 'rejected']);
+        $review = $review->fresh();
+
+        if ($applied > 0) {
+            $this->notify($review, 'rejected');
+        }
+
+        return back()->with('success', $applied > 0 ? 'Review rejected successfully.' : 'This review was already rejected.');
+    }
+
+    private function notify(Review $review, string $outcome): void
+    {
+        try {
+            Mail::to($review->user->email)->send(
+                $outcome === 'approved' ? new ReviewApproved($review) : new ReviewRejected($review)
+            );
+        } catch (\Throwable $e) {
+            Log::warning("Review {$outcome} email failed: " . $e->getMessage());
+        }
+
+        try {
+            UserNotification::create([
+                'user_id' => $review->user_id,
+                'type' => "review_{$outcome}",
+                'title' => $outcome === 'approved' ? 'Review Approved' : 'Review Not Approved',
+                'message' => $outcome === 'approved'
+                    ? 'Your review of "' . $review->listing->title . '" is now live.'
+                    : 'Your review of "' . $review->listing->title . '" was not approved.',
+                'data' => ['review_id' => $review->id, 'listing_id' => $review->listing_id],
+                'action_url' => $outcome === 'approved'
+                    ? route('listing.show', [$review->listing->category->slug, $review->listing->slug]) . '#reviews'
+                    : route('listing.show', [$review->listing->category->slug, $review->listing->slug]),
+            ]);
+        } catch (\Throwable $e) {
+            Log::warning("Review {$outcome} notification failed: " . $e->getMessage());
+        }
     }
 
     public function destroy(Review $review)

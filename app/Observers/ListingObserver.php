@@ -51,10 +51,19 @@ class ListingObserver
     /**
      * Any listing mutation (coordinates, images, price, status) invalidates the
      * cached map markers and regenerates the sitemap.
+     *
+     * Sitemap generation queries the whole catalog and writes to disk — too
+     * expensive to run synchronously on every mutation (including a simple
+     * view-count increment on every page load). Throttle it to at most once
+     * every 10 minutes; Cache::add() is atomic so concurrent requests can't
+     * both win the lock and run it twice.
      */
     private function onChange(): void
     {
         Cache::forget('map.markers.approved');
-        Artisan::call('sitemap:generate');
+
+        if (Cache::add('sitemap:regenerate-lock', true, now()->addMinutes(10))) {
+            Artisan::call('sitemap:generate');
+        }
     }
 }

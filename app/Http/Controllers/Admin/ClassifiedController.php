@@ -92,17 +92,23 @@ class ClassifiedController extends Controller
 
     public function approve(Classified $classified)
     {
+        $already = $classified->status === 'active';
         $this->service->approve($classified, auth()->user());
 
-        return redirect()->back()->with('success', 'Item approved and now live.');
+        return redirect()->back()->with('success', $already
+            ? 'This item was already approved.'
+            : 'Item approved and now live.');
     }
 
     public function reject(Request $request, Classified $classified)
     {
         $request->validate(['rejection_reason' => 'required|string|max:1000']);
+        $already = $classified->status === 'rejected';
         $this->service->reject($classified, $request->rejection_reason);
 
-        return redirect()->back()->with('success', 'Item rejected with reason.');
+        return redirect()->back()->with('success', $already
+            ? 'This item was already rejected.'
+            : 'Item rejected with reason.');
     }
 
     public function toggleFeatured(Classified $classified)

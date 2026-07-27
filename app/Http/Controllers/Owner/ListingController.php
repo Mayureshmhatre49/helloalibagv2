@@ -101,6 +101,8 @@ class ListingController extends Controller
             }
         }
 
+        $this->listingService->notifyAdminsOfSubmission($listing);
+
         return redirect()->route('owner.listings.index')
             ->with('success', 'Listing submitted for approval!');
     }
@@ -161,14 +163,22 @@ class ListingController extends Controller
         $listing->tags()->sync($request->input('tags', []));
 
         // Editing resubmits the listing for review — the (possibly changed)
-        // content must be re-approved before it goes live again.
+        // content must be re-approved before it goes live again. Any prior
+        // "Verified" trust badge is cleared too, since it vouched for the old
+        // content, not whatever the owner just changed it to.
         $wasApproved = $listing->status === 'approved';
         $listing->update([
             'status' => 'pending',
             'rejection_reason' => null,
             'approved_at' => null,
             'approved_by' => null,
+            'is_verified' => false,
+            'verified_at' => null,
+            'verification_note' => null,
+            'verified_by' => null,
         ]);
+
+        $this->listingService->notifyAdminsOfSubmission($listing, isResubmission: true);
 
         // Handle uploaded gallery images
         if ($request->hasFile('images')) {

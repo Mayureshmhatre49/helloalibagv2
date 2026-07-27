@@ -64,27 +64,43 @@ class ClassifiedService
         return $classified->fresh();
     }
 
+    /**
+     * Approve a classified. Atomic conditional update so two admins acting
+     * near-simultaneously on the same item can't both fire the notification.
+     */
     public function approve(Classified $classified, User $admin): Classified
     {
-        $classified->update([
-            'status' => 'active',
-            'approved_by' => $admin->id,
-            'approved_at' => now(),
-            'expires_at' => now()->addDays(self::LIVE_DAYS),
-        ]);
+        $applied = Classified::where('id', $classified->id)
+            ->where('status', '!=', 'active')
+            ->update([
+                'status' => 'active',
+                'approved_by' => $admin->id,
+                'approved_at' => now(),
+                'expires_at' => now()->addDays(self::LIVE_DAYS),
+            ]);
 
-        $this->notify($classified, 'classified_approved', 'Your item is live!',
-            '"' . $classified->title . '" has been approved and is now listed in the marketplace.');
+        $classified = $classified->fresh();
+
+        if ($applied > 0) {
+            $this->notify($classified, 'classified_approved', 'Your item is live!',
+                '"' . $classified->title . '" has been approved and is now listed in the marketplace.');
+        }
 
         return $classified;
     }
 
     public function reject(Classified $classified, ?string $reason = null): Classified
     {
-        $classified->update(['status' => 'rejected', 'rejection_reason' => $reason]);
+        $applied = Classified::where('id', $classified->id)
+            ->where('status', '!=', 'rejected')
+            ->update(['status' => 'rejected', 'rejection_reason' => $reason]);
 
-        $this->notify($classified, 'classified_rejected', 'Item needs changes',
-            '"' . $classified->title . '" was not approved. Reason: ' . $reason);
+        $classified = $classified->fresh();
+
+        if ($applied > 0) {
+            $this->notify($classified, 'classified_rejected', 'Item needs changes',
+                '"' . $classified->title . '" was not approved. Reason: ' . $reason);
+        }
 
         return $classified;
     }

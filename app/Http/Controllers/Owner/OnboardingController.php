@@ -7,12 +7,16 @@ use App\Models\Category;
 use App\Models\Listing;
 use App\Models\Amenity;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ListingSubmitted;
 use App\Models\User;
+use App\Services\ListingService;
 
 class OnboardingController extends Controller
 {
+    public function __construct(protected ListingService $listingService) {}
+
     public function start(Request $request)
     {
         // No limit guard here — the category isn't chosen yet, and real estate
@@ -107,56 +111,79 @@ class OnboardingController extends Controller
             'images.min'           => 'Please upload at least 1 photo.',
         ]);
 
-        $listing              = new Listing();
-        $listing->title       = $request->title;
-        $listing->category_id = $request->category_id;
-        $listing->area_id     = $request->area_id;
-        $listing->description = $request->description;
-        $listing->price       = $request->price;
-        $listing->phone       = $request->phone;
-        $listing->email       = $request->email;
-        $listing->address     = $request->address;
-        $listing->latitude    = $request->filled('latitude') ? $request->latitude : null;
-        $listing->longitude   = $request->filled('longitude') ? $request->longitude : null;
-        $listing->status      = 'pending';
-        $listing->created_by  = $request->user()->id;
-        $listing->save();
+        $category = Category::with('attributes')->findOrFail($request->category_id);
 
-        if ($request->filled('meta_title') || $request->filled('meta_description')) {
-            $listing->seoMeta()->create([
-                'title'       => $request->meta_title ?? $request->title,
-                'description' => $request->meta_description,
+        // Category-required attributes are marked `required` in the HTML, but a
+        // direct POST bypasses that — enforce it server-side too.
+        $missingRequired = $category->attributes
+            ->where('is_required', true)
+            ->reject(fn ($attr) => filled($request->input("dynamic_attributes.{$attr->id}")))
+            ->pluck('name');
+
+        if ($missingRequired->isNotEmpty()) {
+            return back()->withInput()->withErrors([
+                'dynamic_attributes' => 'Please fill in: ' . $missingRequired->implode(', '),
             ]);
         }
 
-        if ($request->has('dynamic_attributes')) {
-            foreach ($request->dynamic_attributes as $key => $value) {
-                if (!empty($value)) {
-                    $listing->attributeValues()->create([
-                        'category_attribute_id' => $key,
-                        'value' => is_array($value) ? json_encode($value) : $value,
-                    ]);
+        $validAttributeIds = $category->attributes->pluck('id')->all();
+
+        $listing = DB::transaction(function () use ($request, $imageService, $validAttributeIds) {
+            $listing              = new Listing();
+            $listing->title       = $request->title;
+            $listing->category_id = $request->category_id;
+            $listing->area_id     = $request->area_id;
+            $listing->description = $request->description;
+            $listing->price       = $request->price;
+            $listing->phone       = $request->phone;
+            $listing->email       = $request->email;
+            $listing->address     = $request->address;
+            $listing->latitude    = $request->filled('latitude') ? $request->latitude : null;
+            $listing->longitude   = $request->filled('longitude') ? $request->longitude : null;
+            $listing->status      = 'pending';
+            $listing->created_by  = $request->user()->id;
+            $listing->save();
+
+            if ($request->filled('meta_title') || $request->filled('meta_description')) {
+                $listing->seoMeta()->create([
+                    'title'       => $request->meta_title ?? $request->title,
+                    'description' => $request->meta_description,
+                ]);
+            }
+
+            if ($request->has('dynamic_attributes')) {
+                foreach ($request->dynamic_attributes as $key => $value) {
+                    // Only accept keys that are real attributes of this category —
+                    // a stale/tampered key would otherwise violate the FK constraint.
+                    if (!empty($value) && in_array((int) $key, $validAttributeIds, true)) {
+                        $listing->attributeValues()->create([
+                            'category_attribute_id' => $key,
+                            'value' => is_array($value) ? json_encode($value) : $value,
+                        ]);
+                    }
                 }
             }
-        }
 
-        if ($request->has('amenities')) {
-            $listing->amenities()->sync($request->amenities);
-        }
-
-        if ($request->hasFile('images')) {
-            $sortOrder = 0;
-            foreach ($request->file('images') as $file) {
-                $imageData = $imageService->store($file, 'listings/' . $listing->id);
-                $listing->images()->create([
-                    'path'       => $imageData['path'],
-                    'thumbnail'  => $imageData['thumbnail'] ?? null,
-                    'is_primary' => $sortOrder === 0,
-                    'sort_order' => $sortOrder,
-                ]);
-                $sortOrder++;
+            if ($request->has('amenities')) {
+                $listing->amenities()->sync($request->amenities);
             }
-        }
+
+            if ($request->hasFile('images')) {
+                $sortOrder = 0;
+                foreach ($request->file('images') as $file) {
+                    $imageData = $imageService->store($file, 'listings/' . $listing->id);
+                    $listing->images()->create([
+                        'path'       => $imageData['path'],
+                        'thumbnail'  => $imageData['thumbnail'] ?? null,
+                        'is_primary' => $sortOrder === 0,
+                        'sort_order' => $sortOrder,
+                    ]);
+                    $sortOrder++;
+                }
+            }
+
+            return $listing;
+        });
 
         $request->session()->forget('onboarding_category_id');
 
@@ -176,20 +203,7 @@ class OnboardingController extends Controller
             \Log::warning('Admin listing email failed: ' . $e->getMessage());
         }
 
-        foreach ($admins as $admin) {
-            try {
-                \App\Models\UserNotification::create([
-                    'user_id' => $admin->id,
-                    'type' => 'listing_submitted',
-                    'title' => 'New Listing Submitted',
-                    'message' => '"' . $listing->title . '" was submitted and is awaiting approval.',
-                    'data' => ['listing_id' => $listing->id],
-                    'action_url' => route('admin.listings.index', ['status' => 'pending']),
-                ]);
-            } catch (\Throwable $e) {
-                \Log::warning('Admin listing notification failed: ' . $e->getMessage());
-            }
-        }
+        $this->listingService->notifyAdminsOfSubmission($listing);
 
         $isRealEstate = optional(Category::find($request->category_id))->slug === 'real-estate';
         $message = $isRealEstate

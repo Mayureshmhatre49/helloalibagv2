@@ -144,7 +144,8 @@
 
         {{-- Right Content Area --}}
         <div class="flex-1 min-w-0">
-            <form action="{{ route('owner.listings.update', ['listing' => $listing->slug]) }}" method="POST" enctype="multipart/form-data" id="editForm">
+            <form action="{{ route('owner.listings.update', ['listing' => $listing->slug]) }}" method="POST" enctype="multipart/form-data" id="editForm"
+                  onsubmit="this.querySelector('[type=submit]').disabled = true;">
                 @csrf
                 @method('PUT')
 
