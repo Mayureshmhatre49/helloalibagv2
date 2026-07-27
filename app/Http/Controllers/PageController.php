@@ -37,12 +37,16 @@ class PageController extends Controller
             'message' => 'required|string|min:10|max:5000',
         ]);
 
-        Mail::to(config('mail.from.address'))->send(new ContactFormMail(
-            senderName: $request->name,
-            senderEmail: $request->email,
-            subject: $request->subject,
-            messageBody: $request->message,
-        ));
+        try {
+            Mail::to(config('mail.from.address'))->send(new ContactFormMail(
+                senderName: $request->name,
+                senderEmail: $request->email,
+                subject: $request->subject,
+                messageBody: $request->message,
+            ));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Contact form email failed to send: ' . $e->getMessage());
+        }
 
         return redirect()->route('page.contact')
             ->with('success', 'Thank you for your message! We\'ll get back to you within 24 hours.');
@@ -88,7 +92,11 @@ class PageController extends Controller
             return back()->with('newsletter_success', 'You\'re already subscribed!');
         }
 
-        Mail::to($subscriber->email)->send(new NewsletterConfirmationMail($subscriber));
+        try {
+            Mail::to($subscriber->email)->send(new NewsletterConfirmationMail($subscriber));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Newsletter confirmation email failed to send: ' . $e->getMessage());
+        }
 
         return back()->with('newsletter_success', 'Almost there! Check your inbox to confirm your subscription.');
     }

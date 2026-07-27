@@ -73,7 +73,11 @@ class ReviewController extends Controller
 
         // Notify Listing Owner
         if ($listing->creator) {
-            Mail::to($listing->creator->email)->send(new NewReviewReceived($listing, $review));
+            try {
+                Mail::to($listing->creator->email)->send(new NewReviewReceived($listing, $review));
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Review-received email failed to send: ' . $e->getMessage());
+            }
         }
 
         return redirect()->back()->with('success', 'Your review has been submitted and is pending approval.');

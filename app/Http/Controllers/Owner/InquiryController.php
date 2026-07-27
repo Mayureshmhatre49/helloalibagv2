@@ -69,7 +69,11 @@ class InquiryController extends Controller
         ]);
 
         // Send reply email to the inquirer
-        Mail::to($inquiry->email)->send(new InquiryReplyMail($inquiry));
+        try {
+            Mail::to($inquiry->email)->send(new InquiryReplyMail($inquiry));
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Inquiry reply email failed to send: ' . $e->getMessage());
+        }
 
         return redirect()->route('owner.inquiries.show', $inquiry)
             ->with('success', 'Reply sent successfully. An email has been sent to ' . $inquiry->name . '.');
