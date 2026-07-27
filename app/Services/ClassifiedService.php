@@ -14,7 +14,7 @@ class ClassifiedService
 
     public function store(array $data, User $seller): Classified
     {
-        return Classified::create([
+        $classified = Classified::create([
             'title' => $data['title'],
             'description' => $data['description'] ?? null,
             'price' => $data['price'] ?? null,
@@ -27,6 +27,24 @@ class ClassifiedService
             'contact_phone' => $data['contact_phone'] ?? null,
             'contact_whatsapp' => $data['contact_whatsapp'] ?? null,
         ]);
+
+        $admins = User::whereHas('role', fn ($q) => $q->where('slug', 'admin'))->get();
+        foreach ($admins as $admin) {
+            try {
+                UserNotification::create([
+                    'user_id' => $admin->id,
+                    'type' => 'classified_submitted',
+                    'title' => 'New Classified Submitted',
+                    'message' => '"' . $classified->title . '" was submitted and is awaiting approval.',
+                    'data' => ['classified_id' => $classified->id],
+                    'action_url' => route('admin.classifieds.index', ['status' => 'pending']),
+                ]);
+            } catch (\Throwable $e) {
+                Log::error('Admin classified notification failed: ' . $e->getMessage());
+            }
+        }
+
+        return $classified;
     }
 
     public function update(Classified $classified, array $data): Classified

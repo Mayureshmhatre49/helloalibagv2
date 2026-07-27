@@ -166,13 +166,29 @@ class OnboardingController extends Controller
             \Log::warning('Owner listing email failed: ' . $e->getMessage());
         }
 
+        $admins = User::whereHas('role', fn($q) => $q->where('slug', 'admin'))->get();
+
         try {
-            $admins = User::whereHas('role', fn($q) => $q->where('slug', 'admin'))->get();
             foreach ($admins as $admin) {
                 Mail::to($admin->email)->send(new ListingSubmitted($listing, true));
             }
         } catch (\Exception $e) {
             \Log::warning('Admin listing email failed: ' . $e->getMessage());
+        }
+
+        foreach ($admins as $admin) {
+            try {
+                \App\Models\UserNotification::create([
+                    'user_id' => $admin->id,
+                    'type' => 'listing_submitted',
+                    'title' => 'New Listing Submitted',
+                    'message' => '"' . $listing->title . '" was submitted and is awaiting approval.',
+                    'data' => ['listing_id' => $listing->id],
+                    'action_url' => route('admin.listings.index', ['status' => 'pending']),
+                ]);
+            } catch (\Throwable $e) {
+                \Log::warning('Admin listing notification failed: ' . $e->getMessage());
+            }
         }
 
         $isRealEstate = optional(Category::find($request->category_id))->slug === 'real-estate';

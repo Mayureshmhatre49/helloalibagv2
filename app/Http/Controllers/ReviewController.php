@@ -80,6 +80,23 @@ class ReviewController extends Controller
             }
         }
 
+        // Notify admins so pending reviews don't go unnoticed
+        $admins = \App\Models\User::whereHas('role', fn ($q) => $q->where('slug', 'admin'))->get();
+        foreach ($admins as $admin) {
+            try {
+                \App\Models\UserNotification::create([
+                    'user_id' => $admin->id,
+                    'type' => 'review_submitted',
+                    'title' => 'New Review Submitted',
+                    'message' => 'A new review for "' . $listing->title . '" is awaiting moderation.',
+                    'data' => ['review_id' => $review->id, 'listing_id' => $listing->id],
+                    'action_url' => route('admin.reviews.index'),
+                ]);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Admin review notification failed: ' . $e->getMessage());
+            }
+        }
+
         return redirect()->back()->with('success', 'Your review has been submitted and is pending approval.');
     }
 
