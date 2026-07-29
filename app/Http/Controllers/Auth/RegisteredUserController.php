@@ -15,6 +15,8 @@ use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\WelcomeMail;
+use App\Mail\NewUserRegistered;
+use App\Models\UserNotification;
 
 class RegisteredUserController extends Controller
 {
@@ -51,6 +53,28 @@ class RegisteredUserController extends Controller
             Mail::to($user->email)->send(new WelcomeMail($user));
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\Log::warning('Welcome email failed to send: ' . $e->getMessage());
+        }
+
+        $admins = User::whereHas('role', fn ($q) => $q->where('slug', 'admin'))->get();
+        foreach ($admins as $admin) {
+            try {
+                Mail::to($admin->email)->send(new NewUserRegistered($user));
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Admin new-registration email failed: ' . $e->getMessage());
+            }
+
+            try {
+                UserNotification::create([
+                    'user_id' => $admin->id,
+                    'type' => 'user_registered',
+                    'title' => 'New Registration',
+                    'message' => $user->name . ' (' . $user->email . ') signed up as ' . ($role?->name ?? 'a user') . '.',
+                    'data' => ['user_id' => $user->id],
+                    'action_url' => route('admin.users.index', ['search' => $user->email]),
+                ]);
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Admin new-registration notification failed: ' . $e->getMessage());
+            }
         }
 
         Auth::login($user);

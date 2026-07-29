@@ -223,8 +223,8 @@ class ListingService
     }
 
     /**
-     * Give every admin an in-app bell notification that a listing needs
-     * review — whether it's brand new or an edit that bounced back to
+     * Notify every admin — by email AND in-app bell — that a listing needs
+     * review, whether it's brand new or an edit that bounced back to
      * pending. Used from every listing-creation/resubmission entry point so
      * none of them can silently skip notifying admins.
      */
@@ -233,6 +233,12 @@ class ListingService
         $admins = User::whereHas('role', fn ($q) => $q->where('slug', 'admin'))->get();
 
         foreach ($admins as $admin) {
+            try {
+                Mail::to($admin->email)->send(new \App\Mail\ListingSubmitted($listing, true));
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Admin listing email failed: ' . $e->getMessage());
+            }
+
             try {
                 \App\Models\UserNotification::create([
                     'user_id' => $admin->id,

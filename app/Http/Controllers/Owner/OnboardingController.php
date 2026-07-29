@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ListingSubmitted;
-use App\Models\User;
 use App\Services\ListingService;
 
 class OnboardingController extends Controller
@@ -191,16 +190,6 @@ class OnboardingController extends Controller
             Mail::to($listing->creator->email)->send(new ListingSubmitted($listing, false));
         } catch (\Exception $e) {
             \Log::warning('Owner listing email failed: ' . $e->getMessage());
-        }
-
-        $admins = User::whereHas('role', fn($q) => $q->where('slug', 'admin'))->get();
-
-        try {
-            foreach ($admins as $admin) {
-                Mail::to($admin->email)->send(new ListingSubmitted($listing, true));
-            }
-        } catch (\Exception $e) {
-            \Log::warning('Admin listing email failed: ' . $e->getMessage());
         }
 
         $this->listingService->notifyAdminsOfSubmission($listing);
