@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NewReviewReceived;
+use App\Mail\ReviewSubmitted;
 
 class ReviewController extends Controller
 {
@@ -83,6 +84,12 @@ class ReviewController extends Controller
         // Notify admins so pending reviews don't go unnoticed
         $admins = \App\Models\User::whereHas('role', fn ($q) => $q->where('slug', 'admin'))->get();
         foreach ($admins as $admin) {
+            try {
+                Mail::to($admin->email)->send(new ReviewSubmitted($review));
+            } catch (\Throwable $e) {
+                \Illuminate\Support\Facades\Log::warning('Admin review email failed: ' . $e->getMessage());
+            }
+
             try {
                 \App\Models\UserNotification::create([
                     'user_id' => $admin->id,

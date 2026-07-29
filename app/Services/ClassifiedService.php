@@ -2,10 +2,12 @@
 
 namespace App\Services;
 
+use App\Mail\ClassifiedSubmitted;
 use App\Models\Classified;
 use App\Models\User;
 use App\Models\UserNotification;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class ClassifiedService
 {
@@ -30,6 +32,12 @@ class ClassifiedService
 
         $admins = User::whereHas('role', fn ($q) => $q->where('slug', 'admin'))->get();
         foreach ($admins as $admin) {
+            try {
+                Mail::to($admin->email)->send(new ClassifiedSubmitted($classified));
+            } catch (\Throwable $e) {
+                Log::warning('Admin classified email failed: ' . $e->getMessage());
+            }
+
             try {
                 UserNotification::create([
                     'user_id' => $admin->id,
