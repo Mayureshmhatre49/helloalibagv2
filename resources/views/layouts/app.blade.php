@@ -64,6 +64,13 @@
                          browse items stay inline; secondary links live in "More". --}}
                     @php $navCategories = \App\Models\Category::where('is_active', true)->orderBy('sort_order')->get(); @endphp
                     @php $moreActive = request()->routeIs('guides.*') || request()->routeIs('blog.*') || request()->routeIs('marketplace.*'); @endphp
+                    @php
+                        // request()->route('category') can be an unbound raw string when the
+                        // {category:slug} constraint doesn't match (e.g. a slug that isn't a
+                        // real category) — guard with instanceof rather than assuming a model.
+                        $routeCategory = request()->route('category');
+                        $currentCategoryId = $routeCategory instanceof \App\Models\Category ? $routeCategory->id : null;
+                    @endphp
                     <div class="hidden lg:flex flex-1 min-w-0 items-center justify-center gap-1 xl:gap-1.5">
                         <a href="{{ route('search') }}"
                             class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ !request()->routeIs('category.show') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
@@ -71,7 +78,7 @@
                         </a>
                         @foreach($navCategories as $cat)
                         <a href="{{ route('category.show', $cat) }}"
-                            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('category.show') && request()->route('category')?->id === $cat->id ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ $currentCategoryId === $cat->id ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                             {{ $cat->name }}
                         </a>
                         @endforeach
@@ -237,7 +244,7 @@
                     </a>
                     @foreach($navCategories as $cat)
                     <a href="{{ route('category.show', $cat) }}"
-                        class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('category.show') && request()->route('category')?->id === $cat->id ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                        class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ $currentCategoryId === $cat->id ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                         {{ $cat->name }}
                     </a>
                     @endforeach
