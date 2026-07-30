@@ -16,16 +16,21 @@ class ListingSubmitted extends Mailable implements ShouldQueue
 
     public function __construct(
         public Listing $listing,
-        public bool $isAdmin = false
+        public bool $isAdmin = false,
+        public bool $isResubmission = false
     ) {}
 
     public function envelope(): Envelope
     {
-        return new Envelope(
-            subject: $this->isAdmin 
-                ? 'Action Required: New Listing Submitted - ' . $this->listing->title
-                : 'Listing Submitted Successfully - ' . $this->listing->title,
-        );
+        if ($this->isAdmin) {
+            $subject = $this->isResubmission
+                ? 'Action Required: Listing Resubmitted - ' . $this->listing->title
+                : 'Action Required: New Listing Submitted - ' . $this->listing->title;
+        } else {
+            $subject = 'Listing Submitted Successfully - ' . $this->listing->title;
+        }
+
+        return new Envelope(subject: $subject);
     }
 
     public function content(): Content

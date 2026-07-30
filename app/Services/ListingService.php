@@ -234,7 +234,7 @@ class ListingService
 
         foreach ($admins as $admin) {
             try {
-                Mail::to($admin->email)->send(new \App\Mail\ListingSubmitted($listing, true));
+                Mail::to($admin->email)->send(new \App\Mail\ListingSubmitted($listing, true, $isResubmission));
             } catch (\Throwable $e) {
                 \Illuminate\Support\Facades\Log::warning('Admin listing email failed: ' . $e->getMessage());
             }

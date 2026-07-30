@@ -1,11 +1,15 @@
 <x-mail::message>
 
 @if($isAdmin)
-# 🔔 New Listing Awaiting Approval
+# 🔔 {{ $isResubmission ? 'Listing Resubmitted — Needs Re-Review' : 'New Listing Awaiting Approval' }}
 
 Hi **Admin**,
 
+@if($isResubmission)
+A previously reviewed listing was edited and resubmitted — it's back in the approval queue and needs a fresh look.
+@else
 A new listing has been submitted and is pending your review.
+@endif
 
 <x-mail::panel>
 **{{ $listing->title }}**
