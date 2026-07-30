@@ -95,7 +95,8 @@
 
         {{-- Form Content --}}
         <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/40 border border-slate-100 overflow-hidden">
-            <form id="onboardingForm" action="{{ route('owner.onboarding.submit') }}" method="POST" enctype="multipart/form-data">
+            <form id="onboardingForm" action="{{ route('owner.onboarding.submit') }}" method="POST" enctype="multipart/form-data"
+                  @submit="submitting = true; setTimeout(() => submitting = false, 8000)">
                 @csrf
                 <input type="hidden" name="category_id" value="{{ $category->id }}">
 
@@ -470,7 +471,6 @@
                             Next <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
                         </button>
                         <button type="submit" x-show="step === totalSteps" :disabled="imagesCount < 1 || submitting"
-                            @click="submitting = true; setTimeout(() => submitting = false, 8000)"
                             class="bg-primary hover:bg-primary/90 text-white px-10 py-3 rounded-xl font-bold transition-all shadow-xl shadow-primary/30 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
                             <span class="material-symbols-outlined text-[20px]">rocket_launch</span>
                             <span x-text="submitting ? 'Submitting…' : 'Submit Listing'"></span>
