@@ -14,6 +14,11 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('sitemap:generate')->dailyAt('02:00');
         $schedule->command('classifieds:expire')->dailyAt('03:00');
+
+        // Backfill coordinates for listings submitted since the last run, so new
+        // listings get a real map pin instead of the area-centroid fallback.
+        // Only touches listings missing lat/lng — owner-pinned locations are safe.
+        $schedule->command('listings:geocode')->dailyAt('04:00')->withoutOverlapping();
     }
 
     /**
