@@ -163,6 +163,7 @@ found the following. All are fixed and verified.
 | `d8db36e` | Deleting a listing or a user left its **image files orphaned on disk** forever. Now cleaned up via the model observer, covering every deletion path. | Medium |
 | `d8db36e` | Rejections recorded **no audit trail** — `approved_by`/`approved_at` were reused then overwritten on re-approval. Added `rejected_at`/`rejected_by`. | Low |
 | `d8db36e` | `exists:` validation accepted **deactivated categories and areas**, so a listing could be attached to a category hidden from the site. Owner forms now require `is_active`. | Low |
+| `7c88d1d` | "Use my location" **needed two taps on mobile** — the 10s timeout counted the permission dialog against itself, so the first tap always failed with TIMEOUT. Now one tap, using progressive `watchPosition`. | Medium |
 
 ---
 
@@ -185,13 +186,15 @@ estimated.
 | **Search & Filtering** | 8.5 / 10 | Category/area/price/amenities/tags/sort all wired; no date or guest filtering |
 | **Map & Location Accuracy** | 8.5 / 10 | Geoapify geocoding, address search, nightly backfill, accuracy report command |
 | **Code Quality** | 8.5 / 10 | Single creation path, service layer, observers; some inline validation remains |
-| **UI/UX & Design** | 8.5 / 10 | Consistent design system, honest empty states, three ways to set a location |
+| **UI/UX & Design** | 9.0 / 10 | Consistent design system, honest empty states, three ways to set a location, one-tap mobile geolocation |
 | **Analytics & Reporting** | 7.0 / 10 | Real view tracking in place, but starts from zero — **no historical data yet** |
-| **Overall** | **86 / 100** | Unweighted mean of the 14 categories (120.5 ÷ 14 = 8.61) |
+| **Overall** | **86 / 100** | Unweighted mean of the 14 categories (121.0 ÷ 14 = 8.64) |
 
-*Previous: 81/100. The +5 came from four commits — `5e3fe14` (legal depth),
+*Previous: 81/100. The +5 came from five commits — `5e3fe14` (legal depth),
 `2f4a650` (beaches &amp; ferry pages), `8090df3` (contrast), `d8db36e` (orphaned files,
-rejection audit, inactive-record validation).*
+rejection audit, inactive-record validation) and `7c88d1d` (one-tap mobile geolocation).
+The geolocation fix raised UI/UX from 8.5 to 9.0 but the overall mean moved only from
+8.61 to 8.64, so the rounded score stays 86.*
 
 ---
 
