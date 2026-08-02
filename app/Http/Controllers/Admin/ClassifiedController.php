@@ -113,9 +113,18 @@ class ClassifiedController extends Controller
 
     public function toggleFeatured(Classified $classified)
     {
-        $classified->update(['is_featured' => !$classified->is_featured]);
+        $turningOn = ! $classified->is_featured;
 
-        return redirect()->back()->with('success', 'Featured status updated.');
+        // Only a live item can be promoted; un-featuring stays available so the
+        // flag can be revoked from an item that later sold or expired.
+        if ($turningOn && $classified->status !== 'active') {
+            return redirect()->back()->with('error',
+                "“{$classified->title}” is {$classified->status}, not active — approve it first, then mark it Featured.");
+        }
+
+        $classified->update(['is_featured' => $turningOn]);
+
+        return redirect()->back()->with('success', $turningOn ? 'Item marked as Featured.' : 'Featured status removed.');
     }
 
     public function destroy(Classified $classified)

@@ -56,18 +56,44 @@ class ListingController extends Controller
             : 'Listing rejected with reason.');
     }
 
+    /**
+     * Promotion/trust flags may only be switched ON for a listing that is
+     * actually live. Switching OFF is always allowed, so a flag can still be
+     * revoked from a listing that was later rejected or sent back to pending.
+     */
+    private function promotionBlocked(Listing $listing, bool $turningOn, string $label): ?string
+    {
+        if ($turningOn && $listing->status !== 'approved') {
+            return "“{$listing->title}” is {$listing->status}, not approved — approve it first, then mark it {$label}.";
+        }
+
+        return null;
+    }
+
     public function toggleFeatured(Listing $listing)
     {
-        $listing->update(['is_featured' => !$listing->is_featured]);
+        $turningOn = ! $listing->is_featured;
 
-        return redirect()->back()->with('success', 'Featured status toggled.');
+        if ($error = $this->promotionBlocked($listing, $turningOn, 'Featured')) {
+            return redirect()->back()->with('error', $error);
+        }
+
+        $listing->update(['is_featured' => $turningOn]);
+
+        return redirect()->back()->with('success', $turningOn ? 'Listing marked as Featured.' : 'Featured status removed.');
     }
 
     public function togglePremium(Listing $listing)
     {
-        $listing->update(['is_premium' => !$listing->is_premium]);
+        $turningOn = ! $listing->is_premium;
 
-        return redirect()->back()->with('success', 'Premium status toggled.');
+        if ($error = $this->promotionBlocked($listing, $turningOn, 'Premium')) {
+            return redirect()->back()->with('error', $error);
+        }
+
+        $listing->update(['is_premium' => $turningOn]);
+
+        return redirect()->back()->with('success', $turningOn ? 'Listing marked as Premium.' : 'Premium status removed.');
     }
 
     /**
@@ -85,6 +111,10 @@ class ListingController extends Controller
                 'verified_by' => null,
             ]);
             return redirect()->back()->with('success', "Verification revoked for “{$listing->title}”.");
+        }
+
+        if ($error = $this->promotionBlocked($listing, true, 'Verified')) {
+            return redirect()->back()->with('error', $error);
         }
 
         $data = $request->validate([
