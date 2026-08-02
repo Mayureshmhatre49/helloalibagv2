@@ -106,6 +106,13 @@
                                 <a href="{{ route('marketplace.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium {{ request()->routeIs('marketplace.*') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50' }} transition-colors">
                                     <span class="material-symbols-outlined text-[18px] text-slate-400">storefront</span> Buy &amp; Sell
                                 </a>
+                                <div class="my-1.5 border-t border-slate-100"></div>
+                                <a href="{{ route('page.beaches') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium {{ request()->routeIs('page.beaches') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50' }} transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-slate-400">beach_access</span> Beaches
+                                </a>
+                                <a href="{{ route('page.ferry-schedule') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium {{ request()->routeIs('page.ferry-schedule') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50' }} transition-colors">
+                                    <span class="material-symbols-outlined text-[18px] text-slate-400">directions_boat</span> Ferry Timings
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -380,6 +387,8 @@
                         <li><a href="{{ route('blog.index') }}" class="hover:text-primary transition-colors">Blog</a></li>
                         <li><a href="{{ route('weather.index') }}" class="hover:text-primary transition-colors">Weather & Best Time</a></li>
                         <li><a href="{{ route('page.how-to-reach') }}" class="hover:text-primary transition-colors">How to Reach</a></li>
+                        <li><a href="{{ route('page.ferry-schedule') }}" class="hover:text-primary transition-colors">Ferry Timings</a></li>
+                        <li><a href="{{ route('page.beaches') }}" class="hover:text-primary transition-colors">Beaches Guide</a></li>
                         <li><a href="{{ auth()->guest() ? route('register') : ((auth()->user()->isOwner() || auth()->user()->isAdmin()) ? route('owner.dashboard') : route('subscription.plans')) }}" class="hover:text-primary transition-colors">List Your Business</a></li>
                     </ul>
                 </div>

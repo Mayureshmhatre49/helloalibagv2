@@ -77,6 +77,16 @@ class PageController extends Controller
         return view('pages.how-to-reach');
     }
 
+    public function ferrySchedule()
+    {
+        return view('pages.ferry-schedule');
+    }
+
+    public function beaches()
+    {
+        return view('pages.beaches');
+    }
+
     public function newsletterSubscribe(Request $request)
     {
         $request->validate(['email' => 'required|email|max:255']);

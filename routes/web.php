@@ -294,6 +294,8 @@ Route::get('/newsletter/unsubscribe/{token}', [\App\Http\Controllers\PageControl
 Route::get('/emergency', [\App\Http\Controllers\PageController::class, 'emergency'])->name('page.emergency');
 Route::get('/local-markets', [\App\Http\Controllers\PageController::class, 'localMarkets'])->name('page.local-markets');
 Route::get('/how-to-reach', [\App\Http\Controllers\PageController::class, 'howToReach'])->name('page.how-to-reach');
+Route::get('/ferry-schedule', [\App\Http\Controllers\PageController::class, 'ferrySchedule'])->name('page.ferry-schedule');
+Route::get('/beaches', [\App\Http\Controllers\PageController::class, 'beaches'])->name('page.beaches');
 Route::get('/weather', [\App\Http\Controllers\WeatherController::class, 'index'])->name('weather.index');
 Route::get('/map', [\App\Http\Controllers\MapController::class, 'index'])->name('map.index');
 Route::get('/map/markers.json', [\App\Http\Controllers\MapController::class, 'markers'])->middleware('throttle:60,1')->name('map.markers');

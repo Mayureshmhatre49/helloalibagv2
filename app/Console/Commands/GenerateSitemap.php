@@ -27,7 +27,7 @@ class GenerateSitemap extends Command
             ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY));
 
         // Evergreen utility pages
-        foreach (['weather.index', 'map.index', 'page.how-to-reach', 'page.local-markets', 'guides.index'] as $name) {
+        foreach (['weather.index', 'map.index', 'page.how-to-reach', 'page.ferry-schedule', 'page.beaches', 'page.local-markets', 'page.emergency', 'guides.index'] as $name) {
             $sitemap->add(Url::create(route($name))
                 ->setPriority(0.7)
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY));
