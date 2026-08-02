@@ -16,14 +16,14 @@ class ContactFormMail extends Mailable implements ShouldQueue
     public function __construct(
         public string $senderName,
         public string $senderEmail,
-        public string $subject,
+        public string $contactSubject,
         public string $messageBody,
     ) {}
 
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Contact Form: ' . $this->subject,
+            subject: 'Contact Form: ' . $this->contactSubject,
             replyTo: [$this->senderEmail],
         );
     }

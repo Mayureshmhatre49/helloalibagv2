@@ -41,7 +41,7 @@ class PageController extends Controller
             Mail::to(config('mail.from.address'))->send(new ContactFormMail(
                 senderName: $request->name,
                 senderEmail: $request->email,
-                subject: $request->subject,
+                contactSubject: $request->subject,
                 messageBody: $request->message,
             ));
         } catch (\Throwable $e) {

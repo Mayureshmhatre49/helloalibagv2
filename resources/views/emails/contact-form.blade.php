@@ -7,7 +7,7 @@ A new message has been received through the Hello Alibaug contact form.
 <x-mail::panel>
 **From:** {{ $senderName }}
 **Email:** {{ $senderEmail }}
-**Subject:** {{ $subject }}
+**Subject:** {{ $contactSubject }}
 </x-mail::panel>
 
 **Message:**
