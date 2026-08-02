@@ -23,6 +23,7 @@ class Listing extends Model implements Auditable
         'website', 'whatsapp', 'city_id', 'subscription_ready',
         'event_start_at', 'event_end_at', 'event_is_recurring',
         'is_verified', 'verified_at', 'verification_note', 'verified_by',
+        'payment_received_at', 'payment_recorded_by', 'payment_note',
     ];
 
     protected $casts = [
@@ -39,6 +40,7 @@ class Listing extends Model implements Auditable
         'event_is_recurring' => 'boolean',
         'is_verified' => 'boolean',
         'verified_at' => 'datetime',
+        'payment_received_at' => 'datetime',
     ];
 
     public function getSlugOptions(): SlugOptions
@@ -253,6 +255,26 @@ class Listing extends Model implements Auditable
     public function incrementViews(): void
     {
         $this->increment('views_count');
+    }
+
+    /**
+     * Real Estate is a paid category settled offline, so a listing in it may
+     * not go live until an admin has recorded that payment was collected.
+     */
+    public function requiresOfflinePayment(): bool
+    {
+        return $this->category?->slug === 'real-estate';
+    }
+
+    public function offlinePaymentReceived(): bool
+    {
+        return $this->payment_received_at !== null;
+    }
+
+    /** Blocks approval: needs payment collected, but none recorded yet. */
+    public function awaitingOfflinePayment(): bool
+    {
+        return $this->requiresOfflinePayment() && ! $this->offlinePaymentReceived();
     }
 
     // Tags relationship for 'Best For' Smart Tags

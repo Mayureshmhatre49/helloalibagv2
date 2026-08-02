@@ -35,8 +35,26 @@ class ListingController extends Controller
         return view('admin.listings.index', compact('listings', 'status'));
     }
 
-    public function approve(Listing $listing)
+    public function approve(Request $request, Listing $listing)
     {
+        $listing->loadMissing('category');
+
+        // Real Estate is settled offline — it can't go live until an admin has
+        // explicitly recorded that payment was collected. The admin either ticks
+        // the confirmation on this approval, or recorded it earlier.
+        if ($listing->awaitingOfflinePayment()) {
+            if (! $request->boolean('payment_confirmed')) {
+                return redirect()->back()->with('error',
+                    "“{$listing->title}” is a Real Estate listing — collect the offline payment and tick the confirmation before approving.");
+            }
+
+            $listing->update([
+                'payment_received_at' => now(),
+                'payment_recorded_by' => auth()->id(),
+                'payment_note' => $request->input('payment_note'),
+            ]);
+        }
+
         $alreadyApproved = $listing->status === 'approved';
         $this->listingService->approve($listing, auth()->user());
 

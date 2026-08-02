@@ -35,7 +35,7 @@
                 </thead>
                 <tbody class="divide-y divide-border-light">
                     @foreach($listings as $listing)
-                        <tr x-data="{ showRejectModal: false, showDeleteModal: false, deleteConfirm: '' }" class="hover:bg-background-light/50 transition-colors">
+                        <tr x-data="{ showRejectModal: false, showDeleteModal: false, deleteConfirm: '', showPaymentModal: false, paymentConfirmed: false }" class="hover:bg-background-light/50 transition-colors">
                             <td class="px-5 py-4">
                                 <div class="flex items-center gap-3">
                                     <div class="relative w-12 h-10 rounded-lg overflow-hidden bg-slate-100 flex-shrink-0 flex items-center justify-center text-slate-300">
@@ -53,10 +53,17 @@
                                             @if($listing->area)
                                                 <p class="text-xs text-text-secondary">{{ $listing->area->name }}</p>
                                             @endif
-                                            @if(($listing->category->slug ?? '') === 'real-estate' && $listing->status !== 'approved')
-                                                <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 uppercase tracking-wide" title="Real Estate is paid — collect offline payment before approving">
-                                                    <span class="material-symbols-outlined text-[12px]">payments</span> Collect payment
-                                                </span>
+                                            @if($listing->requiresOfflinePayment())
+                                                @if($listing->offlinePaymentReceived())
+                                                    <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase tracking-wide"
+                                                          title="Offline payment recorded {{ $listing->payment_received_at->format('d M Y, h:i A') }}{{ $listing->payment_note ? ' — ' . $listing->payment_note : '' }}">
+                                                        <span class="material-symbols-outlined text-[12px]">paid</span> Paid
+                                                    </span>
+                                                @elseif($listing->status !== 'approved')
+                                                    <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200 uppercase tracking-wide" title="Real Estate is paid — collect offline payment before approving">
+                                                        <span class="material-symbols-outlined text-[12px]">payments</span> Collect payment
+                                                    </span>
+                                                @endif
                                             @endif
                                         </div>
                                     </div>
@@ -98,15 +105,48 @@
                                             $approveConfirm = $approveWarnings
                                                 ? 'Approve "' . addslashes($listing->title) . '" even though ' . implode(' and ', $approveWarnings) . '?'
                                                 : '';
+                                            $needsPayment = $listing->awaitingOfflinePayment();
                                         @endphp
-                                        <form method="POST" action="{{ route('admin.listings.approve', $listing) }}"
-                                              @if($approveConfirm) onsubmit="return confirm('{{ $approveConfirm }}')" @endif>
-                                            @csrf
-                                            <button class="flex items-center gap-1 text-xs font-medium text-green-600 bg-green-50 hover:bg-green-100 px-3 py-1.5 rounded-lg transition-colors" title="Approve">
-                                                <span class="material-symbols-outlined text-[16px]">check</span>
+                                        @if($needsPayment)
+                                            {{-- Real Estate is paid offline — approval is gated behind recording payment. --}}
+                                            <button type="button" @click="showPaymentModal = true"
+                                                    class="flex items-center gap-1 text-xs font-medium text-amber-700 bg-amber-50 hover:bg-amber-100 px-3 py-1.5 rounded-lg transition-colors" title="Confirm payment, then approve">
+                                                <span class="material-symbols-outlined text-[16px]">payments</span>
                                                 Approve
                                             </button>
-                                        </form>
+
+                                            <div x-show="showPaymentModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center text-left" style="display: none;" x-transition.opacity>
+                                                <div @click.away="showPaymentModal = false" class="bg-white rounded-2xl p-6 w-full max-w-md mx-4 shadow-xl">
+                                                    <h3 class="text-lg font-bold text-slate-900 mb-1">Confirm offline payment</h3>
+                                                    <p class="text-sm text-slate-500 mb-4">“{{ $listing->title }}” is a Real Estate listing. It only goes live once payment has been collected.</p>
+                                                    <form method="POST" action="{{ route('admin.listings.approve', $listing) }}">
+                                                        @csrf
+                                                        <label class="flex items-start gap-2.5 mb-3 cursor-pointer">
+                                                            <input type="checkbox" name="payment_confirmed" value="1" x-model="paymentConfirmed"
+                                                                   class="mt-0.5 rounded border-slate-300 text-amber-600 focus:ring-amber-500">
+                                                            <span class="text-sm text-slate-700">I confirm the offline payment for this listing has been collected.</span>
+                                                        </label>
+                                                        <input type="text" name="payment_note" maxlength="255" placeholder="Reference / notes (optional)"
+                                                               class="w-full rounded-xl border-slate-200 focus:border-amber-500 focus:ring-amber-500 mb-4 text-sm">
+                                                        <div class="flex justify-end gap-2">
+                                                            <button type="button" @click="showPaymentModal = false" class="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">Cancel</button>
+                                                            <button type="submit" :disabled="!paymentConfirmed"
+                                                                    :class="paymentConfirmed ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-slate-200 text-slate-400 cursor-not-allowed'"
+                                                                    class="px-4 py-2 text-sm text-white rounded-lg font-bold shadow-sm transition-colors">Record payment &amp; approve</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        @else
+                                            <form method="POST" action="{{ route('admin.listings.approve', $listing) }}"
+                                                  @if($approveConfirm) onsubmit="return confirm('{{ $approveConfirm }}')" @endif>
+                                                @csrf
+                                                <button class="flex items-center gap-1 text-xs font-medium text-green-600 bg-green-50 hover:bg-green-100 px-3 py-1.5 rounded-lg transition-colors" title="Approve">
+                                                    <span class="material-symbols-outlined text-[16px]">check</span>
+                                                    Approve
+                                                </button>
+                                            </form>
+                                        @endif
                                         <button type="button" @click="showRejectModal = true" class="flex items-center gap-1 text-xs font-medium text-red-600 bg-red-50 hover:bg-red-100 px-3 py-1.5 rounded-lg transition-colors" title="Reject">
                                             <span class="material-symbols-outlined text-[16px]">close</span>
                                             Reject
