@@ -146,7 +146,10 @@ class GeocodeListings extends Command
                     'apiKey' => config('services.geoapify.key'),
                     'format' => 'json',
                     'limit' => 1,
-                    'filter' => 'countrycode:in,rect:' . self::LNG_MIN . ',' . self::LAT_MIN . ',' . self::LNG_MAX . ',' . self::LAT_MAX,
+                    // Geoapify combines DIFFERENT filter types with "|" — a comma
+                    // here would be parsed as multiple values of one filter type
+                    // and reject the request ("filter[0] does not match...").
+                    'filter' => 'countrycode:in|rect:' . self::LNG_MIN . ',' . self::LAT_MIN . ',' . self::LNG_MAX . ',' . self::LAT_MAX,
                 ]);
 
             if (! $response->successful()) {
