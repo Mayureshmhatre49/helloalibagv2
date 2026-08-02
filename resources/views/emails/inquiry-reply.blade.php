@@ -8,7 +8,10 @@ The owner of **{{ $inquiry->listing->title }}** has replied to your enquiry on H
 
 <x-mail::panel>
 **Regarding:** {{ $inquiry->listing->title }}
-@if($inquiry->check_in)**Dates:** {{ $inquiry->check_in->format('d M Y') }}@if($inquiry->check_out) – {{ $inquiry->check_out->format('d M Y') }}@endif@endif
+@if($inquiry->check_in)
+**Dates:** {{ $inquiry->check_in->format('d M Y') }}@if($inquiry->check_out) – {{ $inquiry->check_out->format('d M Y') }}@endif
+
+@endif
 </x-mail::panel>
 
 **Their reply:**

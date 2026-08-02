@@ -16,10 +16,17 @@ You have a new enquiry for your listing on Hello Alibaug. Respond promptly to im
 |---|---|
 | **Name** | {{ $inquiry->name }} |
 | **Email** | {{ $inquiry->email }} |
-@if($inquiry->phone)| **Phone** | {{ $inquiry->phone }} |
-@endif@if($inquiry->check_in)| **Check-in** | {{ $inquiry->check_in->format('d M Y') }} |
-@endif@if($inquiry->check_out)| **Check-out** | {{ $inquiry->check_out->format('d M Y') }} |
-@endif@if($inquiry->guests)| **Guests** | {{ $inquiry->guests }} |
+@if($inquiry->phone)
+| **Phone** | {{ $inquiry->phone }} |
+@endif
+@if($inquiry->check_in)
+| **Check-in** | {{ $inquiry->check_in->format('d M Y') }} |
+@endif
+@if($inquiry->check_out)
+| **Check-out** | {{ $inquiry->check_out->format('d M Y') }} |
+@endif
+@if($inquiry->guests)
+| **Guests** | {{ $inquiry->guests }} |
 @endif
 
 **Message:**
