@@ -23,88 +23,27 @@ class ListingController extends Controller
         return view('dashboard.listings.index', compact('listings'));
     }
 
+    /**
+     * Legacy create form. The onboarding wizard is the only supported way to
+     * create a listing — it enforces stricter rules (at least one photo, a
+     * required area, a 20-character minimum description, per-category required
+     * attributes) and runs uploads through ImageService for resizing, WebP
+     * conversion and thumbnails. This form did none of that, so a listing made
+     * here would be one the wizard would have rejected.
+     *
+     * Every "Add Listing" link already points at the wizard; these two routes
+     * survive only so old bookmarks and any in-flight POST land somewhere
+     * sensible instead of 404ing or quietly creating a substandard listing.
+     */
     public function create()
     {
-        // No limit block on the form itself — the category (and the real-estate
-        // exemption) isn't known until submit, which is where the limit is enforced.
-        $categories = Category::where('is_active', true)->orderBy('sort_order')->get();
-        $areas = Area::where('is_active', true)->get();
-        $amenities = Amenity::orderBy('sort_order')->get();
-        $tags = Tag::orderBy('sort_order')->get();
-
-        return view('dashboard.listings.create', compact('categories', 'areas', 'amenities', 'tags'));
-    }
-
-    /**
-     * Redirect with a clear message when the owner is at their plan's listing cap.
-     */
-    private function listingLimitRedirect()
-    {
-        $limit = auth()->user()->listingLimit();
-
-        return redirect()->route('owner.listings.index')
-            ->with('error', "You've reached your plan's limit of {$limit} listing" . ($limit == 1 ? '' : 's') . ". Upgrade your plan to add more.");
+        return redirect()->route('owner.onboarding.start');
     }
 
     public function store(Request $request)
     {
-        $categorySlug = Category::find($request->input('category_id'))?->slug;
-        if (!auth()->user()->canCreateListing($categorySlug)) {
-            return $this->listingLimitRedirect();
-        }
-
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'area_id' => 'nullable|exists:areas,id',
-            'description' => 'nullable|string|max:5000',
-            'price' => 'nullable|numeric|min:0',
-            'address' => 'nullable|string|max:255',
-            'latitude' => 'nullable|numeric|between:-90,90',
-            'longitude' => 'nullable|numeric|between:-180,180',
-            'phone' => 'nullable|string|max:20',
-            'email' => 'nullable|email|max:255',
-            'website' => 'nullable|url|max:255',
-            'whatsapp' => 'nullable|string|max:20',
-            'amenities' => 'nullable|array',
-            'amenities.*' => 'exists:amenities,id',
-            'attributes' => 'nullable|array',
-            'tags' => 'nullable|array',
-            'tags.*' => 'exists:tags,id',
-            'images.*' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:5120',
-        ]);
-
-        // Convert multi-checkbox attributes (arrays) to comma-separated strings
-        if (!empty($validated['attributes'])) {
-            foreach ($validated['attributes'] as $key => $value) {
-                if (is_array($value)) {
-                    $validated['attributes'][$key] = implode(',', array_filter($value));
-                }
-            }
-        }
-
-        $listing = $this->listingService->store($validated, auth()->user());
-        $listing->tags()->sync($request->input('tags', []));
-
-        // Handle uploaded images
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $idx => $image) {
-                $path = $image->store('listings/' . $listing->id, 'public');
-                ListingImage::create([
-                    'listing_id' => $listing->id,
-                    'path' => $path,
-                    'alt_text' => $listing->title,
-                    'sort_order' => $idx,
-                    'is_primary' => $idx === 0,
-                    'image_type' => 'gallery',
-                ]);
-            }
-        }
-
-        $this->listingService->notifyAdminsOfSubmission($listing);
-
-        return redirect()->route('owner.listings.index')
-            ->with('success', 'Listing submitted for approval!');
+        return redirect()->route('owner.onboarding.start')
+            ->with('info', 'Listings are created through this short guided flow — it only takes a minute.');
     }
 
     public function edit(Listing $listing)
