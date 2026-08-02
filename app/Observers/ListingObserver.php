@@ -88,6 +88,18 @@ class ListingObserver
      */
     private function onChange(): void
     {
+        self::invalidateCaches();
+    }
+
+    /**
+     * Publicly callable so code that deliberately bypasses Eloquent events can
+     * still invalidate. ListingService::approve()/reject() use an atomic
+     * query-builder update to win the race between two admins — but a builder
+     * update fires no model events, so without this the map would keep serving
+     * a cached marker set that omits the listing just approved.
+     */
+    public static function invalidateCaches(): void
+    {
         Cache::forget('map.markers.approved');
 
         if (Cache::add('sitemap:regenerate-lock', true, now()->addMinutes(10))) {

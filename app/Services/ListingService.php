@@ -172,6 +172,11 @@ class ListingService
             return $listing;
         }
 
+        // The atomic update above bypasses model events, so the observer never
+        // ran — clear the cached map markers by hand or the newly-approved
+        // listing stays invisible on the map until the cache expires.
+        \App\Observers\ListingObserver::invalidateCaches();
+
         try {
             Mail::to($listing->creator->email)->send(new ListingApproved($listing));
         } catch (\Throwable $e) {
@@ -210,6 +215,10 @@ class ListingService
         if ($applied === 0) {
             return $listing;
         }
+
+        // Same reason as approve() — a rejected listing must disappear from the
+        // cached map markers immediately, not up to ten minutes later.
+        \App\Observers\ListingObserver::invalidateCaches();
 
         try {
             Mail::to($listing->creator->email)->send(new ListingRejected($listing));
