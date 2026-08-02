@@ -13,6 +13,9 @@ class Category extends Model
 {
     use HasFactory, HasSlug;
 
+    /** Cache key for the active-category list shared by the header and footer nav. */
+    public const NAV_CACHE_KEY = 'nav.categories.active';
+
     protected $fillable = [
         'name', 'slug', 'icon', 'description', 'sort_order', 'is_active',
     ];

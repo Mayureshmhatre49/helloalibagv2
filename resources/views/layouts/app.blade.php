@@ -62,7 +62,7 @@
 
                     {{-- Desktop Categories — flex child between logo and actions. Core
                          browse items stay inline; secondary links live in "More". --}}
-                    @php $navCategories = \App\Models\Category::where('is_active', true)->orderBy('sort_order')->get(); @endphp
+                    {{-- $navCategories is supplied (cached) by the layouts.app view composer. --}}
                     @php $moreActive = request()->routeIs('guides.*') || request()->routeIs('blog.*') || request()->routeIs('marketplace.*'); @endphp
                     @php
                         // request()->route('category') can be an unbound raw string when the
@@ -388,8 +388,7 @@
                 <div>
                     <h4 class="font-bold text-sm mb-4 uppercase tracking-wider text-slate-300">Explore</h4>
                     <ul class="space-y-2.5 text-sm text-slate-400">
-                        @php $footerCats = \App\Models\Category::where('is_active', true)->orderBy('sort_order')->get(); @endphp
-                        @foreach($footerCats as $cat)
+                        @foreach($navCategories as $cat)
                             <li><a href="{{ route('category.show', $cat) }}" class="hover:text-primary transition-colors">{{ $cat->name }}</a></li>
                         @endforeach
                     </ul>
