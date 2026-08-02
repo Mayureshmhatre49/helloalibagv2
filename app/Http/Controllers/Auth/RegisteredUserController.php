@@ -33,6 +33,7 @@ class RegisteredUserController extends Controller
             'phone' => ['nullable', 'string', 'max:20'],
             'account_type' => ['required', 'in:user,owner'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'cf-turnstile-response' => [\Illuminate\Validation\Rule::requiredIf(fn () => filled(config('services.turnstile.secret_key'))), new \App\Rules\Captcha()],
         ]);
 
         // Assign role based on account type

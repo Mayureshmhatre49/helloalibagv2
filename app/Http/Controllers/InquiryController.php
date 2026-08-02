@@ -22,6 +22,7 @@ class InquiryController extends Controller
             'check_in' => 'nullable|date|after_or_equal:today',
             'check_out' => 'nullable|date|after:check_in',
             'guests' => 'nullable|integer|min:1|max:50',
+            'cf-turnstile-response' => [\Illuminate\Validation\Rule::requiredIf(fn () => filled(config('services.turnstile.secret_key'))), new \App\Rules\Captcha()],
         ]);
 
         $inquiry = Inquiry::create([

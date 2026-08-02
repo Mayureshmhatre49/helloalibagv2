@@ -676,6 +676,7 @@
                                       class="w-full border {{ $errors->has('message') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none placeholder:text-slate-500 bg-slate-50/50 resize-none">{{ old('message') }}</textarea>
                             @error('message')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                         </div>
+                        <x-turnstile />
                         <button type="submit"
                                 class="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-xl text-sm font-bold transition-colors shadow-md">
                             Make a Reservation

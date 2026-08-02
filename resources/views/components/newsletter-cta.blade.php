@@ -22,13 +22,16 @@
                 You're already subscribed!
             </div>
         @else
-            <form action="{{ route('newsletter.subscribe') }}" method="POST" class="flex flex-col sm:flex-row gap-2">
+            <form action="{{ route('newsletter.subscribe') }}" method="POST" class="flex flex-col gap-2">
                 @csrf
-                <input type="email" name="email" value="{{ old('email') }}" placeholder="Your email address" required
-                       class="flex-1 px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-primary focus:bg-white/20 transition-all text-sm">
-                <button type="submit" class="px-6 py-3 bg-primary text-white font-bold rounded-xl hover:bg-white hover:text-charcoal transition-colors text-sm whitespace-nowrap shadow-lg shadow-primary/20">
-                    Subscribe
-                </button>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input type="email" name="email" value="{{ old('email') }}" placeholder="Your email address" required
+                           class="flex-1 px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:border-primary focus:bg-white/20 transition-all text-sm">
+                    <button type="submit" class="px-6 py-3 bg-primary text-white font-bold rounded-xl hover:bg-white hover:text-charcoal transition-colors text-sm whitespace-nowrap shadow-lg shadow-primary/20">
+                        Subscribe
+                    </button>
+                </div>
+                <div class="flex justify-center"><x-turnstile /></div>
             </form>
             @error('email')
                 <p class="text-red-300 text-xs mt-2">{{ $message }}</p>

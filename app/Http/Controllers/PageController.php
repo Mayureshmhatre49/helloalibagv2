@@ -35,6 +35,7 @@ class PageController extends Controller
             'email' => 'required|email|max:255',
             'subject' => 'required|string|max:255',
             'message' => 'required|string|min:10|max:5000',
+            'cf-turnstile-response' => [\Illuminate\Validation\Rule::requiredIf(fn () => filled(config('services.turnstile.secret_key'))), new \App\Rules\Captcha()],
         ]);
 
         try {
@@ -89,7 +90,10 @@ class PageController extends Controller
 
     public function newsletterSubscribe(Request $request)
     {
-        $request->validate(['email' => 'required|email|max:255']);
+        $request->validate([
+            'email' => 'required|email|max:255',
+            'cf-turnstile-response' => [\Illuminate\Validation\Rule::requiredIf(fn () => filled(config('services.turnstile.secret_key'))), new \App\Rules\Captcha()],
+        ]);
 
         $subscriber = NewsletterSubscriber::firstOrCreate(
             ['email' => $request->input('email')],

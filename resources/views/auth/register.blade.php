@@ -90,6 +90,8 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2 text-sm text-red-500 font-medium" />
         </div>
 
+        <x-turnstile />
+
         <!-- Submit -->
         <button type="submit" class="mt-6 w-full relative group overflow-hidden rounded-xl font-bold text-base text-white py-3.5 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                 style="background: linear-gradient(135deg, #e8a020 0%, #f5c842 100%); box-shadow: 0 8px 25px -4px rgba(232,160,32,0.4);">
