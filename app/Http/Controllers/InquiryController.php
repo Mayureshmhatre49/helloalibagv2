@@ -63,6 +63,28 @@ class InquiryController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Your inquiry has been sent successfully! The owner will get back to you soon.');
+        // Send them to a dedicated confirmation page rather than back to the
+        // form with a flash banner — after filling in a form people need an
+        // unmistakable "it worked", and a small toast above a still-populated
+        // form reads as if nothing happened.
+        return redirect()
+            ->route('listing.inquiry.thankyou', $listing)
+            ->with('inquiry_sent', $inquiry->id);
+    }
+
+    /**
+     * Confirmation page shown straight after an inquiry is sent. Guarded by the
+     * flashed session key so the page can't be linked to or refreshed into —
+     * without it we just send the visitor back to the listing.
+     */
+    public function thankYou(Request $request, Listing $listing)
+    {
+        if (! $request->session()->get('inquiry_sent')) {
+            return redirect()->route('listing.show', [$listing->category->slug, $listing->slug]);
+        }
+
+        $listing->load(['category', 'area', 'images', 'creator']);
+
+        return view('listing.inquiry-thank-you', compact('listing'));
     }
 }

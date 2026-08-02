@@ -268,6 +268,7 @@ require __DIR__.'/auth.php';
 // Interactive/Public POST routes
 Route::post('/listings/{listing}/reviews', [ReviewController::class, 'store'])->middleware(['auth', 'verified', 'throttle:3,1'])->name('listing.review.store');
 Route::post('/listings/{listing}/inquiry', [\App\Http\Controllers\InquiryController::class, 'store'])->middleware('throttle:5,1')->name('listing.inquiry.store');
+Route::get('/listings/{listing}/inquiry/thank-you', [\App\Http\Controllers\InquiryController::class, 'thankYou'])->name('listing.inquiry.thankyou');
 Route::post('/listings/{listing}/book', [\App\Http\Controllers\BookingController::class, 'store'])->middleware(['auth', 'verified', 'throttle:5,1'])->name('listing.book');
 Route::post('/reviews/{review}/helpful', [ReviewController::class, 'helpful'])->middleware(['auth', 'throttle:10,1'])->name('review.helpful');
 
