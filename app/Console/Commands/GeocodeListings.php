@@ -13,7 +13,7 @@ class GeocodeListings extends Command
         {--all : Re-geocode every listing, not only those missing coordinates}
         {--limit=0 : Only process this many listings (0 = all)}';
 
-    protected $description = 'Backfill listing latitude/longitude by geocoding their address via OpenStreetMap Nominatim.';
+    protected $description = 'Backfill listing latitude/longitude by geocoding their address via Geoapify.';
 
     // Alibaug taluka sanity bounds — a geocode result outside this box is rejected.
     private const LAT_MIN = 18.30;
@@ -26,11 +26,15 @@ class GeocodeListings extends Command
     // (e.g. a same-named village in another taluka) and we keep the area fallback.
     private const MAX_KM_FROM_AREA = 6.0;
 
-    // Nominatim usage policy: max 1 request/second, descriptive User-Agent required.
-    private const ENDPOINT = 'https://nominatim.openstreetmap.org/search';
+    private const ENDPOINT = 'https://api.geoapify.com/v1/geocode/search';
 
     public function handle(): int
     {
+        if (empty(config('services.geoapify.key'))) {
+            $this->error('GEOAPIFY_API_KEY is not set in .env — get a free key at geoapify.com and add it, then re-run.');
+            return self::FAILURE;
+        }
+
         $dryRun = (bool) $this->option('dry-run');
 
         $query = Listing::query()->with('area:id,name,latitude,longitude')->orderBy('id');
@@ -50,7 +54,7 @@ class GeocodeListings extends Command
             return self::SUCCESS;
         }
 
-        $this->info(($dryRun ? '[DRY RUN] ' : '') . "Geocoding {$listings->count()} listing(s) (1 req/sec, be patient)…");
+        $this->info(($dryRun ? '[DRY RUN] ' : '') . "Geocoding {$listings->count()} listing(s) via Geoapify…");
 
         $set = 0;
         $skipped = 0;
@@ -76,7 +80,7 @@ class GeocodeListings extends Command
             $coords = null;
             foreach ($candidates as $queryText) {
                 $coords = $this->geocode($queryText, $anchorLat, $anchorLng);
-                usleep(1_100_000); // Respect Nominatim's 1 req/sec policy between every call.
+                usleep(250_000); // Light throttle — stay well under Geoapify's rate limit.
                 if ($coords !== null) {
                     break;
                 }
@@ -127,31 +131,29 @@ class GeocodeListings extends Command
     }
 
     /**
-     * Query Nominatim (viewbox as a bias, not a hard bound) and return [lat, lng]
-     * only if the result is inside the Alibaug box AND close to the trusted area
-     * centroid. Otherwise null — an ambiguous match we don't want to trust.
+     * Query Geoapify with a hard rect filter (results outside it are excluded
+     * server-side, unlike Nominatim's soft viewbox) and return [lat, lng] only
+     * if the result also lands close to the trusted area centroid. Otherwise
+     * null — an ambiguous match we don't want to trust.
      */
     private function geocode(string $queryText, ?float $anchorLat, ?float $anchorLng): ?array
     {
         try {
             $response = Http::timeout(20)
-                ->withHeaders(['User-Agent' => 'HelloAlibaug/1.0 (+https://helloalibaug.com; listings geocoder)'])
                 ->retry(2, 1000)
                 ->get(self::ENDPOINT, [
-                    'q' => $queryText,
+                    'text' => $queryText,
+                    'apiKey' => config('services.geoapify.key'),
                     'format' => 'json',
                     'limit' => 1,
-                    'countrycodes' => 'in',
-                    // viewbox biases results toward Alibaug without hard-excluding
-                    // (bounded=1 returns nothing when the exact string doesn't match).
-                    'viewbox' => self::LNG_MIN . ',' . self::LAT_MAX . ',' . self::LNG_MAX . ',' . self::LAT_MIN,
+                    'filter' => 'countrycode:in,rect:' . self::LNG_MIN . ',' . self::LAT_MIN . ',' . self::LNG_MAX . ',' . self::LAT_MAX,
                 ]);
 
             if (! $response->successful()) {
                 return null;
             }
 
-            $hit = $response->json(0);
+            $hit = $response->json('results.0');
             if (! $hit || ! isset($hit['lat'], $hit['lon'])) {
                 return null;
             }
@@ -159,7 +161,7 @@ class GeocodeListings extends Command
             $lat = (float) $hit['lat'];
             $lng = (float) $hit['lon'];
 
-            // Reject anything outside the Alibaug box (bad match).
+            // Defense in depth — the rect filter should already guarantee this.
             if ($lat < self::LAT_MIN || $lat > self::LAT_MAX || $lng < self::LNG_MIN || $lng > self::LNG_MAX) {
                 return null;
             }
