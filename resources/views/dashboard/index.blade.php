@@ -80,7 +80,17 @@
             <span class="material-symbols-outlined text-primary text-[18px]">bar_chart</span>
             Views — Last 30 Days
         </h3>
-        <canvas id="viewsChart" height="90"></canvas>
+        @if($hasViewHistory)
+            <canvas id="viewsChart" height="90"></canvas>
+        @else
+            <div class="text-center py-10">
+                <span class="material-symbols-outlined text-4xl text-slate-200 mb-2 block">timeline</span>
+                <p class="text-sm font-semibold text-slate-600">No views recorded in the last 30 days</p>
+                <p class="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
+                    Daily view tracking is new, so this fills in as visitors browse your listings. Approved listings appear in search and on the map.
+                </p>
+            </div>
+        @endif
     </div>
 
 

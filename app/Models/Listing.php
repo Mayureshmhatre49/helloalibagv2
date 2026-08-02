@@ -255,6 +255,26 @@ class Listing extends Model implements Auditable
     public function incrementViews(): void
     {
         $this->increment('views_count');
+
+        // Also record the hit against today's bucket so the owner dashboard can
+        // show a real trend rather than just a lifetime total. Done as a single
+        // atomic upsert — firstOrCreate + increment would race under concurrent
+        // views and trip the unique index. Never let analytics break a page view.
+        try {
+            \Illuminate\Support\Facades\DB::statement(
+                'INSERT INTO listing_view_logs (listing_id, viewed_on, views, created_at, updated_at)
+                 VALUES (?, ?, 1, NOW(), NOW())
+                 ON DUPLICATE KEY UPDATE views = views + 1, updated_at = NOW()',
+                [$this->id, now()->toDateString()]
+            );
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::warning('Listing view log failed: ' . $e->getMessage());
+        }
+    }
+
+    public function viewLogs(): HasMany
+    {
+        return $this->hasMany(ListingViewLog::class);
     }
 
     /**

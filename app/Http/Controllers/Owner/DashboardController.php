@@ -46,21 +46,32 @@ class DashboardController extends Controller
             ->take(5)
             ->get();
 
-        // 30-day views chart data (sum of views across listings per day from created_at of listing, use updated_at as proxy)
-        // We simulate daily view data from total views divided evenly for the chart demo
-        // In production you'd have a listing_views_log table; for now we build a sparkline from the listing updated_at
-        $chartLabels = collect(range(29, 0))->map(fn($d) => now()->subDays($d)->format('d M'))->values();
-        $chartData   = collect(range(29, 0))->map(function ($d) use ($totalViews) {
-            // Distribute views with a sine-wave pattern for visual interest
-            $base = $totalViews > 0 ? max(1, intval($totalViews / 60)) : 0;
-            return $base + round(abs(sin(($d / 7) * M_PI)) * $base);
-        })->values();
+        // Real 30-day view trend, summed across this owner's listings. Days with
+        // no recorded views are filled with 0 so the axis stays continuous.
+        $windowStart = now()->subDays(29)->startOfDay();
+
+        $dailyViews = DB::table('listing_view_logs')
+            ->whereIn('listing_id', $listingIds)
+            ->where('viewed_on', '>=', $windowStart->toDateString())
+            ->groupBy('viewed_on')
+            ->pluck(DB::raw('SUM(views)'), 'viewed_on');
+
+        $days = collect(range(29, 0))->map(fn ($d) => now()->subDays($d)->startOfDay());
+
+        $chartLabels = $days->map(fn ($day) => $day->format('d M'))->values();
+        $chartData = $days->map(fn ($day) => (int) ($dailyViews[$day->toDateString()] ?? 0))->values();
+
+        // View tracking started when the listing_view_logs table was added, so
+        // an owner with lifetime views but nothing in the window is showing an
+        // empty chart legitimately — let the view explain that rather than
+        // implying nobody visited.
+        $hasViewHistory = $chartData->sum() > 0;
 
         return view('dashboard.index', compact(
             'totalListings', 'approvedListings', 'pendingListings', 'totalViews',
             'totalInquiries', 'newInquiries', 'totalReviews', 'avgRating',
             'topListing', 'recentInquiries', 'pendingBookings',
-            'chartLabels', 'chartData'
+            'chartLabels', 'chartData', 'hasViewHistory'
         ));
     }
 }
