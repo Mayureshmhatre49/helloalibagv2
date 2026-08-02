@@ -232,25 +232,97 @@
             }
 
             if (locateBtn) {
+                // Locating on a phone is progressive, not instant: the browser
+                // permission prompt (and on Android the "improve location
+                // accuracy" dialog) can sit on screen for many seconds, and a
+                // cold GPS lock takes longer still.
+                //
+                // getCurrentPosition with a short timeout counts that waiting
+                // time against its own budget, so it would fail with TIMEOUT
+                // while the user was still reading the prompt — which is why
+                // this used to need two taps: the first tap only granted
+                // permission, the second actually got a position.
+                //
+                // watchPosition instead delivers a coarse network fix almost
+                // immediately, then better GPS fixes as they arrive. We move
+                // the pin on the first fix, keep refining while accuracy
+                // improves, and stop once it is good enough — one tap.
+                var GOOD_ENOUGH_M = 25;   // stop refining at this accuracy
+                var MAX_WAIT_MS   = 25000; // never keep the GPS running longer
+                var originalLabel = locateBtn.innerHTML;
+                var watchId = null, stopTimer = null, bestAccuracy = Infinity, done = false;
+
+                function restoreButton() {
+                    locateBtn.disabled = false;
+                    locateBtn.innerHTML = originalLabel;
+                }
+
+                function stopLocating(message) {
+                    if (done) return;
+                    done = true;
+                    if (watchId !== null) { navigator.geolocation.clearWatch(watchId); watchId = null; }
+                    clearTimeout(stopTimer);
+                    restoreButton();
+                    if (message) coordsEl.textContent = message;
+                }
+
                 locateBtn.addEventListener('click', function () {
                     if (!navigator.geolocation) {
                         coordsEl.textContent = 'Location is not supported by this browser — drag the pin instead.';
                         return;
                     }
-                    var original = locateBtn.innerHTML;
+
+                    // Reset state so repeat taps behave predictably.
+                    if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+                    clearTimeout(stopTimer);
+                    bestAccuracy = Infinity;
+                    done = false;
+
                     locateBtn.disabled = true;
                     locateBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">hourglass_top</span> Locating…';
-                    navigator.geolocation.getCurrentPosition(function (pos) {
-                        setPin(L.latLng(pos.coords.latitude, pos.coords.longitude), 16);
-                        locateBtn.disabled = false;
-                        locateBtn.innerHTML = original;
+                    coordsEl.textContent = 'Waiting for your device — allow location access if your browser asks.';
+
+                    watchId = navigator.geolocation.watchPosition(function (pos) {
+                        var accuracy = Math.round(pos.coords.accuracy);
+
+                        // Only move the pin when the fix is genuinely better,
+                        // so it doesn't jitter between readings.
+                        if (accuracy < bestAccuracy) {
+                            bestAccuracy = accuracy;
+                            setPin(L.latLng(pos.coords.latitude, pos.coords.longitude), accuracy <= 50 ? 17 : 15);
+                            coordsEl.textContent = 'Pinned at ' + pos.coords.latitude.toFixed(5) + ', ' + pos.coords.longitude.toFixed(5)
+                                + ' (±' + accuracy + ' m)'
+                                + (accuracy > GOOD_ENOUGH_M ? ' — still improving, or drag the pin yourself.' : '');
+                        }
+
+                        // A usable pin exists now, so let them carry on while
+                        // accuracy quietly improves in the background.
+                        restoreButton();
+
+                        if (accuracy <= GOOD_ENOUGH_M) stopLocating(null);
                     }, function (err) {
-                        locateBtn.disabled = false;
-                        locateBtn.innerHTML = original;
-                        coordsEl.textContent = err.code === err.PERMISSION_DENIED
-                            ? 'Location permission was blocked — allow it in your browser, or just drag the pin.'
-                            : 'Couldn’t get your location — drag the pin to set it manually.';
-                    }, { enableHighAccuracy: true, timeout: 10000 });
+                        if (err.code === err.PERMISSION_DENIED) {
+                            stopLocating('Location access was blocked — allow it in your browser settings, or just drag the pin.');
+                        } else if (bestAccuracy === Infinity) {
+                            stopLocating('Couldn’t get your location — drag the pin to set it manually.');
+                        } else {
+                            stopLocating(null); // already have a usable fix; keep it
+                        }
+                    }, {
+                        enableHighAccuracy: true,
+                        // Generous, because this budget also covers the time the
+                        // permission dialog is open.
+                        timeout: 30000,
+                        // Accept a fix up to a minute old so a recently-located
+                        // device pins instantly instead of waiting on GPS.
+                        maximumAge: 60000
+                    });
+
+                    stopTimer = setTimeout(function () {
+                        stopLocating(bestAccuracy === Infinity
+                            ? 'Still couldn’t get a location — drag the pin to set it manually.'
+                            : null);
+                    }, MAX_WAIT_MS);
                 });
             }
 
