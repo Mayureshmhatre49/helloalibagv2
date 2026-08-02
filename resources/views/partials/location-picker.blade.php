@@ -29,8 +29,23 @@
             <span class="material-symbols-outlined text-[16px]">my_location</span> Use my location
         </button>
     </div>
-    <p class="text-xs text-slate-500 mb-2">Drag the pin (or tap the map) to mark exactly where your business is. This is what shows on the public map.</p>
+    <p class="text-xs text-slate-500 mb-2">Search for your address, or drag the pin to mark exactly where your business is. This is what shows on the public map.</p>
+
+    {{-- Address search — jumps the pin straight to a matched address. --}}
+    <div class="relative mb-2" data-search-wrap>
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] pointer-events-none">search</span>
+        <input type="text" data-search autocomplete="off"
+               placeholder="Search address or landmark — e.g. Nagaon Beach Road"
+               class="w-full pl-10 pr-9 py-2.5 rounded-xl border border-slate-200 text-sm focus:border-primary focus:ring-primary">
+        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hidden" data-search-spinner>
+            <span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
+        </span>
+        <div data-search-results
+             class="absolute z-30 left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden max-h-60 overflow-y-auto hidden"></div>
+    </div>
+
     <div id="{{ $pickerId }}" class="w-full h-64 rounded-xl overflow-hidden border border-slate-200 bg-slate-100" style="z-index:0;"></div>
+
     <div class="flex items-center gap-2 mt-2">
         <p class="text-xs text-slate-400" data-coords>
             @if($curLat && $curLng)
@@ -42,8 +57,23 @@
         <button type="button" data-clear class="text-xs text-slate-400 hover:text-red-500 underline ml-auto {{ ($curLat && $curLng) ? '' : 'hidden' }}">Clear pin</button>
     </div>
 
-    <input type="hidden" name="latitude" value="{{ $curLat }}" data-lat>
-    <input type="hidden" name="longitude" value="{{ $curLng }}" data-lng>
+    {{-- Exact coordinates, editable. These are the real submitted fields, so the
+         map and the boxes can never disagree about what gets saved. --}}
+    <div class="grid grid-cols-2 gap-2 mt-2">
+        <div>
+            <label class="block text-[11px] font-semibold text-slate-500 mb-1">Latitude</label>
+            <input type="text" name="latitude" value="{{ $curLat }}" data-lat inputmode="decimal"
+                   placeholder="18.64140"
+                   class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm font-mono focus:border-primary focus:ring-primary">
+        </div>
+        <div>
+            <label class="block text-[11px] font-semibold text-slate-500 mb-1">Longitude</label>
+            <input type="text" name="longitude" value="{{ $curLng }}" data-lng inputmode="decimal"
+                   placeholder="72.87220"
+                   class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm font-mono focus:border-primary focus:ring-primary">
+        </div>
+    </div>
+    <p class="text-[11px] text-slate-400 mt-1">Have exact coordinates? Paste them here and the pin will move.</p>
 </div>
 
 @once
@@ -92,6 +122,114 @@
                 coordsEl.textContent = 'No exact pin set — the area centre will be used until you drop one.';
                 clearBtn.classList.add('hidden');
             });
+
+            // ── Typing coordinates directly moves the pin ──────────────────
+            function applyTypedCoords() {
+                var lat = parseFloat(latInput.value);
+                var lng = parseFloat(lngInput.value);
+                if (isNaN(lat) || isNaN(lng)) return;
+                if (lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+                    coordsEl.textContent = 'Those coordinates aren’t valid — latitude is -90 to 90, longitude -180 to 180.';
+                    return;
+                }
+                var ll = L.latLng(lat, lng);
+                marker.setLatLng(ll).setOpacity(1);
+                coordsEl.textContent = 'Pinned at ' + lat.toFixed(5) + ', ' + lng.toFixed(5);
+                clearBtn.classList.remove('hidden');
+                map.setView(ll, 16);
+            }
+            [latInput, lngInput].forEach(function (input) {
+                input.addEventListener('change', applyTypedCoords);
+                input.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter') { e.preventDefault(); applyTypedCoords(); }
+                });
+            });
+
+            // ── Address autocomplete ───────────────────────────────────────
+            var searchInput = rootEl.querySelector('[data-search]');
+            var resultsEl   = rootEl.querySelector('[data-search-results]');
+            var spinnerEl   = rootEl.querySelector('[data-search-spinner]');
+            var searchWrap  = rootEl.querySelector('[data-search-wrap]');
+
+            if (searchInput && resultsEl) {
+                var searchTimer = null;
+                var lastQuery = '';
+                var activeController = null;
+
+                function hideResults() { resultsEl.classList.add('hidden'); resultsEl.innerHTML = ''; }
+
+                function renderResults(items) {
+                    if (!items.length) {
+                        resultsEl.innerHTML = '<div class="px-4 py-3 text-sm text-slate-400">No matches in the Alibaug area — try a nearby landmark, or drag the pin.</div>';
+                        resultsEl.classList.remove('hidden');
+                        return;
+                    }
+                    resultsEl.innerHTML = '';
+                    items.forEach(function (item) {
+                        var btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'w-full text-left px-4 py-2.5 hover:bg-primary/5 border-b border-slate-50 last:border-0 transition-colors';
+                        var main = document.createElement('p');
+                        main.className = 'text-sm font-semibold text-slate-800';
+                        main.textContent = item.label;
+                        btn.appendChild(main);
+                        if (item.detail) {
+                            var sub = document.createElement('p');
+                            sub.className = 'text-xs text-slate-400';
+                            sub.textContent = item.detail;
+                            btn.appendChild(sub);
+                        }
+                        btn.addEventListener('click', function () {
+                            setPin(L.latLng(item.lat, item.lon), 17);
+                            searchInput.value = item.label;
+                            hideResults();
+                        });
+                        resultsEl.appendChild(btn);
+                    });
+                    resultsEl.classList.remove('hidden');
+                }
+
+                searchInput.addEventListener('input', function () {
+                    var q = searchInput.value.trim();
+                    clearTimeout(searchTimer);
+
+                    if (q.length < 3) { hideResults(); return; }
+                    if (q === lastQuery) return;
+
+                    // Debounced so a typed address is a few requests, not one per keystroke.
+                    searchTimer = setTimeout(function () {
+                        lastQuery = q;
+                        if (activeController) activeController.abort();
+                        activeController = new AbortController();
+                        spinnerEl.classList.remove('hidden');
+
+                        fetch('{{ route('places.search') }}?q=' + encodeURIComponent(q), {
+                            headers: { 'Accept': 'application/json' },
+                            signal: activeController.signal,
+                        })
+                            .then(function (r) { return r.ok ? r.json() : { results: [] }; })
+                            .then(function (data) {
+                                spinnerEl.classList.add('hidden');
+                                renderResults(data.results || []);
+                            })
+                            .catch(function (err) {
+                                if (err.name === 'AbortError') return;
+                                spinnerEl.classList.add('hidden');
+                                hideResults();
+                            });
+                    }, 350);
+                });
+
+                searchInput.addEventListener('keydown', function (e) {
+                    // The picker sits inside a form — Enter must search, not submit.
+                    if (e.key === 'Enter') e.preventDefault();
+                    if (e.key === 'Escape') hideResults();
+                });
+
+                document.addEventListener('click', function (e) {
+                    if (searchWrap && !searchWrap.contains(e.target)) hideResults();
+                });
+            }
 
             if (locateBtn) {
                 locateBtn.addEventListener('click', function () {

@@ -20,6 +20,12 @@ Route::get('/search', [SearchController::class, 'index'])->name('search');
 
 // Auth Routes (Breeze)
 Route::middleware('auth')->group(function () {
+    // Address autocomplete for the listing location picker. Authenticated +
+    // throttled because it proxies a metered third-party geocoding API.
+    Route::get('/places/search', [\App\Http\Controllers\PlaceSearchController::class, 'search'])
+        ->middleware('throttle:30,1')
+        ->name('places.search');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
