@@ -730,7 +730,7 @@
                         </div>
 
                         <div class="mt-2">
-                            @include('partials.location-picker', ['areas' => $areas, 'latitude' => $listing->latitude, 'longitude' => $listing->longitude])
+                            @include('partials.location-picker', ['areas' => $areas, 'latitude' => $listing->latitude, 'longitude' => $listing->longitude, 'googleBusinessUrl' => $listing->google_business_url])
                         </div>
                     </div>
                 </div>

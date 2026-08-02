@@ -20,7 +20,7 @@ class Listing extends Model implements Auditable
         'title', 'slug', 'category_id', 'area_id', 'description', 'price',
         'status', 'rejection_reason', 'is_featured', 'is_premium', 'created_by', 'approved_by',
         'approved_at', 'views_count', 'address', 'latitude', 'longitude', 'phone', 'email',
-        'website', 'whatsapp', 'city_id', 'subscription_ready',
+        'website', 'whatsapp', 'google_business_url', 'city_id', 'subscription_ready',
         'event_start_at', 'event_end_at', 'event_is_recurring',
         'is_verified', 'verified_at', 'verification_note', 'verified_by',
         'payment_received_at', 'payment_recorded_by', 'payment_note',

@@ -91,6 +91,7 @@ class OnboardingController extends Controller
             'price'              => 'nullable|numeric|min:0',
             'phone'              => 'nullable|string|max:20',
             'email'              => 'nullable|email|max:255',
+            'google_business_url' => ['nullable', 'url', 'max:255', 'regex:/^https?:\\/\\/([a-z0-9-]+\\.)*(google\\.[a-z.]+|goo\\.gl|g\\.page)\\//i'],
             'address'            => 'nullable|string|max:500',
             'latitude'           => 'nullable|numeric|between:-90,90',
             'longitude'          => 'nullable|numeric|between:-180,180',
@@ -137,6 +138,7 @@ class OnboardingController extends Controller
             $listing->price       = $request->price;
             $listing->phone       = $request->phone;
             $listing->email       = $request->email;
+            $listing->google_business_url = $request->google_business_url;
             $listing->address     = $request->address;
             $listing->latitude    = $request->filled('latitude') ? $request->latitude : null;
             $listing->longitude   = $request->filled('longitude') ? $request->longitude : null;

@@ -3,13 +3,15 @@
     Params (via @include):
       $latitude, $longitude  — current values (nullable)
       $areas                 — collection of areas with id/latitude/longitude (for recentre-on-area-change)
-    Emits hidden inputs named `latitude` and `longitude`.
+      $googleBusinessUrl     — current Google Business Profile link (nullable)
+    Emits inputs named `latitude`, `longitude` and `google_business_url`.
     Reads the sibling <select name="area_id"> to recentre when the area changes.
 --}}
 @php
     $pickerId = 'locpick_' . uniqid();
     $curLat = old('latitude', $latitude ?? null);
     $curLng = old('longitude', $longitude ?? null);
+    $curGmb = old('google_business_url', $googleBusinessUrl ?? null);
     $areaCentroids = collect($areas ?? [])
         ->filter(fn ($a) => $a->latitude !== null && $a->longitude !== null)
         ->mapWithKeys(fn ($a) => [$a->id => [(float) $a->latitude, (float) $a->longitude]]);
@@ -23,6 +25,29 @@
 @endonce
 
 <div class="location-picker" data-picker="{{ $pickerId }}" data-areas="{{ json_encode($areaCentroids) }}">
+
+    {{-- Google Business Profile — sits above the map because it's the other
+         half of "where is this business", and many owners already have one. --}}
+    <div class="mb-5">
+        <label for="google_business_url" class="block text-sm font-bold text-slate-700 mb-1">
+            Google Business Profile <span class="text-slate-500 font-normal">(optional)</span>
+        </label>
+        <p class="text-xs text-slate-500 mb-2">Paste your Google Maps / Business Profile link. Visitors get a button to open it for reviews, photos and directions.</p>
+        <div class="relative">
+            <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] pointer-events-none">storefront</span>
+            <input type="url" name="google_business_url" id="google_business_url"
+                   value="{{ $curGmb }}" maxlength="255"
+                   placeholder="https://maps.app.goo.gl/… or https://g.page/…"
+                   class="w-full pl-10 pr-4 py-2.5 rounded-xl border text-sm focus:ring-primary {{ $errors->has('google_business_url') ? 'border-red-300 focus:border-red-400' : 'border-slate-200 focus:border-primary' }}">
+        </div>
+        @error('google_business_url')
+            <p class="text-xs text-red-600 mt-1 font-medium">{{ $message }}</p>
+        @enderror
+        <p class="text-[11px] text-slate-500 mt-1.5">
+            On Google Maps, find your business → <strong>Share</strong> → copy the link.
+        </p>
+    </div>
+
     <div class="flex items-center justify-between mb-2">
         <label class="block text-sm font-bold text-slate-700">Pin exact location</label>
         <button type="button" data-locate class="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">

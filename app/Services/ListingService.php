@@ -125,6 +125,7 @@ class ListingService
                 'phone' => $data['phone'] ?? $listing->phone,
                 'email' => $data['email'] ?? $listing->email,
                 'website' => $data['website'] ?? $listing->website,
+                'google_business_url' => array_key_exists('google_business_url', $data) ? $data['google_business_url'] : $listing->google_business_url,
                 'whatsapp' => $data['whatsapp'] ?? $listing->whatsapp,
             ]);
 

@@ -185,6 +185,7 @@ class ListingController extends Controller
             'phone'        => 'nullable|string|max:20',
             'email'        => 'nullable|email|max:255',
             'website'      => 'nullable|url|max:255',
+            'google_business_url' => ['nullable', 'url', 'max:255', 'regex:/^https?:\\/\\/([a-z0-9-]+\\.)*(google\\.[a-z.]+|goo\\.gl|g\\.page)\\//i'],
             'whatsapp'     => 'nullable|string|max:20',
             'amenities'    => 'nullable|array',
             'amenities.*'  => 'exists:amenities,id',
