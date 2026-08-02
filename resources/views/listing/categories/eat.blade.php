@@ -649,16 +649,7 @@
                     </div>
 
                     {{-- Inquiry form --}}
-                    @if($errors->any())
-                        <div class="mb-3 bg-red-50 border border-red-200 text-red-700 rounded-xl p-3 text-xs">
-                            <p class="font-bold mb-1 flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">error</span> Please fix the following:</p>
-                            <ul class="list-disc list-inside space-y-0.5">
-                                @foreach($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+                    @include('listing.partials._inquiry-errors')
                     <form method="POST" action="{{ route('listing.inquiry.store', $listing) }}" class="space-y-2.5">
                         @csrf
                         <div>
