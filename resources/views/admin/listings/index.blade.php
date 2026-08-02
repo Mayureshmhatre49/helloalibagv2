@@ -131,7 +131,7 @@
                                                         <div class="flex justify-end gap-2">
                                                             <button type="button" @click="showPaymentModal = false" class="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors">Cancel</button>
                                                             <button type="submit" :disabled="!paymentConfirmed"
-                                                                    :class="paymentConfirmed ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-slate-200 text-slate-400 cursor-not-allowed'"
+                                                                    :class="paymentConfirmed ? 'bg-emerald-600 hover:bg-emerald-700' : 'bg-slate-200 text-slate-500 cursor-not-allowed'"
                                                                     class="px-4 py-2 text-sm text-white rounded-lg font-bold shadow-sm transition-colors">Record payment &amp; approve</button>
                                                         </div>
                                                     </form>
@@ -234,7 +234,7 @@
                                                             :disabled="deleteConfirm.trim().toLowerCase() !== 'permanently delete'"
                                                             :class="deleteConfirm.trim().toLowerCase() === 'permanently delete'
                                                                 ? 'bg-rose-600 hover:bg-rose-700 text-white cursor-pointer'
-                                                                : 'bg-slate-200 text-slate-400 cursor-not-allowed'"
+                                                                : 'bg-slate-200 text-slate-500 cursor-not-allowed'"
                                                             class="flex items-center gap-1.5 px-4 py-2 text-sm font-bold rounded-lg shadow-sm transition-colors">
                                                         <span class="material-symbols-outlined text-[16px]">delete_forever</span>
                                                         Delete Permanently

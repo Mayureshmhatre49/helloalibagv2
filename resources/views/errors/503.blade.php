@@ -12,7 +12,7 @@
         <h2 class="text-xl font-bold text-slate-700 mb-3">Down for Maintenance</h2>
         <p class="text-slate-500 mb-8">Hello Alibaug is undergoing scheduled maintenance and will be back shortly. Thank you for your patience.</p>
 
-        <p class="text-sm text-slate-400">Need urgent help? Email us at
+        <p class="text-sm text-slate-500">Need urgent help? Email us at
             <a href="mailto:hello@helloalibaug.com" class="text-primary hover:underline">hello@helloalibaug.com</a>
         </p>
     </div>

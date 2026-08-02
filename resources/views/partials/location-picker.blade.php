@@ -37,7 +37,7 @@
         <input type="text" data-search autocomplete="off"
                placeholder="Search address or landmark — e.g. Nagaon Beach Road"
                class="w-full pl-10 pr-9 py-2.5 rounded-xl border border-slate-200 text-sm focus:border-primary focus:ring-primary">
-        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hidden" data-search-spinner>
+        <span class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hidden" data-search-spinner>
             <span class="material-symbols-outlined text-[18px] animate-spin">progress_activity</span>
         </span>
         <div data-search-results
@@ -47,14 +47,14 @@
     <div id="{{ $pickerId }}" class="w-full h-64 rounded-xl overflow-hidden border border-slate-200 bg-slate-100" style="z-index:0;"></div>
 
     <div class="flex items-center gap-2 mt-2">
-        <p class="text-xs text-slate-400" data-coords>
+        <p class="text-xs text-slate-500" data-coords>
             @if($curLat && $curLng)
                 Pinned at {{ number_format((float) $curLat, 5) }}, {{ number_format((float) $curLng, 5) }}
             @else
                 No exact pin set — the area centre will be used until you drop one.
             @endif
         </p>
-        <button type="button" data-clear class="text-xs text-slate-400 hover:text-red-500 underline ml-auto {{ ($curLat && $curLng) ? '' : 'hidden' }}">Clear pin</button>
+        <button type="button" data-clear class="text-xs text-slate-500 hover:text-red-500 underline ml-auto {{ ($curLat && $curLng) ? '' : 'hidden' }}">Clear pin</button>
     </div>
 
     {{-- Exact coordinates, editable. These are the real submitted fields, so the
@@ -73,7 +73,7 @@
                    class="w-full px-3 py-2 rounded-lg border border-slate-200 text-sm font-mono focus:border-primary focus:ring-primary">
         </div>
     </div>
-    <p class="text-[11px] text-slate-400 mt-1">Have exact coordinates? Paste them here and the pin will move.</p>
+    <p class="text-[11px] text-slate-500 mt-1">Have exact coordinates? Paste them here and the pin will move.</p>
 </div>
 
 @once
@@ -160,7 +160,7 @@
 
                 function renderResults(items) {
                     if (!items.length) {
-                        resultsEl.innerHTML = '<div class="px-4 py-3 text-sm text-slate-400">No matches in the Alibaug area — try a nearby landmark, or drag the pin.</div>';
+                        resultsEl.innerHTML = '<div class="px-4 py-3 text-sm text-slate-500">No matches in the Alibaug area — try a nearby landmark, or drag the pin.</div>';
                         resultsEl.classList.remove('hidden');
                         return;
                     }
@@ -175,7 +175,7 @@
                         btn.appendChild(main);
                         if (item.detail) {
                             var sub = document.createElement('p');
-                            sub.className = 'text-xs text-slate-400';
+                            sub.className = 'text-xs text-slate-500';
                             sub.textContent = item.detail;
                             btn.appendChild(sub);
                         }

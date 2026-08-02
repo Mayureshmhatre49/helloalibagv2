@@ -12,44 +12,44 @@
     <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm mb-4">
         <div class="flex items-center justify-between mb-4">
             <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border {{ $inquiry->getStatusBadgeClass() }}">{{ $inquiry->getStatusLabel() }}</span>
-            <span class="text-xs text-slate-400">{{ $inquiry->created_at->format('M d, Y h:i A') }}</span>
+            <span class="text-xs text-slate-500">{{ $inquiry->created_at->format('M d, Y h:i A') }}</span>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             <div>
-                <p class="text-xs text-slate-400 mb-0.5">From</p>
+                <p class="text-xs text-slate-500 mb-0.5">From</p>
                 <p class="font-semibold text-slate-900">{{ $inquiry->name }}</p>
             </div>
             <div>
-                <p class="text-xs text-slate-400 mb-0.5">Listing</p>
+                <p class="text-xs text-slate-500 mb-0.5">Listing</p>
                 <p class="font-semibold text-slate-900">{{ $inquiry->listing->title ?? '—' }}</p>
             </div>
             <div>
-                <p class="text-xs text-slate-400 mb-0.5">Email</p>
+                <p class="text-xs text-slate-500 mb-0.5">Email</p>
                 <p class="text-sm text-primary">{{ $inquiry->email }}</p>
             </div>
             @if($inquiry->phone)
             <div>
-                <p class="text-xs text-slate-400 mb-0.5">Phone</p>
+                <p class="text-xs text-slate-500 mb-0.5">Phone</p>
                 <p class="text-sm text-slate-700">{{ $inquiry->phone }}</p>
             </div>
             @endif
             @if($inquiry->check_in)
             <div>
-                <p class="text-xs text-slate-400 mb-0.5">Check-in / Check-out</p>
+                <p class="text-xs text-slate-500 mb-0.5">Check-in / Check-out</p>
                 <p class="text-sm text-slate-700">{{ $inquiry->check_in->format('M d, Y') }}{{ $inquiry->check_out ? ' → ' . $inquiry->check_out->format('M d, Y') : '' }}</p>
             </div>
             @endif
             @if($inquiry->guests)
             <div>
-                <p class="text-xs text-slate-400 mb-0.5">Guests</p>
+                <p class="text-xs text-slate-500 mb-0.5">Guests</p>
                 <p class="text-sm text-slate-700">{{ $inquiry->guests }}</p>
             </div>
             @endif
         </div>
 
         <div class="border-t border-slate-100 pt-4">
-            <p class="text-xs text-slate-400 mb-2">Message</p>
+            <p class="text-xs text-slate-500 mb-2">Message</p>
             <div class="text-sm text-slate-700 bg-slate-50 rounded-xl p-4 whitespace-pre-wrap">{{ $inquiry->message }}</div>
         </div>
     </div>

@@ -57,7 +57,7 @@
                                 <td class="px-5 py-4 text-slate-600">{{ $bestFor }}</td>
                                 <td class="px-5 py-4">
                                     @if($sports === 'No')
-                                        <span class="text-slate-400 text-xs font-semibold">None</span>
+                                        <span class="text-slate-500 text-xs font-semibold">None</span>
                                     @elseif($sports === 'Limited')
                                         <span class="bg-amber-50 text-amber-700 px-2 py-1 rounded-md text-xs font-bold">Limited</span>
                                     @else

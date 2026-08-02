@@ -6,7 +6,7 @@
                 <div class="flex items-baseline gap-1 min-w-0">
                     <span class="text-lg font-bold text-slate-900 whitespace-nowrap">₹{{ number_format($listing->price) }}</span>
                     @if($priceLabel)
-                        <span class="text-xs text-slate-400 truncate">{{ $priceLabel }}</span>
+                        <span class="text-xs text-slate-500 truncate">{{ $priceLabel }}</span>
                     @endif
                 </div>
             @else
@@ -16,7 +16,7 @@
                 <div class="flex items-center gap-0.5 mt-0.5">
                     <span class="material-symbols-outlined text-amber-400 text-[12px]" style="font-variation-settings:'FILL' 1">star</span>
                     <span class="text-xs font-bold text-slate-700">{{ $avgRating }}</span>
-                    <span class="text-xs text-slate-400">({{ $reviewCount }})</span>
+                    <span class="text-xs text-slate-500">({{ $reviewCount }})</span>
                 </div>
             @endif
         </div>

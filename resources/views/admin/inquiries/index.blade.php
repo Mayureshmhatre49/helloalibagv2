@@ -54,7 +54,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="5" class="px-5 py-12 text-center text-slate-400">No inquiries found.</td></tr>
+                    <tr><td colspan="5" class="px-5 py-12 text-center text-slate-500">No inquiries found.</td></tr>
                 @endforelse
             </tbody>
         </table>

@@ -65,7 +65,7 @@
                         <!-- Modern Circular Score -->
                         <div class="flex items-center gap-4 bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
                             <div class="flex flex-col text-right">
-                                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Overall Score</span>
+                                <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Overall Score</span>
                                 <span class="text-sm font-bold text-slate-700" id="seo-score-text">Needs Improvement</span>
                             </div>
                             <div class="relative w-12 h-12 flex items-center justify-center">
@@ -97,7 +97,7 @@
                                     <div id="title_progress" class="h-full bg-blue-500 transition-all w-0"></div>
                                 </div>
                                 <div class="flex justify-between mt-1">
-                                    <span class="text-[10px] text-slate-400">Aim for 40-60 chars</span>
+                                    <span class="text-[10px] text-slate-500">Aim for 40-60 chars</span>
                                     <span id="title_length" class="text-[10px] text-slate-500 font-medium">0 / 60</span>
                                 </div>
                             </div>
@@ -110,7 +110,7 @@
                                     <div id="desc_progress" class="h-full bg-blue-500 transition-all w-0"></div>
                                 </div>
                                 <div class="flex justify-between mt-1">
-                                    <span class="text-[10px] text-slate-400">Aim for 120-160 chars</span>
+                                    <span class="text-[10px] text-slate-500">Aim for 120-160 chars</span>
                                     <span id="desc_length" class="text-[10px] text-slate-500 font-medium">0 / 160</span>
                                 </div>
                             </div>
@@ -129,9 +129,9 @@
                                 <h4 class="text-sm font-bold text-slate-700 mb-3 flex items-center gap-2"><span class="material-symbols-outlined text-[18px] text-slate-400">devices</span> Google Snippet Preview</h4>
                                 <div class="p-4 bg-white border border-slate-200 rounded-xl shadow-sm">
                                     <div class="text-[13px] text-slate-700 mb-1 flex items-center gap-2">
-                                        <div class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-400">HA</div>
+                                        <div class="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-500">HA</div>
                                         <span class="text-slate-800">Hello Alibaug</span>
-                                        <span class="text-slate-400">{{ url('/blog') }}/<span id="preview_slug">post-url</span></span>
+                                        <span class="text-slate-500">{{ url('/blog') }}/<span id="preview_slug">post-url</span></span>
                                     </div>
                                     <div id="preview_title" class="text-lg text-blue-700 font-medium hover:underline cursor-pointer mb-1 truncate">Post Title Goes Here</div>
                                     <div id="preview_desc" class="text-[13px] text-slate-600 line-clamp-2">This is where the meta description will appear in Google search results. It should be engaging and informative.</div>
@@ -209,7 +209,7 @@
                                 <option value="{{ $tag->id }}" {{ in_array($tag->id, $selectedTags) ? 'selected' : '' }}>#{{ $tag->name }}</option>
                             @endforeach
                         </select>
-                        <p class="text-[10px] text-slate-400 mt-1">Hold Ctrl/Cmd to select multiple tags.</p>
+                        <p class="text-[10px] text-slate-500 mt-1">Hold Ctrl/Cmd to select multiple tags.</p>
                     </div>
                 </div>
 
@@ -228,14 +228,14 @@
                             </div>
                         @endif
                         <input type="file" name="featured_image" accept="image/*" class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 transition-all cursor-pointer">
-                        <p class="text-[10px] text-slate-400 mt-2">Recommended: 1200x630px. Will be auto-compressed to WebP.</p>
+                        <p class="text-[10px] text-slate-500 mt-2">Recommended: 1200x630px. Will be auto-compressed to WebP.</p>
                         @error('featured_image') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div class="pt-2 border-t border-slate-100">
                         <label class="block text-sm font-bold text-slate-700 mb-1">Image Alt Text</label>
                         <input type="text" name="featured_image_alt" value="{{ old('featured_image_alt', $post->featured_image_alt ?? '') }}" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Describe the image for SEO">
-                        <p class="text-[10px] text-slate-400 mt-1">Leave blank to default to the post title. Important for accessibility and SEO formatting.</p>
+                        <p class="text-[10px] text-slate-500 mt-1">Leave blank to default to the post title. Important for accessibility and SEO formatting.</p>
                         @error('featured_image_alt') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
@@ -254,7 +254,7 @@
                                 <option value="{{ $listing->id }}" {{ in_array($listing->id, $selectedListings) ? 'selected' : '' }}>{{ $listing->title }}</option>
                             @endforeach
                         </select>
-                        <p class="text-[10px] text-slate-400 mt-1">Cross-sell properties directly in the blog post body/sidebar.</p>
+                        <p class="text-[10px] text-slate-500 mt-1">Cross-sell properties directly in the blog post body/sidebar.</p>
                     </div>
                 </div>
 

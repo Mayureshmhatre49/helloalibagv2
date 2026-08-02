@@ -13,7 +13,7 @@
         @else
             <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-slate-50">
                 <span class="material-symbols-outlined text-4xl text-slate-300">image</span>
-                <span class="text-xs text-slate-400">No photo</span>
+                <span class="text-xs text-slate-500">No photo</span>
             </div>
         @endif
 

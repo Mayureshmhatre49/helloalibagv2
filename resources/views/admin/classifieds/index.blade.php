@@ -41,7 +41,7 @@
                                 'pending'  => 'bg-amber-50 text-amber-700 border-amber-200',
                                 'active'   => 'bg-green-50 text-green-700 border-green-200',
                                 'sold'     => 'bg-slate-100 text-slate-600 border-slate-200',
-                                'expired'  => 'bg-slate-50 text-slate-400 border-slate-200',
+                                'expired'  => 'bg-slate-50 text-slate-500 border-slate-200',
                                 'rejected' => 'bg-red-50 text-red-700 border-red-200',
                             ];
                         @endphp

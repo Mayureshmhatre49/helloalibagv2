@@ -21,7 +21,7 @@
                               style="{{ $i <= round($avgRating) ? 'font-variation-settings:\'FILL\' 1' : '' }}">star</span>
                     @endfor
                 </div>
-                <p class="text-xs text-slate-400">{{ $reviewCount }} {{ Str::plural('review', $reviewCount) }}</p>
+                <p class="text-xs text-slate-500">{{ $reviewCount }} {{ Str::plural('review', $reviewCount) }}</p>
             </div>
             <div class="flex-1">
                 @for($star = 5; $star >= 1; $star--)
@@ -35,7 +35,7 @@
                         <div class="flex-1 bg-slate-200 rounded-full h-1.5 overflow-hidden">
                             <div class="bg-amber-400 h-full rounded-full transition-all duration-500" style="width:{{ $pct }}%;"></div>
                         </div>
-                        <span class="text-xs text-slate-400 w-4 text-right">{{ $starCount }}</span>
+                        <span class="text-xs text-slate-500 w-4 text-right">{{ $starCount }}</span>
                     </div>
                 @endfor
             </div>
@@ -91,7 +91,7 @@
 
                     <div class="mb-3">
                         <textarea name="comment" required rows="3"
-                                  class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none placeholder:text-slate-400"
+                                  class="w-full rounded-xl border border-slate-200 bg-white px-3.5 py-3 text-sm text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none placeholder:text-slate-500"
                                   placeholder="What did you enjoy? What could be improved?">{{ old('comment') }}</textarea>
                     </div>
 
@@ -157,7 +157,7 @@
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between mb-1 gap-2">
                         <span class="font-bold text-slate-900 text-sm">{{ $review->user->name }}</span>
-                        <p class="text-xs text-slate-400 flex-shrink-0">{{ $review->created_at->diffForHumans() }}</p>
+                        <p class="text-xs text-slate-500 flex-shrink-0">{{ $review->created_at->diffForHumans() }}</p>
                     </div>
                     <div class="flex items-center gap-0.5 mb-2">
                         @for($i = 1; $i <= 5; $i++)
@@ -247,7 +247,7 @@
         @empty
             <div class="text-center py-10">
                 <span class="material-symbols-outlined text-5xl text-slate-200 mb-3 block">reviews</span>
-                <p class="text-sm text-slate-400">No reviews yet. Be the first to share your experience!</p>
+                <p class="text-sm text-slate-500">No reviews yet. Be the first to share your experience!</p>
             </div>
         @endforelse
     </div>

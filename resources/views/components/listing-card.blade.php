@@ -29,7 +29,7 @@
         @else
             <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-slate-50">
                 <span class="material-symbols-outlined text-4xl text-slate-300">image</span>
-                <span class="text-xs text-slate-400">No photo yet</span>
+                <span class="text-xs text-slate-500">No photo yet</span>
             </div>
         @endif
 
@@ -94,7 +94,7 @@
                 <span class="material-symbols-outlined text-[13px] text-amber-400" style="font-variation-settings:'FILL' 1">star</span>
                 {{ $rating }}
                 @if($reviewCount)
-                    <span class="text-slate-400 font-normal">({{ $reviewCount }})</span>
+                    <span class="text-slate-500 font-normal">({{ $reviewCount }})</span>
                 @endif
             </span>
         </div>

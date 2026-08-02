@@ -47,7 +47,7 @@
     <div class="mb-4 flex items-start justify-between gap-4 flex-wrap">
         <div>
             <div class="flex items-center gap-2 mb-1">
-                <a href="{{ route('admin.listings.index', ['status' => $listing->status]) }}" class="text-slate-400 hover:text-primary transition-colors">
+                <a href="{{ route('admin.listings.index', ['status' => $listing->status]) }}" class="text-slate-500 hover:text-primary transition-colors">
                     <span class="material-symbols-outlined text-[20px]">arrow_back</span>
                 </a>
                 <h1 class="text-2xl font-serif font-bold text-slate-900">Edit Listing</h1>
@@ -146,7 +146,7 @@
             <div class="mt-4 bg-white rounded-2xl border border-slate-200 shadow-sm p-4">
                 <div class="flex items-center justify-between mb-2">
                     <span class="text-xs font-bold text-slate-500 uppercase tracking-wide">Listing Score</span>
-                    <span class="text-lg font-bold {{ $color }}">{{ $score }}<span class="text-xs text-slate-400">/100</span></span>
+                    <span class="text-lg font-bold {{ $color }}">{{ $score }}<span class="text-xs text-slate-500">/100</span></span>
                 </div>
                 <div class="w-full bg-slate-100 rounded-full h-2 mb-3">
                     <div class="h-2 rounded-full transition-all {{ str_contains($color, 'emerald') ? 'bg-emerald-500' : (str_contains($color, 'blue') ? 'bg-blue-500' : (str_contains($color, 'amber') ? 'bg-amber-400' : 'bg-red-400')) }}" style="width: {{ $score }}%"></div>
@@ -154,11 +154,11 @@
                 <p class="text-xs font-bold {{ $color }} mb-3">{{ $label }}</p>
                 <ul class="space-y-1.5">
                     @foreach($checks as $check)
-                        <li class="flex items-center gap-2 text-xs {{ $check['done'] ? 'text-slate-400 line-through' : 'text-slate-600' }}">
+                        <li class="flex items-center gap-2 text-xs {{ $check['done'] ? 'text-slate-500 line-through' : 'text-slate-600' }}">
                             <span class="material-symbols-outlined text-[14px] {{ $check['done'] ? 'text-emerald-500' : 'text-slate-300' }}">{{ $check['done'] ? 'check_circle' : 'radio_button_unchecked' }}</span>
                             {{ $check['label'] }}
                             @if(!$check['done'])
-                                <span class="ml-auto text-[10px] text-slate-400 font-bold">+{{ $check['points'] }}pts</span>
+                                <span class="ml-auto text-[10px] text-slate-500 font-bold">+{{ $check['points'] }}pts</span>
                             @endif
                         </li>
                     @endforeach
@@ -200,7 +200,7 @@
                                     <label for="price" class="block text-sm font-bold text-slate-700 mb-1.5" x-text="priceLabel">Price (₹)</label>
                                     <div class="relative">
                                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                            <span class="text-slate-400 font-bold">₹</span>
+                                            <span class="text-slate-500 font-bold">₹</span>
                                         </div>
                                         <input type="number" name="price" id="price" value="{{ old('price', $listing->price) }}" class="w-full rounded-xl border-slate-200 text-sm focus:border-primary focus:ring-primary py-3 pl-8 pr-4 bg-slate-50/50" placeholder="0" step="0.01">
                                     </div>
@@ -275,7 +275,7 @@
 
                             {{-- Basic Info --}}
                             <div>
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Basic Info</p>
+                                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Basic Info</p>
                                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
                                     <div>
                                         <label class="block text-sm font-bold text-slate-700 mb-1.5">Cuisine Type</label>
@@ -325,7 +325,7 @@
 
                             {{-- Dining Options --}}
                             <div>
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Dining Options</p>
+                                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Dining Options</p>
                                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                                     @foreach(['dine_in'=>['restaurant','Dine In'],'takeaway'=>['takeout_dining','Takeaway'],'delivery'=>['delivery_dining','Home Delivery'],'outdoor_seating'=>['deck','Outdoor Seating'],'live_counter'=>['storefront','Live Counter'],'private_dining'=>['meeting_room','Private Dining']] as $val => [$icon, $lbl])
                                         <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50/50 cursor-pointer hover:border-primary/40 hover:bg-white has-[:checked]:bg-primary/5 has-[:checked]:border-primary transition-all">
@@ -339,7 +339,7 @@
 
                             {{-- Dining Facilities --}}
                             <div>
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Facilities & Atmosphere</p>
+                                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Facilities & Atmosphere</p>
                                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                                     @foreach(['pet_friendly'=>['pets','Pet Friendly'],'kid_friendly'=>['child_care','Kid Friendly'],'wheelchair_accessible'=>['accessible','Wheelchair OK'],'wifi_available'=>['wifi','Free WiFi'],'live_music'=>['music_note','Live Music'],'air_conditioned'=>['ac_unit','Air Conditioned'],'alcohol_served'=>['local_bar','Alcohol Served'],'rooftop'=>['roofing','Rooftop'],'sea_view'=>['waves','Sea View'],'garden_seating'=>['park','Garden Seating']] as $val => [$icon, $lbl])
                                         <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50/50 cursor-pointer hover:border-primary/40 hover:bg-white has-[:checked]:bg-primary/5 has-[:checked]:border-primary transition-all">
@@ -353,7 +353,7 @@
 
                             {{-- Dietary Options --}}
                             <div>
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Dietary Accommodations</p>
+                                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Dietary Accommodations</p>
                                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                                     @foreach(['veg_options'=>['eco','Veg Options'],'vegan_options'=>['spa','Vegan Options'],'jain_options'=>['self_improvement','Jain Options'],'halal_options'=>['verified','Halal Options'],'gluten_free'=>['grain','Gluten Free'],'nut_free'=>['no_food','Nut Free']] as $val => [$icon, $lbl])
                                         <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50/50 cursor-pointer hover:border-primary/40 hover:bg-white has-[:checked]:bg-primary/5 has-[:checked]:border-primary transition-all">
@@ -368,7 +368,7 @@
                             {{-- Payment & Closed On row --}}
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-7">
                                 <div>
-                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Payment Methods</p>
+                                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Payment Methods</p>
                                     <div class="grid grid-cols-2 gap-3">
                                         @foreach(['cash'=>['payments','Cash'],'card'=>['credit_card','Card'],'upi'=>['qr_code_2','UPI'],'online'=>['smartphone','Online Payment']] as $val => [$icon, $lbl])
                                             <label class="flex items-center gap-2.5 p-3 rounded-xl border border-slate-200 bg-slate-50/50 cursor-pointer hover:border-primary/40 hover:bg-white has-[:checked]:bg-primary/5 has-[:checked]:border-primary transition-all">
@@ -380,7 +380,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Closed On</p>
+                                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Closed On</p>
                                     <div class="flex flex-wrap gap-2">
                                         @foreach(['mon'=>'Mon','tue'=>'Tue','wed'=>'Wed','thu'=>'Thu','fri'=>'Fri','sat'=>'Sat','sun'=>'Sun'] as $val => $lbl)
                                             <label class="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-slate-200 bg-slate-50/50 cursor-pointer hover:border-red-300 hover:bg-red-50/50 has-[:checked]:bg-red-50 has-[:checked]:border-red-400 transition-all">
@@ -399,7 +399,7 @@
                             @endphp
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-7">
                                 <div>
-                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Specialty</p>
+                                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Specialty</p>
                                     <div class="grid grid-cols-2 gap-2">
                                         @foreach(['fish_thali'=>'Fish Thali','a_la_carte'=>'A La Carte','seafood_platter'=>'Seafood Platter','malvani_thali'=>'Malvani Thali','farm_dining'=>'Farm Dining','tasting_menu'=>'Tasting Menu','beach_shack'=>'Beach Shack','khanawal'=>'Khanawal'] as $val => $lbl)
                                             <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50/50 cursor-pointer hover:border-primary/40 hover:bg-white has-[:checked]:bg-primary/5 has-[:checked]:border-primary transition-all">
@@ -410,7 +410,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Vibe / Ambiance</p>
+                                    <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Vibe / Ambiance</p>
                                     <div class="grid grid-cols-2 gap-2">
                                         @foreach(['romantic'=>'Romantic','family_casual'=>'Family Casual','beachfront'=>'Beachfront','garden'=>'Garden / Outdoor','heritage'=>'Heritage','lively_bar'=>'Lively Bar','bohemian'=>'Bohemian','fine_dining'=>'Fine Dining'] as $val => $lbl)
                                             <label class="flex items-center gap-2 p-2.5 rounded-xl border border-slate-200 bg-slate-50/50 cursor-pointer hover:border-primary/40 hover:bg-white has-[:checked]:bg-primary/5 has-[:checked]:border-primary transition-all">
@@ -425,11 +425,11 @@
                             {{-- Must-Try Dishes & Instagram --}}
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                 <div>
-                                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Must-Try Dishes <span class="text-slate-400 font-normal text-xs">(comma-separated)</span></label>
+                                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Must-Try Dishes <span class="text-slate-500 font-normal text-xs">(comma-separated)</span></label>
                                     <input type="text" name="attributes[must_try_dishes]" value="{{ $listing->listingAttributes->where('attribute_key', 'must_try_dishes')->first()?->attribute_value }}" class="w-full rounded-xl border-slate-200 text-sm focus:border-primary focus:ring-primary py-3 px-4 bg-slate-50/50" placeholder="e.g., Butter Garlic Prawns, Malvani Thali">
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Instagram Handle <span class="text-slate-400 font-normal text-xs">(optional)</span></label>
+                                    <label class="block text-sm font-bold text-slate-700 mb-1.5">Instagram Handle <span class="text-slate-500 font-normal text-xs">(optional)</span></label>
                                     <input type="text" name="attributes[instagram_handle]" value="{{ $listing->listingAttributes->where('attribute_key', 'instagram_handle')->first()?->attribute_value }}" class="w-full rounded-xl border-slate-200 text-sm focus:border-primary focus:ring-primary py-3 px-4 bg-slate-50/50" placeholder="@yourrestaurant">
                                 </div>
                             </div>
@@ -455,7 +455,7 @@
                                 },
                                 has(val) { return this.selected.includes(val); }
                             }">
-                                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Available On <span class="normal-case font-normal text-slate-400 ml-1">— select where your restaurant is listed</span></p>
+                                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3">Available On <span class="normal-case font-normal text-slate-500 ml-1">— select where your restaurant is listed</span></p>
 
                                 {{-- Hidden input for available_on --}}
                                 <input type="hidden" name="attributes[available_on]" :value="selected.join(',')">
@@ -483,7 +483,7 @@
                                             </div>
                                             <div class="min-w-0">
                                                 <p class="text-xs font-bold leading-none mb-0.5" :class="has('{{ $key }}') ? '' : 'text-slate-800'" :style="has('{{ $key }}') ? 'color: {{ $p['color'] }};' : ''">{{ $p['label'] }}</p>
-                                                <p class="text-[10px] text-slate-400 leading-tight">{{ $p['desc'] }}</p>
+                                                <p class="text-[10px] text-slate-500 leading-tight">{{ $p['desc'] }}</p>
                                             </div>
                                         </button>
                                     @endforeach
@@ -496,7 +496,7 @@
                                             <span class="w-5 h-5 rounded flex items-center justify-center text-white text-[10px] font-black flex-shrink-0"
                                                   style="background-color: {{ $p['color'] }}">{{ strtoupper(substr($p['label'], 0, 1)) }}</span>
                                             {{ $p['label'] }} URL
-                                            <span class="text-slate-400 font-normal text-xs">(optional — paste your listing page link)</span>
+                                            <span class="text-slate-500 font-normal text-xs">(optional — paste your listing page link)</span>
                                         </label>
                                         <input type="url" name="attributes[{{ $p['attr'] }}]"
                                                value="{{ $listing->listingAttributes->where('attribute_key', $p['attr'])->first()?->attribute_value }}"
@@ -665,7 +665,7 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-1.5">RERA Number <span class="text-slate-400 font-normal text-xs">(optional)</span></label>
+                                <label class="block text-sm font-bold text-slate-700 mb-1.5">RERA Number <span class="text-slate-500 font-normal text-xs">(optional)</span></label>
                                 <input type="text" name="attributes[rera_number]" value="{{ $listing->listingAttributes->where('attribute_key', 'rera_number')->first()?->attribute_value }}" class="w-full rounded-xl border-slate-200 text-sm focus:border-primary focus:ring-primary py-3 bg-slate-50/50" placeholder="Optional">
                             </div>
                         </div>
@@ -790,7 +790,7 @@
                                 </div>
                                 <div>
                                     <p class="text-slate-700 font-bold text-base mb-1">Click to browse or drag & drop here</p>
-                                    <p class="text-slate-400 text-sm">JPG, PNG up to 5MB each</p>
+                                    <p class="text-slate-500 text-sm">JPG, PNG up to 5MB each</p>
                                 </div>
                             </div>
                             
@@ -879,7 +879,7 @@
                                     </div>
                                     <div>
                                         <p class="text-slate-700 font-bold text-sm mb-1">Upload menu cards or food photos</p>
-                                        <p class="text-slate-400 text-xs">JPG, PNG up to 5MB each</p>
+                                        <p class="text-slate-500 text-xs">JPG, PNG up to 5MB each</p>
                                     </div>
                                 </div>
                                 <div x-show="selectedMenuFiles.length > 0" class="pointer-events-none">

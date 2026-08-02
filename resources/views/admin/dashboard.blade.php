@@ -84,14 +84,14 @@
                     <div class="flex-1">
                         <div class="flex items-center justify-between mb-0.5">
                             <p class="text-sm font-bold text-slate-900">{{ $item['title'] }}</p>
-                            <span class="text-[10px] text-slate-400 font-medium">{{ $item['time']->diffForHumans() }}</span>
+                            <span class="text-[10px] text-slate-500 font-medium">{{ $item['time']->diffForHumans() }}</span>
                         </div>
                         <p class="text-xs text-slate-500 line-clamp-1">{{ $item['description'] }}</p>
                     </div>
                 </div>
             @empty
                 <div class="p-12 text-center">
-                    <p class="text-sm text-slate-400 italic">No recent activity found</p>
+                    <p class="text-sm text-slate-500 italic">No recent activity found</p>
                 </div>
             @endforelse
         </div>

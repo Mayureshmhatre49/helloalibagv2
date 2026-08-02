@@ -121,7 +121,7 @@
                             :class="t.has_listing ? 'bg-emerald-50' : 'hover:bg-slate-50'"
                             class="w-full text-left px-4 py-3 flex items-center gap-3 transition-colors group">
                         <span class="material-symbols-outlined text-[18px] flex-shrink-0"
-                              :class="t.has_listing ? 'text-emerald-600' : 'text-slate-400 group-hover:text-primary'"
+                              :class="t.has_listing ? 'text-emerald-600' : 'text-slate-500 group-hover:text-primary'"
                               x-text="t.has_listing ? 'check_circle' : 'add_circle'"></span>
                         <span class="flex-1 text-sm font-semibold text-slate-900 truncate" x-text="t.name"></span>
                         <span x-show="t.has_listing" class="text-emerald-700 text-[10px] uppercase tracking-wider font-bold flex-shrink-0">Added</span>
@@ -150,7 +150,7 @@
                                 class="text-xs font-bold text-text-secondary hover:text-slate-900 px-2 py-1 transition-colors">Cancel</button>
                         <button type="button" @click="createAndAttach()"
                                 :disabled="busy || !newName.trim()"
-                                :class="(busy || !newName.trim()) ? 'bg-slate-200 text-slate-400 cursor-not-allowed' : 'bg-primary text-white hover:bg-primary-dark'"
+                                :class="(busy || !newName.trim()) ? 'bg-slate-200 text-slate-500 cursor-not-allowed' : 'bg-primary text-white hover:bg-primary-dark'"
                                 class="inline-flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-lg transition-colors">
                             <span x-show="!busy">Create &amp; add</span>
                             <span x-show="busy">Saving…</span>

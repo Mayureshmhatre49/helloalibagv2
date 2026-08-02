@@ -132,7 +132,7 @@
                                     'user' => 'bg-slate-100 text-slate-600',
                                 ];
                             @endphp
-                            <span class="text-[10px] font-bold px-2 py-1 rounded-lg uppercase tracking-wider {{ isset($user->role) ? ($roleColors[$user->role->slug] ?? 'bg-slate-100 text-slate-600') : 'bg-slate-100 text-slate-400' }}">
+                            <span class="text-[10px] font-bold px-2 py-1 rounded-lg uppercase tracking-wider {{ isset($user->role) ? ($roleColors[$user->role->slug] ?? 'bg-slate-100 text-slate-600') : 'bg-slate-100 text-slate-500' }}">
                                 {{ $user->role->name ?? 'No Role' }}
                             </span>
                         </td>
@@ -157,7 +157,7 @@
 
                                 {{-- Set password --}}
                                 <button type="button" @click="pwOpen = true"
-                                        class="p-2 rounded-lg text-slate-400 hover:text-primary hover:bg-primary/5 transition-colors" title="Set password">
+                                        class="p-2 rounded-lg text-slate-500 hover:text-primary hover:bg-primary/5 transition-colors" title="Set password">
                                     <span class="material-symbols-outlined text-[20px]">key</span>
                                 </button>
 
@@ -166,7 +166,7 @@
                                           onsubmit="return confirm('{{ $user->is_active ? 'Suspend ' . addslashes($user->name) . '? They will be signed out immediately and unable to log back in until reactivated.' : 'Reactivate ' . addslashes($user->name) . '?' }}')">
                                         @csrf
                                         <button type="submit"
-                                                class="p-2 rounded-lg transition-colors {{ $user->is_active ? 'text-slate-400 hover:text-amber-600 hover:bg-amber-50' : 'text-amber-600 bg-amber-50' }}"
+                                                class="p-2 rounded-lg transition-colors {{ $user->is_active ? 'text-slate-500 hover:text-amber-600 hover:bg-amber-50' : 'text-amber-600 bg-amber-50' }}"
                                                 title="{{ $user->is_active ? 'Active — click to suspend' : 'Suspended — click to reactivate' }}">
                                             <span class="material-symbols-outlined text-[20px]">{{ $user->is_active ? 'block' : 'restart_alt' }}</span>
                                         </button>
@@ -189,7 +189,7 @@
                                     <form action="{{ route('admin.users.destroy', $user) }}" method="POST" onsubmit="return confirm('{{ $deleteConfirm }}')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="p-2 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 transition-colors" title="Delete User">
+                                        <button type="submit" class="p-2 rounded-lg text-slate-500 hover:text-rose-500 hover:bg-rose-50 transition-colors" title="Delete User">
                                             <span class="material-symbols-outlined text-[20px]">delete</span>
                                         </button>
                                     </form>
@@ -215,7 +215,7 @@
                                             <input type="password" name="password_confirmation" required minlength="8" autocomplete="new-password"
                                                    class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm focus:border-primary focus:ring-primary">
                                         </div>
-                                        <p class="text-[11px] text-slate-400">Minimum 8 characters. The user is not emailed — share it with them directly.</p>
+                                        <p class="text-[11px] text-slate-500">Minimum 8 characters. The user is not emailed — share it with them directly.</p>
                                         <div class="flex items-center justify-end gap-2 pt-1">
                                             <button type="button" @click="pwOpen = false" class="px-4 py-2 rounded-xl text-sm font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
                                             <button type="submit" class="px-4 py-2 rounded-xl text-sm font-bold text-white bg-primary hover:bg-primary/90">Set password</button>

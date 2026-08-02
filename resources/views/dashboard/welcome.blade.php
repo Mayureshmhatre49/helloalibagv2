@@ -41,7 +41,7 @@
                 </div>
 
                 <div class="flex gap-4">
-                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center font-bold text-sm">3</div>
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-sm">3</div>
                     <div>
                         <h3 class="font-bold text-slate-900 mb-1">Our team reviews your listing</h3>
                         <p class="text-sm text-slate-500">We carefully verify every listing to maintain our premium quality standards. This usually takes <strong>24-48 hours</strong>.</p>
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="flex gap-4">
-                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center font-bold text-sm">4</div>
+                    <div class="flex-shrink-0 w-10 h-10 rounded-full bg-slate-100 text-slate-500 flex items-center justify-center font-bold text-sm">4</div>
                     <div>
                         <h3 class="font-bold text-slate-900 mb-1">Go live & start receiving enquiries</h3>
                         <p class="text-sm text-slate-500">Once approved, your listing goes live and you'll start getting calls and messages from interested customers.</p>

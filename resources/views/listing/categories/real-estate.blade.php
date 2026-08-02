@@ -75,7 +75,7 @@
             <div class="flex items-center gap-1.5 flex-shrink-0">
                 <span class="material-symbols-outlined text-amber-400 text-[22px]" style="font-variation-settings:'FILL' 1">star</span>
                 <span class="text-xl font-bold text-slate-800">{{ $avgRating }}</span>
-                <span class="text-sm text-slate-400">({{ $reviewCount }})</span>
+                <span class="text-sm text-slate-500">({{ $reviewCount }})</span>
             </div>
         @endif
     </div>
@@ -119,7 +119,7 @@
                     Alibaug
                 </span>
             @endif
-            <span class="flex items-center gap-1 text-slate-400 text-xs">
+            <span class="flex items-center gap-1 text-slate-500 text-xs">
                 <span class="material-symbols-outlined text-[14px]">visibility</span>
                 {{ number_format($listing->views_count) }} views
             </span>
@@ -128,7 +128,7 @@
         {{-- Trip + Share row --}}
         <div class="flex items-center gap-2 pt-4 border-t border-slate-100 flex-wrap" x-data="{ copied: false }">
 
-            <span class="text-xs text-slate-400 font-medium mr-1">Share:</span>
+            <span class="text-xs text-slate-500 font-medium mr-1">Share:</span>
             <a href="https://wa.me/?text={{ urlencode($listing->title . ' — ' . url()->current()) }}" target="_blank"
                class="inline-flex items-center gap-1.5 text-xs font-medium text-[#25D366] bg-[#25D366]/10 hover:bg-[#25D366]/20 px-3 py-1.5 rounded-full transition-colors">
                 <span class="material-symbols-outlined text-[14px]">chat</span> WhatsApp
@@ -163,7 +163,7 @@
                         @if($listingType)
                             <div class="bg-slate-50 rounded-xl p-4 flex flex-col gap-1.5">
                                 <span class="material-symbols-outlined text-primary text-[20px]">sell</span>
-                                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide">Listing Type</p>
+                                <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Listing Type</p>
                                 <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold {{ $listingTypeBadge['bg'] }} {{ $listingTypeBadge['text'] }}">
                                     {{ $listingTypeBadge['label'] }}
                                 </span>
@@ -173,7 +173,7 @@
                         @if($rePropertyType)
                             <div class="bg-slate-50 rounded-xl p-4 flex flex-col gap-1.5">
                                 <span class="material-symbols-outlined text-primary text-[20px]">villa</span>
-                                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide">Property Type</p>
+                                <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Property Type</p>
                                 <p class="text-sm font-semibold text-slate-800 leading-snug">{{ $rePropertyType }}</p>
                             </div>
                         @endif
@@ -181,7 +181,7 @@
                         @if($areaSqft)
                             <div class="bg-slate-50 rounded-xl p-4 flex flex-col gap-1.5">
                                 <span class="material-symbols-outlined text-primary text-[20px]">square_foot</span>
-                                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide">Area</p>
+                                <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Area</p>
                                 <p class="text-sm font-semibold text-slate-800">{{ number_format($areaSqft) }} <span class="font-normal text-slate-500">sqft</span></p>
                             </div>
                         @endif
@@ -189,7 +189,7 @@
                         @if($facing)
                             <div class="bg-slate-50 rounded-xl p-4 flex flex-col gap-1.5">
                                 <span class="material-symbols-outlined text-primary text-[20px]">explore</span>
-                                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide">Facing</p>
+                                <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Facing</p>
                                 <p class="text-sm font-semibold text-slate-800">{{ $facing }}</p>
                             </div>
                         @endif
@@ -197,7 +197,7 @@
                         @if($constructionStatus)
                             <div class="bg-slate-50 rounded-xl p-4 flex flex-col gap-1.5">
                                 <span class="material-symbols-outlined text-primary text-[20px]">construction</span>
-                                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide">Construction</p>
+                                <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">Construction</p>
                                 <p class="text-sm font-semibold text-slate-800">{{ $constructionStatus }}</p>
                             </div>
                         @endif
@@ -205,7 +205,7 @@
                         @if($reraNumber)
                             <div class="bg-slate-50 rounded-xl p-4 flex flex-col gap-1.5">
                                 <span class="material-symbols-outlined text-green-600 text-[20px]" style="font-variation-settings:'FILL' 1">verified</span>
-                                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide">RERA No.</p>
+                                <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide">RERA No.</p>
                                 <div class="flex items-center gap-1.5">
                                     <p class="text-sm font-semibold text-slate-800 break-all leading-snug">{{ $reraNumber }}</p>
                                     <span class="inline-flex items-center gap-0.5 bg-green-50 text-green-700 border border-green-200 px-1.5 py-0.5 rounded-full text-[10px] font-bold flex-shrink-0">
@@ -255,7 +255,7 @@
                                 @endif
                             </div>
                             @if($areaSqft)
-                                <p class="text-xs text-slate-400 mb-2">
+                                <p class="text-xs text-slate-500 mb-2">
                                     ≈ ₹{{ number_format(round($listing->price / $areaSqft)) }} / sqft
                                 </p>
                             @endif
@@ -307,7 +307,7 @@
                     {{-- Divider --}}
                     <div class="relative flex items-center gap-3 mb-5">
                         <div class="flex-1 h-px bg-slate-100"></div>
-                        <span class="text-xs text-slate-400 font-medium whitespace-nowrap">or schedule a visit</span>
+                        <span class="text-xs text-slate-500 font-medium whitespace-nowrap">or schedule a visit</span>
                         <div class="flex-1 h-px bg-slate-100"></div>
                     </div>
 
@@ -317,14 +317,14 @@
 
                         <input type="text" name="name" value="{{ auth()->user()->name ?? old('name') }}" required
                                placeholder="Your name *"
-                               class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none placeholder:text-slate-400 bg-slate-50/50">
+                               class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none placeholder:text-slate-500 bg-slate-50/50">
 
                         <input type="tel" name="phone" value="{{ old('phone') }}" required
                                placeholder="Phone number *"
-                               class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none placeholder:text-slate-400 bg-slate-50/50">
+                               class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none placeholder:text-slate-500 bg-slate-50/50">
 
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1 px-1">Preferred Visit Date</label>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1 px-1">Preferred Visit Date</label>
                             <input type="date" name="preferred_date" value="{{ old('preferred_date') }}"
                                    min="{{ date('Y-m-d') }}"
                                    class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-700 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-slate-50/50">
@@ -332,7 +332,7 @@
 
                         <textarea name="message" rows="3"
                                   placeholder="Any questions or specific requirements?"
-                                  class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none placeholder:text-slate-400 bg-slate-50/50">{{ old('message') }}</textarea>
+                                  class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none placeholder:text-slate-500 bg-slate-50/50">{{ old('message') }}</textarea>
 
                         <button type="submit"
                                 class="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-xl text-sm font-bold transition-colors shadow-md flex items-center justify-center gap-2">
@@ -341,7 +341,7 @@
                         </button>
                     </form>
 
-                    <p class="flex items-start gap-1.5 text-[11px] text-slate-400 mt-3 leading-snug">
+                    <p class="flex items-start gap-1.5 text-[11px] text-slate-500 mt-3 leading-snug">
                         <span class="material-symbols-outlined text-[13px] mt-0.5 flex-shrink-0">info</span>
                         This schedules a site visit request. The owner will confirm the date and contact you directly.
                     </p>
@@ -368,13 +368,13 @@
 
                 {{-- Owner / Agent Card --}}
                 <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
-                    <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">Listed by</p>
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Listed by</p>
                     <div class="flex items-center gap-3">
                         <img src="{{ $listing->creator->getAvatarUrl() }}" alt="{{ $listing->creator->name }}"
                              class="w-12 h-12 rounded-full object-cover border-2 border-white shadow">
                         <div class="flex-1 min-w-0">
                             <p class="font-bold text-slate-900 text-sm truncate">{{ $listing->creator->name }}</p>
-                            <p class="text-xs text-slate-400">Member since {{ $listing->creator->created_at->format('M Y') }}</p>
+                            <p class="text-xs text-slate-500">Member since {{ $listing->creator->created_at->format('M Y') }}</p>
                         </div>
                         <span class="material-symbols-outlined text-primary text-[20px]" title="Verified owner"
                               style="font-variation-settings:'FILL' 1">verified</span>
@@ -402,7 +402,7 @@
                 <div class="flex items-baseline gap-1">
                     <span class="text-lg font-extrabold text-slate-900">₹{{ number_format($listing->price) }}</span>
                     @if($priceLabel)
-                        <span class="text-xs text-slate-400">{{ $priceLabel }}</span>
+                        <span class="text-xs text-slate-500">{{ $priceLabel }}</span>
                     @endif
                 </div>
                 @if($listingType)

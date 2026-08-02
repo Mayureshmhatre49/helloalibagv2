@@ -174,7 +174,7 @@
                          class="w-10 h-10 rounded-full ring-2 ring-slate-100">
                     <div>
                         <p class="text-sm font-bold text-charcoal dark:text-white leading-tight">{{ $post->author->name }}</p>
-                        <div class="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500">
+                        <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-500">
                             <time datetime="{{ $post->published_at->toDateString() }}">{{ $post->published_at->format('M d, Y') }}</time>
                             <span>·</span>
                             <span>{{ $post->reading_time }} min read</span>
@@ -198,22 +198,22 @@
                 <div class="flex items-center gap-2">
                     <a href="https://twitter.com/intent/tweet?url={{ urlencode(request()->url()) }}&text={{ urlencode($post->title) }}"
                        target="_blank" rel="noopener" title="Share on X"
-                       class="w-9 h-9 rounded-full border border-slate-200 hover:border-slate-400 text-slate-400 hover:text-charcoal flex items-center justify-center transition-all">
+                       class="w-9 h-9 rounded-full border border-slate-200 hover:border-slate-400 text-slate-500 hover:text-charcoal flex items-center justify-center transition-all">
                         <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.008 5.96H5.078z"/></svg>
                     </a>
                     <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}"
                        target="_blank" rel="noopener" title="Share on Facebook"
-                       class="w-9 h-9 rounded-full border border-slate-200 hover:border-slate-400 text-slate-400 hover:text-charcoal flex items-center justify-center transition-all">
+                       class="w-9 h-9 rounded-full border border-slate-200 hover:border-slate-400 text-slate-500 hover:text-charcoal flex items-center justify-center transition-all">
                         <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" clip-rule="evenodd"/></svg>
                     </a>
                     <a href="https://wa.me/?text={{ urlencode($post->title . ' ' . request()->url()) }}"
                        target="_blank" rel="noopener" title="Share on WhatsApp"
-                       class="w-9 h-9 rounded-full border border-slate-200 hover:border-slate-400 text-slate-400 hover:text-charcoal flex items-center justify-center transition-all">
+                       class="w-9 h-9 rounded-full border border-slate-200 hover:border-slate-400 text-slate-500 hover:text-charcoal flex items-center justify-center transition-all">
                         <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path fill-rule="evenodd" d="M12.012 2c-5.506 0-9.989 4.478-9.99 9.984a9.964 9.964 0 001.333 4.976L2 22l5.163-1.338a9.954 9.954 0 004.849 1.258h.004c5.505 0 9.988-4.477 9.989-9.984 0-2.669-1.037-5.176-2.92-7.062A9.935 9.935 0 0012.012 2zm5.826 14.122c-.244.686-1.4 1.341-1.928 1.405-.488.06-1.109.13-3.235-3.085-2.126-3.215-2.164-6.142-2.115-6.385.049-.244.305-1.098.976-1.708l.305-.244c.427-.366.976-.366 1.403-.366.427 0 .976 0 1.22.488.244.488.976 2.378 1.037 2.5.06.122.122.366 0 .61-.122.244-.244.427-.427.61l-.305.305c-.183.183-.366.427-.122.854.244.427 1.098 1.768 2.256 2.805 1.524 1.341 2.866 1.768 3.232 1.951.366.183.732.122.976-.06l.732-.854c.305-.366.671-.427 1.037-.244 1.707.854 2.5 1.22 2.622 1.402.122.183.183.61-.06 1.297z" clip-rule="evenodd"/></svg>
                     </a>
                     <button onclick="navigator.clipboard.writeText(window.location.href).then(() => { this.querySelector('span').textContent = 'done'; setTimeout(() => this.querySelector('span').textContent = 'link', 1500); })"
                             title="Copy link"
-                            class="w-9 h-9 rounded-full border border-slate-200 hover:border-slate-400 text-slate-400 hover:text-charcoal flex items-center justify-center transition-all">
+                            class="w-9 h-9 rounded-full border border-slate-200 hover:border-slate-400 text-slate-500 hover:text-charcoal flex items-center justify-center transition-all">
                         <span class="material-symbols-outlined text-[16px]">link</span>
                     </button>
                 </div>
@@ -319,7 +319,7 @@
             <div></div>
             @endif
 
-            <div class="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500">
+            <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-500">
                 <span class="material-symbols-outlined text-[14px]">visibility</span>
                 <span>{{ $post->reading_time }} min read</span>
                 <span>·</span>
@@ -334,9 +334,9 @@
             <img src="{{ $post->author->getAvatarUrl() }}" alt="{{ $post->author->name }}"
                  class="w-16 h-16 rounded-full ring-4 ring-white dark:ring-slate-700 shadow-sm shrink-0">
             <div>
-                <p class="text-xs text-slate-400 uppercase tracking-widest font-bold mb-1">Written by</p>
+                <p class="text-xs text-slate-500 uppercase tracking-widest font-bold mb-1">Written by</p>
                 <p class="text-lg font-bold text-charcoal dark:text-white">{{ $post->author->name }}</p>
-                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">Sharing curated guides and insider tips about luxury stays, dining, and experiences in Alibaug.</p>
+                <p class="text-sm text-slate-500 dark:text-slate-500 mt-1 leading-relaxed">Sharing curated guides and insider tips about luxury stays, dining, and experiences in Alibaug.</p>
             </div>
         </div>
     </div>
@@ -360,8 +360,8 @@
                     </div>
                     <div class="flex flex-col justify-center min-w-0">
                         <h4 class="font-semibold text-charcoal dark:text-white text-sm leading-snug group-hover:text-primary transition-colors truncate">{{ $listing->title }}</h4>
-                        <p class="text-xs text-slate-400 dark:text-slate-500 mt-0.5">{{ $listing->location->name ?? 'Alibaug' }}</p>
-                        <span class="text-primary font-bold text-sm mt-1">₹{{ number_format($listing->price) }}@if($listing->category->slug === 'stay')<span class="text-slate-400 dark:text-slate-500 font-normal text-xs"> / night</span>@endif</span>
+                        <p class="text-xs text-slate-500 dark:text-slate-500 mt-0.5">{{ $listing->location->name ?? 'Alibaug' }}</p>
+                        <span class="text-primary font-bold text-sm mt-1">₹{{ number_format($listing->price) }}@if($listing->category->slug === 'stay')<span class="text-slate-500 dark:text-slate-500 font-normal text-xs"> / night</span>@endif</span>
                     </div>
                 </a>
                 @endforeach
@@ -398,7 +398,7 @@
                         </div>
                     @endif
                 </div>
-                <div class="flex items-center gap-2 text-xs text-slate-400 dark:text-slate-500 font-medium mb-2">
+                <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-500 font-medium mb-2">
                     @if($rel->category)
                         <span class="text-primary font-bold uppercase tracking-wider">{{ $rel->category->name }}</span>
                         <span>·</span>

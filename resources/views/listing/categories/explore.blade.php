@@ -107,7 +107,7 @@
                     Alibaug
                 </span>
             @endif
-            <span class="flex items-center gap-1 text-slate-400 text-xs">
+            <span class="flex items-center gap-1 text-slate-500 text-xs">
                 <span class="material-symbols-outlined text-[14px]">visibility</span>
                 {{ number_format($listing->views_count) }} views
             </span>
@@ -116,8 +116,8 @@
         {{-- Trip + Share row --}}
         <div class="flex items-center gap-2 pt-4 border-t border-slate-100 flex-wrap" x-data="{ copied: false }">
             <x-add-to-trip :listing="$listing" />
-            <span class="text-xs text-slate-400 font-medium mx-1">·</span>
-            <span class="text-xs text-slate-400 font-medium mr-1">Share:</span>
+            <span class="text-xs text-slate-500 font-medium mx-1">·</span>
+            <span class="text-xs text-slate-500 font-medium mr-1">Share:</span>
             <a href="https://wa.me/?text={{ urlencode($listing->title . ' — ' . url()->current()) }}" target="_blank"
                class="inline-flex items-center gap-1.5 text-xs font-medium text-[#25D366] bg-[#25D366]/10 hover:bg-[#25D366]/20 px-3 py-1.5 rounded-full transition-colors">
                 <span class="material-symbols-outlined text-[14px]">chat</span> WhatsApp
@@ -155,7 +155,7 @@
                             <div class="bg-slate-50 rounded-xl p-4 flex items-start gap-3">
                                 <span class="material-symbols-outlined text-primary text-[22px] mt-0.5 flex-shrink-0">hiking</span>
                                 <div>
-                                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide mb-0.5">Activity Type</p>
+                                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-0.5">Activity Type</p>
                                     <p class="text-sm font-semibold text-slate-800">{{ $activityType }}</p>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
                             <div class="bg-slate-50 rounded-xl p-4 flex items-start gap-3">
                                 <span class="material-symbols-outlined text-primary text-[22px] mt-0.5 flex-shrink-0">schedule</span>
                                 <div>
-                                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide mb-0.5">Duration</p>
+                                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-0.5">Duration</p>
                                     <p class="text-sm font-semibold text-slate-800">{{ $duration }}</p>
                                 </div>
                             </div>
@@ -173,7 +173,7 @@
                             <div class="bg-slate-50 rounded-xl p-4 flex items-start gap-3">
                                 <span class="material-symbols-outlined text-[22px] mt-0.5 flex-shrink-0 {{ $difficultyClasses['text'] }}">signal_cellular_alt</span>
                                 <div>
-                                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide mb-0.5">Difficulty</p>
+                                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-0.5">Difficulty</p>
                                     <span class="inline-block px-2.5 py-0.5 rounded-full text-xs font-bold border
                                                  {{ $difficultyClasses['bg'] }} {{ $difficultyClasses['text'] }} {{ $difficultyClasses['border'] }}">
                                         {{ ucfirst($difficulty) }}
@@ -185,7 +185,7 @@
                             <div class="bg-slate-50 rounded-xl p-4 flex items-start gap-3">
                                 <span class="material-symbols-outlined text-primary text-[22px] mt-0.5 flex-shrink-0">group</span>
                                 <div>
-                                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide mb-0.5">Group Size</p>
+                                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-0.5">Group Size</p>
                                     <p class="text-sm font-semibold text-slate-800">{{ $groupSize }}</p>
                                 </div>
                             </div>

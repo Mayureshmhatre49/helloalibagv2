@@ -36,7 +36,7 @@
                     <td class="px-5 py-4 text-slate-600">
                         @if($tag->icon)
                             <span class="material-symbols-outlined text-[18px] align-middle">{{ $tag->icon }}</span>
-                            <span class="text-xs text-slate-400 ml-1">{{ $tag->icon }}</span>
+                            <span class="text-xs text-slate-500 ml-1">{{ $tag->icon }}</span>
                         @else
                             <span class="text-slate-300 text-xs">—</span>
                         @endif

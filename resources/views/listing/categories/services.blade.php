@@ -99,7 +99,7 @@
                     Alibaug
                 </span>
             @endif
-            <span class="flex items-center gap-1 text-slate-400 text-xs">
+            <span class="flex items-center gap-1 text-slate-500 text-xs">
                 <span class="material-symbols-outlined text-[14px]">visibility</span>
                 {{ number_format($listing->views_count) }} views
             </span>
@@ -108,7 +108,7 @@
         {{-- Trip + Share row --}}
         <div class="flex items-center gap-2 pt-4 border-t border-slate-100 flex-wrap" x-data="{ copied: false }">
 
-            <span class="text-xs text-slate-400 font-medium mr-1">Share:</span>
+            <span class="text-xs text-slate-500 font-medium mr-1">Share:</span>
             <a href="https://wa.me/?text={{ urlencode($listing->title . ' — ' . url()->current()) }}" target="_blank"
                class="inline-flex items-center gap-1.5 text-xs font-medium text-[#25D366] bg-[#25D366]/10 hover:bg-[#25D366]/20 px-3 py-1.5 rounded-full transition-colors">
                 <span class="material-symbols-outlined text-[14px]">chat</span> WhatsApp
@@ -146,7 +146,7 @@
                             <div class="bg-slate-50 rounded-xl p-4 flex items-start gap-3">
                                 <span class="material-symbols-outlined text-primary text-[22px] mt-0.5 flex-shrink-0">build</span>
                                 <div>
-                                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide mb-0.5">Service Type</p>
+                                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-0.5">Service Type</p>
                                     <p class="text-sm font-semibold text-slate-800">{{ $serviceType }}</p>
                                 </div>
                             </div>
@@ -155,7 +155,7 @@
                             <div class="bg-slate-50 rounded-xl p-4 flex items-start gap-3">
                                 <span class="material-symbols-outlined text-primary text-[22px] mt-0.5 flex-shrink-0">event_available</span>
                                 <div>
-                                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide mb-0.5">Availability</p>
+                                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-0.5">Availability</p>
                                     <p class="text-sm font-semibold text-slate-800">{{ $availability }}</p>
                                 </div>
                             </div>
@@ -164,7 +164,7 @@
                             <div class="bg-slate-50 rounded-xl p-4 flex items-start gap-3">
                                 <span class="material-symbols-outlined text-primary text-[22px] mt-0.5 flex-shrink-0">workspace_premium</span>
                                 <div>
-                                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide mb-0.5">Experience</p>
+                                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-0.5">Experience</p>
                                     <p class="text-sm font-semibold text-slate-800">{{ $experience }}</p>
                                 </div>
                             </div>
@@ -173,7 +173,7 @@
                             <div class="bg-slate-50 rounded-xl p-4 flex items-start gap-3">
                                 <span class="material-symbols-outlined text-primary text-[22px] mt-0.5 flex-shrink-0">map</span>
                                 <div>
-                                    <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide mb-0.5">Coverage Area</p>
+                                    <p class="text-[11px] font-bold text-slate-500 uppercase tracking-wide mb-0.5">Coverage Area</p>
                                     <p class="text-sm font-semibold text-slate-800">{{ $coverageArea }}</p>
                                 </div>
                             </div>

@@ -50,7 +50,7 @@
                 <form action="{{ route('blog.index') }}" method="GET" class="relative shrink-0 w-full sm:w-auto">
                     <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-slate-400">search</span>
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Search articles..." 
-                           class="w-full sm:w-64 pl-10 pr-4 py-2 bg-slate-100 border-none rounded-full text-sm focus:ring-2 focus:ring-primary/30 focus:bg-white outline-none transition-all placeholder:text-slate-400 text-slate-700 font-medium">
+                           class="w-full sm:w-64 pl-10 pr-4 py-2 bg-slate-100 border-none rounded-full text-sm focus:ring-2 focus:ring-primary/30 focus:bg-white outline-none transition-all placeholder:text-slate-500 text-slate-700 font-medium">
                 </form>
             </div>
         </div>
@@ -123,7 +123,7 @@
                         </div>
 
                         {{-- Meta --}}
-                        <div class="flex items-center gap-2 text-xs text-slate-400 font-medium mb-3">
+                        <div class="flex items-center gap-2 text-xs text-slate-500 font-medium mb-3">
                             <time datetime="{{ $post->published_at->toDateString() }}">{{ $post->published_at->format('M d, Y') }}</time>
                             <span>·</span>
                             <span>{{ $post->reading_time }} min read</span>

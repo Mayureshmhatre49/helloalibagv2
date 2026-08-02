@@ -113,7 +113,7 @@
         {{-- Content --}}
         <div class="p-8">
             {{-- Step indicator --}}
-            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-5">
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-5">
                 Step <span x-text="step + 1"></span> of <span x-text="steps.length"></span>
             </p>
 
@@ -153,7 +153,7 @@
                     <span x-show="step < steps.length - 1" class="material-symbols-outlined text-[18px]">arrow_forward</span>
                 </button>
             </div>
-            <button @click="close()" class="w-full text-center text-xs text-slate-400 mt-3 hover:text-slate-600 transition-colors">
+            <button @click="close()" class="w-full text-center text-xs text-slate-500 mt-3 hover:text-slate-600 transition-colors">
                 Skip tour
             </button>
         </div>

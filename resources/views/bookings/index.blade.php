@@ -43,7 +43,7 @@
                         · {{ $booking->guests }} guest{{ $booking->guests > 1 ? 's' : '' }}
                     </p>
                     @endif
-                    <p class="text-xs text-slate-400">Requested {{ $booking->created_at->diffForHumans() }}</p>
+                    <p class="text-xs text-slate-500">Requested {{ $booking->created_at->diffForHumans() }}</p>
 
                     @if($booking->owner_notes)
                     <div class="mt-3 bg-slate-50 rounded-xl p-3 text-sm text-slate-600 border border-slate-100">
@@ -67,7 +67,7 @@
         <div class="text-center py-20 bg-white rounded-2xl border border-slate-200">
             <span class="material-symbols-outlined text-5xl text-slate-300">book_online</span>
             <p class="text-slate-600 font-medium mt-4 mb-2">No bookings yet</p>
-            <p class="text-sm text-slate-400">Browse listings and send a booking request to get started.</p>
+            <p class="text-sm text-slate-500">Browse listings and send a booking request to get started.</p>
             <a href="{{ route('search') }}" class="inline-flex items-center gap-2 mt-4 bg-primary text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-primary/90 transition-colors">
                 Browse Listings
             </a>

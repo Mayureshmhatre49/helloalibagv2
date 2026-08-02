@@ -40,7 +40,7 @@
                 <p class="text-xs font-bold text-primary uppercase tracking-widest">{{ $category->name }}</p>
                 <h1 class="text-2xl font-bold text-slate-900">Create Your Listing</h1>
             </div>
-            <a href="{{ route('owner.onboarding.start') }}" class="ml-auto text-xs text-slate-400 hover:text-primary flex items-center gap-1">
+            <a href="{{ route('owner.onboarding.start') }}" class="ml-auto text-xs text-slate-500 hover:text-primary flex items-center gap-1">
                 <span class="material-symbols-outlined text-[14px]">arrow_back</span> Change Category
             </a>
         </div>
@@ -67,7 +67,7 @@
                                 <span x-show="currentVisibleIndex <= index" x-text="index + 1"></span>
                             </div>
                             <span class="text-[11px] font-bold mt-2 transition-colors hidden sm:block"
-                                  :class="currentVisibleIndex >= index ? 'text-slate-900' : 'text-slate-400'"
+                                  :class="currentVisibleIndex >= index ? 'text-slate-900' : 'text-slate-500'"
                                   x-text="stepName"></span>
                         </div>
                         <div class="h-1 flex-1 bg-slate-200 rounded-full overflow-hidden mx-[-0.5rem] relative z-0" x-show="index < visibleStepNames.length - 1">
@@ -117,7 +117,7 @@
                                     class="w-full rounded-xl {{ $errors->has('title') ? 'border-red-300 focus:border-red-400 focus:ring-red-200' : 'border-slate-200 focus:border-primary focus:ring-primary' }} py-3"
                                     placeholder="{{ match($category->slug) { 'stay' => 'e.g., Sunrise Sea View Villa, Alibaug', 'eat' => 'e.g., The Coastal Kitchen — Seafood & Grills', 'real-estate' => 'e.g., Premium Beachside Villa Plot — 3000 sq.ft', default => 'e.g., Professional ' . $category->name . ' Service in Alibaug' } }}">
                                 @error('title')<p class="text-xs text-red-500 mt-1 font-medium">{{ $message }}</p>@enderror
-                                <p class="text-xs text-slate-400 mt-1">Keep it descriptive and specific — good titles get 3x more clicks.</p>
+                                <p class="text-xs text-slate-500 mt-1">Keep it descriptive and specific — good titles get 3x more clicks.</p>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -137,7 +137,7 @@
                                         @elseif($category->slug === 'eat') Avg Cost for Two (₹)
                                         @elseif($category->slug === 'real-estate') Asking Price (₹)
                                         @else Price (₹) @endif
-                                        <span class="text-slate-400 font-normal">(Optional)</span>
+                                        <span class="text-slate-500 font-normal">(Optional)</span>
                                     </label>
                                     <input type="number" name="price" x-model="formData.price" min="0"
                                         class="w-full rounded-xl border-slate-200 focus:border-primary focus:ring-primary py-3"
@@ -146,7 +146,7 @@
                             </div>
 
                             <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-2">Full Address <span class="text-slate-400 font-normal">(Optional)</span></label>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">Full Address <span class="text-slate-500 font-normal">(Optional)</span></label>
                                 <input type="text" name="address" x-model="formData.address"
                                     class="w-full rounded-xl border-slate-200 focus:border-primary focus:ring-primary py-3"
                                     placeholder="Street / landmark, Village, Alibaug...">
@@ -167,7 +167,7 @@
                                         default => 'Tell visitors what you offer, your expertise, and why they should choose you...'
                                     } }}"></textarea>
                                 @error('description')<p class="text-xs text-red-500 mt-1 font-medium">{{ $message }}</p>@enderror
-                                <p class="text-xs text-slate-400 mt-1">
+                                <p class="text-xs text-slate-500 mt-1">
                                     <span x-text="formData.description.length" :class="formData.description.length > 0 && formData.description.length < 20 ? 'text-red-500 font-bold' : ''"></span>/20 characters minimum. Write for your customer — what will excite them?
                                 </p>
                             </div>
@@ -210,7 +210,7 @@
                             <div class="{{ in_array($attribute->field_type, ['textarea']) ? 'md:col-span-2' : '' }}">
                                 <label class="block text-sm font-bold text-slate-700 mb-2">
                                     {{ $attribute->name }}
-                                    {!! $attribute->is_required ? '<span class="text-red-500">*</span>' : '<span class="text-slate-400 font-normal">(Optional)</span>' !!}
+                                    {!! $attribute->is_required ? '<span class="text-red-500">*</span>' : '<span class="text-slate-500 font-normal">(Optional)</span>' !!}
                                 </label>
 
                                 @if($attribute->field_type === 'select' && $attribute->values->count() > 0)
@@ -276,7 +276,7 @@
                              :class="photoError ? 'border-red-400 bg-red-50' : (imagesCount >= 1 ? 'border-green-300 bg-green-50' : 'border-slate-300 bg-slate-50 hover:border-primary/40')">
 
                             <span class="material-symbols-outlined text-5xl mb-3 block"
-                                  :class="photoError ? 'text-red-400' : (imagesCount >= 1 ? 'text-green-500' : 'text-slate-400')"
+                                  :class="photoError ? 'text-red-400' : (imagesCount >= 1 ? 'text-green-500' : 'text-slate-500')"
                                   style="font-variation-settings:'FILL' 1"
                                   x-text="photoError ? 'error' : (imagesCount >= 1 ? 'check_circle' : 'add_photo_alternate')">
                             </span>
@@ -345,7 +345,7 @@
                         </div>
                         <div class="space-y-6">
                             <div>
-                                <label class="block text-sm font-bold text-slate-700 mb-2">SEO Title <span class="text-slate-400 font-normal">(leave blank to use your listing title)</span></label>
+                                <label class="block text-sm font-bold text-slate-700 mb-2">SEO Title <span class="text-slate-500 font-normal">(leave blank to use your listing title)</span></label>
                                 <input type="text" name="meta_title" x-model="formData.meta_title" maxlength="70"
                                     class="w-full rounded-xl border-slate-200 focus:border-primary focus:ring-primary py-3"
                                     placeholder="e.g., Luxury Sea View Villa in Alibaug — Book Now">
@@ -376,7 +376,7 @@
                             {{-- Category (static, no edit needed) --}}
                             <div class="flex items-center bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
                                 <div class="flex-1">
-                                    <p class="text-[11px] text-slate-400 font-medium mb-0.5">Category</p>
+                                    <p class="text-[11px] text-slate-500 font-medium mb-0.5">Category</p>
                                     <p class="font-bold text-slate-900 text-sm">{{ $category->name }}</p>
                                 </div>
                             </div>
@@ -384,7 +384,7 @@
                             {{-- Title --}}
                             <div class="flex items-center bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-[11px] text-slate-400 font-medium mb-0.5">Listing Title</p>
+                                    <p class="text-[11px] text-slate-500 font-medium mb-0.5">Listing Title</p>
                                     <p class="font-bold text-slate-900 text-sm truncate" x-text="formData.title || '—'"></p>
                                 </div>
                                 <button type="button" @click="goToStep(1)" class="ml-4 text-primary text-xs font-bold hover:underline flex-shrink-0">Edit</button>
@@ -394,14 +394,14 @@
                             <div class="grid grid-cols-2 gap-2.5">
                                 <div class="flex items-center bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-[11px] text-slate-400 font-medium mb-0.5">Area / Location</p>
+                                        <p class="text-[11px] text-slate-500 font-medium mb-0.5">Area / Location</p>
                                         <p class="font-bold text-slate-900 text-sm truncate" x-text="areaDisplayName"></p>
                                     </div>
                                     <button type="button" @click="goToStep(1)" class="ml-2 text-primary text-xs font-bold hover:underline flex-shrink-0">Edit</button>
                                 </div>
                                 <div class="flex items-center bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-[11px] text-slate-400 font-medium mb-0.5">Price</p>
+                                        <p class="text-[11px] text-slate-500 font-medium mb-0.5">Price</p>
                                         <p class="font-bold text-slate-900 text-sm" x-text="priceDisplay"></p>
                                     </div>
                                     <button type="button" @click="goToStep(1)" class="ml-2 text-primary text-xs font-bold hover:underline flex-shrink-0">Edit</button>
@@ -411,7 +411,7 @@
                             {{-- Description snippet --}}
                             <div class="flex items-start bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
                                 <div class="flex-1 min-w-0">
-                                    <p class="text-[11px] text-slate-400 font-medium mb-0.5">Description</p>
+                                    <p class="text-[11px] text-slate-500 font-medium mb-0.5">Description</p>
                                     <p class="text-slate-700 text-sm leading-relaxed" x-text="descriptionPreview"></p>
                                 </div>
                                 <button type="button" @click="goToStep(1)" class="ml-4 text-primary text-xs font-bold hover:underline flex-shrink-0 mt-0.5">Edit</button>
@@ -420,11 +420,11 @@
                             {{-- Contact --}}
                             <div class="grid grid-cols-2 gap-2.5">
                                 <div class="bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
-                                    <p class="text-[11px] text-slate-400 font-medium mb-0.5">Phone / WhatsApp</p>
+                                    <p class="text-[11px] text-slate-500 font-medium mb-0.5">Phone / WhatsApp</p>
                                     <p class="font-bold text-slate-900 text-sm" x-text="formData.phone || '—'"></p>
                                 </div>
                                 <div class="bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
-                                    <p class="text-[11px] text-slate-400 font-medium mb-0.5">Email</p>
+                                    <p class="text-[11px] text-slate-500 font-medium mb-0.5">Email</p>
                                     <p class="font-bold text-slate-900 text-sm truncate" x-text="formData.email || '—'"></p>
                                 </div>
                             </div>
@@ -432,7 +432,7 @@
                             {{-- Photos --}}
                             <div class="flex items-center bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
                                 <div class="flex-1">
-                                    <p class="text-[11px] text-slate-400 font-medium mb-0.5">Photos</p>
+                                    <p class="text-[11px] text-slate-500 font-medium mb-0.5">Photos</p>
                                     <p class="font-bold text-sm" :class="imagesCount >= 1 ? 'text-green-700' : 'text-red-500'"
                                        x-text="imagesCount > 0 ? imagesCount + ' photo' + (imagesCount > 1 ? 's' : '') + ' ready' : 'No photos — go back and upload!'"></p>
                                 </div>
@@ -465,7 +465,7 @@
                     <div x-show="step === 1"></div>
 
                     <div class="flex items-center gap-3">
-                        <p class="text-xs text-slate-400 hidden sm:block" x-text="`Step ${currentVisibleIndex + 1} of ${visibleStepNames.length}`"></p>
+                        <p class="text-xs text-slate-500 hidden sm:block" x-text="`Step ${currentVisibleIndex + 1} of ${visibleStepNames.length}`"></p>
                         <button type="button" x-show="step < totalSteps" @click="nextStep"
                             class="bg-slate-900 hover:bg-black text-white px-8 py-3 rounded-xl font-bold transition-all shadow-lg shadow-slate-900/20 flex items-center gap-2">
                             Next <span class="material-symbols-outlined text-[18px]">arrow_forward</span>

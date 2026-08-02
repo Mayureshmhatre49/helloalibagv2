@@ -33,7 +33,7 @@
 
         <!-- Phone -->
         <div>
-            <label for="phone" class="block text-sm font-bold text-slate-700 mb-2">Phone Number <span class="text-slate-400 font-normal">(Optional)</span></label>
+            <label for="phone" class="block text-sm font-bold text-slate-700 mb-2">Phone Number <span class="text-slate-500 font-normal">(Optional)</span></label>
             <div class="relative group">
                 <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] group-focus-within:text-amber-500 transition-colors">call</span>
                 <input id="phone" type="tel" name="phone" value="{{ old('phone') }}" autocomplete="tel"

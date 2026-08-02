@@ -142,28 +142,28 @@
                         <span class="material-symbols-outlined text-2xl">search</span>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Discover</h3>
-                    <p class="text-slate-400 text-sm">Find curated listings, guides, and insider tips</p>
+                    <p class="text-slate-500 text-sm">Find curated listings, guides, and insider tips</p>
                 </div>
                 <div class="text-center group">
                     <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-6 text-blue-400 group-hover:bg-blue-500 group-hover:text-white transition-all transform group-hover:scale-110">
                         <span class="material-symbols-outlined text-2xl">group</span>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Connect</h3>
-                    <p class="text-slate-400 text-sm">Explore the local community, talent, and services</p>
+                    <p class="text-slate-500 text-sm">Explore the local community, talent, and services</p>
                 </div>
                 <div class="text-center group">
                     <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-6 text-amber-400 group-hover:bg-amber-500 group-hover:text-white transition-all transform group-hover:scale-110">
                         <span class="material-symbols-outlined text-2xl">storefront</span>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Promote</h3>
-                    <p class="text-slate-400 text-sm">List your local business, villa, or event with us</p>
+                    <p class="text-slate-500 text-sm">List your local business, villa, or event with us</p>
                 </div>
                 <div class="text-center group">
                     <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mx-auto mb-6 text-purple-400 group-hover:bg-purple-500 group-hover:text-white transition-all transform group-hover:scale-110">
                         <span class="material-symbols-outlined text-2xl">favorite</span>
                     </div>
                     <h3 class="text-xl font-bold mb-3">Belong</h3>
-                    <p class="text-slate-400 text-sm">Join a movement that celebrates Alibaug’s unique identity</p>
+                    <p class="text-slate-500 text-sm">Join a movement that celebrates Alibaug’s unique identity</p>
                 </div>
             </div>
         </div>

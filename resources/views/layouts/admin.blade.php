@@ -74,7 +74,7 @@
                :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'">
             <nav class="px-3 py-4 space-y-6">
                 <div>
-                    <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em] mb-1.5">Main</p>
+                    <p class="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-[0.14em] mb-1.5">Main</p>
                     <div class="space-y-0.5">
                         <a href="{{ route('admin.dashboard') }}" class="{{ $navBase }} {{ request()->routeIs('admin.dashboard') ? $navActive : $navIdle }}">
                             <span class="{{ $navIcon }}">dashboard</span> Overview
@@ -102,7 +102,7 @@
                 </div>
 
                 <div>
-                    <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em] mb-1.5">Management</p>
+                    <p class="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-[0.14em] mb-1.5">Management</p>
                     <div class="space-y-0.5">
                         <a href="{{ route('admin.users.index') }}" class="{{ $navBase }} {{ request()->routeIs('admin.users.*') ? $navActive : $navIdle }}">
                             <span class="{{ $navIcon }}">group</span> User Control
@@ -129,7 +129,7 @@
                 </div>
 
                 <div>
-                    <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em] mb-1.5">Blog</p>
+                    <p class="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-[0.14em] mb-1.5">Blog</p>
                     <div class="space-y-0.5">
                         <a href="{{ route('admin.blog.posts.index') }}" class="{{ $navBase }} {{ request()->routeIs('admin.blog.posts.*') ? $navActive : $navIdle }}">
                             <span class="{{ $navIcon }}">article</span> Posts
@@ -144,7 +144,7 @@
                 </div>
 
                 <div>
-                    <p class="px-3 text-[10px] font-bold text-slate-400 uppercase tracking-[0.14em] mb-1.5">Editorial</p>
+                    <p class="px-3 text-[10px] font-bold text-slate-500 uppercase tracking-[0.14em] mb-1.5">Editorial</p>
                     <div class="space-y-0.5">
                         <a href="{{ route('admin.guides.index') }}" class="{{ $navBase }} {{ request()->routeIs('admin.guides.*') ? $navActive : $navIdle }}">
                             <span class="{{ $navIcon }}">menu_book</span> Guides

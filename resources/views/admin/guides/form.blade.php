@@ -100,7 +100,7 @@
                                 </select>
                                 <button type="button" @click="addListing()"
                                         :disabled="!addCandidate"
-                                        :class="addCandidate ? 'bg-primary text-white hover:bg-primary-dark' : 'bg-slate-200 text-slate-400 cursor-not-allowed'"
+                                        :class="addCandidate ? 'bg-primary text-white hover:bg-primary-dark' : 'bg-slate-200 text-slate-500 cursor-not-allowed'"
                                         class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-sm font-bold transition-colors">
                                     <span class="material-symbols-outlined text-[16px]">add</span> Add
                                 </button>

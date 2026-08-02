@@ -37,7 +37,7 @@
                 <div class="flex items-center justify-between mb-6">
                     <div>
                         <p class="text-xs font-bold uppercase tracking-widest text-primary mb-1">Free Plan</p>
-                        <p class="text-4xl font-bold text-slate-900">₹0 <span class="text-base font-normal text-slate-400">/ forever</span></p>
+                        <p class="text-4xl font-bold text-slate-900">₹0 <span class="text-base font-normal text-slate-500">/ forever</span></p>
                     </div>
                     <span class="bg-primary/10 text-primary text-xs font-bold px-3 py-1.5 rounded-full">
                         ✓ No payment needed
@@ -91,7 +91,7 @@
             {{-- Upgrade teaser footer --}}
             <div class="bg-slate-50 border-t border-slate-100 px-8 py-4 flex items-center gap-2">
                 <span class="material-symbols-outlined text-slate-400 text-[18px]">workspace_premium</span>
-                <p class="text-xs text-slate-400">
+                <p class="text-xs text-slate-500">
                     <strong class="text-slate-600">Premium plans coming soon</strong> — More listings, analytics & featured placement.
                 </p>
             </div>
@@ -106,7 +106,7 @@
         </div>
 
         {{-- Trust badges --}}
-        <div class="flex items-center justify-center gap-6 mt-8 text-xs text-slate-400">
+        <div class="flex items-center justify-center gap-6 mt-8 text-xs text-slate-500">
             <span class="flex items-center gap-1.5">
                 <span class="material-symbols-outlined text-[14px] text-green-500">lock</span>
                 No credit card

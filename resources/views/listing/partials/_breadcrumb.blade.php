@@ -1,4 +1,4 @@
-<nav class="flex items-center gap-1.5 text-sm text-slate-400 mb-5">
+<nav class="flex items-center gap-1.5 text-sm text-slate-500 mb-5">
     <a href="{{ route('home') }}" class="hover:text-primary transition-colors">Home</a>
     <span class="material-symbols-outlined text-[13px]">chevron_right</span>
     <a href="{{ route('category.show', $listing->category) }}" class="hover:text-primary transition-colors">{{ $listing->category->name }}</a>

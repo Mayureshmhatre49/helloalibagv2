@@ -28,7 +28,7 @@
                             @if($post->featured_image)
                                 <img src="{{ asset('storage/' . $post->featured_image) }}" class="w-12 h-12 rounded bg-slate-100 object-cover" alt="Cover">
                             @else
-                                <div class="w-12 h-12 rounded bg-slate-100 flex items-center justify-center text-slate-400">
+                                <div class="w-12 h-12 rounded bg-slate-100 flex items-center justify-center text-slate-500">
                                     <span class="material-symbols-outlined text-[20px]">image</span>
                                 </div>
                             @endif

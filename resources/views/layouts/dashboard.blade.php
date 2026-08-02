@@ -29,7 +29,7 @@
                             <p class="text-[15px] font-extrabold tracking-tight leading-none">
                                 <span class="text-primary">Hello</span><span class="text-slate-800"> Alibaug</span>
                             </p>
-                            <p class="text-[10px] text-slate-400 font-medium tracking-wide uppercase mt-0.5">Owner Dashboard</p>
+                            <p class="text-[10px] text-slate-500 font-medium tracking-wide uppercase mt-0.5">Owner Dashboard</p>
                         </div>
                     </a>
                 </div>

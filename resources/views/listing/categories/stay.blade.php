@@ -104,7 +104,7 @@
                 {{ $listing->area?->name ? $listing->area->name . ', Alibaug' : 'Alibaug' }}
             </span>
 
-            <span class="flex items-center gap-1 text-slate-400 text-xs">
+            <span class="flex items-center gap-1 text-slate-500 text-xs">
                 <span class="material-symbols-outlined text-[14px]">visibility</span>
                 {{ number_format($listing->views_count) }} views
             </span>
@@ -113,7 +113,7 @@
         {{-- Trip + Share row --}}
         <div class="flex items-center gap-2 pt-4 border-t border-slate-100 flex-wrap" x-data="{ copied: false }">
 
-            <span class="text-xs text-slate-400 font-medium mr-1">Share:</span>
+            <span class="text-xs text-slate-500 font-medium mr-1">Share:</span>
             <a href="https://wa.me/?text={{ urlencode($listing->title . ' — ' . url()->current()) }}"
                target="_blank"
                class="inline-flex items-center gap-1.5 text-xs font-medium text-[#25D366] bg-[#25D366]/10 hover:bg-[#25D366]/20 px-3 py-1.5 rounded-full transition-colors">
@@ -153,7 +153,7 @@
                             <div class="flex items-start gap-3 bg-slate-50 rounded-xl p-4 border border-slate-100">
                                 <span class="material-symbols-outlined text-primary text-[22px] flex-shrink-0 mt-0.5">login</span>
                                 <div>
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Check-in</p>
+                                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-0.5">Check-in</p>
                                     <p class="text-base font-bold text-slate-800">
                                         @php
                                             try { echo \Carbon\Carbon::createFromFormat('H:i', $checkIn)->format('g:i A'); }
@@ -167,7 +167,7 @@
                             <div class="flex items-start gap-3 bg-slate-50 rounded-xl p-4 border border-slate-100">
                                 <span class="material-symbols-outlined text-primary text-[22px] flex-shrink-0 mt-0.5">logout</span>
                                 <div>
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Check-out</p>
+                                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-0.5">Check-out</p>
                                     <p class="text-base font-bold text-slate-800">
                                         @php
                                             try { echo \Carbon\Carbon::createFromFormat('H:i', $checkOut)->format('g:i A'); }
@@ -181,7 +181,7 @@
                             <div class="flex items-start gap-3 bg-slate-50 rounded-xl p-4 border border-slate-100">
                                 <span class="material-symbols-outlined text-primary text-[22px] flex-shrink-0 mt-0.5">calendar_month</span>
                                 <div>
-                                    <p class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Minimum Stay</p>
+                                    <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-0.5">Minimum Stay</p>
                                     <p class="text-base font-bold text-slate-800">{{ $minStay }} {{ Str::plural('night', (int)$minStay) }}</p>
                                 </div>
                             </div>

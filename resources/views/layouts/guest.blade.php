@@ -59,7 +59,7 @@
                     </div>
                     <div class="leading-none">
                         <p class="text-slate-900 font-extrabold text-base tracking-tight leading-none">Hello <span class="text-amber-500">Alibaug</span></p>
-                        <p class="text-slate-400 text-[10px] tracking-widest uppercase mt-2 font-medium">Discover · Stay · Eat</p>
+                        <p class="text-slate-500 text-[10px] tracking-widest uppercase mt-2 font-medium">Discover · Stay · Eat</p>
                     </div>
                 </a>
             </div>

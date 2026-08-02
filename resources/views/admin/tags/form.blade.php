@@ -29,11 +29,11 @@
             </div>
 
             <div>
-                <label class="block text-sm font-bold text-slate-700 mb-1">Icon <span class="text-slate-400 font-normal">(Material Symbol name, e.g. <code class="font-mono text-xs">family_restroom</code>)</span></label>
+                <label class="block text-sm font-bold text-slate-700 mb-1">Icon <span class="text-slate-500 font-normal">(Material Symbol name, e.g. <code class="font-mono text-xs">family_restroom</code>)</span></label>
                 <div class="flex items-center gap-3">
                     <input type="text" name="icon" id="tag-icon" value="{{ old('icon', $tag->icon ?? '') }}" placeholder="e.g. beach_access"
                            class="flex-1 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none font-mono">
-                    <div id="icon-preview" class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-400">
+                    <div id="icon-preview" class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-500">
                         <span class="material-symbols-outlined text-[20px]" id="icon-preview-sym">{{ old('icon', $tag->icon ?? 'label') }}</span>
                     </div>
                 </div>
@@ -44,7 +44,7 @@
                 <label class="block text-sm font-bold text-slate-700 mb-1">Sort Order</label>
                 <input type="number" name="sort_order" value="{{ old('sort_order', $tag->sort_order ?? 0) }}" min="0"
                        class="w-32 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none">
-                <p class="text-xs text-slate-400 mt-1">Lower numbers appear first.</p>
+                <p class="text-xs text-slate-500 mt-1">Lower numbers appear first.</p>
                 @error('sort_order') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 

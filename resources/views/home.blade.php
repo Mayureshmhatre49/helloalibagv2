@@ -103,7 +103,7 @@
                 <div class="flex flex-col sm:flex-row gap-2.5">
                     <div class="flex-grow relative border border-slate-200 rounded-xl bg-slate-50 hover:bg-white focus-within:bg-white focus-within:border-primary/40 focus-within:ring-2 focus-within:ring-primary/15 transition-all">
                         <span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-primary/70 text-[22px]">search</span>
-                        <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider absolute top-2 left-12">Search</label>
+                        <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wider absolute top-2 left-12">Search</label>
                         <input type="text" name="q"
                                class="w-full pl-12 pr-4 pt-6 pb-2 bg-transparent border-none text-slate-900 placeholder-slate-400 text-sm sm:text-base font-medium focus:ring-0"
                                placeholder="Villas, restaurants, activities…">
@@ -218,7 +218,7 @@ $catConfig = [
 
                 {{-- Name & count --}}
                 <p class="font-bold text-slate-900 text-sm leading-snug">{{ $cat->name }}</p>
-                <p class="text-[11px] text-slate-400 mt-0.5">
+                <p class="text-[11px] text-slate-500 mt-0.5">
                     {{ $cat->listings_count > 0 ? $cat->listings_count . ' listing' . ($cat->listings_count !== 1 ? 's' : '') : 'Coming soon' }}
                 </p>
 
@@ -253,7 +253,7 @@ $catConfig = [
                 @endforeach
             </div>
         @else
-            <div class="text-center py-16 text-slate-400">
+            <div class="text-center py-16 text-slate-500">
                 <span class="material-symbols-outlined text-5xl mb-3 block">home_work</span>
                 <p class="font-medium">Featured listings coming soon.</p>
             </div>
@@ -535,7 +535,7 @@ $catConfig = [
                 <h3 class="font-bold text-slate-900 font-serif text-lg mt-1 mb-1.5 group-hover:text-primary transition-colors line-clamp-2 leading-snug">{{ $post->title }}</h3>
                 <p class="text-slate-500 text-sm line-clamp-2 leading-relaxed">{{ $post->excerpt }}</p>
                 @if($post->published_at)
-                    <p class="text-xs text-slate-400 mt-2">{{ $post->published_at->format('M d, Y') }}</p>
+                    <p class="text-xs text-slate-500 mt-2">{{ $post->published_at->format('M d, Y') }}</p>
                 @endif
             </a>
             @endforeach
@@ -633,7 +633,7 @@ $catConfig = [
                 Learn More
             </a>
         </div>
-        <p class="text-xs text-slate-400 mt-4">No credit card. No commission. Always free to list.</p>
+        <p class="text-xs text-slate-500 mt-4">No credit card. No commission. Always free to list.</p>
     </div>
 </section>
 

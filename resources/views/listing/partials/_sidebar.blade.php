@@ -38,7 +38,7 @@
                         <div class="flex items-center gap-1 mt-1">
                             <span class="material-symbols-outlined text-amber-400 text-[14px]" style="font-variation-settings:'FILL' 1">star</span>
                             <span class="text-sm font-bold text-slate-800">{{ $avgRating }}</span>
-                            <span class="text-sm text-slate-400">· {{ $reviewCount }} {{ Str::plural('review', $reviewCount) }}</span>
+                            <span class="text-sm text-slate-500">· {{ $reviewCount }} {{ Str::plural('review', $reviewCount) }}</span>
                         </div>
                     @endif
                 </div>
@@ -49,7 +49,7 @@
                         <div class="flex items-center gap-1 mt-1">
                             <span class="material-symbols-outlined text-amber-400 text-[14px]" style="font-variation-settings:'FILL' 1">star</span>
                             <span class="text-sm font-bold text-slate-800">{{ $avgRating }}</span>
-                            <span class="text-sm text-slate-400">· {{ $reviewCount }} {{ Str::plural('review', $reviewCount) }}</span>
+                            <span class="text-sm text-slate-500">· {{ $reviewCount }} {{ Str::plural('review', $reviewCount) }}</span>
                         </div>
                     @endif
                 </div>
@@ -89,7 +89,7 @@
             {{-- Divider --}}
             <div class="relative flex items-center gap-3 mb-5">
                 <div class="flex-1 h-px bg-slate-100"></div>
-                <span class="text-xs text-slate-400 font-medium">or send an inquiry</span>
+                <span class="text-xs text-slate-500 font-medium">or send an inquiry</span>
                 <div class="flex-1 h-px bg-slate-100"></div>
             </div>
 
@@ -109,32 +109,32 @@
                 <div>
                     <input type="text" name="name" value="{{ auth()->user()->name ?? old('name') }}" required
                            placeholder="Your name *"
-                           class="w-full border {{ $errors->has('name') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none placeholder:text-slate-400 bg-slate-50/50">
+                           class="w-full border {{ $errors->has('name') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none placeholder:text-slate-500 bg-slate-50/50">
                     @error('name')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
                 <div>
                     <input type="email" name="email" value="{{ auth()->user()->email ?? old('email') }}" required
                            placeholder="Email address *"
-                           class="w-full border {{ $errors->has('email') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none placeholder:text-slate-400 bg-slate-50/50">
+                           class="w-full border {{ $errors->has('email') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none placeholder:text-slate-500 bg-slate-50/50">
                     @error('email')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
                 <div>
                     <input type="tel" name="phone" value="{{ old('phone') }}"
                            placeholder="Phone number"
-                           class="w-full border {{ $errors->has('phone') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none placeholder:text-slate-400 bg-slate-50/50">
+                           class="w-full border {{ $errors->has('phone') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none placeholder:text-slate-500 bg-slate-50/50">
                     @error('phone')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
 
                 @if($sidebarShowDates)
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1 px-1">{{ $sidebarDateLabel }}</label>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1 px-1">{{ $sidebarDateLabel }}</label>
                             <input type="date" name="check_in" value="{{ old('check_in') }}"
                                    class="w-full border {{ $errors->has('check_in') ? 'border-red-300' : 'border-slate-200' }} rounded-xl px-3 py-2.5 text-sm text-slate-700 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-slate-50/50">
                             @error('check_in')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wide mb-1 px-1">{{ $sidebarDate2Label }}</label>
+                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1 px-1">{{ $sidebarDate2Label }}</label>
                             <input type="date" name="check_out" value="{{ old('check_out') }}"
                                    class="w-full border {{ $errors->has('check_out') ? 'border-red-300' : 'border-slate-200' }} rounded-xl px-3 py-2.5 text-sm text-slate-700 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-slate-50/50">
                             @error('check_out')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
@@ -146,7 +146,7 @@
                     <div>
                         <input type="number" name="guests" min="1" max="50" value="{{ old('guests') }}"
                                placeholder="{{ $sidebarGuestsLabel }}"
-                               class="w-full border {{ $errors->has('guests') ? 'border-red-300' : 'border-slate-200' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none placeholder:text-slate-400 bg-slate-50/50">
+                               class="w-full border {{ $errors->has('guests') ? 'border-red-300' : 'border-slate-200' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none placeholder:text-slate-500 bg-slate-50/50">
                         @error('guests')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                     </div>
                 @endif
@@ -154,7 +154,7 @@
                 <div>
                     <textarea name="message" rows="3" required minlength="10" maxlength="2000"
                               placeholder="Tell us what you're looking for... * (min. 10 characters)"
-                              class="w-full border {{ $errors->has('message') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none resize-none placeholder:text-slate-400 bg-slate-50/50">{{ old('message') }}</textarea>
+                              class="w-full border {{ $errors->has('message') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none resize-none placeholder:text-slate-500 bg-slate-50/50">{{ old('message') }}</textarea>
                     @error('message')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
                 </div>
                 <button type="submit"
@@ -163,7 +163,7 @@
                 </button>
             </form>
 
-            <p class="flex items-start gap-1.5 text-[11px] text-slate-400 mt-3 leading-snug">
+            <p class="flex items-start gap-1.5 text-[11px] text-slate-500 mt-3 leading-snug">
                 <span class="material-symbols-outlined text-[13px] mt-0.5 flex-shrink-0">info</span>
                 This sends an inquiry request. The owner will confirm availability and contact you directly. Payment is arranged with the property.
             </p>
@@ -190,13 +190,13 @@
 
         {{-- Owner Card --}}
         <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
-            <p class="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-3">Listed by</p>
+            <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Listed by</p>
             <div class="flex items-center gap-3">
                 <img src="{{ $listing->creator->getAvatarUrl() }}" alt="{{ $listing->creator->name }}"
                      class="w-12 h-12 rounded-full object-cover border-2 border-white shadow">
                 <div class="flex-1 min-w-0">
                     <p class="font-bold text-slate-900 text-sm truncate">{{ $listing->creator->name }}</p>
-                    <p class="text-xs text-slate-400">Member since {{ $listing->creator->created_at->format('M Y') }}</p>
+                    <p class="text-xs text-slate-500">Member since {{ $listing->creator->created_at->format('M Y') }}</p>
                 </div>
                 <span class="material-symbols-outlined text-primary text-[20px]" title="Verified owner"
                       style="font-variation-settings:'FILL' 1">verified</span>

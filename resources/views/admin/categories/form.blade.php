@@ -24,7 +24,7 @@
                 @error('slug') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
             <div>
-                <label class="block text-sm font-bold text-slate-700 mb-1">Icon <span class="text-xs text-slate-400 font-normal">(Material Symbol name)</span></label>
+                <label class="block text-sm font-bold text-slate-700 mb-1">Icon <span class="text-xs text-slate-500 font-normal">(Material Symbol name)</span></label>
                 <input type="text" name="icon" value="{{ old('icon', $category->icon ?? '') }}" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="e.g., villa, restaurant, celebration">
             </div>
             <div>
