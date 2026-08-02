@@ -312,34 +312,55 @@
                     </div>
 
                     {{-- Schedule a Visit Form --}}
-                    <form method="POST" action="{{ route('listing.inquiry.store', $listing) }}" class="space-y-2.5">
-                        @csrf
-
-                        <input type="text" name="name" value="{{ auth()->user()->name ?? old('name') }}" required
-                               placeholder="Your name *"
-                               class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none placeholder:text-slate-500 bg-slate-50/50">
-
-                        <input type="tel" name="phone" value="{{ old('phone') }}" required
-                               placeholder="Phone number *"
-                               class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none placeholder:text-slate-500 bg-slate-50/50">
-
-                        <div>
-                            <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1 px-1">Preferred Visit Date</label>
-                            <input type="date" name="preferred_date" value="{{ old('preferred_date') }}"
-                                   min="{{ date('Y-m-d') }}"
-                                   class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-700 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none bg-slate-50/50">
-                        </div>
-
-                        <textarea name="message" rows="3"
-                                  placeholder="Any questions or specific requirements?"
-                                  class="w-full border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none resize-none placeholder:text-slate-500 bg-slate-50/50">{{ old('message') }}</textarea>
-
-                        <button type="submit"
-                                class="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-xl text-sm font-bold transition-colors shadow-md flex items-center justify-center gap-2">
-                            <span class="material-symbols-outlined text-[18px]">calendar_month</span>
-                            Schedule a Visit
-                        </button>
-                    </form>
+                        @if($errors->any())
+                            <div class="mb-3 bg-red-50 border border-red-200 text-red-700 rounded-xl p-3 text-xs">
+                                <p class="font-bold mb-1 flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">error</span> Please fix the following:</p>
+                                <ul class="list-disc list-inside space-y-0.5">
+                                    @foreach($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form method="POST" action="{{ route('listing.inquiry.store', $listing) }}" class="space-y-2.5">
+                            @csrf
+                            <div>
+                                <input type="text" name="name" value="{{ auth()->user()->name ?? old('name') }}" required
+                                       placeholder="Your name *"
+                                       class="w-full border {{ $errors->has('name') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none placeholder:text-slate-500 bg-slate-50/50">
+                                @error('name')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                            </div>
+                            <div>
+                                <input type="email" name="email" value="{{ auth()->user()->email ?? old('email') }}" required
+                                       placeholder="Email address *"
+                                       class="w-full border {{ $errors->has('email') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none placeholder:text-slate-500 bg-slate-50/50">
+                                @error('email')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                            </div>
+                            <div>
+                                <input type="tel" name="phone" value="{{ old('phone') }}" required
+                                       placeholder="Phone number *"
+                                       class="w-full border {{ $errors->has('phone') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none placeholder:text-slate-500 bg-slate-50/50">
+                                @error('phone')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                            </div>
+                            <div>
+                                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-wide mb-1 px-1">Preferred Visit Date</label>
+                                <input type="date" name="check_in" value="{{ old('check_in') }}"
+                                       min="{{ date('Y-m-d') }}"
+                                       class="w-full border {{ $errors->has('check_in') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none placeholder:text-slate-500 bg-slate-50/50">
+                                @error('check_in')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                            </div>
+                            <div>
+                                <textarea name="message" rows="3" required minlength="10" maxlength="2000"
+                                          placeholder="Questions or specific requirements... * (min. 10 characters)"
+                                          class="w-full border {{ $errors->has('message') ? 'border-red-300 focus:ring-red-200 focus:border-red-400' : 'border-slate-200 focus:ring-primary/20 focus:border-primary' }} rounded-xl px-3.5 py-2.5 text-sm text-slate-800 focus:ring-2 outline-none placeholder:text-slate-500 bg-slate-50/50 resize-none">{{ old('message') }}</textarea>
+                                @error('message')<p class="text-red-500 text-xs mt-1">{{ $message }}</p>@enderror
+                            </div>
+                            <button type="submit"
+                                    class="w-full bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-xl text-sm font-bold transition-colors shadow-md flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-[18px]">calendar_month</span>
+                                Schedule a Visit
+                            </button>
+                        </form>
 
                     <p class="flex items-start gap-1.5 text-[11px] text-slate-500 mt-3 leading-snug">
                         <span class="material-symbols-outlined text-[13px] mt-0.5 flex-shrink-0">info</span>
