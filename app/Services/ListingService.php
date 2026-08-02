@@ -159,6 +159,11 @@ class ListingService
                 'status' => 'approved',
                 'approved_by' => $admin->id,
                 'approved_at' => now(),
+                // Clear any prior rejection so the record reflects the current
+                // decision rather than showing both at once.
+                'rejected_at' => null,
+                'rejected_by' => null,
+                'rejection_reason' => null,
             ]);
 
         $listing = $listing->fresh();
@@ -189,13 +194,15 @@ class ListingService
      * Reject a listing. Same atomic-guard approach as approve() — a listing
      * already rejected won't re-trigger the rejection email/notification.
      */
-    public function reject(Listing $listing, ?string $reason = null): Listing
+    public function reject(Listing $listing, ?string $reason = null, ?User $admin = null): Listing
     {
         $applied = Listing::where('id', $listing->id)
             ->where('status', '!=', 'rejected')
             ->update([
                 'status' => 'rejected',
                 'rejection_reason' => $reason,
+                'rejected_at' => now(),
+                'rejected_by' => $admin?->id ?? auth()->id(),
             ]);
 
         $listing = $listing->fresh();

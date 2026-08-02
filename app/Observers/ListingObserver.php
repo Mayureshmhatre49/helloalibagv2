@@ -5,9 +5,37 @@ namespace App\Observers;
 use App\Models\Listing;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class ListingObserver
 {
+    /**
+     * Handle the Listing "deleting" event.
+     *
+     * The listing_images rows are removed by the database cascade, but that
+     * leaves the actual files orphaned on disk forever. Delete them here —
+     * in the observer rather than in each controller — so every deletion
+     * path is covered, including admin, owner and tinker.
+     */
+    public function deleting(Listing $listing): void
+    {
+        foreach ($listing->images as $image) {
+            foreach ([$image->path, $image->thumbnail] as $path) {
+                if (empty($path) || str_starts_with($path, 'http')) {
+                    continue; // externally-hosted image — nothing of ours to delete
+                }
+
+                try {
+                    Storage::disk('public')->delete(ltrim(preg_replace('#^/?storage/#', '', $path), '/'));
+                } catch (\Throwable $e) {
+                    // Never let cleanup block the delete the user asked for.
+                    Log::warning("Failed to delete listing image file [{$path}]: " . $e->getMessage());
+                }
+            }
+        }
+    }
+
     /**
      * Handle the Listing "created" event.
      */

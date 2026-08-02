@@ -66,8 +66,26 @@ class UserController extends Controller
             return back()->with('error', 'Cannot delete an administrator.');
         }
 
-        $user->delete();
+        $this->deleteUserAndFiles($user);
+
         return back()->with('success', 'User deleted successfully.');
+    }
+
+    /**
+     * Delete a user along with their listings' image files.
+     *
+     * The database cascades listings away with the user, but a DB-level
+     * cascade does not fire Eloquent model events — so ListingObserver never
+     * runs and the image files are orphaned on disk. Deleting the listings
+     * through Eloquent first lets the observer clean the files up.
+     */
+    private function deleteUserAndFiles(User $user): void
+    {
+        foreach ($user->listings()->with('images')->get() as $listing) {
+            $listing->delete();
+        }
+
+        $user->delete();
     }
 
     /**
@@ -91,7 +109,7 @@ class UserController extends Controller
         $skipped = count($data['ids']) - $count;
 
         foreach ($deleted as $user) {
-            $user->delete();
+            $this->deleteUserAndFiles($user);
         }
 
         if ($count === 0) {

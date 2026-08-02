@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Marketplace;
 
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Models\Area;
 use App\Models\Classified;
@@ -100,7 +101,7 @@ class SellerClassifiedController extends Controller
         return $request->validate([
             'title' => 'required|string|max:255',
             'classified_category_id' => 'required|exists:classified_categories,id',
-            'area_id' => 'nullable|exists:areas,id',
+            'area_id' => ['nullable', Rule::exists('areas', 'id')->where('is_active', true)],
             'description' => 'nullable|string|max:5000',
             'price' => 'nullable|numeric|min:0|max:99999999',
             'is_negotiable' => 'nullable|boolean',

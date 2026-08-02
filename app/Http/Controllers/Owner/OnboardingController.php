@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Owner;
 
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Listing;
@@ -45,7 +46,7 @@ class OnboardingController extends Controller
     public function processStart(Request $request)
     {
         $request->validate([
-            'category_id' => 'required|exists:categories,id',
+            'category_id' => ['required', Rule::exists('categories', 'id')->where('is_active', true)],
         ]);
 
         $request->session()->put('onboarding_category_id', $request->category_id);
@@ -85,7 +86,7 @@ class OnboardingController extends Controller
 
         $request->validate([
             'title'              => 'required|string|max:255',
-            'area_id'            => 'required|exists:areas,id',
+            'area_id'            => ['required', Rule::exists('areas', 'id')->where('is_active', true)],
             'description'        => 'required|string|min:20',
             'price'              => 'nullable|numeric|min:0',
             'phone'              => 'nullable|string|max:20',
@@ -93,7 +94,7 @@ class OnboardingController extends Controller
             'address'            => 'nullable|string|max:500',
             'latitude'           => 'nullable|numeric|between:-90,90',
             'longitude'          => 'nullable|numeric|between:-180,180',
-            'category_id'        => 'required|exists:categories,id',
+            'category_id'        => ['required', Rule::exists('categories', 'id')->where('is_active', true)],
             'images'             => 'required|array|min:1',
             'images.*'           => 'image|mimes:jpeg,png,jpg,webp|max:8192',
             'amenities'          => 'nullable|array',

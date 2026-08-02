@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Owner;
 
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Models\Amenity;
 use App\Models\Area;
@@ -67,8 +68,8 @@ class ListingController extends Controller
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'category_id' => 'required|exists:categories,id',
-            'area_id' => 'nullable|exists:areas,id',
+            'category_id' => ['required', Rule::exists('categories', 'id')->where('is_active', true)],
+            'area_id' => ['nullable', Rule::exists('areas', 'id')->where('is_active', true)],
             'description' => 'nullable|string|max:5000',
             'price' => 'nullable|numeric|min:0',
             'address' => 'nullable|string|max:255',

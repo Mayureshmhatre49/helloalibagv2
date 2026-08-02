@@ -24,6 +24,7 @@ class Listing extends Model implements Auditable
         'event_start_at', 'event_end_at', 'event_is_recurring',
         'is_verified', 'verified_at', 'verification_note', 'verified_by',
         'payment_received_at', 'payment_recorded_by', 'payment_note',
+        'rejected_at', 'rejected_by',
     ];
 
     protected $casts = [
@@ -41,6 +42,7 @@ class Listing extends Model implements Auditable
         'is_verified' => 'boolean',
         'verified_at' => 'datetime',
         'payment_received_at' => 'datetime',
+        'rejected_at' => 'datetime',
     ];
 
     public function getSlugOptions(): SlugOptions
