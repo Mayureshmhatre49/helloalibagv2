@@ -393,13 +393,21 @@
                     </ul>
                 </div>
 
-                {{-- Categories --}}
+                {{-- Categories / Explore --}}
                 <div>
                     <h4 class="font-bold text-sm mb-4 uppercase tracking-wider text-slate-300">Explore</h4>
                     <ul class="space-y-2.5 text-sm text-slate-400">
-                        @foreach($navCategories as $cat)
-                            <li><a href="{{ route('category.show', $cat) }}" class="hover:text-primary transition-colors">{{ $cat->name }}</a></li>
-                        @endforeach
+                        @if(isset($navCategories) && $navCategories->count() > 0)
+                            @foreach($navCategories as $cat)
+                                <li><a href="{{ route('category.show', $cat) }}" class="hover:text-primary transition-colors">{{ $cat->name }}</a></li>
+                            @endforeach
+                        @else
+                            <li><a href="{{ route('search', ['type' => 'stay']) }}" class="hover:text-primary transition-colors">Stays & Private Villas</a></li>
+                            <li><a href="{{ route('search', ['type' => 'eat']) }}" class="hover:text-primary transition-colors">Restaurants & Cafes</a></li>
+                            <li><a href="{{ route('search', ['type' => 'real-estate']) }}" class="hover:text-primary transition-colors">Real Estate & Plots</a></li>
+                            <li><a href="{{ route('search', ['type' => 'services']) }}" class="hover:text-primary transition-colors">Local Services & Concierge</a></li>
+                            <li><a href="{{ route('page.beaches') }}" class="hover:text-primary transition-colors">Beaches & Coastal Spots</a></li>
+                        @endif
                     </ul>
                 </div>
 
