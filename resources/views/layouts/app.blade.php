@@ -13,6 +13,11 @@
     <meta name="robots" content="@yield('robots', 'index, follow')">
     <link rel="canonical" href="@yield('canonical', url()->current())">
 
+    {{-- Favicon --}}
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
+
     <meta property="og:site_name" content="{{ config('app.name') }}">
     <meta property="og:title" content="{{ config('app.name') }} — @yield('title', 'Discover Alibaug')">
     <meta property="og:description" content="@yield('meta_description', 'Discover luxury stays, premium real estate, and authentic local experiences in Alibaug.')">
