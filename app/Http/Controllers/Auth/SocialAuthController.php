@@ -14,12 +14,17 @@ use Laravel\Socialite\Facades\Socialite;
 
 class SocialAuthController extends Controller
 {
+    // Facebook is temporarily disabled — not configured yet. Add 'facebook' back
+    // here once FACEBOOK_CLIENT_ID/SECRET are set and the login/register buttons
+    // are restored.
+    private const ENABLED_PROVIDERS = ['google'];
+
     /**
      * Redirect the user to the provider authentication page.
      */
     public function redirectToProvider(Request $request, string $provider): RedirectResponse
     {
-        if (!in_array($provider, ['google', 'facebook'])) {
+        if (!in_array($provider, self::ENABLED_PROVIDERS)) {
             abort(404);
         }
 
@@ -35,7 +40,7 @@ class SocialAuthController extends Controller
      */
     public function handleProviderCallback(Request $request, string $provider): RedirectResponse
     {
-        if (!in_array($provider, ['google', 'facebook'])) {
+        if (!in_array($provider, self::ENABLED_PROVIDERS)) {
             return redirect()->route('login')->withErrors(['social' => 'Invalid social provider.']);
         }
 
