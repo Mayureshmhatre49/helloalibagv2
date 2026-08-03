@@ -42,7 +42,10 @@ return new class extends Migration
 
             $table->timestamps();
 
-            $table->fullText(['title', 'description']);
+            // Full-text index for search (MySQL/PostgreSQL only, not supported by SQLite)
+            if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+                $table->fullText(['title', 'description']);
+            }
             $table->index('status');
             $table->index('classified_category_id');
             $table->index('price');

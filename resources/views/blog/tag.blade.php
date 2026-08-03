@@ -48,11 +48,7 @@
             @forelse($posts as $post)
                 <a href="{{ route('blog.show', $post->slug) }}" class="bg-white rounded-3xl overflow-hidden group border border-slate-100 hover:shadow-xl hover:shadow-black/5 transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
                     <div class="aspect-[4/3] relative overflow-hidden">
-                        @if($post->featured_image)
-                            <img src="{{ asset('storage/' . $post->featured_image) }}" alt="{{ $post->featured_image_alt ?: $post->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        @else
-                            <div class="w-full h-full bg-slate-100"></div>
-                        @endif
+                        <img src="{{ $post->getFeaturedImageUrl() }}" alt="{{ $post->featured_image_alt ?: $post->title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     </div>
                     <div class="p-6 flex flex-col flex-1">
                         <h3 class="font-display text-xl font-bold text-charcoal leading-snug mb-3 group-hover:text-primary transition-colors line-clamp-2">{{ $post->title }}</h3>

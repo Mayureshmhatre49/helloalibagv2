@@ -17,34 +17,20 @@
     <div class="min-h-screen flex">
         {{-- Left: Image Panel --}}
         <div class="hidden lg:flex lg:w-1/2 relative">
-            <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDCjXJ9SdsU7gHAoMBh-JX1MWxPHHkE3WrHJRSbazkXoRB7JU6ktFz0SEFYSQDEpdPwmP4wuTxuHmxRIPLXekcAGVML9IH3fFdaq8Ap2Q0nh9G_PmOSstoRAAo4N6LClAMQVX-X4n6r19vZWKy4nsuSH3wcAVJ5QZ8bLHvq50lCfZcYnkytR9wkq-3JN8ld2hJAaA1jAwNOoFMx0ttBb83vl4Tsm8GDKyswgf1iI55Uvou1CSNfTxLvm3PrLufWPXg1I1-KutRovQ" alt="Alibaug coastline" class="w-full h-full object-cover">
+            <img src="{{ asset('images/auth-side-bg.jpg') }}" alt="Casa Frangipani Villa" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-slate-900/40 mix-blend-multiply"></div>
             <div class="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-transparent to-transparent"></div>
-            <div class="absolute inset-0 flex flex-col justify-end p-12">
-                <a href="{{ route('home') }}" class="flex items-center mb-8">
+            {{-- Logo at the top --}}
+            <div class="absolute top-12 left-12 z-10">
+                <a href="{{ route('home') }}">
                     <img src="{{ asset('images/helloalibaug-logo.png') }}" alt="Hello Alibaug — Discover, Stay, Eat" class="h-12 w-auto">
                 </a>
+            </div>
+
+            {{-- Text content at the bottom --}}
+            <div class="absolute inset-0 flex flex-col justify-end p-12">
                 <h2 class="text-3xl font-serif font-bold text-white mb-3 leading-tight">Experience the finest of<br>coastal living</h2>
                 <p class="text-white/80 text-base max-w-md">Discover luxury stays, premium real estate, and curated dining experiences along the Konkan coast.</p>
-                <div class="mt-8 flex gap-6">
-                    @php
-                        $approvedListings = \App\Models\Listing::approved()->count();
-                        $avgRating = \App\Models\Review::where('status', 'approved')->avg('rating');
-                        $avgRating = $avgRating ? number_format($avgRating, 1) : null;
-                    @endphp
-                    <div>
-                        <p class="text-2xl font-bold text-white">{{ $approvedListings > 0 ? $approvedListings . '+' : '50+' }}</p>
-                        <p class="text-white/60 text-sm">Premium listings</p>
-                    </div>
-                    <div>
-                        <p class="text-2xl font-bold text-white">426+</p>
-                        <p class="text-white/60 text-sm">Happy guests</p>
-                    </div>
-                    <div>
-                        <p class="text-2xl font-bold text-white">{{ $avgRating ? $avgRating . '★' : '4.8★' }}</p>
-                        <p class="text-white/60 text-sm">Average rating</p>
-                    </div>
-                </div>
             </div>
         </div>
 
@@ -69,5 +55,6 @@
             </div>
         </div>
     </div>
+    @stack('scripts')
 </body>
 </html>

@@ -20,7 +20,12 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // Disable foreign key checks for clean seeding
-        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        if (DB::getDriverName() === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys = OFF');
+        } else {
+            DB::statement('SET FOREIGN_KEY_CHECKS=0');
+        }
+
         Review::truncate();
         ListingImage::truncate();
         ListingAttribute::truncate();
@@ -31,7 +36,17 @@ class DatabaseSeeder extends Seeder
         Category::truncate();
         User::truncate();
         Role::truncate();
-        DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        \App\Models\BlogPost::truncate();
+        \App\Models\BlogCategory::truncate();
+        \App\Models\BlogTag::truncate();
+        DB::table('blog_post_tags')->truncate();
+        DB::table('blog_listing_relations')->truncate();
+
+        if (DB::getDriverName() === 'sqlite') {
+            DB::statement('PRAGMA foreign_keys = ON');
+        } else {
+            DB::statement('SET FOREIGN_KEY_CHECKS=1');
+        }
 
         // Roles
         $admin = Role::create(['name' => 'Admin', 'slug' => 'admin']);
@@ -40,8 +55,8 @@ class DatabaseSeeder extends Seeder
 
         // Admin user
         $adminUser = User::create([
-            'name'     => 'Admin',
-            'email'    => 'admin@helloalibaug.com',
+            'name'     => 'Ankit Deshmukh',
+            'email'    => 'ankit@helloalibaug.com',
             'password' => Hash::make('Admin@123'),
             'role_id'  => $admin->id,
         ]);
@@ -328,5 +343,8 @@ class DatabaseSeeder extends Seeder
 
         // Seed marketplace (classifieds) categories.
         $this->call(ClassifiedCategorySeeder::class);
+
+        // Seed SEO blog posts
+        $this->call(BlogSeeder::class);
     }
 }

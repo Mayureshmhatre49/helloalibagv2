@@ -53,4 +53,17 @@ class BlogPost extends Model
     {
         return $this->belongsToMany(Listing::class, 'blog_listing_relations', 'blog_post_id', 'listing_id');
     }
+
+    public function getFeaturedImageUrl(): string
+    {
+        if (!$this->featured_image) {
+            return 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1200&q=80';
+        }
+
+        if (str_starts_with($this->featured_image, 'http://') || str_starts_with($this->featured_image, 'https://')) {
+            return $this->featured_image;
+        }
+
+        return asset('storage/' . $this->featured_image);
+    }
 }

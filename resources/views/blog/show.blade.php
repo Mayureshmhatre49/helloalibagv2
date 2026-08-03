@@ -7,7 +7,7 @@
 @push('meta')
     @php
         $description = $post->meta_description ?? $post->excerpt ?? Str::limit(strip_tags($post->content), 150);
-        $imageUrl = $post->featured_image ? asset('storage/' . $post->featured_image) : route('blog.og-image', $post->id);
+        $imageUrl = $post->getFeaturedImageUrl();
     @endphp
     <meta name="description" content="{{ $description }}">
     <link rel="canonical" href="{{ route('blog.show', $post->slug) }}">
@@ -106,7 +106,7 @@
     {{-- ===== HERO SECTION — Full-bleed image with overlay ===== --}}
     @if($post->featured_image)
     <section class="relative w-full h-[50vh] sm:h-[55vh] lg:h-[60vh] overflow-hidden">
-        <img src="{{ asset('storage/' . $post->featured_image) }}"
+        <img src="{{ $post->getFeaturedImageUrl() }}"
              alt="{{ $post->featured_image_alt ?: $post->title }}"
              class="absolute inset-0 w-full h-full object-cover">
         {{-- Gradient overlay --}}
@@ -355,7 +355,7 @@
                    class="group flex gap-4 p-3 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-primary/50 dark:hover:border-primary/50 hover:bg-slate-50 dark:hover:bg-slate-800 transition-all bg-white dark:bg-slate-900 shadow-sm">
                     <div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-slate-100 dark:bg-slate-800">
                         @if($url = $listing->getPrimaryImageUrl())
-                            <img src="{{ asset('storage/' . $url) }}" alt="{{ $listing->title }}" class="w-full h-full object-cover">
+                            <img src="{{ $url }}" alt="{{ $listing->title }}" class="w-full h-full object-cover">
                         @endif
                     </div>
                     <div class="flex flex-col justify-center min-w-0">
@@ -389,14 +389,8 @@
             @foreach($relatedPosts as $rel)
             <a href="{{ route('blog.show', $rel->slug) }}" class="group">
                 <div class="aspect-[16/10] rounded-xl overflow-hidden mb-4 border border-slate-100 dark:border-slate-800">
-                    @if($rel->featured_image)
-                        <img src="{{ asset('storage/' . $rel->featured_image) }}" alt="{{ $rel->title }}"
-                             class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
-                    @else
-                        <div class="w-full h-full bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-4xl text-slate-300 dark:text-slate-600">image</span>
-                        </div>
-                    @endif
+                    <img src="{{ $rel->getFeaturedImageUrl() }}" alt="{{ $rel->title }}"
+                         class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
                 </div>
                 <div class="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-500 font-medium mb-2">
                     @if($rel->category)

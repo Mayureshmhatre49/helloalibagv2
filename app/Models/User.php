@@ -25,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
     protected $fillable = [
         'name', 'email', 'password', 'phone', 'role_id', 'city_id',
         'bio', 'avatar', 'instagram', 'facebook', 'user_website',
-        'two_factor_secret', 'two_factor_confirmed_at', 'two_factor_enabled',
+        'google_id', 'facebook_id', 'two_factor_secret', 'two_factor_confirmed_at', 'two_factor_enabled',
         'is_active',
     ];
 
@@ -155,8 +155,12 @@ class User extends Authenticatable implements MustVerifyEmail, Auditable
 
     public function getAvatarUrl(): string
     {
-        return $this->avatar
-            ? asset('storage/' . $this->avatar)
-            : 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=1183d4&color=fff';
+        if ($this->avatar) {
+            if (str_starts_with($this->avatar, 'http')) {
+                return $this->avatar;
+            }
+            return asset('storage/' . $this->avatar);
+        }
+        return 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=1183d4&color=fff';
     }
 }

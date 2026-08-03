@@ -64,15 +64,9 @@
             <a href="{{ route('blog.show', $featuredPost->slug) }}" class="group grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 items-center">
                 {{-- Image --}}
                 <div class="relative rounded-xl overflow-hidden aspect-[16/10]">
-                    @if($featuredPost->featured_image)
-                        <img src="{{ asset('storage/' . $featuredPost->featured_image) }}"
-                             alt="{{ $featuredPost->featured_image_alt ?: $featuredPost->title }}"
-                             class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
-                    @else
-                        <div class="w-full h-full bg-slate-100 flex items-center justify-center">
-                            <span class="material-symbols-outlined text-5xl text-slate-300">image</span>
-                        </div>
-                    @endif
+                    <img src="{{ $featuredPost->getFeaturedImageUrl() }}"
+                         alt="{{ $featuredPost->featured_image_alt ?: $featuredPost->title }}"
+                         class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
                     <span class="absolute top-3 left-3 bg-primary text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">Featured</span>
                 </div>
 
@@ -108,15 +102,9 @@
                     <a href="{{ route('blog.show', $post->slug) }}" class="block">
                         {{-- Thumbnail --}}
                         <div class="relative rounded-xl overflow-hidden aspect-[16/10] mb-5">
-                            @if($post->featured_image)
-                                <img src="{{ asset('storage/' . $post->featured_image) }}"
-                                     alt="{{ $post->featured_image_alt ?: $post->title }}"
-                                     class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
-                            @else
-                                <div class="w-full h-full bg-slate-100 flex items-center justify-center">
-                                    <span class="material-symbols-outlined text-4xl text-slate-300">image</span>
-                                </div>
-                            @endif
+                            <img src="{{ $post->getFeaturedImageUrl() }}"
+                                 alt="{{ $post->featured_image_alt ?: $post->title }}"
+                                 class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
                             @if($post->category)
                                 <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-charcoal text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">{{ $post->category->name }}</span>
                             @endif

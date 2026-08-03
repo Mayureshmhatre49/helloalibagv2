@@ -31,8 +31,10 @@ return new class extends Migration
             $table->unsignedBigInteger('city_id')->nullable();
             $table->timestamps();
 
-            // Full-text index for search
-            $table->fullText(['title', 'description']);
+            // Full-text index for search (MySQL/PostgreSQL only, not supported by SQLite)
+            if (Schema::getConnection()->getDriverName() !== 'sqlite') {
+                $table->fullText(['title', 'description']);
+            }
 
             // Indexes for filtering
             $table->index('status');

@@ -38,9 +38,11 @@ class BlogController extends Controller
         $posts = $query->paginate(12);
         
         // Load categories for sidebar/filter
-        $categories = BlogCategory::withCount(['posts' => function($q) {
+        $categories = BlogCategory::whereHas('posts', function ($q) {
             $q->where('status', 'published');
-        }])->having('posts_count', '>', 0)->get();
+        })->withCount(['posts' => function ($q) {
+            $q->where('status', 'published');
+        }])->get();
 
         return view('blog.index', compact('posts', 'featuredPost', 'categories'));
     }
