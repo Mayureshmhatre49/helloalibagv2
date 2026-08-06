@@ -103,7 +103,7 @@
                                         @endif
                                     </div>
                                     <div class="min-w-0">
-                                        <p class="font-semibold text-slate-900 truncate max-w-[240px]">{{ $listing->title }}</p>
+                                        <p class="font-semibold text-slate-900 text-sm leading-snug line-clamp-2 max-w-[140px]">{{ $listing->title }}</p>
                                         <div class="flex items-center gap-1.5 mt-0.5">
                                             @if($listing->is_featured)
                                                 <span class="inline-flex items-center gap-0.5 text-[10px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">
