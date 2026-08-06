@@ -1,17 +1,10 @@
 @extends('layouts.admin')
 @section('page-title', 'Approved Listings')
+@section('page-actions')
+    <span class="text-sm font-medium text-slate-500">{{ $totalApproved }} live listings</span>
+@endsection
 
 @section('content')
-{{-- Page Header --}}
-<div class="flex items-center justify-between gap-4 mb-6 flex-wrap">
-    <div>
-        <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
-            <span class="material-symbols-outlined text-emerald-500">verified</span>
-            Approved Listings
-        </h1>
-        <p class="text-sm text-slate-500 mt-0.5">{{ $totalApproved }} live listings</p>
-    </div>
-</div>
 
 {{-- Search & Filters --}}
 <div class="bg-white rounded-2xl border border-border-light p-5 mb-6 shadow-sm">
