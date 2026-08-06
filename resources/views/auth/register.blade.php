@@ -82,7 +82,7 @@
                     <input type="radio" name="account_type" value="owner" class="w-5 h-5 text-amber-500 focus:ring-amber-500/30 border-slate-300">
                     <div>
                         <span class="text-sm font-bold text-slate-900 group-has-[:checked]:text-amber-700">List</span>
-                        <p class="text-xs text-slate-500 font-medium">Property owner</p>
+                        <p class="text-xs text-slate-500 font-medium">Business owner</p>
                     </div>
                 </label>
             </div>

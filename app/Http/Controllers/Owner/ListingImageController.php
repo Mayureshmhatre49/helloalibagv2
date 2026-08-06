@@ -39,4 +39,22 @@ class ListingImageController extends Controller
 
         return back()->with('success', 'Photo removed successfully.');
     }
+
+    public function makeCover(ListingImage $image)
+    {
+        // Ensure user owns the listing (or is admin)
+        if ($image->listing->created_by !== auth()->id() && !auth()->user()->hasRole('admin')) {
+            abort(403);
+        }
+
+        // Unset all primary flags for this listing's gallery images
+        $image->listing->images()
+            ->where('image_type', 'gallery')
+            ->update(['is_primary' => false]);
+
+        // Set this image as the cover
+        $image->update(['is_primary' => true]);
+
+        return back()->with('success', 'Cover photo updated successfully.');
+    }
 }

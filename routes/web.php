@@ -95,6 +95,7 @@ Route::middleware(['auth', 'role:owner,admin'])->prefix('dashboard')->name('owne
     Route::put('/listings/{listing}', [OwnerListingController::class, 'update'])->name('listings.update');
     Route::delete('/listings/{listing}', [OwnerListingController::class, 'destroy'])->name('listings.destroy');
     Route::delete('/listings/images/{image}', [\App\Http\Controllers\Owner\ListingImageController::class, 'destroy'])->name('listings.images.destroy');
+    Route::patch('/listings/images/{image}/cover', [\App\Http\Controllers\Owner\ListingImageController::class, 'makeCover'])->name('listings.images.make-cover');
 
     // Owner Reviews
     Route::get('/reviews', [\App\Http\Controllers\Owner\ReviewController::class, 'index'])->name('reviews.index');
@@ -144,6 +145,7 @@ Route::middleware(['auth', 'role:admin', '2fa'])->prefix(config('admin.prefix'))
     // CSV Bulk Import — must be before {listing} wildcard routes
     Route::get('/listings/import', [AdminListingImportController::class, 'index'])->name('listings.import');
     Route::post('/listings/import', [AdminListingImportController::class, 'store'])->name('listings.import.store');
+    Route::get('/listings/approved', [AdminListingController::class, 'approvedIndex'])->name('listings.approved');
     Route::post('/listings/{listing}/approve', [AdminListingController::class, 'approve'])->name('listings.approve');
     Route::get('/listings/{listing}/approve', function () {
         return redirect()->route('admin.listings.index', ['status' => 'pending'])

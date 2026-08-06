@@ -341,4 +341,42 @@ class Listing extends Model implements Auditable
         if ($score >= 40) return 'text-amber-600 bg-amber-50';
         return 'text-red-600 bg-red-50';
     }
+
+    /**
+     * SEO Score (0–100)
+     * meta_title(+30), meta_description(+30), og_image(+20), canonical_url(+10), meta_keywords(+10)
+     */
+    public function getSeoScore(): int
+    {
+        $seo = $this->seoMeta;
+        if (!$seo) return 0;
+
+        $score = 0;
+        if (!empty($seo->meta_title)) $score += 30;
+        if (!empty($seo->meta_description)) $score += 30;
+        if (!empty($seo->og_image)) $score += 20;
+        if (!empty($seo->canonical_url)) $score += 10;
+        if (!empty($seo->meta_keywords)) $score += 10;
+
+        return $score;
+    }
+
+    public function getSeoLabel(): string
+    {
+        $score = $this->getSeoScore();
+        if ($score >= 80) return 'Excellent';
+        if ($score >= 60) return 'Good';
+        if ($score >= 40) return 'Fair';
+        if ($score > 0) return 'Needs Work';
+        return 'Missing';
+    }
+
+    public function getSeoColor(): string
+    {
+        $score = $this->getSeoScore();
+        if ($score >= 80) return 'text-emerald-600 bg-emerald-50';
+        if ($score >= 60) return 'text-blue-600 bg-blue-50';
+        if ($score >= 40) return 'text-amber-600 bg-amber-50';
+        return 'text-red-600 bg-red-50';
+    }
 }

@@ -834,6 +834,13 @@
                                         <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                                         @if($image->is_primary)
                                             <div class="absolute top-2 left-2 bg-primary text-white text-[10px] font-bold px-2 py-1 rounded-md shadow-sm">Cover</div>
+                                        @else
+                                            <button type="button"
+                                                    @click="document.getElementById('cover-img-{{ $image->id }}').submit();"
+                                                    class="absolute bottom-3 left-3 h-8 px-3 rounded-full bg-white/90 hover:bg-white text-slate-800 text-[11px] font-bold flex items-center gap-1.5 shadow-lg transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                                                <span class="material-symbols-outlined text-[16px]">photo_camera</span>
+                                                Make Cover
+                                            </button>
                                         @endif
                                         <button type="button"
                                                 @click="if(confirm('Delete this photo?')) { document.getElementById('delete-img-{{ $image->id }}').submit(); }"
@@ -945,6 +952,12 @@
                     @csrf
                     @method('DELETE')
                 </form>
+                @if(!$image->is_primary)
+                <form id="cover-img-{{ $image->id }}" action="{{ route('owner.listings.images.make-cover', $image->id) }}" method="POST" class="hidden">
+                    @csrf
+                    @method('PATCH')
+                </form>
+                @endif
             @endforeach
             
         </div>

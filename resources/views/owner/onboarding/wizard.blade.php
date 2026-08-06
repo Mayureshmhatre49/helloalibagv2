@@ -418,15 +418,18 @@
                             </div>
 
                             {{-- Contact --}}
-                            <div class="grid grid-cols-2 gap-2.5">
-                                <div class="bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
-                                    <p class="text-[11px] text-slate-500 font-medium mb-0.5">Phone / WhatsApp</p>
-                                    <p class="font-bold text-slate-900 text-sm" x-text="formData.phone || '—'"></p>
+                            <div class="relative">
+                                <div class="grid grid-cols-2 gap-2.5">
+                                    <div class="bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
+                                        <p class="text-[11px] text-slate-500 font-medium mb-0.5">Phone / WhatsApp</p>
+                                        <p class="font-bold text-slate-900 text-sm" x-text="formData.phone || '—'"></p>
+                                    </div>
+                                    <div class="bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
+                                        <p class="text-[11px] text-slate-500 font-medium mb-0.5">Email</p>
+                                        <p class="font-bold text-slate-900 text-sm truncate" x-text="formData.email || '—'"></p>
+                                    </div>
                                 </div>
-                                <div class="bg-slate-50 rounded-xl px-5 py-3.5 border border-slate-100">
-                                    <p class="text-[11px] text-slate-500 font-medium mb-0.5">Email</p>
-                                    <p class="font-bold text-slate-900 text-sm truncate" x-text="formData.email || '—'"></p>
-                                </div>
+                                <button type="button" @click="goToStep(1)" class="absolute top-2 right-2 text-primary text-xs font-bold hover:underline">Edit</button>
                             </div>
 
                             {{-- Photos --}}

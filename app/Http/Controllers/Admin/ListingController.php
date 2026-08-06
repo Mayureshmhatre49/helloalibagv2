@@ -35,6 +35,31 @@ class ListingController extends Controller
         return view('admin.listings.index', compact('listings', 'status'));
     }
 
+    public function approvedIndex(Request $request)
+    {
+        $query = Listing::with(['category', 'area', 'creator', 'images', 'seoMeta', 'amenities'])
+            ->where('status', 'approved');
+
+        if ($q = $request->get('q')) {
+            $query->where('title', 'like', '%' . $q . '%');
+        }
+
+        if ($categoryId = $request->get('category')) {
+            $query->where('category_id', $categoryId);
+        }
+
+        if ($areaId = $request->get('area')) {
+            $query->where('area_id', $areaId);
+        }
+
+        $listings = $query->latest('approved_at')->paginate(25)->withQueryString();
+        $categories = Category::where('is_active', true)->orderBy('sort_order')->get();
+        $areas = Area::where('is_active', true)->orderBy('name')->get();
+        $totalApproved = Listing::where('status', 'approved')->count();
+
+        return view('admin.listings.approved', compact('listings', 'categories', 'areas', 'totalApproved'));
+    }
+
     public function approve(Request $request, Listing $listing)
     {
         $listing->loadMissing('category');

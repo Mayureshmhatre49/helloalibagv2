@@ -83,10 +83,15 @@
                         <a href="{{ route('admin.dashboard') }}" class="{{ $navBase }} {{ request()->routeIs('admin.dashboard') ? $navActive : $navIdle }}">
                             <span class="{{ $navIcon }}">dashboard</span> Overview
                         </a>
-                        <a href="{{ route('admin.listings.index', ['status' => 'pending']) }}" class="{{ $navBase }} {{ request()->routeIs('admin.listings.*') ? $navActive : $navIdle }}">
+                        <a href="{{ route('admin.listings.index', ['status' => 'pending']) }}" class="{{ $navBase }} {{ request()->routeIs('admin.listings.*') && !request()->routeIs('admin.listings.approved') ? $navActive : $navIdle }}">
                             <span class="{{ $navIcon }}">approval</span> Approval Queue
                             @php $pc = \App\Models\Listing::pending()->count(); @endphp
                             @if($pc > 0)<span class="{{ $badge }} bg-amber-100 text-amber-700">{{ $pc }}</span>@endif
+                        </a>
+                        <a href="{{ route('admin.listings.approved') }}" class="{{ $navBase }} {{ request()->routeIs('admin.listings.approved') ? $navActive : $navIdle }}">
+                            <span class="{{ $navIcon }}">check_circle</span> Approved Listings
+                            @php $ac = \App\Models\Listing::approved()->count(); @endphp
+                            @if($ac > 0)<span class="{{ $badge }} bg-emerald-100 text-emerald-700">{{ $ac }}</span>@endif
                         </a>
                         <a href="{{ route('admin.classifieds.index', ['status' => 'pending']) }}" class="{{ $navBase }} {{ request()->routeIs('admin.classifieds.*') ? $navActive : $navIdle }}">
                             <span class="{{ $navIcon }}">storefront</span> Marketplace
