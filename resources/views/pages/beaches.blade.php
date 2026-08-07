@@ -2,7 +2,25 @@
 @section('title', 'Alibaug Beaches Guide — Which Beach to Visit & Where to Swim')
 @section('meta_description', 'A guide to every beach around Alibaug — Alibaug, Varsoli, Kihim, Awas, Sasawane, Nagaon, Akshi, Kashid, Mandwa, Revdanda and Korlai. Which are best for water sports, which are quiet, and where swimming is safe.')
 
-@section('content')
+@section('jsonld')
+@include('partials.schema.itemlist', ['beaches' => [
+    ['name' => 'Alibaug Beach', 'description' => 'Kolaba Fort walk at low tide; busy; limited water sports.'],
+    ['name' => 'Varsoli Beach', 'description' => 'Quiet walks, cleaner sand, ~2 km north of Alibaug town.'],
+    ['name' => 'Awas Beach', 'description' => 'Long empty stretches, casuarina groves.'],
+    ['name' => 'Sasawane Beach', 'description' => 'Calm shallows, casuarina shade, Karmarkar sculpture museum.'],
+    ['name' => 'Kihim Beach', 'description' => 'Shaded groves, coastal flora, shallow shore.'],
+    ['name' => 'Mandwa Beach', 'description' => 'Ferry port, jet ski, banana rides, Mumbai views.'],
+    ['name' => 'Akshi Beach', 'description' => 'Flat firm sand, wading, shorebirds.'],
+    ['name' => 'Nagaon Beach', 'description' => 'Main water sports hub — parasailing, jet ski, banana rides.'],
+    ['name' => 'Kashid Beach', 'description' => 'White sand, high surf, parasailing, beach shacks.'],
+    ['name' => 'Revdanda Beach', 'description' => 'Black sand, portuguese fort ruins, camping.'],
+    ['name' => 'Korlai Beach & Lighthouse', 'description' => 'Lighthouse views, rocky shore, portuguese fort.'],
+]])
+@include('partials.schema.breadcrumbs', ['crumbs' => [
+    ['label' => 'Home', 'url' => route('home')],
+    ['label' => 'Beaches Guide', 'url' => route('page.beaches')],
+]])
+@endsection
 <main class="bg-slate-50 min-h-screen">
 
     {{-- Hero --}}

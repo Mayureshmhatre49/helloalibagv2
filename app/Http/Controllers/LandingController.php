@@ -18,6 +18,8 @@ class LandingController extends Controller
         $faqs = $this->service->faqs($ctx, $listings);
         $related = $this->service->relatedLinks($ctx);
 
-        return view('landing.show', compact('ctx', 'listings', 'copy', 'faqs', 'related'));
+        $robots = $listings->total() > 0 ? 'index, follow' : 'noindex, follow';
+
+        return view('landing.show', compact('ctx', 'listings', 'copy', 'faqs', 'related', 'robots'));
     }
 }

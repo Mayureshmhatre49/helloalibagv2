@@ -1,42 +1,31 @@
 @extends('layouts.app')
 
-@push('title')
-    <title>{{ $post->meta_title ?? $post->title }}</title>
-@endpush
+@php
+    $metaTitle = $post->meta_title ?: $post->title;
+    $metaDescription = \Illuminate\Support\Str::limit(strip_tags($post->meta_description ?: ($post->excerpt ?: $post->content)), 155);
+    $ogImageUrl = $post->getFeaturedImageUrl();
+@endphp
 
-@push('meta')
-    @php
-        $description = $post->meta_description ?? $post->excerpt ?? Str::limit(strip_tags($post->content), 150);
-        $imageUrl = $post->getFeaturedImageUrl();
-    @endphp
-    <meta name="description" content="{{ $description }}">
-    <link rel="canonical" href="{{ route('blog.show', $post->slug) }}">
-    @if(!$post->is_indexable)
-        <meta name="robots" content="noindex, nofollow">
-    @endif
+@section('title', $metaTitle)
+@section('meta_description', $metaDescription)
+@section('og_title', $metaTitle)
+@section('og_description', \Illuminate\Support\Str::limit(strip_tags($post->excerpt ?: $post->content), 200))
+@section('og_image', $ogImageUrl)
+@section('og_type', 'article')
+@section('canonical', route('blog.show', $post->slug))
+@if(!$post->is_indexable)
+    @section('robots', 'noindex, nofollow')
+@endif
 
-    <meta property="og:title" content="{{ $post->meta_title ?? $post->title }}">
-    <meta property="og:description" content="{{ $description }}">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="{{ route('blog.show', $post->slug) }}">
-    <meta property="og:image" content="{{ $imageUrl }}">
-    <meta property="article:published_time" content="{{ $post->published_at?->toIso8601String() }}">
-    @if($post->category)
-        <meta property="article:section" content="{{ $post->category->name }}">
-    @endif
-
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Article",
-      "headline": "{{ $post->title }}",
-      "image": ["{{ $imageUrl }}"],
-      "datePublished": "{{ $post->published_at ? $post->published_at->toIso8601String() : '' }}",
-      "author": [{"@type": "Person", "name": "{{ $post->author->name }}"}],
-      "publisher": {"@type": "Organization", "name": "Hello Alibaug", "logo": {"@type": "ImageObject", "url": "{{ asset('images/logo.png') }}"}}
-    }
-    </script>
-@endpush
+@section('jsonld')
+    @include('partials.schema.article', ['post' => $post, 'ogImageUrl' => $ogImageUrl])
+    @include('partials.schema.breadcrumbs', ['crumbs' => array_filter([
+        ['label' => 'Home', 'url' => route('home')],
+        ['label' => 'Blog', 'url' => route('blog.index')],
+        $post->category ? ['label' => $post->category->name, 'url' => route('blog.category', $post->category->slug)] : null,
+        ['label' => $post->title, 'url' => route('blog.show', $post->slug)],
+    ])])
+@endsection
 
 @push('styles')
 <style>
@@ -272,9 +261,9 @@
                 {!! str_replace(
                     ['Kihim', 'Nagaon', 'Awas'],
                     [
-                        '<a href="/search?location=kihim">Kihim</a>',
-                        '<a href="/search?location=nagaon">Nagaon</a>',
-                        '<a href="/search?location=awas">Awas</a>'
+                        '<a href="' . route('area.show', 'kihim') . '">Kihim</a>',
+                        '<a href="' . route('area.show', 'nagaon') . '">Nagaon</a>',
+                        '<a href="' . route('area.show', 'awas') . '">Awas</a>'
                     ],
                     $post->content
                 ) !!}

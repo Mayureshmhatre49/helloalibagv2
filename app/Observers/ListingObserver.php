@@ -101,6 +101,9 @@ class ListingObserver
     public static function invalidateCaches(): void
     {
         Cache::forget('map.markers.approved');
+        Cache::forget('categories.with_counts');
+        Cache::forget('categories.active');
+        Cache::forget(\App\Models\Category::NAV_CACHE_KEY);
 
         if (Cache::add('sitemap:regenerate-lock', true, now()->addMinutes(10))) {
             Artisan::call('sitemap:generate');

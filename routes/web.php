@@ -274,6 +274,17 @@ Route::get('/listings/{listing}/inquiry/thank-you', [\App\Http\Controllers\Inqui
 Route::post('/listings/{listing}/book', [\App\Http\Controllers\BookingController::class, 'store'])->middleware(['auth', 'verified', 'throttle:5,1'])->name('listing.book');
 Route::post('/reviews/{review}/helpful', [ReviewController::class, 'helpful'])->middleware(['auth', 'throttle:10,1'])->name('review.helpful');
 
+// 301 Legacy Path Redirects (H-7)
+Route::get('/aliblog/{slug}', function (string $slug) {
+    $post = \App\Models\BlogPost::where('slug', $slug)
+        ->orWhere('legacy_slug', $slug)
+        ->first();
+    return redirect($post ? route('blog.show', $post->slug) : route('blog.index'), 301);
+});
+Route::get('/aliblog', fn () => redirect()->route('blog.index', [], 301));
+Route::get('/alibaug-travel-guide', fn () => redirect()->route('blog.show', 'complete-alibaug-travel-guide', 301));
+Route::get('/ferry-timings', fn () => redirect()->route('page.ferry-schedule', [], 301));
+
 // Public Blog Routes
 Route::get('/blog/feed', [\App\Http\Controllers\BlogController::class, 'feed'])->name('blog.feed');
 Route::get('/blog', [\App\Http\Controllers\BlogController::class, 'index'])->name('blog.index');

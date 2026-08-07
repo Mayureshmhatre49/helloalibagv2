@@ -1,18 +1,11 @@
 @extends('layouts.app')
 
-@push('title')
-    <title>#{{ $tag->name }} | Hello Alibaug Blog</title>
-@endpush
-
-@push('meta')
-    <meta name="description" content="Read articles, guides, and stories tagged with #{{ $tag->name }} in Alibaug.">
-    @if($posts->previousPageUrl())
-        <link rel="prev" href="{{ $posts->previousPageUrl() }}">
-    @endif
-    @if($posts->nextPageUrl())
-        <link rel="next" href="{{ $posts->nextPageUrl() }}">
-    @endif
-@endpush
+@section('title', '#' . $tag->name . ' — Alibaug Blog')
+@section('meta_description', 'Read articles, guides, and stories tagged with #' . $tag->name . ' in Alibaug.')
+@section('canonical', route('blog.tag', $tag->slug))
+@if($posts->total() == 0)
+    @section('robots', 'noindex, follow')
+@endif
 
 @section('content')
 <main class="bg-slate-50 min-h-screen pb-20 pt-32 sm:pt-40">

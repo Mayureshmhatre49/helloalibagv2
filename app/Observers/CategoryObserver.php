@@ -60,6 +60,8 @@ class CategoryObserver
     private function onChange(): void
     {
         Cache::forget(Category::NAV_CACHE_KEY);
+        Cache::forget('categories.with_counts');
+        Cache::forget('categories.active');
 
         if (Cache::add('sitemap:regenerate-lock', true, now()->addMinutes(10))) {
             Artisan::call('sitemap:generate');

@@ -2,16 +2,10 @@
 @section('title', $area->name . ', Alibaug — Stays, Dining & Experiences')
 @section('meta_description', 'Explore ' . $area->name . ' in Alibaug — find stays, restaurants, experiences and real estate in ' . $area->name . '. Verified local listings with photos and prices on Hello Alibaug.')
 @section('jsonld')
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ route('home') }}" },
-    { "@type": "ListItem", "position": 2, "name": "{{ addslashes($area->name) }}, Alibaug", "item": "{{ url()->current() }}" }
-  ]
-}
-</script>
+@include('partials.schema.breadcrumbs', ['crumbs' => [
+    ['label' => 'Home', 'url' => route('home')],
+    ['label' => $area->name . ', Alibaug', 'url' => route('area.show', $area->slug)],
+]])
 @endsection
 
 @section('content')

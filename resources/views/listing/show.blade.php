@@ -11,52 +11,21 @@
 @endif
 
 @section('jsonld')
-@php
-    $ldRating = $listing->getAverageRating();
-    $ldReviews = $listing->approvedReviews->count();
-@endphp
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "{{ $listing->category->slug === 'stay' ? 'LodgingBusiness' : ($listing->category->slug === 'eat' ? 'Restaurant' : 'LocalBusiness') }}",
-  "name": "{{ addslashes($listing->title) }}",
-  "description": "{{ addslashes(Str::limit(strip_tags($listing->description ?? ''), 150)) }}",
-  "image": "{{ $listing->getPrimaryImageUrl() ?: asset('images/og-default.jpg') }}",
-  "url": "{{ url()->current() }}",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "{{ addslashes($listing->address ?? '') }}",
-    "addressLocality": "{{ $listing->area?->name ?? 'Alibaug' }}",
-    "addressRegion": "Maharashtra",
-    "addressCountry": "IN"
-  }
-  @if($listing->latitude && $listing->longitude)
-  ,"geo": { "@type": "GeoCoordinates", "latitude": {{ $listing->latitude }}, "longitude": {{ $listing->longitude }} }
-  @endif
-  @if($listing->phone)
-  ,"telephone": "{{ $listing->phone }}"
-  @endif
-  @if($listing->price)
-  ,"priceRange": "₹{{ number_format($listing->price) }}"
-  @endif
-  @if($ldReviews > 0)
-  ,"aggregateRating": { "@type": "AggregateRating", "ratingValue": "{{ number_format($ldRating, 1) }}", "reviewCount": {{ $ldReviews }} }
-  @endif
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [{
-    "@type": "ListItem", "position": 1, "name": "Home", "item": "{{ route('home') }}"
-  },{
-    "@type": "ListItem", "position": 2, "name": "{{ $listing->category->name }}", "item": "{{ route('category.show', $listing->category) }}"
-  },{
-    "@type": "ListItem", "position": 3, "name": "{{ addslashes($listing->title) }}"
-  }]
-}
-</script>
+@if($listing->category->slug === 'stay')
+    @include('partials.schema.lodging', ['listing' => $listing])
+@elseif($listing->category->slug === 'eat')
+    @include('partials.schema.restaurant', ['listing' => $listing])
+@endif
+
+@if($listing->listingFaqs && $listing->listingFaqs->count() > 0)
+    @include('partials.schema.faq', ['faqs' => $listing->listingFaqs])
+@endif
+
+@include('partials.schema.breadcrumbs', ['crumbs' => [
+    ['label' => 'Home', 'url' => route('home')],
+    ['label' => $listing->category->name, 'url' => route('category.show', $listing->category)],
+    ['label' => $listing->title, 'url' => route('listing.show', [$listing->category->slug, $listing->slug])],
+]])
 @endsection
 
 @section('content')

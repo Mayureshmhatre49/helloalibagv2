@@ -28,10 +28,13 @@
         <div class="grid gap-2"
              style="grid-template-columns: repeat({{ min($totalImages, 5) <= 3 ? min($totalImages, 5) : (min($totalImages, 5) <= 4 ? 4 : 5) }}, 1fr);">
             @foreach($visibleImages as $i => $image)
-                @php $isLast = ($i === $visibleImages->count() - 1); @endphp
+                @php 
+                    $isLast = ($i === $visibleImages->count() - 1);
+                    $imgAlt = $image->caption ?? ($image->alt_text ?? ($listing->title . ' — photo ' . ($i + 1) . ' of ' . $totalImages . ', ' . ($listing->area->name ?? 'Alibaug') . ', Alibaug'));
+                @endphp
                 <div class="relative cursor-zoom-in overflow-hidden group rounded-xl aspect-square"
                      @click="open = true; current = {{ $i }}">
-                    <img src="{{ $image->url }}" alt="{{ $listing->title }}"
+                    <img src="{{ $image->url }}" alt="{{ $imgAlt }}"
                          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     @if($isLast && $extraCount > 0)
                         <div class="absolute inset-0 bg-black/55 flex flex-col items-center justify-center text-white backdrop-blur-[1px]">

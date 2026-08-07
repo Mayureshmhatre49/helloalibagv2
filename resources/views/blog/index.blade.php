@@ -1,19 +1,8 @@
 @extends('layouts.app')
 
-@push('title')
-    <title>Blog &amp; Travel Guides - Hello Alibaug | Tips, Reviews &amp; Local Insights</title>
-@endpush
-
-@push('meta')
-    <meta name="description" content="Explore Alibaug through our curated travel guides, villa reviews, food recommendations, and local insights. Plan your perfect coastal getaway with Hello Alibaug.">
-    <link rel="canonical" href="{{ route('blog.index') }}">
-    @if($posts->previousPageUrl())
-        <link rel="prev" href="{{ $posts->previousPageUrl() }}">
-    @endif
-    @if($posts->nextPageUrl())
-        <link rel="next" href="{{ $posts->nextPageUrl() }}">
-    @endif
-@endpush
+@section('title', 'Alibaug Travel Blog & Local Guides')
+@section('meta_description', 'Explore Alibaug through our curated travel guides, villa reviews, food recommendations, and local insights. Plan your perfect coastal getaway.')
+@section('canonical', route('blog.index'))
 
 @section('content')
 <main class="min-h-screen bg-white">

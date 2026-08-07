@@ -259,7 +259,7 @@
                     <div x-show="step === totalSteps - 2" x-transition.opacity.duration.300ms style="display: none;" data-step="4">
                         <div class="mb-8">
                             <h2 class="text-2xl font-serif font-bold text-slate-900 mb-1">Photos</h2>
-                            <p class="text-slate-500">Upload high-quality photos. The first photo will be your cover image. (JPEG / PNG, max 8 MB each)</p>
+                            <p class="text-slate-500">Upload high-quality photos. Click any photo to set it as your <strong>cover image</strong>. (JPEG / PNG / WebP, max 8 MB each)</p>
                         </div>
 
                         @if($errors->any())
@@ -282,7 +282,7 @@
                             </span>
 
                             <h3 class="font-bold text-slate-800 text-lg mb-1">Upload Listing Photos</h3>
-                            <p class="text-sm text-slate-500 mb-5">Select one or more photos from your device. First photo becomes your cover image.</p>
+                            <p class="text-sm text-slate-500 mb-5">Select one or more photos. Click any thumbnail below to choose your cover image.</p>
 
                             <input type="file" name="images[]" id="imageInput" multiple accept="image/jpeg,image/png,image/webp"
                                    @change="updateImageCount" class="hidden">
@@ -303,23 +303,57 @@
                             @error('images.*')<p class="mt-3 text-sm font-bold text-red-600">{{ $message }}</p>@enderror
                         </div>
 
-                        {{-- Thumbnail previews --}}
-                        <div x-show="previews.length > 0" x-cloak class="mt-4">
-                            <p class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-2">
-                                <span x-text="imagesCount"></span> photo<span x-text="imagesCount !== 1 ? 's' : ''"></span> selected — first is your cover
-                            </p>
-                            <div class="grid grid-cols-4 sm:grid-cols-6 gap-2">
+                        {{-- Hidden cover index field submitted with the form --}}
+                        <input type="hidden" name="cover_index" :value="coverIndex">
+
+                        {{-- Thumbnail previews with cover selector --}}
+                        <div x-show="previews.length > 0" x-cloak class="mt-5">
+                            <div class="flex items-center justify-between mb-3">
+                                <p class="text-xs font-bold text-slate-500 uppercase tracking-wide">
+                                    <span x-text="imagesCount"></span> photo<span x-text="imagesCount !== 1 ? 's' : ''"></span> selected
+                                </p>
+                                <p class="text-xs text-slate-400 flex items-center gap-1">
+                                    <span class="material-symbols-outlined text-[14px]">touch_app</span>
+                                    Tap a photo to set it as cover
+                                </p>
+                            </div>
+                            <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
                                 <template x-for="(src, idx) in previews" :key="idx">
-                                    <div class="relative aspect-square rounded-xl overflow-hidden border-2 transition-colors"
-                                         :class="idx === 0 ? 'border-primary' : 'border-transparent'">
-                                        <img :src="src" class="w-full h-full object-cover">
-                                        <div x-show="idx === 0"
-                                             class="absolute bottom-0 left-0 right-0 bg-primary text-white text-[9px] font-bold text-center py-0.5">
+                                    <div class="relative group aspect-square rounded-xl overflow-hidden border-2 cursor-pointer transition-all duration-200"
+                                         :class="idx === coverIndex
+                                            ? 'border-primary ring-2 ring-primary/30 shadow-lg shadow-primary/20'
+                                            : 'border-slate-200 hover:border-primary/50'"
+                                         @click="coverIndex = idx">
+                                        <img :src="src" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+
+                                        {{-- Overlay on hover for non-cover images --}}
+                                        <div x-show="idx !== coverIndex"
+                                             class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex items-center justify-center">
+                                            <div class="bg-white/90 rounded-lg px-2 py-1 flex items-center gap-1">
+                                                <span class="material-symbols-outlined text-primary text-[14px]" style="font-variation-settings:'FILL' 1">star</span>
+                                                <span class="text-[11px] font-bold text-slate-800">Set Cover</span>
+                                            </div>
+                                        </div>
+
+                                        {{-- Cover badge --}}
+                                        <div x-show="idx === coverIndex"
+                                             class="absolute top-1.5 left-1.5 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-md shadow flex items-center gap-0.5">
+                                            <span class="material-symbols-outlined text-[12px]" style="font-variation-settings:'FILL' 1">star</span>
                                             Cover
+                                        </div>
+
+                                        {{-- Position badge (non-cover) --}}
+                                        <div x-show="idx !== coverIndex"
+                                             class="absolute bottom-1.5 right-1.5 bg-black/50 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">
+                                            <span x-text="idx + 1"></span>
                                         </div>
                                     </div>
                                 </template>
                             </div>
+                            <p class="mt-3 text-xs text-slate-400 flex items-center gap-1">
+                                <span class="material-symbols-outlined text-[14px]">info</span>
+                                The <span class="text-primary font-bold mx-0.5">Cover</span> photo is shown as the main image in search results and on the listing page.
+                            </p>
                         </div>
 
                         <div class="mt-6 bg-blue-50 rounded-2xl p-4 border border-blue-100 flex items-start gap-3">
@@ -495,6 +529,7 @@ document.addEventListener('alpine:init', () => {
         hasAmenities:  {{ $amenities->count() > 0 ? 'true' : 'false' }},
         imagesCount: 0,
         previews: [],
+        coverIndex: 0,
         photoError: false,
         submitting: false,
         areaMap: { @foreach($areas as $area)'{{ $area->id }}': '{{ addslashes($area->name) }}',@endforeach },
@@ -589,6 +624,8 @@ document.addEventListener('alpine:init', () => {
             this.imagesCount = files.length;
             this.photoError = false;
             this.previews = files.map(f => URL.createObjectURL(f));
+            // Reset cover to first image whenever a new set of files is chosen
+            this.coverIndex = 0;
         },
 
         goToStep(s) {

@@ -7,6 +7,21 @@ use App\Models\SeoMeta;
 
 class SeoService
 {
+    public static function formatTitle(string $pageTitle, bool $withBrand = true): string
+    {
+        $pageTitle = trim($pageTitle);
+        // Strip existing brand prefixes or suffixes if present
+        $pageTitle = preg_replace('/^(Hello Alibaug\s*[—|-]\s*)/i', '', $pageTitle);
+        $pageTitle = preg_replace('/(\s*[—|-]\s*Hello Alibaug)$/i', '', $pageTitle);
+
+        $brand = ' | Hello Alibaug';
+        if (!$withBrand || mb_strlen($pageTitle) > 46) {
+            return mb_substr($pageTitle, 0, 60);
+        }
+
+        return mb_substr($pageTitle . $brand, 0, 60);
+    }
+
     public function getForModel(Model $model): array
     {
         $meta = $model->seoMeta ?? null;

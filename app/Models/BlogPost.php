@@ -54,6 +54,12 @@ class BlogPost extends Model
         return $this->belongsToMany(Listing::class, 'blog_listing_relations', 'blog_post_id', 'listing_id');
     }
 
+    public function getReadingTimeAttribute($value): int
+    {
+        $words = str_word_count(strip_tags($this->content ?? ''));
+        return max(1, (int) ceil($words / 220));
+    }
+
     public function getFeaturedImageUrl(): string
     {
         if (!$this->featured_image) {

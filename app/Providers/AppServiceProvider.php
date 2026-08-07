@@ -28,6 +28,12 @@ class AppServiceProvider extends ServiceProvider
         Listing::observe(ListingObserver::class);
         Category::observe(CategoryObserver::class);
 
+        // Force canonical apex URL & HTTPS in production
+        if ($this->app->environment('production')) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+            \Illuminate\Support\Facades\URL::forceRootUrl(config('app.url'));
+        }
+
         // The shared layout renders the active categories twice (header nav and
         // footer). Resolving them here means one cached lookup per request
         // instead of two DB queries on every single page view. Invalidated by

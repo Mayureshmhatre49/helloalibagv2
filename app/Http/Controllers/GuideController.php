@@ -21,7 +21,9 @@ class GuideController extends Controller
             ->latest('published_at')
             ->paginate(12);
 
-        return view('guides.index', compact('featured', 'guides'));
+        $robots = ($featured->count() + $guides->total()) > 0 ? 'index, follow' : 'noindex, follow';
+
+        return view('guides.index', compact('featured', 'guides', 'robots'));
     }
 
     public function show(Guide $guide)

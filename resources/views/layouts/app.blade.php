@@ -7,10 +7,14 @@
     {{-- ── SEO ─────────────────────────────────────────────────────────────
          Per-page overrides via @section: title, meta_description, og_image,
          og_type, canonical, robots, and jsonld (structured data). --}}
-    <title>{{ config('app.name', 'Hello Alibaug') }} — @yield('title', 'Discover Alibaug')</title>
+    @php
+        $rawTitle = trim($__env->yieldContent('title', 'Discover Alibaug'));
+        $formattedTitle = \App\Services\SeoService::formatTitle($rawTitle);
+    @endphp
+    <title>{{ $formattedTitle }}</title>
     <meta name="description" content="@yield('meta_description', 'Hello Alibaug — Your gateway to luxury villas, dining, events, and experiences in Alibaug.')">
     @hasSection('keywords')<meta name="keywords" content="@yield('keywords')">@endif
-    <meta name="robots" content="@yield('robots', 'index, follow')">
+    <meta name="robots" content="@yield('robots', $robots ?? 'index, follow')">
     <link rel="canonical" href="@yield('canonical', url()->current())">
 
     {{-- Favicon --}}
@@ -19,16 +23,16 @@
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('apple-touch-icon.png') }}">
 
     <meta property="og:site_name" content="{{ config('app.name') }}">
-    <meta property="og:title" content="{{ config('app.name') }} — @yield('title', 'Discover Alibaug')">
-    <meta property="og:description" content="@yield('meta_description', 'Discover luxury stays, premium real estate, and authentic local experiences in Alibaug.')">
+    <meta property="og:title" content="@yield('og_title', $formattedTitle)">
+    <meta property="og:description" content="@yield('og_description', $__env->yieldContent('meta_description', 'Discover luxury stays, premium real estate, and authentic local experiences in Alibaug.'))">
     <meta property="og:type" content="@yield('og_type', 'website')">
     <meta property="og:url" content="@yield('canonical', url()->current())">
     <meta property="og:image" content="@yield('og_image', asset('images/og-default.jpg'))">
     <meta property="og:locale" content="en_IN">
 
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ config('app.name') }} — @yield('title', 'Discover Alibaug')">
-    <meta name="twitter:description" content="@yield('meta_description', 'Discover luxury stays, premium real estate, and authentic local experiences in Alibaug.')">
+    <meta name="twitter:title" content="@yield('og_title', $formattedTitle)">
+    <meta name="twitter:description" content="@yield('og_description', $__env->yieldContent('meta_description', 'Discover luxury stays, premium real estate, and authentic local experiences in Alibaug.'))">
     <meta name="twitter:image" content="@yield('og_image', asset('images/og-default.jpg'))">
 
     @yield('jsonld')

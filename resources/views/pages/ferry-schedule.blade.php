@@ -3,38 +3,17 @@
 @section('meta_description', 'Complete Mumbai to Alibaug ferry timetable — every sailing from Gateway of India to Mandwa Jetty and back, for M2M RoRo, PNP, Ajanta, Maldar and Apollo. Booking links, fares guidance and monsoon advisory.')
 
 @section('jsonld')
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "How long does the Mumbai to Alibaug ferry take?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "The crossing from Gateway of India to Mandwa Jetty takes about 60 minutes, plus roughly 20–30 minutes by road from Mandwa to Alibaug town."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Do ferries to Alibaug run during the monsoon?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Ferries are frequently cancelled between June and September because of rough seas. Always confirm the day's sailings directly with the operator before travelling."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Can I take my car on the ferry to Alibaug?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Yes. The M2M RoRo service carries vehicles as well as passengers between Bhaucha Dhakka and Mandwa, and runs to its own separate schedule."
-      }
-    }
-  ]
-}
-</script>
+@include('partials.schema.howto')
+@include('partials.schema.faq', ['faqs' => [
+    ['question' => 'How long does the Mumbai to Alibaug ferry take?', 'answer' => 'The crossing from Gateway of India to Mandwa Jetty takes about 60 minutes, plus roughly 20–30 minutes by road from Mandwa to Alibaug town.'],
+    ['question' => 'Do ferries to Alibaug run during the monsoon?', 'answer' => 'Ferries are frequently cancelled between June and September because of rough seas. Always confirm the day\'s sailings directly with the operator before travelling.'],
+    ['question' => 'Can I take my car on the ferry to Alibaug?', 'answer' => 'Yes. The M2M RoRo service carries vehicles as well as passengers between Bhaucha Dhakka and Mandwa.'],
+    ['question' => 'What is the last ferry back to Mumbai?', 'answer' => 'The last open-deck passenger ferry usually departs Mandwa Jetty around 7:30 PM to 8:15 PM depending on the operator.'],
+]])
+@include('partials.schema.breadcrumbs', ['crumbs' => [
+    ['label' => 'Home', 'url' => route('home')],
+    ['label' => 'Ferry Timings', 'url' => route('page.ferry-schedule')],
+]])
 @endsection
 
 @section('content')

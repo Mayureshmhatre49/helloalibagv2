@@ -5,41 +5,7 @@
 @section('meta_description', 'Hello Alibaug is Alibaug\'s local marketplace — discover villas & stays, restaurants, experiences, events and real estate. Browse verified listings, book, and plan your trip.')
 
 @section('jsonld')
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "{{ url('/') }}#organization",
-      "name": "Hello Alibaug",
-      "url": "{{ url('/') }}",
-      "logo": "{{ asset('images/helloalibaug-logo.png') }}"
-    },
-    {
-      "@type": "WebSite",
-      "@id": "{{ url('/') }}#website",
-      "url": "{{ url('/') }}",
-      "name": "Hello Alibaug",
-      "publisher": { "@id": "{{ url('/') }}#organization" },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": { "@type": "EntryPoint", "urlTemplate": "{{ route('search') }}?q={search_term_string}" },
-        "query-input": "required name=search_term_string"
-      }
-    },
-    {
-      "@type": "LocalBusiness",
-      "name": "Hello Alibaug",
-      "url": "{{ url('/') }}",
-      "image": "{{ asset('images/og-default.jpg') }}",
-      "address": { "@type": "PostalAddress", "addressLocality": "Alibaug", "addressRegion": "Maharashtra", "addressCountry": "IN" },
-      "areaServed": "Alibaug, Raigad, Maharashtra",
-      "description": "Premium local marketplace for stays, dining, experiences & real estate in Alibaug."
-    }
-  ]
-}
-</script>
+@include('partials.schema.website')
 @endsection
 
 @section('content')

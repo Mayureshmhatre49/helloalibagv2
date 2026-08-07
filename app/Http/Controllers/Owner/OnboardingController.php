@@ -171,13 +171,14 @@ class OnboardingController extends Controller
             }
 
             if ($request->hasFile('images')) {
-                $sortOrder = 0;
+                $coverIndex = (int) $request->input('cover_index', 0);
+                $sortOrder  = 0;
                 foreach ($request->file('images') as $file) {
                     $imageData = $imageService->store($file, 'listings/' . $listing->id);
                     $listing->images()->create([
                         'path'       => $imageData['path'],
                         'thumbnail'  => $imageData['thumbnail'] ?? null,
-                        'is_primary' => $sortOrder === 0,
+                        'is_primary' => $sortOrder === $coverIndex,
                         'sort_order' => $sortOrder,
                     ]);
                     $sortOrder++;

@@ -29,6 +29,8 @@ class AreaController extends Controller
         $areas = Area::where('is_active', true)->orderBy('name')->get();
         $amenities = \App\Models\Amenity::orderBy('sort_order')->get();
 
-        return view('area.show', compact('area', 'results', 'query', 'categories', 'filters', 'areas', 'amenities'));
+        $robots = $results->total() > 0 ? 'index, follow' : 'noindex, follow';
+
+        return view('area.show', compact('area', 'results', 'query', 'categories', 'filters', 'areas', 'amenities', 'robots'));
     }
 }

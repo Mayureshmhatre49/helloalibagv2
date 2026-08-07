@@ -101,9 +101,59 @@ class BlogController extends Controller
         $toc = $parsed['toc'];
 
         // Implement Lightbox and Lazy Loading for inline images
-        $post->content = $this->enhanceInlineImages($contentWithToc, $post->title);
+        $enhancedContent = $this->enhanceInlineImages($contentWithToc, $post->title);
+        $post->content = $this->sanitizeAndFixContent($enhancedContent);
 
         return view('blog.show', compact('post', 'relatedPosts', 'toc'));
+    }
+
+    private function sanitizeAndFixContent(string $html): string
+    {
+        if (empty($html)) {
+            return $html;
+        }
+
+        // 1. Repoint broken/search internal links (H-3)
+        $replacements = [
+            '/search?location=kihim' => '/area/kihim',
+            '?location=kihim' => '/area/kihim',
+            '/search?location=nagaon' => '/area/nagaon',
+            '?location=nagaon' => '/area/nagaon',
+            '/search?location=awas' => '/area/awas',
+            '?location=awas' => '/area/awas',
+            '/search?type=stay' => '/stay',
+            '/blog/kihim-awas-beach-guide' => '/blog/kihim-awas-beach-guide-peaceful-coastal-escape',
+        ];
+        $html = str_replace(array_keys($replacements), array_values($replacements), $html);
+
+        // 2. Add rel="nofollow sponsored noopener" to commercial domains & rel="nofollow noopener" to external links (H-4)
+        $sponsoredDomains = [
+            'landsworthyadvisory.com',
+            'alibagrealestate.com',
+            'hestiavillas.in',
+            'alibagtourism.com',
+        ];
+
+        $html = preg_replace_callback('/<a\s+([^>]*href=["\']https?:\/\/([^\/"\']+)["\'][^>]*)>/i', function ($m) use ($sponsoredDomains) {
+            $fullTag = $m[0];
+            $attributes = $m[1];
+            $host = strtolower(preg_replace('/^www\./', '', $m[2]));
+
+            if (str_contains($host, 'helloalibaug.com')) {
+                return $fullTag;
+            }
+
+            $rel = in_array($host, $sponsoredDomains, true)
+                ? 'nofollow sponsored noopener'
+                : 'nofollow noopener';
+
+            $attributes = preg_replace('/\s*rel=["\'][^"\']*["\']/i', '', $attributes);
+            $attributes = preg_replace('/\s*target=["\'][^"\']*["\']/i', '', $attributes);
+
+            return '<a ' . trim($attributes) . ' rel="' . $rel . '" target="_blank">';
+        }, $html);
+
+        return $html;
     }
 
     private function generateTocAndInjectIds($content)

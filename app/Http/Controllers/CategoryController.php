@@ -18,6 +18,8 @@ class CategoryController extends Controller
         $areas = Area::where('is_active', true)->get();
         $amenities = Amenity::orderBy('sort_order')->get();
 
-        return view('category.show', compact('category', 'listings', 'areas', 'amenities', 'filters'));
+        $robots = $listings->total() > 0 ? 'index, follow' : 'noindex, follow';
+
+        return view('category.show', compact('category', 'listings', 'areas', 'amenities', 'filters', 'robots'));
     }
 }

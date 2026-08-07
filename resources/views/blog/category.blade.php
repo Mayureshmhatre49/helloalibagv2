@@ -1,18 +1,11 @@
 @extends('layouts.app')
 
-@push('title')
-    <title>{{ $category->name }} | Hello Alibaug Blog</title>
-@endpush
-
-@push('meta')
-    <meta name="description" content="Discover stories, guides, and insights about {{ $category->name }} in Alibaug.">
-    @if($posts->previousPageUrl())
-        <link rel="prev" href="{{ $posts->previousPageUrl() }}">
-    @endif
-    @if($posts->nextPageUrl())
-        <link rel="next" href="{{ $posts->nextPageUrl() }}">
-    @endif
-@endpush
+@section('title', $category->name . ' — Alibaug Blog')
+@section('meta_description', 'Discover curated stories, guides, and insights about ' . $category->name . ' in Alibaug.')
+@section('canonical', route('blog.category', $category->slug))
+@if($posts->total() == 0)
+    @section('robots', 'noindex, follow')
+@endif
 
 @section('content')
 <main class="bg-slate-50 min-h-screen pb-20 pt-32 sm:pt-40">
