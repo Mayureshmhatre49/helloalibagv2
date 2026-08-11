@@ -14,7 +14,7 @@
             @endif
             @if($avgRating > 0)
                 <div class="flex items-center gap-0.5 mt-0.5">
-                    <span class="material-symbols-outlined text-amber-400 text-[12px]" style="font-variation-settings:'FILL' 1">star</span>
+                    <span class="material-symbols-outlined text-amber-400 text-[12px]" style="font-variation-settings:'FILL' 1" aria-hidden="true">star</span>
                     <span class="text-xs font-bold text-slate-700">{{ $avgRating }}</span>
                     <span class="text-xs text-slate-500">({{ $reviewCount }})</span>
                 </div>
@@ -24,14 +24,14 @@
             @if($listing->phone)
                 <a href="tel:{{ $listing->phone }}" aria-label="Call"
                    class="flex items-center justify-center w-11 h-11 rounded-xl bg-primary/10 text-primary hover:bg-primary/20 transition-colors flex-shrink-0">
-                    <span class="material-symbols-outlined text-[20px]">call</span>
+                    <span class="material-symbols-outlined text-[20px]" aria-hidden="true">call</span>
                 </a>
             @endif
             @if($listing->whatsapp)
                 <a href="https://wa.me/91{{ $listing->whatsapp }}?text={{ urlencode('Hi, I\'m interested in ' . $listing->title) }}"
                    target="_blank" aria-label="WhatsApp"
                    class="flex items-center justify-center w-11 h-11 rounded-xl bg-[#25D366]/10 text-[#25D366] hover:bg-[#25D366]/20 transition-colors flex-shrink-0">
-                    <span class="material-symbols-outlined text-[20px]">chat</span>
+                    <span class="material-symbols-outlined text-[20px]" aria-hidden="true">chat</span>
                 </a>
             @endif
             <button onclick="document.getElementById('inquiry-section').scrollIntoView({behavior: 'smooth'})"

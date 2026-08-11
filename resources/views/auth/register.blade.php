@@ -33,7 +33,7 @@
         <div>
             <label for="name" class="block text-sm font-bold text-slate-700 mb-2">Full Name</label>
             <div class="relative group">
-                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] group-focus-within:text-amber-500 transition-colors">person</span>
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] group-focus-within:text-amber-500 transition-colors" aria-hidden="true">person</span>
                 <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus autocomplete="name"
                     class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:bg-white focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 text-base font-medium transition-all duration-300"
                     placeholder="John Doe">
@@ -45,7 +45,7 @@
         <div>
             <label for="email" class="block text-sm font-bold text-slate-700 mb-2">Email Address</label>
             <div class="relative group">
-                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] group-focus-within:text-amber-500 transition-colors">mail</span>
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] group-focus-within:text-amber-500 transition-colors" aria-hidden="true">mail</span>
                 <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username"
                     class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:bg-white focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 text-base font-medium transition-all duration-300"
                     placeholder="you@example.com">
@@ -57,14 +57,17 @@
         <div>
             <label for="phone" class="block text-sm font-bold text-slate-700 mb-2">Phone Number <span class="text-slate-500 font-normal">(Optional)</span></label>
             <div class="relative group">
-                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] group-focus-within:text-amber-500 transition-colors">call</span>
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] group-focus-within:text-amber-500 transition-colors" aria-hidden="true">call</span>
                 <input id="phone" type="tel" name="phone" value="{{ old('phone') }}" autocomplete="tel"
                     class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:bg-white focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 text-base font-medium transition-all duration-300"
                     placeholder="xxxxx xxxxx"
                     onblur="this.value.trim() === '' || this.value.match(/^(\+91[\s-]?)?[0-9]{10}$/) ? this.setCustomValidity('') : this.setCustomValidity('Please enter a valid 10-digit mobile number'); this.reportValidity();"
                     oninput="this.setCustomValidity('')">
             </div>
-            <p class="mt-1 text-xs text-slate-500 hidden" id="phone-feedback"></p>
+            <p class="mt-1.5 text-xs text-slate-500 flex items-center gap-1">
+                <span class="material-symbols-outlined text-[13px]" aria-hidden="true">info</span>
+                Only used if you list a business — helps owners reach you for bookings.
+            </p>
         </div>
 
         <!-- Account Type -->
@@ -92,7 +95,7 @@
         <div>
             <label for="password" class="block text-sm font-bold text-slate-700 mb-2">Password</label>
             <div class="relative group">
-                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] group-focus-within:text-amber-500 transition-colors">lock</span>
+                <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] group-focus-within:text-amber-500 transition-colors" aria-hidden="true">lock</span>
                 <input id="password" type="password" name="password" required autocomplete="new-password"
                     class="w-full pl-11 pr-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-400 focus:bg-white focus:ring-4 focus:ring-amber-500/10 focus:border-amber-500 text-base font-medium transition-all duration-300"
                     placeholder="Min. 8 characters">

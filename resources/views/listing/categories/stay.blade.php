@@ -225,4 +225,4 @@
 </div>
 
 {{-- ── MOBILE STICKY BAR ────────────────────────────────────────────── --}}
-@include('listing.partials._mobile-bar', ['mobileCta' => 'Book Now'])
+@include('listing.partials._mobile-bar', ['mobileCta' => 'Enquire Now'])

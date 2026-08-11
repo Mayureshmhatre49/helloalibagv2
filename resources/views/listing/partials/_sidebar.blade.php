@@ -64,34 +64,40 @@
             <div class="space-y-2.5 mb-5">
                 @if($listing->phone)
                     <a href="tel:{{ $listing->phone }}"
-                       class="flex items-center justify-center gap-2 w-full bg-primary text-white py-3 rounded-xl font-bold text-sm hover:bg-primary/90 transition-colors shadow-md shadow-primary/20">
-                        <span class="material-symbols-outlined text-[20px]">call</span>
+                       class="flex items-center justify-center gap-2 w-full bg-white border-2 border-primary text-primary py-3 rounded-xl font-bold text-sm hover:bg-primary/5 transition-colors shadow-sm">
+                        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">call</span>
                         Call Now
                     </a>
                 @endif
                 @if($listing->whatsapp)
                     <a href="https://wa.me/91{{ $listing->whatsapp }}?text={{ urlencode('Hi, I\'m interested in ' . $listing->title . ' – ' . url()->current()) }}"
                        target="_blank"
-                       class="flex items-center justify-center gap-2 w-full bg-[#25D366] text-white py-3 rounded-xl font-bold text-sm hover:bg-[#1db954] transition-colors shadow-md shadow-green-500/20">
-                        <span class="material-symbols-outlined text-[20px]">chat</span>
+                       class="flex items-center justify-center gap-2 w-full bg-white border-2 border-[#25D366] text-[#25D366] py-3 rounded-xl font-bold text-sm hover:bg-[#25D366]/5 transition-colors shadow-sm">
+                        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">chat</span>
                         Chat on WhatsApp
                     </a>
                 @endif
                 @if($listing->email && !$listing->phone && !$listing->whatsapp)
                     <a href="mailto:{{ $listing->email }}"
                        class="flex items-center justify-center gap-2 w-full bg-white border-2 border-slate-200 text-slate-700 py-3 rounded-xl font-bold text-sm hover:border-primary hover:text-primary transition-colors">
-                        <span class="material-symbols-outlined text-[20px]">mail</span>
+                        <span class="material-symbols-outlined text-[20px]" aria-hidden="true">mail</span>
                         Send Email
                     </a>
                 @endif
             </div>
 
             {{-- Divider --}}
-            <div class="relative flex items-center gap-3 mb-5">
+            <div class="relative flex items-center gap-3 mb-3">
                 <div class="flex-1 h-px bg-slate-100"></div>
                 <span class="text-xs text-slate-500 font-medium">or send an inquiry</span>
                 <div class="flex-1 h-px bg-slate-100"></div>
             </div>
+
+            {{-- Inquiry disclaimer — placed above the form so users understand the flow before filling it --}}
+            <p class="flex items-start gap-1.5 text-[11px] text-slate-500 mb-4 leading-snug bg-slate-50 rounded-lg px-3 py-2.5 border border-slate-100">
+                <span class="material-symbols-outlined text-[13px] mt-0.5 flex-shrink-0" aria-hidden="true">info</span>
+                This sends an inquiry request. The owner will confirm availability and contact you directly. Payment is arranged with the property.
+            </p>
 
             {{-- Inquiry Form --}}
             @include('listing.partials._inquiry-errors')
@@ -156,22 +162,22 @@
             </form>
 
             <p class="flex items-start gap-1.5 text-[11px] text-slate-500 mt-3 leading-snug">
-                <span class="material-symbols-outlined text-[13px] mt-0.5 flex-shrink-0">info</span>
-                This sends an inquiry request. The owner will confirm availability and contact you directly. Payment is arranged with the property.
+                <span class="material-symbols-outlined text-[13px] mt-0.5 flex-shrink-0" aria-hidden="true">schedule</span>
+                Owners typically respond within a few hours.
             </p>
 
             {{-- Trust signals --}}
             <div class="mt-4 pt-4 border-t border-slate-100 grid grid-cols-3 gap-2 text-center">
                 <div>
-                    <span class="material-symbols-outlined text-primary text-[20px] block mb-0.5">verified</span>
+                    <span class="material-symbols-outlined text-primary text-[20px] block mb-0.5" aria-hidden="true">verified</span>
                     <p class="text-[10px] text-slate-500 leading-tight">Verified<br>Listing</p>
                 </div>
                 <div>
-                    <span class="material-symbols-outlined text-primary text-[20px] block mb-0.5">lock</span>
+                    <span class="material-symbols-outlined text-primary text-[20px] block mb-0.5" aria-hidden="true">lock</span>
                     <p class="text-[10px] text-slate-500 leading-tight">Secure<br>Inquiry</p>
                 </div>
                 <div>
-                    <span class="material-symbols-outlined text-primary text-[20px] block mb-0.5">support_agent</span>
+                    <span class="material-symbols-outlined text-primary text-[20px] block mb-0.5" aria-hidden="true">support_agent</span>
                     <p class="text-[10px] text-slate-500 leading-tight">Local<br>Support</p>
                 </div>
             </div>

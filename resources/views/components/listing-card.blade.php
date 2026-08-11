@@ -28,7 +28,7 @@
                  loading="lazy">
         @else
             <div class="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-slate-50">
-                <span class="material-symbols-outlined text-4xl text-slate-300">image</span>
+                <span class="material-symbols-outlined text-4xl text-slate-300" aria-hidden="true">image</span>
                 <span class="text-xs text-slate-500">No photo yet</span>
             </div>
         @endif
@@ -40,11 +40,11 @@
         <div class="absolute top-3 left-3 z-20 pointer-events-none flex flex-col gap-1">
             @if($listing->is_featured)
                 <span class="inline-flex items-center gap-1 bg-primary text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow">
-                    <span class="material-symbols-outlined text-[11px]" style="font-variation-settings:'FILL' 1">star</span> Featured
+                    <span class="material-symbols-outlined text-[11px]" style="font-variation-settings:'FILL' 1" aria-hidden="true">star</span> Featured
                 </span>
             @elseif($listing->is_premium)
                 <span class="inline-flex items-center gap-1 bg-amber-500 text-white px-2.5 py-1 rounded-full text-[10px] font-bold shadow">
-                    <span class="material-symbols-outlined text-[11px]" style="font-variation-settings:'FILL' 1">workspace_premium</span> Premium
+                    <span class="material-symbols-outlined text-[11px]" style="font-variation-settings:'FILL' 1" aria-hidden="true">workspace_premium</span> Premium
                 </span>
             @endif
             @if($listing->is_verified)
@@ -62,14 +62,14 @@
                             title="{{ $isWishlisted ? 'Remove from wishlist' : 'Save' }}"
                             class="w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow hover:bg-white transition-colors">
                         <span class="material-symbols-outlined text-[18px] {{ $isWishlisted ? 'text-red-500' : 'text-slate-400 hover:text-red-400' }} transition-colors"
-                              style="{{ $isWishlisted ? 'font-variation-settings:\'FILL\' 1' : '' }}">favorite</span>
+                              style="{{ $isWishlisted ? 'font-variation-settings:\'FILL\' 1' : '' }}" aria-hidden="true">favorite</span>
                     </button>
                 </form>
             @else
                 <a href="{{ route('login') }}"
                    title="Sign in to save"
                    class="w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center shadow hover:bg-white transition-colors">
-                    <span class="material-symbols-outlined text-[18px] text-slate-400 hover:text-red-400 transition-colors">favorite</span>
+                    <span class="material-symbols-outlined text-[18px] text-slate-400 hover:text-red-400 transition-colors" aria-hidden="true">favorite</span>
                 </a>
             @endauth
         </div>
@@ -78,7 +78,7 @@
         <div class="absolute bottom-3 left-3 z-20 pointer-events-none">
             @if($listing->area)
                 <span class="inline-flex items-center gap-1 bg-black/50 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-[10px] font-medium">
-                    <span class="material-symbols-outlined text-[11px]">location_on</span>{{ $listing->area->name }}
+                    <span class="material-symbols-outlined text-[11px]" aria-hidden="true">location_on</span>{{ $listing->area->name }}
                 </span>
             @else
                 <span class="inline-flex items-center gap-1 bg-black/50 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-[10px] font-medium">
@@ -91,7 +91,7 @@
         @if($rating > 0)
         <div class="absolute bottom-3 right-3 z-20 pointer-events-none">
             <span class="inline-flex items-center gap-1 bg-white/90 backdrop-blur-sm text-slate-800 px-2.5 py-1 rounded-full text-[11px] font-bold shadow-sm">
-                <span class="material-symbols-outlined text-[13px] text-amber-400" style="font-variation-settings:'FILL' 1">star</span>
+                <span class="material-symbols-outlined text-[13px] text-amber-400" style="font-variation-settings:'FILL' 1" aria-hidden="true">star</span>
                 {{ $rating }}
                 @if($reviewCount)
                     <span class="text-slate-500 font-normal">({{ $reviewCount }})</span>
@@ -127,22 +127,22 @@
         <div class="flex flex-wrap gap-1.5 mb-2.5">
             @if(isset($attrs['guests']))
                 <span class="inline-flex items-center gap-1 bg-slate-50 border border-slate-100 text-slate-600 px-2 py-0.5 rounded-md text-[11px]">
-                    <span class="material-symbols-outlined text-[13px]">group</span> {{ $attrs['guests'] }} guests
+                    <span class="material-symbols-outlined text-[13px]" aria-hidden="true">group</span> {{ $attrs['guests'] }} guests
                 </span>
             @endif
             @if(isset($attrs['bedrooms']))
                 <span class="inline-flex items-center gap-1 bg-slate-50 border border-slate-100 text-slate-600 px-2 py-0.5 rounded-md text-[11px]">
-                    <span class="material-symbols-outlined text-[13px]">bed</span> {{ $attrs['bedrooms'] }} bed
+                    <span class="material-symbols-outlined text-[13px]" aria-hidden="true">bed</span> {{ $attrs['bedrooms'] }} bed
                 </span>
             @endif
             @if(isset($attrs['bathrooms']))
                 <span class="inline-flex items-center gap-1 bg-slate-50 border border-slate-100 text-slate-600 px-2 py-0.5 rounded-md text-[11px]">
-                    <span class="material-symbols-outlined text-[13px]">shower</span> {{ $attrs['bathrooms'] }} bath
+                    <span class="material-symbols-outlined text-[13px]" aria-hidden="true">shower</span> {{ $attrs['bathrooms'] }} bath
                 </span>
             @endif
             @if(isset($attrs['cuisine']) && empty($attrs['bedrooms']))
                 <span class="inline-flex items-center gap-1 bg-slate-50 border border-slate-100 text-slate-600 px-2 py-0.5 rounded-md text-[11px]">
-                    <span class="material-symbols-outlined text-[13px]">restaurant_menu</span> {{ $attrs['cuisine'] }}
+                    <span class="material-symbols-outlined text-[13px]" aria-hidden="true">restaurant_menu</span> {{ $attrs['cuisine'] }}
                 </span>
             @endif
         </div>
@@ -162,7 +162,7 @@
             @endif
 
             <span class="text-[11px] text-primary font-bold flex items-center gap-0.5 group-hover:gap-1.5 transition-all">
-                View <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                View <span class="material-symbols-outlined text-[14px]" aria-hidden="true">arrow_forward</span>
             </span>
         </div>
     </div>

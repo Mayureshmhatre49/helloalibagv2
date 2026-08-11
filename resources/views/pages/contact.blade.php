@@ -10,7 +10,7 @@
 
     @if(session('success'))
         <div class="bg-green-50 border border-green-200 text-green-700 rounded-xl p-4 mb-6 flex items-center gap-2">
-            <span class="material-symbols-outlined">check_circle</span>
+            <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
             {{ session('success') }}
         </div>
     @endif
@@ -48,18 +48,22 @@
                         @error('message') <p class="text-red-500 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                     <x-turnstile />
+                    <p class="text-xs text-slate-500 flex items-center gap-1.5">
+                        <span class="material-symbols-outlined text-[14px] text-primary" aria-hidden="true">schedule</span>
+                        We usually respond within 1 business day.
+                    </p>
                     <button type="submit" class="bg-primary text-white px-6 py-3 rounded-xl font-bold text-sm hover:bg-primary-dark transition-colors">Send Message</button>
                 </form>
             </div>
         </div>
         <div class="space-y-4">
             <div class="bg-white rounded-2xl border border-border-light p-5">
-                <span class="material-symbols-outlined text-primary text-2xl mb-2 block">mail</span>
+                <span class="material-symbols-outlined text-primary text-2xl mb-2 block" aria-hidden="true">mail</span>
                 <h3 class="font-bold text-text-main text-sm mb-1">Email</h3>
                 <p class="text-sm text-text-secondary">hello@helloalibaug.com</p>
             </div>
             <div class="bg-white rounded-2xl border border-border-light p-5">
-                <span class="material-symbols-outlined text-primary text-2xl mb-2 block">location_on</span>
+                <span class="material-symbols-outlined text-primary text-2xl mb-2 block" aria-hidden="true">location_on</span>
                 <h3 class="font-bold text-text-main text-sm mb-1">Address</h3>
                 <p class="text-sm text-text-secondary">Alibag, Raigad, Maharashtra 402201</p>
             </div>

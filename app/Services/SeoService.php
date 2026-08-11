@@ -15,7 +15,7 @@ class SeoService
         $pageTitle = preg_replace('/(\s*[—|-]\s*Hello Alibaug)$/i', '', $pageTitle);
 
         $brand = ' | Hello Alibaug';
-        if (!$withBrand || mb_strlen($pageTitle) > 46) {
+        if (!$withBrand || mb_strlen($pageTitle) > 40) {
             return mb_substr($pageTitle, 0, 60);
         }
 

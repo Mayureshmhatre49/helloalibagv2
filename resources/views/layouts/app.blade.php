@@ -93,7 +93,7 @@
                         @endforeach
                         <a href="{{ route('map.index') }}"
                             class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('map.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
-                            <span class="material-symbols-outlined text-[16px]">map</span>
+                            <span class="material-symbols-outlined text-[16px]" aria-hidden="true">map</span>
                             Map
                         </a>
 
@@ -102,25 +102,25 @@
                             <button @click="moreOpen = !moreOpen" @click.outside="moreOpen = false" type="button"
                                 class="flex items-center gap-1 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ $moreActive ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                                 More
-                                <span class="material-symbols-outlined text-[18px] transition-transform" :class="moreOpen ? 'rotate-180' : ''">expand_more</span>
+                                <span class="material-symbols-outlined text-[18px] transition-transform" :class="moreOpen ? 'rotate-180' : ''" aria-hidden="true">expand_more</span>
                             </button>
                             <div x-show="moreOpen" x-transition style="display:none;"
                                  class="absolute left-1/2 -translate-x-1/2 mt-3 w-56 bg-white rounded-xl shadow-2xl border border-slate-100 py-2 z-50 origin-top">
                                 <a href="{{ route('guides.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium {{ request()->routeIs('guides.*') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50' }} transition-colors">
-                                    <span class="material-symbols-outlined text-[18px] text-slate-400">menu_book</span> Guides
+                                    <span class="material-symbols-outlined text-[18px] text-slate-400" aria-hidden="true">menu_book</span> Guides
                                 </a>
                                 <a href="{{ route('blog.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium {{ request()->routeIs('blog.*') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50' }} transition-colors">
-                                    <span class="material-symbols-outlined text-[18px] text-slate-400">article</span> Blog
+                                    <span class="material-symbols-outlined text-[18px] text-slate-400" aria-hidden="true">article</span> Blog
                                 </a>
                                 <a href="{{ route('marketplace.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium {{ request()->routeIs('marketplace.*') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50' }} transition-colors">
-                                    <span class="material-symbols-outlined text-[18px] text-slate-400">storefront</span> Buy &amp; Sell
+                                    <span class="material-symbols-outlined text-[18px] text-slate-400" aria-hidden="true">storefront</span> Buy &amp; Sell
                                 </a>
                                 <div class="my-1.5 border-t border-slate-100"></div>
                                 <a href="{{ route('page.beaches') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium {{ request()->routeIs('page.beaches') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50' }} transition-colors">
-                                    <span class="material-symbols-outlined text-[18px] text-slate-400">beach_access</span> Beaches
+                                    <span class="material-symbols-outlined text-[18px] text-slate-400" aria-hidden="true">beach_access</span> Beaches
                                 </a>
                                 <a href="{{ route('page.ferry-schedule') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium {{ request()->routeIs('page.ferry-schedule') ? 'text-primary bg-primary/5' : 'text-slate-700 hover:bg-slate-50' }} transition-colors">
-                                    <span class="material-symbols-outlined text-[18px] text-slate-400">directions_boat</span> Ferry Timings
+                                    <span class="material-symbols-outlined text-[18px] text-slate-400" aria-hidden="true">directions_boat</span> Ferry Timings
                                 </a>
                             </div>
                         </div>
@@ -140,19 +140,19 @@
                                 style="display: none;"
                                 @click="mobileSearch = !mobileSearch" 
                                 class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 hover:bg-white/20 shadow-sm flex items-center justify-center text-white transition-colors">
-                            <span class="material-symbols-outlined text-[20px] sm:text-[22px]" x-text="mobileSearch ? 'close' : 'search'">search</span>
+                            <span class="material-symbols-outlined text-[20px] sm:text-[22px]" x-text="mobileSearch ? 'close' : 'search'" aria-hidden="true">search</span>
                         </button>
 
                         @auth
                             {{-- Wishlist --}}
-                            <a href="{{ route('wishlist.index') }}" class="hidden sm:flex w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 hover:bg-white/20 items-center justify-center text-white transition-colors shadow-sm" title="Wishlist">
-                                <span class="material-symbols-outlined text-[20px] sm:text-[22px]">favorite</span>
+                            <a href="{{ route('wishlist.index') }}" class="hidden sm:flex w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 hover:bg-white/20 items-center justify-center text-white transition-colors shadow-sm" title="Wishlist" aria-label="Wishlist">
+                                <span class="material-symbols-outlined text-[20px] sm:text-[22px]" aria-hidden="true">favorite</span>
                             </a>
 
                             {{-- Notifications --}}
                             <div x-data="{ notifOpen: false }" class="relative">
-                                <button @click="notifOpen = !notifOpen" class="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors shadow-sm">
-                                    <span class="material-symbols-outlined text-[20px] sm:text-[22px]">notifications</span>
+                                <button @click="notifOpen = !notifOpen" class="relative w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors shadow-sm" aria-label="Notifications">
+                                    <span class="material-symbols-outlined text-[20px] sm:text-[22px]" aria-hidden="true">notifications</span>
                                     @php $unreadCount = \App\Models\UserNotification::where('user_id', auth()->id())->unread()->count(); @endphp
                                     @if($unreadCount > 0)
                                         <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[9px] font-bold rounded-full flex items-center justify-center">{{ $unreadCount > 9 ? '9+' : $unreadCount }}</span>
@@ -169,7 +169,7 @@
                                             <form method="POST" action="{{ route('notifications.read', $notif) }}">
                                                 @csrf
                                                 <button type="submit" class="w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors flex items-start gap-3 {{ $notif->read_at ? '' : 'bg-primary/5' }}">
-                                                    <span class="material-symbols-outlined {{ $notif->getIconClass() }} text-[18px] mt-0.5">{{ $notif->getIcon() }}</span>
+                                                    <span class="material-symbols-outlined {{ $notif->getIconClass() }} text-[18px] mt-0.5" aria-hidden="true">{{ $notif->getIcon() }}</span>
                                                     <div>
                                                         <p class="text-xs font-semibold text-slate-900 line-clamp-1">{{ $notif->title }}</p>
                                                         <p class="text-[11px] text-slate-500 line-clamp-1">{{ $notif->message }}</p>
@@ -179,7 +179,7 @@
                                             </form>
                                         @empty
                                             <div class="px-4 py-8 text-center text-xs text-slate-500 flex flex-col items-center gap-2">
-                                                <span class="material-symbols-outlined text-3xl text-slate-200">notifications_off</span>
+                                                <span class="material-symbols-outlined text-3xl text-slate-200" aria-hidden="true">notifications_off</span>
                                                 All caught up!
                                             </div>
                                         @endforelse
@@ -192,7 +192,7 @@
                                 <button @click="open = !open" class="flex items-center gap-2">
                                     <img src="{{ auth()->user()->getAvatarUrl() }}"
                                         class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl object-cover border-2 border-white/30 hover:border-white/60 transition-colors shadow-sm">
-                                    <span class="material-symbols-outlined text-white/70 text-[18px] hidden sm:block">expand_more</span>
+                                    <span class="material-symbols-outlined text-white/70 text-[18px] hidden sm:block" aria-hidden="true">expand_more</span>
                                 </button>
                                 <div x-show="open" @click.outside="open = false" x-transition class="absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-2xl border border-slate-100 py-2 z-50 origin-top-right">
                                     <div class="px-4 py-3 border-b border-slate-100 bg-slate-50/50 mb-1">
@@ -201,35 +201,35 @@
                                     </div>
                                     @if(auth()->user()->isOwner() || auth()->user()->isAdmin())
                                         <a href="{{ route('owner.dashboard') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-primary/5 hover:text-primary transition-colors">
-                                            <span class="material-symbols-outlined text-[18px] opacity-70">dashboard</span> Dashboard
+                                            <span class="material-symbols-outlined text-[18px] opacity-70" aria-hidden="true">dashboard</span> Dashboard
                                         </a>
                                     @else
                                         <a href="{{ route('subscription.plans') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-bold text-primary hover:bg-primary/5 transition-colors">
-                                            <span class="material-symbols-outlined text-[18px]">add_business</span> List Your Business
+                                            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">add_business</span> List Your Business
                                         </a>
                                     @endif
                                     <a href="{{ route('trips.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
-                                        <span class="material-symbols-outlined text-[18px] text-slate-400">luggage</span> My Trips
+                                        <span class="material-symbols-outlined text-[18px] text-slate-400" aria-hidden="true">luggage</span> My Trips
                                     </a>
                                     <a href="{{ route('marketplace.my') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
-                                        <span class="material-symbols-outlined text-[18px] text-slate-400">sell</span> My Items
+                                        <span class="material-symbols-outlined text-[18px] text-slate-400" aria-hidden="true">sell</span> My Items
                                     </a>
                                     <a href="{{ route('bookings.index') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
-                                        <span class="material-symbols-outlined text-[18px] text-slate-400">book_online</span> My Bookings
+                                        <span class="material-symbols-outlined text-[18px] text-slate-400" aria-hidden="true">book_online</span> My Bookings
                                     </a>
                                     <a href="{{ route('subscription.plans') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
-                                        <span class="material-symbols-outlined text-[18px] text-slate-400">workspace_premium</span>
+                                        <span class="material-symbols-outlined text-[18px] text-slate-400" aria-hidden="true">workspace_premium</span>
                                         My Plan
                                         <span class="ml-auto text-[10px] bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">{{ auth()->user()->subscription?->plan ?? 'Free' }}</span>
                                     </a>
                                     <a href="{{ route('profile.edit') }}" class="flex items-center gap-2.5 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
-                                        <span class="material-symbols-outlined text-[18px] text-slate-400">person</span> Profile
+                                        <span class="material-symbols-outlined text-[18px] text-slate-400" aria-hidden="true">person</span> Profile
                                     </a>
                                     <div class="border-t border-slate-100 mt-1 pt-1">
                                         <form method="POST" action="{{ route('logout') }}">
                                             @csrf
                                             <button type="submit" class="flex items-center gap-2.5 w-full px-4 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
-                                                <span class="material-symbols-outlined text-[18px] opacity-70">logout</span> Sign Out
+                                                <span class="material-symbols-outlined text-[18px] opacity-70" aria-hidden="true">logout</span> Sign Out
                                             </button>
                                         </form>
                                     </div>
@@ -239,15 +239,15 @@
                             {{-- White background Login Button with Light Shadow --}}
                             <a href="{{ route('login') }}" class="hidden sm:flex bg-white/95 hover:bg-white text-[#0b3d91] shadow-[0_2px_10px_rgba(0,0,0,0.1)] px-5 py-2 sm:py-2.5 rounded-xl text-sm font-bold transition-all">Log In</a>
                             <a href="{{ route('register') }}" class="bg-[#e8831a] hover:bg-[#d06b10] text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-sm font-bold transition-all shadow-[0_4px_14px_rgba(232,131,26,0.3)] flex items-center gap-1.5 focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-[#0b3d91]">
-                                <span class="material-symbols-outlined text-[16px]">add_business</span>
+                                <span class="material-symbols-outlined text-[16px]" aria-hidden="true">add_business</span>
                                 <span class="hidden sm:inline">List for Free</span>
                                 <span class="sm:hidden">Join</span>
                             </a>
                         @endauth
 
                         {{-- Mobile Hamburger --}}
-                        <button @click="mobileOpen = !mobileOpen" class="xl:hidden p-2 text-white/80 hover:text-white transition-colors">
-                            <span class="material-symbols-outlined text-[24px]" x-text="mobileOpen ? 'close' : 'menu'">menu</span>
+                        <button @click="mobileOpen = !mobileOpen" class="xl:hidden p-2 text-white/80 hover:text-white transition-colors" aria-label="Toggle menu">
+                            <span class="material-symbols-outlined text-[24px]" x-text="mobileOpen ? 'close' : 'menu'" aria-hidden="true">menu</span>
                         </button>
                     </div>
                 </div>
@@ -266,12 +266,12 @@
                     @endforeach
                     <a href="{{ route('map.index') }}"
                         class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('map.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
-                        <span class="material-symbols-outlined text-[14px]">map</span>
+                        <span class="material-symbols-outlined text-[14px]" aria-hidden="true">map</span>
                         Map
                     </a>
                     <a href="{{ route('guides.index') }}"
                         class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('guides.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
-                        <span class="material-symbols-outlined text-[14px]">menu_book</span>
+                        <span class="material-symbols-outlined text-[14px]" aria-hidden="true">menu_book</span>
                         Guides
                     </a>
                     <a href="{{ route('blog.index') }}"
@@ -280,7 +280,7 @@
                     </a>
                     <a href="{{ route('marketplace.index') }}"
                         class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('marketplace.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
-                        <span class="material-symbols-outlined text-[14px]">storefront</span>
+                        <span class="material-symbols-outlined text-[14px]" aria-hidden="true">storefront</span>
                         Buy &amp; Sell
                     </a>
                 </div>
@@ -298,45 +298,47 @@
                  class="absolute top-full left-0 w-full bg-[#083180] border-t border-white/10 py-4 px-4 sm:px-6 lg:px-8 z-40 shadow-2xl backdrop-blur-md">
                 <form action="{{ route('search') }}" method="GET" class="max-w-[1280px] mx-auto flex flex-col sm:flex-row gap-3">
                     <div class="relative flex-1 bg-white rounded-xl shadow-inner overflow-hidden flex items-center h-12 sm:h-14">
-                        <span class="material-symbols-outlined absolute left-4 text-primary/60 text-[24px]">search</span>
+                        <span class="material-symbols-outlined absolute left-4 text-primary/60 text-[24px]" aria-hidden="true">search</span>
                         <input type="text" name="q" value="{{ request('q') }}" placeholder="Search villas, restaurants, experiences..."
                             class="w-full h-full pl-12 pr-4 text-sm sm:text-base border-0 focus:ring-0 outline-none placeholder:text-slate-500 text-slate-900 font-medium">
                     </div>
                     <button type="submit" class="bg-[#e8831a] hover:bg-[#d06b10] transition-colors shadow-lg shadow-orange-900/30 text-white px-8 h-12 sm:h-14 rounded-xl text-base font-bold flex shrink-0 items-center justify-center gap-2">
                         <span>Search</span>
-                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                        <span class="material-symbols-outlined text-[18px]" aria-hidden="true">arrow_forward</span>
                     </button>
                 </form>
             </div>
         </div>
 
         {{-- ── Mobile Full Nav (Hamburger menu contents) ───────────────────── --}}
-        <div x-show="mobileOpen" 
+        <div x-show="mobileOpen" x-cloak
              x-transition:enter="transition ease-out duration-200"
              x-transition:enter-start="opacity-0 -translate-y-4"
              x-transition:enter-end="opacity-100 translate-y-0"
              x-transition:leave="transition ease-in duration-150"
              x-transition:leave-start="opacity-100 translate-y-0"
              x-transition:leave-end="opacity-0 -translate-y-4"
+             :aria-hidden="!mobileOpen"
+             :inert="!mobileOpen"
              style="display: none;"
              class="xl:hidden bg-white border-b border-slate-200 shadow-xl absolute top-full left-0 w-full">
             <div class="px-4 pt-3 pb-5 space-y-1 max-h-[70vh] overflow-y-auto">
                 <a href="{{ route('blog.index') }}"
                     class="flex items-center gap-3 px-3 py-3 text-sm font-semibold text-slate-700 hover:text-primary hover:bg-primary/5 rounded-xl transition-colors">
-                    <span class="material-symbols-outlined text-[20px] {{ request()->routeIs('blog.*') ? 'text-primary' : 'text-slate-400' }}">article</span>
+                    <span class="material-symbols-outlined text-[20px] {{ request()->routeIs('blog.*') ? 'text-primary' : 'text-slate-400' }}" aria-hidden="true">article</span>
                     Blog
                 </a>
                 
                 <div class="border-t border-slate-100 pt-4 mt-3 space-y-2">
                     @guest
                         <a href="{{ route('login') }}" class="flex items-center gap-3 px-3 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50 rounded-xl transition-colors">
-                            <span class="material-symbols-outlined text-[20px] text-slate-400">login</span>
+                            <span class="material-symbols-outlined text-[20px] text-slate-400" aria-hidden="true">login</span>
                             Log In
                         </a>
                     @endguest
                     @auth
                         <a href="{{ auth()->user()->isOwner() || auth()->user()->isAdmin() ? route('owner.onboarding.start') : route('subscription.plans') }}" class="flex items-center gap-3 px-3 py-3 text-sm font-bold text-primary bg-primary/5 rounded-xl transition-colors">
-                            <span class="material-symbols-outlined text-[20px]">add_business</span>
+                            <span class="material-symbols-outlined text-[20px]" aria-hidden="true">add_business</span>
                             List Your Business
                         </a>
                     @else
@@ -353,16 +355,16 @@
     {{-- Flash Messages --}}
     @if(session('success'))
         <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)" class="fixed top-24 right-4 z-50 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-xl shadow-lg flex items-center gap-2">
-            <span class="material-symbols-outlined text-green-600">check_circle</span>
+            <span class="material-symbols-outlined text-green-600" aria-hidden="true">check_circle</span>
             <span class="text-sm font-medium">{{ session('success') }}</span>
-            <button @click="show = false" class="ml-2 text-green-400 hover:text-green-600"><span class="material-symbols-outlined text-sm">close</span></button>
+            <button @click="show = false" class="ml-2 text-green-400 hover:text-green-600" aria-label="Dismiss"><span class="material-symbols-outlined text-sm" aria-hidden="true">close</span></button>
         </div>
     @endif
     @if(session('error'))
         <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 5000)" class="fixed top-24 right-4 z-50 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-xl shadow-lg flex items-center gap-2">
-            <span class="material-symbols-outlined text-red-600">error</span>
+            <span class="material-symbols-outlined text-red-600" aria-hidden="true">error</span>
             <span class="text-sm font-medium">{{ session('error') }}</span>
-            <button @click="show = false" class="ml-2 text-red-400 hover:text-red-600"><span class="material-symbols-outlined text-sm">close</span></button>
+            <button @click="show = false" class="ml-2 text-red-400 hover:text-red-600" aria-label="Dismiss"><span class="material-symbols-outlined text-sm" aria-hidden="true">close</span></button>
         </div>
     @endif
 
@@ -434,8 +436,8 @@
                 <p class="text-sm text-slate-400">© {{ date('Y') }} Hello Alibaug. All rights reserved.</p>
                 <div class="flex gap-4">
                     <a href="https://www.instagram.com/helloalibaug/" target="_blank" rel="noopener" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-[18px] h-[18px]"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
-                    <a href="mailto:hello@helloalibaug.com" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all"><span class="material-symbols-outlined text-[18px]">alternate_email</span></a>
-                    <a href="https://helloalibaug.com" target="_blank" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all"><span class="material-symbols-outlined text-[18px]">public</span></a>
+                    <a href="mailto:hello@helloalibaug.com" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all" aria-label="Email us"><span class="material-symbols-outlined text-[18px]" aria-hidden="true">alternate_email</span></a>
+                    <a href="https://helloalibaug.com" target="_blank" class="w-9 h-9 rounded-full bg-white/10 flex items-center justify-center text-slate-400 hover:bg-primary hover:text-white transition-all" aria-label="Visit website"><span class="material-symbols-outlined text-[18px]" aria-hidden="true">public</span></a>
                 </div>
             </div>
         </div>

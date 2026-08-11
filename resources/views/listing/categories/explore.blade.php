@@ -230,6 +230,6 @@
 
 {{-- Mobile sticky bar --}}
 @include('listing.partials._mobile-bar', [
-    'mobileCta'      => 'Book Now',
+    'mobileCta'      => 'Enquire Now',
     'mobileBarLabel' => $duration ? $duration : 'Contact for details',
 ])

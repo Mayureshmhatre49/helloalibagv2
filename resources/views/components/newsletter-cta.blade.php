@@ -4,21 +4,21 @@
 
     <div class="relative z-10 max-w-md mx-auto">
         <span class="inline-block p-3 rounded-2xl bg-white/10 text-primary mb-4 backdrop-blur-sm">
-            <span class="material-symbols-outlined text-[24px] leading-none">mail</span>
+            <span class="material-symbols-outlined text-[24px] leading-none" aria-hidden="true">mail</span>
         </span>
         <h3 class="font-display text-2xl font-bold mb-2">Get Alibaug Insights</h3>
-        <p class="text-white/70 text-sm mb-6">Join 5,000+ others receiving our best travel guides, hidden gems, and exclusive villa deals.</p>
+        <p class="text-white/70 text-sm mb-6">Get our best travel guides, hidden gems, and exclusive villa deals — straight to your inbox.</p>
 
         @php $newsletterToken = request()->cookie('newsletter_subscribed'); @endphp
 
         @if(session('newsletter_success'))
             <div class="bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 rounded-xl px-4 py-3 text-sm font-bold mb-4 flex items-center justify-center gap-2">
-                <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                <span class="material-symbols-outlined text-[18px]" aria-hidden="true">check_circle</span>
                 {{ session('newsletter_success') }}
             </div>
         @elseif($newsletterToken)
             <div class="bg-white/10 border border-white/20 text-white/80 rounded-xl px-4 py-3 text-sm font-bold mb-2 flex items-center justify-center gap-2">
-                <span class="material-symbols-outlined text-[18px]">check_circle</span>
+                <span class="material-symbols-outlined text-[18px]" aria-hidden="true">check_circle</span>
                 You're already subscribed!
             </div>
         @else
