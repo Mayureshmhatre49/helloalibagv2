@@ -6,8 +6,6 @@
     <p style="color:#a0aec0; font-size:13px; margin-bottom:8px;">
         <a href="{{ config('app.url') }}" style="color:#e8831a; text-decoration:none; font-weight:600;">Hello Alibaug</a>
         &nbsp;·&nbsp;
-        <a href="{{ config('app.url') }}/map" style="color:#a0aec0; text-decoration:none;">Explore Map</a>
-        &nbsp;·&nbsp;
         <a href="{{ config('app.url') }}/contact" style="color:#a0aec0; text-decoration:none;">Contact Us</a>
     </p>
     <p style="color:#a0aec0; font-size:12px; margin-bottom:6px; margin-top:0;">

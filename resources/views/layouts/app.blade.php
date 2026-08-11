@@ -41,7 +41,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=block" rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
@@ -91,11 +91,6 @@
                             {{ $cat->name }}
                         </a>
                         @endforeach
-                        <a href="{{ route('map.index') }}"
-                            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('map.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
-                            <span class="material-symbols-outlined text-[16px]" aria-hidden="true">map</span>
-                            Map
-                        </a>
 
                         {{-- More dropdown (secondary links) --}}
                         <div x-data="{ moreOpen: false }" class="relative">
@@ -264,11 +259,6 @@
                         {{ $cat->name }}
                     </a>
                     @endforeach
-                    <a href="{{ route('map.index') }}"
-                        class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('map.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
-                        <span class="material-symbols-outlined text-[14px]" aria-hidden="true">map</span>
-                        Map
-                    </a>
                     <a href="{{ route('guides.index') }}"
                         class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('guides.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                         <span class="material-symbols-outlined text-[14px]" aria-hidden="true">menu_book</span>
@@ -392,7 +382,6 @@
                         <li><a href="{{ route('page.about') }}" class="hover:text-primary transition-colors">About Us</a></li>
                         <li><a href="{{ route('page.contact') }}" class="hover:text-primary transition-colors">Contact</a></li>
                         <li><a href="{{ route('search') }}" class="hover:text-primary transition-colors">Browse Listings</a></li>
-                        <li><a href="{{ route('map.index') }}" class="hover:text-primary transition-colors">Explore on Map</a></li>
                         <li><a href="{{ route('events.calendar') }}" class="hover:text-primary transition-colors">Events Calendar</a></li>
                         <li><a href="{{ route('guides.index') }}" class="hover:text-primary transition-colors">Travel Guides</a></li>
                         <li><a href="{{ route('blog.index') }}" class="hover:text-primary transition-colors">Blog</a></li>

@@ -80,9 +80,6 @@
             <p class="text-slate-600 text-lg leading-relaxed">{{ $copy['intro'] }}</p>
 
             <div class="flex flex-wrap items-center gap-3 mt-6">
-                <a href="{{ route('map.index') }}" class="inline-flex items-center gap-1.5 bg-white border border-border-light hover:border-primary/40 text-slate-700 font-bold text-sm px-4 py-2 rounded-xl transition-colors shadow-sm">
-                    <span class="material-symbols-outlined text-[16px]">map</span> View on map
-                </a>
                 @if ($ctx['area'])
                     <a href="{{ route('area.show', $ctx['area']) }}" class="inline-flex items-center gap-1.5 bg-white border border-border-light hover:border-primary/40 text-slate-700 font-bold text-sm px-4 py-2 rounded-xl transition-colors shadow-sm">
                         <span class="material-symbols-outlined text-[16px]">explore</span> About {{ $ctx['area']->name }}

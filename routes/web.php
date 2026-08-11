@@ -311,8 +311,9 @@ Route::get('/how-to-reach', [\App\Http\Controllers\PageController::class, 'howTo
 Route::get('/ferry-schedule', [\App\Http\Controllers\PageController::class, 'ferrySchedule'])->name('page.ferry-schedule');
 Route::get('/beaches', [\App\Http\Controllers\PageController::class, 'beaches'])->name('page.beaches');
 Route::get('/weather', [\App\Http\Controllers\WeatherController::class, 'index'])->name('weather.index');
-Route::get('/map', [\App\Http\Controllers\MapController::class, 'index'])->name('map.index');
-Route::get('/map/markers.json', [\App\Http\Controllers\MapController::class, 'markers'])->middleware('throttle:60,1')->name('map.markers');
+// Map feature disabled site-wide — redirect old links/bookmarks to the homepage.
+Route::redirect('/map', '/', 301)->name('map.index');
+Route::redirect('/map/markers.json', '/', 301)->name('map.markers');
 
 // Editorial guides — pillar content for SEO
 Route::get('/guides', [\App\Http\Controllers\GuideController::class, 'index'])->name('guides.index');
