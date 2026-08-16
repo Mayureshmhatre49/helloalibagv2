@@ -1,8 +1,20 @@
 <x-guest-layout>
+    @php
+        $prefillOwner = old('account_type', $accountType ?? null) === 'owner';
+        $prefillPlan = old('plan', $plan ?? null);
+    @endphp
+
     <div class="mb-8 p-1 opacity-0 translate-y-4 animate-[slideUpFade_0.6s_ease-out_forwards]">
         <h1 class="text-3xl font-serif font-bold text-slate-900 mb-2 tracking-tight">Create your account</h1>
         <p class="text-slate-500 text-base font-medium">Join <span class="text-slate-900 font-bold">Hello Alibaug</span> and start listing or exploring</p>
     </div>
+
+    @if($prefillPlan === 'free')
+        <div class="flex items-center gap-2 bg-primary/5 border border-primary/20 text-primary text-sm font-semibold px-4 py-3 rounded-xl mb-6">
+            <span class="material-symbols-outlined text-[18px]" aria-hidden="true">check_circle</span>
+            You're signing up for the Free listing plan — just create your account to continue.
+        </div>
+    @endif
 
     <!-- Social Register Buttons -->
     <div class="space-y-3 mb-6 opacity-0 translate-y-4 animate-[slideUpFade_0.6s_ease-out_0.05s_forwards]">
@@ -28,6 +40,9 @@
 
     <form method="POST" action="{{ route('register') }}" class="space-y-6 opacity-0 translate-y-4 animate-[slideUpFade_0.6s_ease-out_0.1s_forwards]">
         @csrf
+        @if($prefillPlan)
+            <input type="hidden" name="plan" value="{{ $prefillPlan }}">
+        @endif
 
         <!-- Name -->
         <div>
@@ -75,14 +90,14 @@
             <label class="block text-sm font-bold text-slate-700 mb-2">I want to</label>
             <div class="grid grid-cols-2 gap-4">
                 <label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all has-[:checked]:border-amber-500 has-[:checked]:bg-amber-50 hover:border-amber-500/50 border-slate-200 group">
-                    <input type="radio" name="account_type" value="user" class="w-5 h-5 text-amber-500 focus:ring-amber-500/30 border-slate-300" checked>
+                    <input type="radio" name="account_type" value="user" class="w-5 h-5 text-amber-500 focus:ring-amber-500/30 border-slate-300" {{ $prefillOwner ? '' : 'checked' }}>
                     <div>
                         <span class="text-sm font-bold text-slate-900 group-has-[:checked]:text-amber-700">Explore</span>
                         <p class="text-xs text-slate-500 font-medium">Browse & book</p>
                     </div>
                 </label>
                 <label class="flex items-center gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all has-[:checked]:border-amber-500 has-[:checked]:bg-amber-50 hover:border-amber-500/50 border-slate-200 group">
-                    <input type="radio" name="account_type" value="owner" class="w-5 h-5 text-amber-500 focus:ring-amber-500/30 border-slate-300">
+                    <input type="radio" name="account_type" value="owner" class="w-5 h-5 text-amber-500 focus:ring-amber-500/30 border-slate-300" {{ $prefillOwner ? 'checked' : '' }}>
                     <div>
                         <span class="text-sm font-bold text-slate-900 group-has-[:checked]:text-amber-700">List</span>
                         <p class="text-xs text-slate-500 font-medium">Business owner</p>

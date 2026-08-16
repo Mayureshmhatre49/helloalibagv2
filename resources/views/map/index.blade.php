@@ -4,20 +4,12 @@
 @section('meta_description', 'Interactive map of Alibaug showing villas, restaurants, beaches, and experiences across Mandwa, Kihim, Nagaon, Kashid, and more. Browse by location to plan your trip.')
 
 @push('styles')
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <style>
-    /* Fixed pane height so Leaflet initialises with a known, non-zero size.
-       Arbitrary-value Tailwind classes weren't reliably making it into the
-       compiled CSS, so heights are pinned here. */
+    /* Fixed pane height so the map initialises with a known, non-zero size. */
     .ha-map-pane { height: 600px; }
     @media (min-width: 1024px) { .ha-map-pane { height: 720px; } }
 
-    .leaflet-container { background: #cfe3f7; font-family: 'Inter', sans-serif; }
-    /* Leaflet div-icons render content outside the iconAnchor box — override to allow that */
-    .leaflet-div-icon { background: transparent !important; border: 0 !important; }
-
-    /* Contain Leaflet's high internal z-indexes inside the map section stacking context */
+    /* Contain the map's high internal z-indexes inside the map section stacking context */
     .ha-map-section { position: relative; z-index: 0; }
 
     .ha-marker {
@@ -40,11 +32,6 @@
     .ha-marker:hover { transform: translateY(-2px) scale(1.06); box-shadow: 0 8px 22px rgba(0,0,0,0.3); z-index: 10000; }
     .ha-marker__dot { width: 8px; height: 8px; border-radius: 9999px; flex-shrink: 0; }
     .ha-marker.is-active { background: #0d161b; color: white; border-color: #f5c842; transform: translateY(-2px) scale(1.08); }
-
-    .leaflet-popup-content-wrapper { border-radius: 16px; padding: 0; overflow: hidden; box-shadow: 0 12px 28px rgba(0,0,0,0.22); }
-    .leaflet-popup-content { margin: 0; min-width: 240px; }
-    .leaflet-popup-tip { box-shadow: none; }
-    .leaflet-popup-close-button { color: white !important; font-size: 22px !important; padding: 4px 8px !important; z-index: 10; }
 </style>
 @endpush
 
@@ -84,6 +71,7 @@
                  markers: @js($markers),
                  categories: @js($categories),
                  colorByCategory: @js(collect($categories)->pluck('color','slug')->all()),
+                 mapId: @js($googleMapId),
              })"
              x-init="initMap($refs.mapEl)">
 
@@ -170,106 +158,120 @@
 @endsection
 
 @push('scripts')
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
+    // Official Google Maps JS API inline bootstrap loader — see
+    // https://developers.google.com/maps/documentation/javascript/load-maps-js-api
+    (g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})({key: "{{ $googleMapsKey }}", v: "weekly"});
+
     document.addEventListener('alpine:init', () => {
         Alpine.data('haMap', (config) => ({
             markers: config.markers,
             categories: config.categories,
             colorByCategory: config.colorByCategory,
+            mapId: config.mapId,
             activeCategory: null,
             map: null,
-            leafletMarkers: {},
-            popupCache: {},
+            infoWindow: null,
+            mapMarkers: {},
+            useAdvancedMarkers: false,
+            AdvancedMarkerElement: null,
 
             get filteredMarkers() {
                 if (!this.activeCategory) return this.markers;
                 return this.markers.filter(m => m.category_slug === this.activeCategory);
             },
 
-            initMap(el) {
-                if (typeof L === 'undefined') {
-                    console.error('[ha-map] Leaflet not loaded');
-                    return;
+            async initMap(el) {
+                const { Map } = await google.maps.importLibrary('maps');
+
+                // Advanced (custom-HTML) markers need a Map ID configured in
+                // Cloud Console. Without one, fall back to plain colored pins
+                // so the page still works with just an API key.
+                if (this.mapId) {
+                    const markerLib = await google.maps.importLibrary('marker');
+                    this.AdvancedMarkerElement = markerLib.AdvancedMarkerElement;
+                    this.useAdvancedMarkers = true;
                 }
 
-                this.map = L.map(el, {
-                    zoomControl: true,
-                    scrollWheelZoom: true,
-                }).setView([18.6414, 72.8722], 11);
+                this.map = new Map(el, {
+                    center: { lat: 18.6414, lng: 72.8722 },
+                    zoom: 11,
+                    mapId: this.mapId || undefined,
+                    gestureHandling: 'greedy',
+                    streetViewControl: false,
+                });
 
-                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-                    maxZoom: 19,
-                    subdomains: ['a', 'b', 'c'],
-                }).addTo(this.map);
-
+                this.infoWindow = new google.maps.InfoWindow();
                 this.renderMarkers();
 
-                // CRITICAL: Leaflet caches its viewport size on creation. If the
-                // container's final height isn't ready at init (Alpine x-init runs
-                // before CSS settles), tiles render at the wrong size. We solve
-                // this with a ResizeObserver + a small belt-and-braces timeout.
-                if (typeof ResizeObserver !== 'undefined') {
-                    const ro = new ResizeObserver(() => {
-                        if (this.map) this.map.invalidateSize();
-                    });
-                    ro.observe(el);
-                }
-                requestAnimationFrame(() => {
-                    this.map.invalidateSize();
-                    this.fitMarkers();
-                });
-                setTimeout(() => {
-                    this.map.invalidateSize();
-                    this.fitMarkers();
-                }, 400);
-
-                window.addEventListener('resize', () => this.map && this.map.invalidateSize());
+                requestAnimationFrame(() => this.fitMarkers());
+                window.addEventListener('resize', () => this.fitMarkers());
             },
 
             renderMarkers() {
                 // Clear existing
-                Object.values(this.leafletMarkers).forEach(m => this.map.removeLayer(m));
-                this.leafletMarkers = {};
+                Object.values(this.mapMarkers).forEach(m => {
+                    if (this.useAdvancedMarkers) { m.map = null; } else { m.setMap(null); }
+                });
+                this.mapMarkers = {};
 
                 const visible = this.filteredMarkers;
                 if (visible.length === 0) return;
 
                 visible.forEach(m => {
                     const color = this.colorByCategory[m.category_slug] || '#64748b';
-                    const html = this.markerHtml(m, color);
-                    // Width is estimated from label length so iconAnchor centres it.
-                    const labelText = m.price ? m.price : (m.title.length > 18 ? m.title.slice(0, 16) + '…' : m.title);
-                    const approxWidth = Math.max(60, labelText.length * 7 + 36);
-                    const icon = L.divIcon({
-                        html,
-                        className: 'ha-marker-wrap',
-                        iconSize: [approxWidth, 28],
-                        iconAnchor: [approxWidth / 2, 14],
-                        popupAnchor: [0, -18],
-                    });
+                    const position = { lat: m.lat, lng: m.lng };
+                    let marker;
 
-                    const leafletMarker = L.marker([m.lat, m.lng], { icon, riseOnHover: true })
-                        .addTo(this.map)
-                        .bindPopup(this.popupHtml(m, color), { maxWidth: 280, closeButton: true });
+                    if (this.useAdvancedMarkers) {
+                        const wrap = document.createElement('div');
+                        wrap.innerHTML = this.markerHtml(m, color);
+                        marker = new this.AdvancedMarkerElement({
+                            map: this.map,
+                            position,
+                            content: wrap.firstElementChild,
+                        });
+                        marker.addListener('gmp-click', () => this.openPopup(marker, m, color));
+                    } else {
+                        marker = new google.maps.Marker({
+                            map: this.map,
+                            position,
+                            title: m.title,
+                            icon: {
+                                path: google.maps.SymbolPath.CIRCLE,
+                                fillColor: color,
+                                fillOpacity: 1,
+                                strokeColor: '#ffffff',
+                                strokeWeight: 2,
+                                scale: 9,
+                            },
+                        });
+                        marker.addListener('click', () => this.openPopup(marker, m, color));
+                    }
 
-                    this.leafletMarkers[m.id] = leafletMarker;
+                    this.mapMarkers[m.id] = marker;
                 });
 
                 this.fitMarkers();
             },
 
+            openPopup(marker, m, color) {
+                this.infoWindow.setContent(this.popupHtml(m, color));
+                this.infoWindow.open({ map: this.map, anchor: marker });
+            },
+
             fitMarkers() {
+                if (!this.map) return;
                 const visible = this.filteredMarkers;
                 if (visible.length === 0) return;
                 if (visible.length === 1) {
-                    this.map.setView([visible[0].lat, visible[0].lng], 14);
+                    this.map.setCenter({ lat: visible[0].lat, lng: visible[0].lng });
+                    this.map.setZoom(14);
                     return;
                 }
-                const bounds = visible.map(m => [m.lat, m.lng]);
-                this.map.fitBounds(bounds, { padding: [50, 50], maxZoom: 13 });
+                const bounds = new google.maps.LatLngBounds();
+                visible.forEach(m => bounds.extend({ lat: m.lat, lng: m.lng }));
+                this.map.fitBounds(bounds, 50);
             },
 
             markerHtml(m, color) {
@@ -315,19 +317,15 @@
             },
 
             hoverMarker(id) {
-                const m = this.leafletMarkers[id];
-                if (m) {
-                    const el = m.getElement();
-                    if (el) el.querySelector('.ha-marker')?.classList.add('is-active');
-                }
+                // Only the AdvancedMarkerElement path has a content DOM node
+                // to highlight — plain colored pins skip this.
+                const m = this.mapMarkers[id];
+                if (m && m.content) m.content.classList.add('is-active');
             },
 
             unhoverMarker(id) {
-                const m = this.leafletMarkers[id];
-                if (m) {
-                    const el = m.getElement();
-                    if (el) el.querySelector('.ha-marker')?.classList.remove('is-active');
-                }
+                const m = this.mapMarkers[id];
+                if (m && m.content) m.content.classList.remove('is-active');
             },
 
             escape(s) {

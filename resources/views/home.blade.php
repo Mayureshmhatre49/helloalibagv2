@@ -370,9 +370,9 @@ $catConfig = [
             'Alibaug'      => 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&auto=format&fit=crop&q=80',
             'Alibaug Town' => 'https://images.unsplash.com/photo-1540541338287-41700207dee6?w=800&auto=format&fit=crop&q=80',
             'Awas'         => 'https://images.unsplash.com/photo-1596895111956-bf1cf0599ce5?w=800&auto=format&fit=crop&q=80',
-            'Kihim'        => 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&auto=format&fit=crop&q=80',
+            'Kihim'        => 'https://images.unsplash.com/photo-1473116763249-2faaef81ccda?w=800&auto=format&fit=crop&q=80',
             'Nagaon'       => 'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=800&auto=format&fit=crop&q=80',
-            'Varsoli'      => 'https://images.unsplash.com/photo-1596178065887-f273200ff960?w=800&auto=format&fit=crop&q=80',
+            'Varsoli'      => 'https://images.unsplash.com/photo-1520942702018-0862200e6873?w=800&auto=format&fit=crop&q=80',
             'Thal'         => 'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=800&auto=format&fit=crop&q=80',
         ];
         $fallback = 'https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?w=800&auto=format&fit=crop&q=80';
@@ -590,7 +590,7 @@ $catConfig = [
             Join our exclusive network of premium stays, restaurants, and real estate listings. Reach thousands of travellers and buyers — for free.
         </p>
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-            <a href="{{ auth()->guest() ? route('register') : ((auth()->user()->isOwner() || auth()->user()->isAdmin()) ? route('owner.dashboard') : route('subscription.plans')) }}"
+            <a href="{{ auth()->guest() ? route('subscription.plans') : ((auth()->user()->isOwner() || auth()->user()->isAdmin()) ? route('owner.dashboard') : route('subscription.plans')) }}"
                class="bg-primary hover:bg-primary/90 text-white px-8 py-3.5 rounded-full font-bold transition-all shadow-xl shadow-primary/25 w-full sm:w-auto text-center text-sm sm:text-base">
                 List Your Business — Free
             </a>

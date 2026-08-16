@@ -134,6 +134,10 @@
                         <a href="{{ route('admin.seo.index') }}" class="{{ $navBase }} {{ request()->routeIs('admin.seo.*') ? $navActive : $navIdle }}">
                             <span class="{{ $navIcon }}">search</span> SEO Manager
                         </a>
+                        <a href="{{ route('admin.map-settings.edit') }}" class="{{ $navBase }} {{ request()->routeIs('admin.map-settings.*') ? $navActive : $navIdle }}">
+                            <span class="{{ $navIcon }}">map</span> Map / Google API
+                            @unless(app(\App\Services\MapApiService::class)->isEnabled())<span class="{{ $badge }} bg-slate-100 text-slate-500">Off</span>@endunless
+                        </a>
                     </div>
                 </div>
 

@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
+use App\Models\Category;
+use App\Models\Listing;
+use App\Models\PlanInterest;
 use App\Models\Role;
 use App\Models\Subscription;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class SubscriptionController extends Controller
@@ -19,7 +24,43 @@ class SubscriptionController extends Controller
         $subscription = $user?->subscription;
         $plans        = Subscription::$plans;
 
-        return view('subscription.plans', compact('plans', 'subscription', 'user'));
+        $interestedPlans = $user
+            ? PlanInterest::where('user_id', $user->id)->pluck('plan')->all()
+            : [];
+
+        // Real platform numbers — used as trust signals on the pricing page.
+        $stats = Cache::remember('plans.stats', now()->addMinutes(10), fn () => [
+            'listings'   => Listing::where('status', 'approved')->count(),
+            'areas'      => Area::where('is_active', true)->count(),
+            'categories' => Category::where('is_active', true)->count(),
+        ]);
+
+        return view('subscription.plans', compact('plans', 'subscription', 'user', 'interestedPlans', 'stats'));
+    }
+
+    /**
+     * Register interest in a not-yet-available plan (Basic/Premium).
+     */
+    public function showInterest(Request $request, string $plan): RedirectResponse
+    {
+        if (!array_key_exists($plan, Subscription::$plans) || Subscription::$plans[$plan]['available']) {
+            abort(404);
+        }
+
+        $user = $request->user();
+
+        $data = $request->validate([
+            'email' => $user ? ['nullable'] : ['required', 'email', 'max:255'],
+        ]);
+
+        PlanInterest::firstOrCreate([
+            'email' => $user->email ?? $data['email'],
+            'plan'  => $plan,
+        ], [
+            'user_id' => $user?->id,
+        ]);
+
+        return back()->with('success', "Thanks! We'll email you as soon as the " . Subscription::$plans[$plan]['name'] . ' plan launches.');
     }
 
     /**

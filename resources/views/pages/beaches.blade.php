@@ -220,6 +220,12 @@
                     <span class="material-symbols-outlined text-primary">directions_boat</span>
                     <span class="text-sm font-semibold text-slate-800">Ferry timings from Mumbai</span>
                 </a>
+                @if(app(\App\Services\MapApiService::class)->isEnabled())
+                <a href="{{ route('map.index') }}" class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-primary hover:bg-primary/5 transition-colors">
+                    <span class="material-symbols-outlined text-primary">map</span>
+                    <span class="text-sm font-semibold text-slate-800">See everything on the map</span>
+                </a>
+                @endif
                 <a href="{{ route('search', ['category_id' => optional(\App\Models\Category::where('slug', 'stay')->first())->id]) }}" class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-primary hover:bg-primary/5 transition-colors">
                     <span class="material-symbols-outlined text-primary">hotel</span>
                     <span class="text-sm font-semibold text-slate-800">Places to stay near the beach</span>

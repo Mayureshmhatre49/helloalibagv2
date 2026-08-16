@@ -9,6 +9,7 @@ use App\Models\Listing;
 use App\Models\Category;
 use App\Observers\ListingObserver;
 use App\Observers\CategoryObserver;
+use App\Services\MapApiService;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,7 +18,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Singleton so the map_api_settings row is fetched once per request,
+        // no matter how many places (controllers, nav partials) check it.
+        $this->app->singleton(MapApiService::class);
     }
 
     /**
@@ -44,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
                 now()->addDay(),
                 fn () => Category::where('is_active', true)->orderBy('sort_order')->get()
             ));
+            $view->with('mapEnabled', app(MapApiService::class)->isEnabled());
         });
     }
 }

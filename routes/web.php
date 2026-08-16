@@ -18,6 +18,13 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
+// Pricing / plans — public so it can be shown before signup (guests picking a
+// plan are sent to /register with their choice carried through).
+Route::get('/plans', [\App\Http\Controllers\SubscriptionController::class, 'plans'])->name('subscription.plans');
+Route::post('/plans/{plan}/interest', [\App\Http\Controllers\SubscriptionController::class, 'showInterest'])
+    ->middleware('throttle:5,1')
+    ->name('subscription.interest');
+
 // Auth Routes (Breeze)
 Route::middleware('auth')->group(function () {
     // Address autocomplete for the listing location picker. Authenticated +
@@ -31,7 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Subscription / Plans
-    Route::get('/plans', [\App\Http\Controllers\SubscriptionController::class, 'plans'])->name('subscription.plans');
     Route::post('/plans/free', [\App\Http\Controllers\SubscriptionController::class, 'selectFree'])->name('subscription.free');
 
     // Tour guide dismiss
@@ -196,6 +202,11 @@ Route::middleware(['auth', 'role:admin', '2fa'])->prefix(config('admin.prefix'))
     Route::get('/seo/{listing}/edit', [\App\Http\Controllers\Admin\SeoController::class, 'edit'])->name('seo.edit');
     Route::put('/seo/{listing}', [\App\Http\Controllers\Admin\SeoController::class, 'update'])->name('seo.update');
 
+    // Google Maps API settings — key, enable/disable, usage/quota
+    Route::get('/map-settings', [\App\Http\Controllers\Admin\MapSettingsController::class, 'edit'])->name('map-settings.edit');
+    Route::put('/map-settings', [\App\Http\Controllers\Admin\MapSettingsController::class, 'update'])->name('map-settings.update');
+    Route::patch('/map-settings/toggle', [\App\Http\Controllers\Admin\MapSettingsController::class, 'toggle'])->name('map-settings.toggle');
+
     // Categories CRUD
     Route::get('/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('categories.index');
     Route::get('/categories/create', [\App\Http\Controllers\Admin\CategoryController::class, 'create'])->name('categories.create');
@@ -311,9 +322,10 @@ Route::get('/how-to-reach', [\App\Http\Controllers\PageController::class, 'howTo
 Route::get('/ferry-schedule', [\App\Http\Controllers\PageController::class, 'ferrySchedule'])->name('page.ferry-schedule');
 Route::get('/beaches', [\App\Http\Controllers\PageController::class, 'beaches'])->name('page.beaches');
 Route::get('/weather', [\App\Http\Controllers\WeatherController::class, 'index'])->name('weather.index');
-// Map feature disabled site-wide — redirect old links/bookmarks to the homepage.
-Route::redirect('/map', '/', 301)->name('map.index');
-Route::redirect('/map/markers.json', '/', 301)->name('map.markers');
+// Gated at the controller level by MapApiService::isEnabled() — redirects to
+// home when the admin hasn't enabled the Google Maps integration.
+Route::get('/map', [\App\Http\Controllers\MapController::class, 'index'])->name('map.index');
+Route::get('/map/markers.json', [\App\Http\Controllers\MapController::class, 'markers'])->middleware('throttle:60,1')->name('map.markers');
 
 // Editorial guides — pillar content for SEO
 Route::get('/guides', [\App\Http\Controllers\GuideController::class, 'index'])->name('guides.index');

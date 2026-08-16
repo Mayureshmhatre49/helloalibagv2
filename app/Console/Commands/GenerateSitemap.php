@@ -6,6 +6,7 @@ use App\Models\Area;
 use App\Models\Category;
 use App\Models\Guide;
 use App\Models\Listing;
+use App\Services\MapApiService;
 use Illuminate\Console\Command;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
@@ -27,7 +28,11 @@ class GenerateSitemap extends Command
             ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY));
 
         // Evergreen utility pages
-        foreach (['weather.index', 'page.how-to-reach', 'page.ferry-schedule', 'page.beaches', 'page.local-markets', 'page.emergency', 'guides.index'] as $name) {
+        $evergreenPages = ['weather.index', 'page.how-to-reach', 'page.ferry-schedule', 'page.beaches', 'page.local-markets', 'page.emergency', 'guides.index'];
+        if (app(MapApiService::class)->isEnabled()) {
+            $evergreenPages[] = 'map.index';
+        }
+        foreach ($evergreenPages as $name) {
             $sitemap->add(Url::create(route($name))
                 ->setPriority(0.7)
                 ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY));

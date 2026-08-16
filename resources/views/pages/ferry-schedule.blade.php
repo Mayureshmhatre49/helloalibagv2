@@ -64,6 +64,12 @@
                     <span class="material-symbols-outlined text-primary">beach_access</span>
                     <span class="text-sm font-semibold text-slate-800">Which beach to visit</span>
                 </a>
+                @if(app(\App\Services\MapApiService::class)->isEnabled())
+                <a href="{{ route('map.index') }}" class="flex items-center gap-3 p-4 rounded-xl border border-slate-200 hover:border-primary hover:bg-primary/5 transition-colors">
+                    <span class="material-symbols-outlined text-primary">map</span>
+                    <span class="text-sm font-semibold text-slate-800">Explore the map</span>
+                </a>
+                @endif
             </div>
         </div>
     </div>

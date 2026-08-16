@@ -131,7 +131,7 @@
                     <p class="text-text-main font-medium mb-1">No listings found</p>
                     <p class="text-sm text-text-secondary mb-4">Try adjusting your filters or check back later.</p>
                     @if($category->slug === 'events')
-                        <a href="{{ route('register') }}" class="inline-block bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-colors">Be the first to list an event</a>
+                        <a href="{{ route('subscription.plans') }}" class="inline-block bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-colors">Be the first to list an event</a>
                     @endif
                 </div>
             @endif

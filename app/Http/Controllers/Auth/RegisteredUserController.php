@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Role;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -20,9 +21,12 @@ use App\Models\UserNotification;
 
 class RegisteredUserController extends Controller
 {
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('auth.register');
+        return view('auth.register', [
+            'plan' => $request->query('plan'),
+            'accountType' => $request->query('account_type'),
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -32,6 +36,7 @@ class RegisteredUserController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'phone' => ['nullable', 'string', 'max:20'],
             'account_type' => ['required', 'in:user,owner'],
+            'plan' => ['nullable', 'string', 'in:free'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'cf-turnstile-response' => [\Illuminate\Validation\Rule::requiredIf(fn () => filled(config('services.turnstile.secret_key'))), new \App\Rules\Captcha()],
         ]);
@@ -80,7 +85,18 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        // Always send new users to the plans page first
+        // If they already picked the Free plan on the pricing page before
+        // signing up, activate it now and skip straight to onboarding
+        // instead of showing the plans page a second time.
+        if ($request->input('plan') === 'free' && $roleSlug === 'owner') {
+            Subscription::activateFree($user);
+            session(['show_tour' => true]);
+
+            return redirect()->route('owner.onboarding.start')
+                ->with('success', 'You\'re on the Free plan! Let\'s list your business.');
+        }
+
+        // Otherwise, send new users to the plans page first
         return redirect()->route('subscription.plans')
             ->with('success', 'Welcome! Choose a plan to get started.');
     }

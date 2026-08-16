@@ -91,6 +91,13 @@
                             {{ $cat->name }}
                         </a>
                         @endforeach
+                        @if($mapEnabled ?? false)
+                        <a href="{{ route('map.index') }}"
+                            class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all {{ request()->routeIs('map.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                            <span class="material-symbols-outlined text-[16px]" aria-hidden="true">map</span>
+                            Map
+                        </a>
+                        @endif
 
                         {{-- More dropdown (secondary links) --}}
                         <div x-data="{ moreOpen: false }" class="relative">
@@ -233,7 +240,7 @@
                         @else
                             {{-- White background Login Button with Light Shadow --}}
                             <a href="{{ route('login') }}" class="hidden sm:flex bg-white/95 hover:bg-white text-[#0b3d91] shadow-[0_2px_10px_rgba(0,0,0,0.1)] px-5 py-2 sm:py-2.5 rounded-xl text-sm font-bold transition-all">Log In</a>
-                            <a href="{{ route('register') }}" class="bg-[#e8831a] hover:bg-[#d06b10] text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-sm font-bold transition-all shadow-[0_4px_14px_rgba(232,131,26,0.3)] flex items-center gap-1.5 focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-[#0b3d91]">
+                            <a href="{{ route('subscription.plans') }}" class="bg-[#e8831a] hover:bg-[#d06b10] text-white px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl text-sm font-bold transition-all shadow-[0_4px_14px_rgba(232,131,26,0.3)] flex items-center gap-1.5 focus:ring-2 focus:ring-orange-400 focus:ring-offset-2 focus:ring-offset-[#0b3d91]">
                                 <span class="material-symbols-outlined text-[16px]" aria-hidden="true">add_business</span>
                                 <span class="hidden sm:inline">List for Free</span>
                                 <span class="sm:hidden">Join</span>
@@ -259,6 +266,13 @@
                         {{ $cat->name }}
                     </a>
                     @endforeach
+                    @if($mapEnabled ?? false)
+                    <a href="{{ route('map.index') }}"
+                        class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('map.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
+                        <span class="material-symbols-outlined text-[14px]" aria-hidden="true">map</span>
+                        Map
+                    </a>
+                    @endif
                     <a href="{{ route('guides.index') }}"
                         class="flex shrink-0 items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all {{ request()->routeIs('guides.*') ? 'bg-white/20 text-white backdrop-blur-md shadow-inner' : 'text-white/80 hover:bg-white/10 hover:text-white' }}">
                         <span class="material-symbols-outlined text-[14px]" aria-hidden="true">menu_book</span>
@@ -332,7 +346,7 @@
                             List Your Business
                         </a>
                     @else
-                        <a href="{{ route('register') }}" class="flex items-center gap-3 px-3 py-3 text-sm font-bold text-primary bg-primary/5 rounded-xl transition-colors">
+                        <a href="{{ route('subscription.plans') }}" class="flex items-center gap-3 px-3 py-3 text-sm font-bold text-primary bg-primary/5 rounded-xl transition-colors">
                             <span class="material-symbols-outlined text-[20px]">add_business</span>
                             List Your Business
                         </a>
@@ -382,6 +396,9 @@
                         <li><a href="{{ route('page.about') }}" class="hover:text-primary transition-colors">About Us</a></li>
                         <li><a href="{{ route('page.contact') }}" class="hover:text-primary transition-colors">Contact</a></li>
                         <li><a href="{{ route('search') }}" class="hover:text-primary transition-colors">Browse Listings</a></li>
+                        @if($mapEnabled ?? false)
+                        <li><a href="{{ route('map.index') }}" class="hover:text-primary transition-colors">Explore on Map</a></li>
+                        @endif
                         <li><a href="{{ route('events.calendar') }}" class="hover:text-primary transition-colors">Events Calendar</a></li>
                         <li><a href="{{ route('guides.index') }}" class="hover:text-primary transition-colors">Travel Guides</a></li>
                         <li><a href="{{ route('blog.index') }}" class="hover:text-primary transition-colors">Blog</a></li>
@@ -389,7 +406,7 @@
                         <li><a href="{{ route('page.how-to-reach') }}" class="hover:text-primary transition-colors">How to Reach</a></li>
                         <li><a href="{{ route('page.ferry-schedule') }}" class="hover:text-primary transition-colors">Ferry Timings</a></li>
                         <li><a href="{{ route('page.beaches') }}" class="hover:text-primary transition-colors">Beaches Guide</a></li>
-                        <li><a href="{{ auth()->guest() ? route('register') : ((auth()->user()->isOwner() || auth()->user()->isAdmin()) ? route('owner.dashboard') : route('subscription.plans')) }}" class="hover:text-primary transition-colors">List Your Business</a></li>
+                        <li><a href="{{ auth()->guest() ? route('subscription.plans') : ((auth()->user()->isOwner() || auth()->user()->isAdmin()) ? route('owner.dashboard') : route('subscription.plans')) }}" class="hover:text-primary transition-colors">List Your Business</a></li>
                     </ul>
                 </div>
 

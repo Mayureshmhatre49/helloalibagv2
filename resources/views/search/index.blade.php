@@ -172,6 +172,13 @@
                             <span class="material-symbols-outlined text-[16px]">view_list</span>
                             List
                         </span>
+                        @if(app(\App\Services\MapApiService::class)->isEnabled())
+                        <a href="{{ route('map.index') }}"
+                           class="text-slate-600 hover:text-slate-900 font-semibold text-xs px-3 py-1.5 rounded-lg inline-flex items-center gap-1.5 transition-colors">
+                            <span class="material-symbols-outlined text-[16px]">map</span>
+                            Map
+                        </a>
+                        @endif
                     </div>
                 </div>
             </div>
