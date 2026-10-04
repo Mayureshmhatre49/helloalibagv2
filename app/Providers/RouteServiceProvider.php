@@ -28,6 +28,14 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by($request->user()?->id ?: $request->ip());
         });
 
+        // Keyed by the Sanctum token itself (not IP) so each integration
+        // credential gets its own budget regardless of where it's called from.
+        RateLimiter::for('public-api', function (Request $request) {
+            return Limit::perMinute(60)->by(
+                $request->user()?->currentAccessToken()?->id ?: $request->ip()
+            );
+        });
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')

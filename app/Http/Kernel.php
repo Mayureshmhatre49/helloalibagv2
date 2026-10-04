@@ -67,5 +67,36 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'role' => \App\Http\Middleware\EnsureRole::class,
         '2fa' => \App\Http\Middleware\RequireTwoFactor::class,
+        'secure.api' => \App\Http\Middleware\EnsurePublicApiIsSecure::class,
+        'log.api' => \App\Http\Middleware\LogPublicApiAccess::class,
+        'json.api' => \App\Http\Middleware\ForceJsonResponse::class,
+        'abilities' => \Laravel\Sanctum\Http\Middleware\CheckAbilities::class,
+        'ability' => \Laravel\Sanctum\Http\Middleware\CheckForAnyAbility::class,
+    ];
+
+    /**
+     * Laravel sorts middleware by this list regardless of a route's own
+     * array order — auth middleware normally runs very early. Without this
+     * override, ForceJsonResponse (which must run before auth/abilities so
+     * a client that omits "Accept: application/json" still gets a clean
+     * JSON 401/403 instead of a login redirect) would be reordered to run
+     * *after* auth. Same list as the parent Kernel, with our middleware
+     * prepended.
+     *
+     * @var array<int, class-string|string>
+     */
+    protected $middlewarePriority = [
+        \App\Http\Middleware\ForceJsonResponse::class,
+        \Illuminate\Foundation\Http\Middleware\HandlePrecognitiveRequests::class,
+        \Illuminate\Cookie\Middleware\EncryptCookies::class,
+        \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \Illuminate\Contracts\Auth\Middleware\AuthenticatesRequests::class,
+        \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        \Illuminate\Routing\Middleware\ThrottleRequestsWithRedis::class,
+        \Illuminate\Contracts\Session\Middleware\AuthenticatesSessions::class,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        \Illuminate\Auth\Middleware\Authorize::class,
     ];
 }

@@ -129,6 +129,19 @@ class Listing extends Model implements Auditable
         return $query->where('status', 'approved');
     }
 
+    /**
+     * Approved AND, for real-estate, actually payable — i.e. safe to expose
+     * to external consumers (the public API). Must stay in sync with
+     * requiresOfflinePayment()/offlinePaymentReceived() below.
+     */
+    public function scopePubliclyVisible($query)
+    {
+        return $query->approved()->where(function ($q) {
+            $q->whereHas('category', fn ($c) => $c->where('slug', '!=', 'real-estate'))
+                ->orWhereNotNull('payment_received_at');
+        });
+    }
+
     public function scopePending($query)
     {
         return $query->where('status', 'pending');

@@ -73,6 +73,17 @@ return [
             'replace_placeholders' => true,
         ],
 
+        // Dedicated audit trail for the public integration API (/api/v1/public/*)
+        // so a compromised or misbehaving token is easy to spot without digging
+        // through the general app log.
+        'public_api' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/public-api.log'),
+            'level' => 'info',
+            'days' => 30,
+            'replace_placeholders' => true,
+        ],
+
         'slack' => [
             'driver' => 'slack',
             'url' => env('LOG_SLACK_WEBHOOK_URL'),
